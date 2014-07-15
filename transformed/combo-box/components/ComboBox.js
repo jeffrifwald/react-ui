@@ -85,24 +85,24 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 
     getDefaultProps: function() {
         return {
-            className: 'react-component-combo-box',
+            className: 'react-ui-combo-box',
             disabled: false,
-            disabledClassName: 'react-component-combo-box-disabled',
-            dropDownClassName: 'react-component-combo-box-drop-down',
+            disabledClassName: 'react-ui-combo-box-disabled',
+            dropDownClassName: 'react-ui-combo-box-drop-down',
             editable: true,
             filterDelay: 200,
-            inputClassName: 'react-component-combo-box-input',
+            inputClassName: 'react-ui-combo-box-input',
             label: '',
-            labelClassName: 'react-component-combo-box-label',
+            labelClassName: 'react-ui-combo-box-label',
             onInput: utils.emptyFn,
             onOptionClick: utils.emptyFn,
             onTriggerClick: utils.emptyFn,
-            optionClassName: 'react-component-combo-box-option',
+            optionClassName: 'react-ui-combo-box-option',
             options: [],
             renderOption: this.renderOption.bind(this),
-            selectedClassName: 'react-component-combo-box-selected',
+            selectedClassName: 'react-ui-combo-box-selected',
             statefulOptions: true,
-            triggerClassName: 'react-component-combo-box-trigger'
+            triggerClassName: 'react-ui-combo-box-trigger'
         };
     },
 

@@ -22,7 +22,7 @@ var DropDown = React.createClass({
      */
     renderOptions: function() {
         return this.props.options.map(function(option, index) {
-            var key = 'react-component-combo-box-option-' + index;
+            var key = 'react-ui-combo-box-option-' + index;
 
             return (
                 <div

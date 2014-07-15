@@ -30,7 +30,7 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
     },
 
     render: function() {
-        var inputId = 'react-component-check-box-' + this.props.name;
+        var inputId = 'react-ui-check-box-' + this.props.name;
 
         return (
            React.DOM.div( {className:this.props.className}, 

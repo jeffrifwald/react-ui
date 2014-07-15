@@ -21,7 +21,7 @@ var AjaxForm = React.createClass({
 
     getDefaultProps: function() {
         return {
-            className: 'react-component-ajax-form',
+            className: 'react-ui-ajax-form',
             onResponse: utils.emptyFn,
             url: ''
         };

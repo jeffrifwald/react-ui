@@ -16,19 +16,19 @@ describe('ComboBox', function() {
     it('should render a combo box', function() {
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
 
-        assert.equal(rendered.getDOMNode().className, 'react-component-combo-box');
+        assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box');
     });
 
     it('should render a disabled combo box', function() {
         var rendered = TestUtils.renderIntoDocument(<ComboBox disabled={true} options={options} />);
 
-        assert.equal(rendered.getDOMNode().className, 'react-component-combo-box-disabled');
+        assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box-disabled');
     });
 
     it('should show/hide the drop down on trigger click', function() {
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
-        var trigger = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-component-combo-box-trigger');
-        var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-component-combo-box-drop-down');
+        var trigger = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-trigger');
+        var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
         var mockEvent = {preventDefault: stub()};
 
         TestUtils.Simulate.click(trigger.getDOMNode(), mockEvent);
@@ -44,10 +44,10 @@ describe('ComboBox', function() {
     it('should handle option selection', function() {
         var onOptionClick = stub();
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} onOptionClick={onOptionClick} />);
-        var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-component-combo-box-drop-down');
+        var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
         var dropDownOptions = TestUtils.scryRenderedDOMComponentsWithClass(
             rendered,
-            'react-component-combo-box-option'
+            'react-ui-combo-box-option'
         );
 
         TestUtils.Simulate.click(dropDownOptions[0].getDOMNode());
@@ -59,7 +59,7 @@ describe('ComboBox', function() {
 
     it('should not call onTriggerClick on input click when editable', function() {
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
-        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-component-combo-box-input');
+        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
         //mock onTriggerClick
         stub(rendered, 'onTriggerClick');
@@ -73,7 +73,7 @@ describe('ComboBox', function() {
 
     it('should call onTriggerClick on input click when not editable', function() {
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} editable={false} />);
-        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-component-combo-box-input');
+        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
         //mock onTriggerClick
         stub(rendered, 'onTriggerClick');
@@ -89,7 +89,7 @@ describe('ComboBox', function() {
     it('should set state when the input is edited', function() {
         var simpleOptions = ['Option 1', 'Option 2', 'Option 3'];
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={simpleOptions} />);
-        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-component-combo-box-input');
+        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
         var mockEvent = {
             target: {value: '3'}
         };

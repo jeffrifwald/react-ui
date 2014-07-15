@@ -38,12 +38,12 @@ var FileInput = React.createClass({
 
     getDefaultProps: function() {
         return {
-            chooseButtonClassName: 'react-component-file-input-choose',
+            chooseButtonClassName: 'react-ui-file-input-choose',
             chooseButtonText: 'Choose File',
-            className: 'react-component-file-input',
-            clearButtonClassName: 'react-component-file-input-clear',
+            className: 'react-ui-file-input',
+            clearButtonClassName: 'react-ui-file-input-clear',
             clearButtonText: 'Clear File',
-            fileNameClassName: 'react-component-file-input-file-name',
+            fileNameClassName: 'react-ui-file-input-file-name',
             onChooseClick: emptyFn,
             onClearClick: emptyFn,
             onFileChange: emptyFn

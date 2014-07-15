@@ -24,15 +24,15 @@ describe('FileInput', function() {
         };
         var fileName = TestUtils.findRenderedDOMComponentWithClass(
             rendered,
-            'react-component-file-input-file-name'
+            'react-ui-file-input-file-name'
         );
         var chooseBtn = TestUtils.findRenderedDOMComponentWithClass(
             rendered,
-            'react-component-file-input-choose'
+            'react-ui-file-input-choose'
         );
         var clearBtn = TestUtils.findRenderedDOMComponentWithClass(
             rendered,
-            'react-component-file-input-clear'
+            'react-ui-file-input-clear'
         );
         var inputs = TestUtils.scryRenderedDOMComponentsWithTag(rendered, 'input');
 
