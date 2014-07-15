@@ -1,0 +1,5 @@
+.DS_Store
+.coverage
+.grunt
+.yo-rc.json
+node_modules
