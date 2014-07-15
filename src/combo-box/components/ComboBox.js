@@ -6,6 +6,10 @@ var Label = require('./Label');
 var Trigger = require('./Trigger');
 var utils = require('./utils');
 
+/**
+ * @class ComboBox
+ * A mixed input and drop down selector component.
+ */
 var ComboBox = React.createClass({
     propTypes: {
 
