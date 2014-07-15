@@ -50,6 +50,10 @@ var CheckBox = React.createClass({
         );
     },
 
+    /**
+     * @method onChange
+     * Toggles the value of the input for the check box.
+     */
     onChange: function() {
         this.setState({
             checked: !this.state.checked
