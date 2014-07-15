@@ -1,20 +1,14 @@
 /** @jsx React.DOM */
 
 var assert = require('chai').assert;
-var rewire = require('rewire');
 var TestUtils = React.addons.TestUtils;
 
-var Row = rewire('../Row');
+var Row = require('../Row');
 
-//mock the Cell component
-Row.__set__('Cell', function() {
-    return (<div className='mock-cell'>mock cell</div>);
-});
-
-describe('Header', function() {
+describe('Row', function() {
     it('should render a row', function() {
-        var record = {profit: 25};
-        var columns = [{name: 'Profit'}, {name: 'Margin'}];
+        var record = {profit: 25, margin: 0.1};
+        var columns = [{name: 'Profit', dataProp: 'profit'}, {name: 'Margin', dataProp: 'margin'}];
         var rendered;
         var cells;
 
@@ -28,9 +22,9 @@ describe('Header', function() {
         );
 
         assert.equal(rendered.getDOMNode().className, 'cool-row');
-        cells = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'mock-cell');
+        cells = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'cool-cell');
         assert.equal(cells.length, 2);
-        assert.equal(cells[0].getDOMNode().textContent, 'mock cell');
-        assert.equal(cells[1].getDOMNode().textContent, 'mock cell');
+        assert.equal(cells[0].getDOMNode().textContent, '25');
+        assert.equal(cells[1].getDOMNode().textContent, '0.1');
     });
 });
