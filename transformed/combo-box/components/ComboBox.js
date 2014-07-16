@@ -67,6 +67,9 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
         /** @prop {Object[]} options - An array of option objects for the combo box. */
         options: React.PropTypes.array,
 
+        /** @prop {String} placeholder - A placeholder for the input. */
+        placeholder: React.PropTypes.string,
+
         /** @prop {Function} renderOption - The method called to render options. */
         renderOption: React.PropTypes.func,
 
@@ -128,6 +131,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 onClick:this.onInputClick,
                 onInput:this.onInput,
                 options:this.props.options,
+                placeholder:this.props.placeholder,
                 readOnly:!this.props.editable || this.props.disabled,
                 renderProps:this.state.renderProps,
                 value:this.state.value,

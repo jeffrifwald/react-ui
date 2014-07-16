@@ -21,6 +21,7 @@ var Input = React.createClass({
             onChange={this.onKeyUp}
             onClick={this.props.onClick}
             onKeyUp={this.onKeyUp}
+            placeholder={this.props.placeholder}
             readOnly={this.props.readOnly}
             type="textbox"
             value={utils.getDisplayValue(value, this.props)} />
