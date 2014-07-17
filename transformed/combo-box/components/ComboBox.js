@@ -154,6 +154,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 onOptionClick:this.onOptionClick,
                 optionClassName:this.props.optionClassName,
                 options:this.getDropDownOptions(),
+                ref:"dropDown",
                 renderOption:this.props.renderOption,
                 selected:this.state.value,
                 selectedClassName:this.props.selectedClassName,
@@ -222,12 +223,14 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 
     /**
      * @method onBlur
-     * Closes the drop down.
+     * Closes the drop down if not an option.
      */
-    onBlur: function() {
-        this.setState({
-            dropDownVisible: false
-        });
+    onBlur: function(evt) {
+        if (evt.relatedTarget !== this.refs.dropDown.getDOMNode()) {
+            this.setState({
+                dropDownVisible: false
+            });
+        }
     },
 
     /**
