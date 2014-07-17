@@ -128,6 +128,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 displayProp:this.props.displayProp,
                 filterDelay:this.props.filterDelay,
                 handleInputProps:this.handleInputProps,
+                onBlur:this.onBlur,
                 onClick:this.onInputClick,
                 onInput:this.onInput,
                 options:this.props.options,
@@ -142,7 +143,10 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 type:"hidden",
                 value:utils.getValue(this.state.value, this.props)} ),
 
-                Trigger( {className:this.props.triggerClassName, onClick:this.onTriggerClick} ),
+                Trigger(
+                {className:this.props.triggerClassName,
+                onBlur:this.onBlur,
+                onClick:this.onTriggerClick} ),
 
                 DropDown(
                 {className:this.props.dropDownClassName,
@@ -190,6 +194,17 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
     },
 
     /**
+     * @method handleInputProps
+     * Tells the input to use state or props for rendering.
+     * Gets reset when an option is clicked.
+     */
+    handleInputProps: function() {
+        this.setState({
+            renderProps: false
+        });
+    },
+
+    /**
      * @method onInput
      * Handler called when the input is typed into.
      * Filters items in the dropdown.
@@ -206,13 +221,12 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
     },
 
     /**
-     * @method handleInputProps
-     * Tells the input to use state or props for rendering.
-     * Gets reset when an option is clicked.
+     * @method onBlur
+     * Closes the drop down.
      */
-    handleInputProps: function() {
+    onBlur: function() {
         this.setState({
-            renderProps: false
+            dropDownVisible: false
         });
     },
 

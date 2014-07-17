@@ -5,6 +5,7 @@ var Trigger = React.createClass({
         return (
             <button
             className={this.props.className}
+            onBlur={this.props.onBlur}
             onClick={this.props.onClick}
             type="button">
             </button>

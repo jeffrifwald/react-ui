@@ -53,7 +53,7 @@ describe('Input', function() {
         assert.equal(rendered.getDOMNode().value, 'Cool Plain Value');
     });
 
-    it('should call the handler on key up and change', function() {
+    it('should call the handler on change', function() {
         var options = [{value: 'Cool Value'}, {value: 'Cool Value 2'}];
         var value = {value: 'Cool Value'};
         var onInput = stub();
@@ -78,7 +78,7 @@ describe('Input', function() {
         stub(onInput, 'bind');
 
         timeout = rendered.inputTimeout;
-        TestUtils.Simulate.keyUp(rendered.getDOMNode(), {
+        TestUtils.Simulate.change(rendered.getDOMNode(), {
             target: {value: 'mock typing'}
         });
         assert.equal(global.clearTimeout.callCount, 1);
@@ -90,7 +90,7 @@ describe('Input', function() {
         assert.isTrue(handleInputProps.calledWith());
 
         timeout = rendered.inputTimeout;
-        TestUtils.Simulate.keyUp(rendered.getDOMNode(), {
+        TestUtils.Simulate.change(rendered.getDOMNode(), {
             target: {value: 'mock typing'},
             keyCode: 9 //should not fire when tab is pressed
         });

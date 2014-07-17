@@ -100,7 +100,7 @@ describe('ComboBox', function() {
             fn();
         });
 
-        TestUtils.Simulate.keyUp(input.getDOMNode(), mockEvent);
+        TestUtils.Simulate.change(input.getDOMNode(), mockEvent);
         assert.deepEqual(rendered.state.dropDownOptions, [simpleOptions[2]]);
         assert.isTrue(rendered.state.dropDownVisible);
         assert.equal(rendered.state.value, '3');
@@ -108,6 +108,16 @@ describe('ComboBox', function() {
         //restore mocks
         global.clearTimeout.restore();
         global.setTimeout.restore();
+    });
+
+    it('should hide the drop down when the input is blurred', function() {
+        var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
+        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
+
+        rendered.setState({dropDownVisible: true});
+        assert.isTrue(rendered.state.dropDownVisible);
+        TestUtils.Simulate.blur(input);
+        assert.isFalse(rendered.state.dropDownVisible);
     });
 });
 

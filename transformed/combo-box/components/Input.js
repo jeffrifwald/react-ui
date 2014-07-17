@@ -18,9 +18,9 @@ var Input = React.createClass({displayName: 'Input',
         return (
             React.DOM.input(
             {className:this.props.className,
-            onChange:this.onKeyUp,
+            onBlur:this.props.onBlur,
+            onChange:this.onChange,
             onClick:this.props.onClick,
-            onKeyUp:this.onKeyUp,
             placeholder:this.props.placeholder,
             readOnly:this.props.readOnly,
             type:"textbox",
@@ -29,12 +29,12 @@ var Input = React.createClass({displayName: 'Input',
     },
 
     /**
-     * @method onKeyUp
+     * @method onChange
      * Buffers input based on the given filterDelay.
      * Calls the input's onInput method at the buffered rate.
      * @param {Object} evt - The event object.
      */
-    onKeyUp: function(evt) {
+    onChange: function(evt) {
         var value = evt.target.value; //snapshot the value
         var options = this.props.options; //snapshot the options
         var filteredOptions;
