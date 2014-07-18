@@ -22,7 +22,7 @@ describe('ComboBox', function() {
     it('should render a disabled combo box', function() {
         var rendered = TestUtils.renderIntoDocument(ComboBox( {disabled:true, options:options} ));
 
-        assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box-disabled');
+        assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box react-ui-combo-box-disabled');
     });
 
     it('should show/hide the drop down on trigger click', function() {

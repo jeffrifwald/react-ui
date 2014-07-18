@@ -182,7 +182,7 @@ var ComboBox = React.createClass({
      * @returns {String} - The className for the combo box.
      */
     getClassName: function() {
-        return this.props.disabled ? this.props.disabledClassName : this.props.className;
+        return this.props.disabled ? this.props.className + ' ' + this.props.disabledClassName : this.props.className;
     },
 
     /**
