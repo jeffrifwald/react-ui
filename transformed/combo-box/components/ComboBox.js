@@ -102,7 +102,6 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
             onTriggerClick: utils.emptyFn,
             optionClassName: 'react-ui-combo-box-option',
             options: [],
-            renderOption: this.renderOption.bind(this),
             selectedClassName: 'react-ui-combo-box-selected',
             statefulOptions: true,
             triggerClassName: 'react-ui-combo-box-trigger'
@@ -119,6 +118,8 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
     },
 
     render: function() {
+        var renderOption = this.props.renderOption || this.renderOption;
+
         return (
             React.DOM.div( {className:this.getClassName()}, 
                 Label( {className:this.props.labelClassName, label:this.props.label} ),
@@ -157,7 +158,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 optionClassName:this.props.optionClassName,
                 options:this.getDropDownOptions(),
                 ref:"dropDown",
-                renderOption:this.props.renderOption,
+                renderOption:renderOption,
                 selected:this.state.value,
                 selectedClassName:this.props.selectedClassName,
                 valueProp:this.props.valueProp,
