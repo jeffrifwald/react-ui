@@ -52,10 +52,10 @@ var ComboBox = React.createClass({
         /** @prop {String} - The name of the combo box's input. */
         name: React.PropTypes.string,
 
-        /** @prop {Function} onOptionClick - The method called when the input is typed into. */
+        /** @prop {Function} onInput - The method called when the input is typed into. */
         onInput: React.PropTypes.func,
 
-        /** @prop {Function} onOptionClick - The method called right before an option is clicked. */
+        /** @prop {Function} onOptionMouseDown - The method called right before an option is clicked. */
         onOptionMouseDown: React.PropTypes.func,
 
         /** @prop {Function} onTriggerClick - The method called when the trigger is clicked. */
@@ -98,7 +98,7 @@ var ComboBox = React.createClass({
             label: '',
             labelClassName: 'react-ui-combo-box-label',
             onInput: utils.emptyFn,
-            onOptionClick: utils.emptyFn,
+            onOptionMouseDown: utils.emptyFn,
             onTriggerClick: utils.emptyFn,
             optionClassName: 'react-ui-combo-box-option',
             options: [],
