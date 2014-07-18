@@ -12,19 +12,19 @@ describe('DropDown', function() {
         {value: 'Option 2'},
         {value: 'Option 3'}
     ];
-    var onOptionClick;
+    var onOptionMouseDown;
     var renderOption = function(option) {
         return option.value;
     };
 
     beforeEach(function() {
-        onOptionClick = stub();
+        onOptionMouseDown = stub();
     });
 
     it('should render a visible drop down', function() {
         var rendered = TestUtils.renderIntoDocument(
             DropDown(
-            {onOptionClick:onOptionClick,
+            {onOptionMouseDown:onOptionMouseDown,
             optionClassName:"cool-option",
             options:options,
             renderOption:renderOption,
@@ -44,7 +44,7 @@ describe('DropDown', function() {
     it('should render a hidden drop down', function() {
         var rendered = TestUtils.renderIntoDocument(
             DropDown(
-            {onOptionClick:onOptionClick,
+            {onOptionMouseDown:onOptionMouseDown,
             optionClassName:"cool-option",
             options:options,
             renderOption:renderOption,
@@ -59,7 +59,7 @@ describe('DropDown', function() {
     it('should handle a click', function() {
         var rendered = TestUtils.renderIntoDocument(
             DropDown(
-            {onOptionClick:onOptionClick,
+            {onOptionMouseDown:onOptionMouseDown,
             optionClassName:"cool-option",
             options:options,
             renderOption:renderOption,
@@ -69,8 +69,8 @@ describe('DropDown', function() {
         );
         var renderedOptions = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'cool-option');
 
-        TestUtils.Simulate.click(renderedOptions[0].getDOMNode());
-        assert.equal(onOptionClick.callCount, 1);
-        assert.isTrue(onOptionClick.calledWith(options[0]));
+        TestUtils.Simulate.mouseDown(renderedOptions[0].getDOMNode());
+        assert.equal(onOptionMouseDown.callCount, 1);
+        assert.isTrue(onOptionMouseDown.calledWith(options[0]));
     });
 });

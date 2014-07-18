@@ -42,19 +42,19 @@ describe('ComboBox', function() {
     });
 
     it('should handle option selection', function() {
-        var onOptionClick = stub();
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options, onOptionClick:onOptionClick} ));
+        var onOptionMouseDown = stub();
+        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options, onOptionMouseDown:onOptionMouseDown} ));
         var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
         var dropDownOptions = TestUtils.scryRenderedDOMComponentsWithClass(
             rendered,
             'react-ui-combo-box-option'
         );
 
-        TestUtils.Simulate.click(dropDownOptions[0].getDOMNode());
+        TestUtils.Simulate.mouseDown(dropDownOptions[0].getDOMNode());
         assert.equal(rendered.state.value, options[0]);
         assert.equal(dropDown.getDOMNode().style.display, 'none');
-        assert.equal(onOptionClick.callCount, 1);
-        assert.isTrue(onOptionClick.calledWith(options[0]));
+        assert.equal(onOptionMouseDown.callCount, 1);
+        assert.isTrue(onOptionMouseDown.calledWith(options[0]));
     });
 
     it('should not call onTriggerClick on input click when editable', function() {
@@ -118,18 +118,6 @@ describe('ComboBox', function() {
         assert.isTrue(rendered.state.dropDownVisible);
         TestUtils.Simulate.blur(input);
         assert.isFalse(rendered.state.dropDownVisible);
-    });
-
-    it('should not hide the drop down when the input is blurred by the drop down', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
-        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
-        var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
-        var mockEvent = {relatedTarget: dropDown.getDOMNode()};
-
-        rendered.setState({dropDownVisible: true});
-        assert.isTrue(rendered.state.dropDownVisible);
-        TestUtils.Simulate.blur(input, mockEvent);
-        assert.isTrue(rendered.state.dropDownVisible);
     });
 });
 

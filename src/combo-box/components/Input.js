@@ -18,6 +18,7 @@ var Input = React.createClass({
         return (
             <input
             className={this.props.className}
+            disabled={this.props.disabled}
             onBlur={this.props.onBlur}
             onChange={this.onChange}
             onClick={this.props.onClick}

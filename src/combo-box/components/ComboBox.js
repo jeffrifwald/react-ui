@@ -55,8 +55,8 @@ var ComboBox = React.createClass({
         /** @prop {Function} onOptionClick - The method called when the input is typed into. */
         onInput: React.PropTypes.func,
 
-        /** @prop {Function} onOptionClick - The method called when an option is clicked. */
-        onOptionClick: React.PropTypes.func,
+        /** @prop {Function} onOptionClick - The method called right before an option is clicked. */
+        onOptionMouseDown: React.PropTypes.func,
 
         /** @prop {Function} onTriggerClick - The method called when the trigger is clicked. */
         onTriggerClick: React.PropTypes.func,
@@ -125,6 +125,7 @@ var ComboBox = React.createClass({
 
                 <Input
                 className={this.props.inputClassName}
+                disabled={this.props.disabled}
                 displayProp={this.props.displayProp}
                 filterDelay={this.props.filterDelay}
                 handleInputProps={this.handleInputProps}
@@ -151,7 +152,7 @@ var ComboBox = React.createClass({
                 <DropDown
                 className={this.props.dropDownClassName}
                 displayProp={this.props.displayProp}
-                onOptionClick={this.onOptionClick}
+                onOptionMouseDown={this.onOptionMouseDown}
                 optionClassName={this.props.optionClassName}
                 options={this.getDropDownOptions()}
                 ref="dropDown"
@@ -225,12 +226,10 @@ var ComboBox = React.createClass({
      * @method onBlur
      * Closes the drop down if not an option.
      */
-    onBlur: function(evt) {
-        if (evt.relatedTarget !== this.refs.dropDown.getDOMNode()) {
-            this.setState({
-                dropDownVisible: false
-            });
-        }
+    onBlur: function() {
+        this.setState({
+            dropDownVisible: false
+        });
     },
 
     /**
@@ -246,13 +245,13 @@ var ComboBox = React.createClass({
     },
 
     /**
-     * @method onOptionClick
+     * @method onOptionMouseDown
      * Handler called when an option is selected.
      * Sets the combo box's value, hides the drop down, and resets the options.
      * @param {Object} option - The selected option.
      */
-    onOptionClick: function(option) {
-        this.props.onOptionClick.call(this, option);
+    onOptionMouseDown: function(option) {
+        this.props.onOptionMouseDown.call(this, option);
 
         this.setState({
             dropDownOptions: this.props.options,
@@ -270,10 +269,12 @@ var ComboBox = React.createClass({
     onTriggerClick: function(evt) {
         evt.preventDefault(); //prevent accidential form submitting
 
-        this.props.onTriggerClick.call(this, evt);
-        this.setState({
-            dropDownVisible: !this.state.dropDownVisible
-        });
+        if (!this.props.disabled) {
+            this.props.onTriggerClick.call(this, evt);
+            this.setState({
+                dropDownVisible: !this.state.dropDownVisible
+            });
+        }
     }
 });
 

@@ -28,7 +28,7 @@ var DropDown = React.createClass({displayName: 'DropDown',
                 React.DOM.div(
                 {className:this.getOptionClassName(option),
                 key:key,
-                onClick:this.props.onOptionClick.bind(null, option)}, 
+                onMouseDown:this.props.onOptionMouseDown.bind(null, option)}, 
                     this.props.renderOption(option)
                 )
             );
