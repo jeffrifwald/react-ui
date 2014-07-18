@@ -140,6 +140,7 @@ var ComboBox = React.createClass({
                 valueProp={this.props.valueProp} />
 
                 <input
+                disabled={this.props.disabled}
                 name={this.props.name}
                 type="hidden"
                 value={utils.getValue(this.state.value, this.props)} />
