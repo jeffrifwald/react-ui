@@ -94,6 +94,7 @@ var FileInput = React.createClass({displayName: 'FileInput',
             {key:key,
             name:this.props.name,
             onChange:this.onFileChange,
+            ref:"fileInput",
             style:hiddenStyle,
             type:"file"} )
         );
@@ -106,7 +107,7 @@ var FileInput = React.createClass({displayName: 'FileInput',
      */
     onChooseClick: function(evt) {
         evt.preventDefault();
-        this.getDOMNode().querySelector('input[type=file]').click();
+        this.refs.fileInput.getDOMNode().click();
         this.props.onChooseClick(evt);
     },
 
