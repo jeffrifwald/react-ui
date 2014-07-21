@@ -18,8 +18,9 @@ var ComboBox = React.createClass({
 
         /** @prop {String|Object} defaultValue - The default value for the combo box. */
         defaultValue: React.PropTypes.oneOfType([
-            React.PropTypes.string,
-            React.PropTypes.object
+            React.PropTypes.object,
+            React.PropTypes.number,
+            React.PropTypes.string
         ]),
 
         /** @prop {Boolean} disabled - True disable the input and trigger. */
