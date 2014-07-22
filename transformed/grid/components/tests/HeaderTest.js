@@ -25,6 +25,20 @@ describe('Header', function() {
         assert.isTrue(clickHandler.calledWith(column, 1, true));
     });
 
+    it('should ignore a column header click', function() {
+        var column = {name: 'Profit', ignoreHeaderClick: true};
+        var clickHandler = stub();
+        var rendered = TestUtils.renderIntoDocument(
+            Header( {column:column, columnIndex:1, onClick:clickHandler} )
+        );
+
+        assert.equal(rendered.getDOMNode().textContent, 'Profit');
+
+        TestUtils.Simulate.click(rendered.getDOMNode());
+        assert.equal(clickHandler.callCount, 0);
+        assert.equal(rendered.state.numClicks, 0);
+    });
+
     it('should get a class name for a clicked header', function() {
         var column = {name: 'Profit'};
         var clickHandler = stub();

@@ -43,6 +43,10 @@ var Header = React.createClass({displayName: 'Header',
      * Sets the reverse state of the header.
      */
     onClick: function() {
+        if (this.props.column.ignoreHeaderClick) {
+            return;
+        }
+
         this.props.onClick(
             this.props.column,
             this.props.columnIndex,
