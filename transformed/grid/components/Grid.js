@@ -22,6 +22,9 @@ var Grid = React.createClass({displayName: 'Grid',
         /** @prop {String} cellClassName - The className of the grid's cells. */
         cellClassName: React.PropTypes.string,
 
+        /** @prop {String} clickedHeaderClassName - The className appended to the last clicked grid header. */
+        clickedHeaderClassName: React.PropTypes.string,
+
         /** @prop {String} gridClassName - The className of the grid. */
         gridClassName: React.PropTypes.string,
 
@@ -38,6 +41,7 @@ var Grid = React.createClass({displayName: 'Grid',
     getDefaultProps: function() {
         return {
             cellClassName: 'react-ui-grid-cell',
+            clickedHeaderClassName: 'react-ui-grid-header-clicked',
             gridClassName: 'react-ui-grid',
             headerClassName: 'react-ui-grid-header',
             onHeaderClick: emptyFn,
@@ -47,8 +51,7 @@ var Grid = React.createClass({displayName: 'Grid',
 
     getInitialState: function() {
         return {
-            /** @prop {Number} sortedIndex - The index of the currently sorted column */
-            sortedIndex: -1
+            clickedIndex: -1
         };
     },
 
@@ -70,17 +73,16 @@ var Grid = React.createClass({displayName: 'Grid',
      */
     renderHeaders: function() {
         return this.props.columns.map(function(column, columnIndex) {
-            var key = 'react-ui-grid-header-' + columnIndex;
-
             return (
                 Header(
                 {className:this.props.headerClassName,
+                clickedClassName:this.props.clickedHeaderClassName,
+                clickedIndex:this.state.clickedIndex,
                 column:column,
                 columnIndex:columnIndex,
                 columns:this.props.columns,
-                onClick:this.props.onHeaderClick,
-                grid:this,
-                key:key} )
+                key:columnIndex,
+                onClick:this.onHeaderClick} )
             );
         }, this);
     },
@@ -92,18 +94,29 @@ var Grid = React.createClass({displayName: 'Grid',
      */
     renderRows: function() {
         return this.props.data.map(function(record, rowIndex) {
-            var key = 'react-ui-grid-row-' + rowIndex;
-
             return (
                 Row(
                 {className:this.props.rowClassName,
                 cellClassName:this.props.cellClassName,
                 columns:this.props.columns,
-                key:key,
+                key:rowIndex,
                 record:record,
                 rowIndex:rowIndex} )
             );
         }, this);
+    },
+
+    /**
+     * @method onHeaderClick
+     * Saves the index of the last clicked header as component state.
+     * Calls the onHeaderClick handler.
+     * @param {Object} column - The clicked column.
+     * @param {Number} columnIndex - The index of the clicked column.
+     * @param {Boolean} reverse - True if the header has been clicked an odd number of times.
+     */
+    onHeaderClick: function(column, columnIndex, reverse) {
+        this.setState({clickedIndex: columnIndex});
+        this.props.onHeaderClick(column, columnIndex, reverse);
     }
 });
 

@@ -11,11 +11,33 @@ describe('Header', function() {
         var column = {name: 'Profit'};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            <Header column={column} onClick={clickHandler} />
+            <Header column={column} columnIndex={1} onClick={clickHandler} />
         );
 
         assert.equal(rendered.getDOMNode().textContent, 'Profit');
+
         TestUtils.Simulate.click(rendered.getDOMNode());
         assert.equal(clickHandler.callCount, 1);
+        assert.isTrue(clickHandler.calledWith(column, 1, false));
+
+        TestUtils.Simulate.click(rendered.getDOMNode());
+        assert.equal(clickHandler.callCount, 2);
+        assert.isTrue(clickHandler.calledWith(column, 1, true));
+    });
+
+    it('should get a class name for a clicked header', function() {
+        var column = {name: 'Profit'};
+        var clickHandler = stub();
+        var rendered = TestUtils.renderIntoDocument(
+            <Header
+            className="cool-header"
+            clickedClassName="clicked-cool-header"
+            clickedIndex={1}
+            column={column}
+            columnIndex={1}
+            onClick={clickHandler} />
+        );
+
+        assert.equal(rendered.getClassName(), 'cool-header clicked-cool-header');
     });
 });

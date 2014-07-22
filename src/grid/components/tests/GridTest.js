@@ -17,4 +17,19 @@ describe('Grid', function() {
         assert.equal(headers.length, 2);
         assert.equal(rows.length, 4);
     });
+
+    it('should keep track of the clicked index', function() {
+        var rendered = TestUtils.renderIntoDocument(<Grid columns={columns} data={data} />);
+        var headers = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'react-ui-grid-header');
+
+        TestUtils.Simulate.click(headers[0]);
+        assert.equal(rendered.state.clickedIndex, 0);
+        assert.equal(headers[0].getDOMNode().className, 'react-ui-grid-header react-ui-grid-header-clicked');
+        assert.equal(headers[1].getDOMNode().className, 'react-ui-grid-header');
+
+        TestUtils.Simulate.click(headers[1]);
+        assert.equal(rendered.state.clickedIndex, 1);
+        assert.equal(headers[0].getDOMNode().className, 'react-ui-grid-header');
+        assert.equal(headers[1].getDOMNode().className, 'react-ui-grid-header react-ui-grid-header-clicked');
+    });
 });
