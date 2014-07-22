@@ -7,7 +7,7 @@
 var Header = React.createClass({
     getInitialState: function() {
         return {
-            reverse: false
+            numClicks: 0
         };
     },
 
@@ -24,11 +24,17 @@ var Header = React.createClass({
      * Gets the class name based on if this column is the most currently clicked.
      */
     getClassName: function() {
+        var className = this.props.className;
+
         if (this.props.clickedIndex === this.props.columnIndex) {
-            return this.props.className + ' ' + this.props.clickedClassName;
+            className += ' ' + this.props.clickedClassName;
+
+            if (this.state.numClicks > 0 && this.state.numClicks % 2 === 0) {
+                className += '-reverse';
+            }
         }
 
-        return this.props.className;
+        return className;
     },
 
     /**
@@ -37,8 +43,12 @@ var Header = React.createClass({
      * Sets the reverse state of the header.
      */
     onClick: function() {
-        this.props.onClick(this.props.column, this.props.columnIndex, this.state.reverse);
-        this.setState({reverse: !this.state.reverse});
+        this.props.onClick(
+            this.props.column,
+            this.props.columnIndex,
+            this.state.numClicks % 2 !== 0
+        );
+        this.setState({numClicks: this.state.numClicks + 1});
     }
 });
 
