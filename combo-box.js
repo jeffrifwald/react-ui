@@ -1,3 +1,3 @@
 module.exports = {
-    'ComboBox': require('./transformed/combo-box/components/ComboBox')
+    ComboBox: require('./transformed/combo-box/components/ComboBox')
 };

@@ -6,8 +6,8 @@
  * @param {Function} - The callback called when the request loads or errors.
  */
 function doFormData(form, callback) {
-    var formData = new global.FormData(form);
-    var request = new global.XMLHttpRequest();
+    var formData = new window.FormData(form);
+    var request = new window.XMLHttpRequest();
 
     request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
@@ -39,7 +39,7 @@ module.exports = {
      * @param {Object} component - The form component to handle.
      */
     handleForm: function(form, callback) {
-        if (global.FormData) { //use ajax
+        if (window.FormData) { //use ajax
             doFormData(form, callback);
         } else { //fallback to simply submit the form
             form.submit();
