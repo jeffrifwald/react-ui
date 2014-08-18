@@ -2,7 +2,6 @@
 
 var DropDown = require('./DropDown');
 var Input = require('./Input');
-var Label = require('./Label');
 var Trigger = require('./Trigger');
 var utils = require('./utils');
 
@@ -123,7 +122,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 
         return (
             React.DOM.div( {className:this.getClassName()}, 
-                Label( {className:this.props.labelClassName, label:this.props.label} ),
+                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
 
                 Input(
                 {className:this.props.inputClassName,
@@ -185,7 +184,11 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @returns {String} - The className for the combo box.
      */
     getClassName: function() {
-        return this.props.disabled ? this.props.className + ' ' + this.props.disabledClassName : this.props.className;
+        if (this.props.disabled) {
+            return this.props.className + ' ' + this.props.disabledClassName;
+        }
+
+        return this.props.className;
     },
 
     /**

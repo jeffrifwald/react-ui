@@ -1,3 +1,3 @@
 module.exports = {
-    'Grid': require('./transformed/grid/components/Grid')
+    Grid: require('./transformed/grid/components/Grid')
 };

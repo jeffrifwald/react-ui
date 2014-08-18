@@ -30,7 +30,7 @@ describe('AjaxForm', function() {
         this.onerror();
     }.bind(mockRequest));
 
-    global.XMLHttpRequest = function() {
+    window.XMLHttpRequest = function() {
         return mockRequest;
     };
 
@@ -44,7 +44,7 @@ describe('AjaxForm', function() {
         var formDataCalled = 0;
 
         //mock FormData
-        global.FormData = function(form) {
+        window.FormData = function(form) {
             formDataCalled++;
             assert.equal(form, node);
         };
@@ -60,7 +60,7 @@ describe('AjaxForm', function() {
         assert.equal(mockRequest.open.callCount, 1);
         assert.isTrue(mockRequest.open.calledWith('POST', '/submit/', true));
         assert.equal(mockRequest.send.callCount, 1);
-        assert.isTrue(mockRequest.send.calledWith(new global.FormData(node)));
+        assert.isTrue(mockRequest.send.calledWith(new window.FormData(node)));
     });
 
     it('should handle submission without FormData', function() {
@@ -72,7 +72,7 @@ describe('AjaxForm', function() {
 
         //mock form submit
         stub(node, 'submit');
-        global.FormData = undefined;
+        window.FormData = undefined;
 
         TestUtils.Simulate.submit(node, mockEvent);
         assert.equal(mockEvent.preventDefault.callCount, 1);

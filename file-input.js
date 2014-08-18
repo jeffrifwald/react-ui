@@ -1,3 +1,3 @@
 module.exports = {
-    'FileInput': require('./transformed/file-input/components/FileInput')
+    FileInput: require('./transformed/file-input/components/FileInput')
 };

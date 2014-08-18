@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>React UI Date Picker</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+
+        table {
+            text-align: center;
+        }
+
+        th {
+            height: 30px;
+        }
+
+        .react-ui-date-picker {
+            position: relative;
+            width: 140px;
+        }
+
+        .react-ui-date-picker-date {
+            background: white;
+            border: 1px solid white;
+            cursor: pointer;
+            height: 30px;
+            width: 30px;
+        }
+
+        .react-ui-date-picker-date:hover {
+            background: lightblue;
+            color: #000;
+        }
+
+        .current-date {
+            border-color: red;
+        }
+
+        .selected-date {
+            background: lightblue;
+            border-color: blue;
+        }
+
+        .other-month {
+            color: lightgray;
+        }
+
+        .disabled {
+            background: lightgray;
+            cursor: not-allowed;
+        }
+
+        .disabled:hover {
+            background: lightgray;
+        }
+
+        .react-ui-date-picker-calendar {
+            border: 1px solid gray;
+            border-spacing: 1px;
+            font-size: 12px;
+            margin-top: 2px;
+            width: 260px;
+        }
+
+        .react-ui-date-picker-header {
+            background: #e2e2e2;
+            color: gray;
+            font-size: 16px;
+            height: 40px;
+            text-align: center;
+        }
+
+        .react-ui-date-picker-prev {
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .react-ui-date-picker-next {
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .react-ui-date-picker-input {
+            border: 1px solid gray;
+            border-bottom-width: 2px;
+            border-radius: 3px 0 0 3px;
+            font-size: 14px;
+            height: 18px;
+            padding: 6px 4px;
+            width: 100px;
+        }
+
+        .react-ui-date-picker-trigger {
+            background: white;
+            border: 1px solid gray;
+            border-width: 1px 1px 2px 0;
+            border-radius: 0 3px 3px 0;
+            color: gray;
+            cursor: pointer;
+            height: 33px;
+            line-height: 29px;
+            outline: none;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="react-render"></div>
+    <script src="lib/react.js"></script>
+    <script src="lib/jsxtransformer.js"></script>
+    <script src="../build/react-ui.js"></script>
+
+    <script type="text/jsx">
+        /** @jsx React.DOM */
+
+        var reservedDate = new Date(2014, 6, 9);
+        var min = new Date(2014, 3, 1);
+        var max = new Date(2014, 9, 1);
+        var disabled = [reservedDate];
+        var displayFormat = 'm-d-Y';
+        var triggerText = '\u25bc';
+
+        React.renderComponent(
+            <ReactUI.DatePicker
+            displayFormat={displayFormat}
+            disabledDates={disabled}
+            maxValue={max}
+            minValue={min}
+            placeholder="Pick a date"
+            triggerText={triggerText} />,
+            document.querySelector('.react-render')
+        );
+    </script>
+</body>
+</html>
