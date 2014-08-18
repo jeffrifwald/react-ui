@@ -852,7 +852,7 @@ var DateCell = React.createClass({displayName: 'DateCell',
      * @returns {Boolean} - True if the cell is selected.
      */
     isSelected: function() {
-        return !!(this.props.selected && utils.sameDate(this.props.value, this.props.selected));
+        return this.props.selected && utils.sameDate(this.props.value, this.props.selected) ? true : false;
     }
 });
 
@@ -1160,7 +1160,7 @@ var utils = {
     },
 
     format: function(date, format) {
-        return format.replace(/([^\u2166]?)[djmnwyYu]/g, this.escapeFormat.bind(this, date));
+        return format.replace(/([^\u2166]?)[djmnwyYU]/g, this.escapeFormat.bind(this, date));
     },
 
     padZero: function(value) {
@@ -1201,7 +1201,7 @@ var utils = {
     isDisabledDate: function(date, disabledDates) {
         return disabledDates.filter(function(disabledDate) {
             return this.sameDate(disabledDate, date);
-        }, this).length;
+        }, this).length ? true : false;
     }
 };
 
