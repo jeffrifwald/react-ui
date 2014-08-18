@@ -88,23 +88,16 @@ var utils = {
         return clean;
     },
 
-    escapeFormat: function(key, date, a, b) {
+    escapeFormat: function(date, a, b) {
         if (a.indexOf('\\') !== -1) {
-            return str.slice(1);
+            return a.slice(1);
         }
 
-        return b + this.formatMap[key].call(this, date);
+        return b + this.formatMap[a.slice(a.length - 1)].call(this, date);
     },
 
     format: function(date, format) {
-        Object.keys(this.formatMap).forEach(function(key) {
-            format = format.replace(
-                new RegExp('([^\]?)' + key, 'g'),
-                this.escapeFormat.bind(this, key, date)
-            );
-        }, this);
-
-        return format;
+        return format.replace(/([^\u2166]?)[djmnwyYU]/g, this.escapeFormat.bind(this, date));
     },
 
     padZero: function(value) {
@@ -145,7 +138,7 @@ var utils = {
     isDisabledDate: function(date, disabledDates) {
         return disabledDates.filter(function(disabledDate) {
             return this.sameDate(disabledDate, date);
-        }, this).length
+        }, this).length ? true : false;
     }
 };
 

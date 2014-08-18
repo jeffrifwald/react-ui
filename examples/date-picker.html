@@ -99,8 +99,10 @@
             border: 1px solid gray;
             border-width: 1px 1px 2px 0;
             border-radius: 0 3px 3px 0;
+            color: gray;
             cursor: pointer;
             height: 33px;
+            line-height: 29px;
             outline: none;
             position: absolute;
             right: 0;
@@ -123,6 +125,7 @@
         var max = new Date(2014, 9, 1);
         var disabled = [reservedDate];
         var displayFormat = 'm/d/Y';
+        var triggerText = '\u25bc';
 
         React.renderComponent(
             <ReactUI.DatePicker
@@ -130,7 +133,8 @@
             disabledDates={disabled}
             maxValue={max}
             minValue={min}
-            placeholder="Pick a date" />,
+            placeholder="Pick a date"
+            triggerText={triggerText} />,
             document.querySelector('.react-render')
         );
     </script>

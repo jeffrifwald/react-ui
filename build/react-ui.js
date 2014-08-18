@@ -759,10 +759,6 @@ var utils = require('./utils');
 
 var DateCell = React.createClass({displayName: 'DateCell',
     render: function() {
-        // if (this.props.date.getMonth() !== this.props.value.getMonth()) {
-        //     return (<td></td>);
-        // }
-
         return (
             React.DOM.td(
             {className:this.getClassName(),
@@ -772,12 +768,22 @@ var DateCell = React.createClass({displayName: 'DateCell',
         );
     },
 
+    /**
+     * @method onMouseDown
+     * If selectable, calls the given onMouseDown method.
+     */
     onMouseDown: function() {
         if (this.isSelectable()) {
             this.props.onMouseDown(this.props.value);
         }
     },
 
+    /**
+     * @method getClassNames
+     * Gets a class name for the cell.
+     * Examines current, selected, selectable, and same month criteria.
+     * @returns {String} - The constructed class name.
+     */
     getClassName: function() {
         var className = this.props.className;
 
@@ -800,6 +806,13 @@ var DateCell = React.createClass({displayName: 'DateCell',
         return className;
     },
 
+    /**
+     * @method isSelectable
+     * Determines if the cell should be selectable.
+     * Calls the isDateDisabled method, compares to given disabled dates.
+     * Compares against max and min dates.
+     * @returns {Boolean} - True if the date is selectable.
+     */
     isSelectable: function() {
         var curr = this.props.value;
         var max = this.props.maxValue;
@@ -824,12 +837,22 @@ var DateCell = React.createClass({displayName: 'DateCell',
         return true;
     },
 
+    /**
+     * @method isCurrent
+     * Determines if the cell is the current date.
+     * @returns {Boolean} - True if the cell contains the current date.
+     */
     isCurrent: function() {
         return utils.sameDate(this.props.value, new Date());
     },
 
+    /**
+     * @method isSelected
+     * Determines if the cell is selected.
+     * @returns {Boolean} - True if the cell is selected.
+     */
     isSelected: function() {
-        return this.props.selected && utils.sameDate(this.props.value, this.props.selected);
+        return !!(this.props.selected && utils.sameDate(this.props.value, this.props.selected));
     }
 });
 
@@ -990,7 +1013,7 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
-        days = utils.getDays(date)
+        days = utils.getDays(date);
         this.setState({date: date, days: days});
     }
 });
@@ -1128,23 +1151,16 @@ var utils = {
         return clean;
     },
 
-    escapeFormat: function(key, date, a, b) {
+    escapeFormat: function(date, a, b) {
         if (a.indexOf('\\') !== -1) {
-            return str.slice(1);
+            return a.slice(1);
         }
 
-        return b + this.formatMap[key].call(this, date);
+        return b + this.formatMap[a.slice(a.length - 1)].call(this, date);
     },
 
     format: function(date, format) {
-        Object.keys(this.formatMap).forEach(function(key) {
-            format = format.replace(
-                new RegExp('([^\]?)' + key, 'g'),
-                this.escapeFormat.bind(this, key, date)
-            );
-        }, this);
-
-        return format;
+        return format.replace(/([^\u2166]?)[djmnwyYu]/g, this.escapeFormat.bind(this, date));
     },
 
     padZero: function(value) {
@@ -1185,7 +1201,7 @@ var utils = {
     isDisabledDate: function(date, disabledDates) {
         return disabledDates.filter(function(disabledDate) {
             return this.sameDate(disabledDate, date);
-        }, this).length
+        }, this).length;
     }
 };
 

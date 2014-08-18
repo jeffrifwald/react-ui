@@ -4,10 +4,6 @@ var utils = require('./utils');
 
 var DateCell = React.createClass({
     render: function() {
-        // if (this.props.date.getMonth() !== this.props.value.getMonth()) {
-        //     return (<td></td>);
-        // }
-
         return (
             <td
             className={this.getClassName()}
@@ -17,12 +13,22 @@ var DateCell = React.createClass({
         );
     },
 
+    /**
+     * @method onMouseDown
+     * If selectable, calls the given onMouseDown method.
+     */
     onMouseDown: function() {
         if (this.isSelectable()) {
             this.props.onMouseDown(this.props.value);
         }
     },
 
+    /**
+     * @method getClassNames
+     * Gets a class name for the cell.
+     * Examines current, selected, selectable, and same month criteria.
+     * @returns {String} - The constructed class name.
+     */
     getClassName: function() {
         var className = this.props.className;
 
@@ -45,6 +51,13 @@ var DateCell = React.createClass({
         return className;
     },
 
+    /**
+     * @method isSelectable
+     * Determines if the cell should be selectable.
+     * Calls the isDateDisabled method, compares to given disabled dates.
+     * Compares against max and min dates.
+     * @returns {Boolean} - True if the date is selectable.
+     */
     isSelectable: function() {
         var curr = this.props.value;
         var max = this.props.maxValue;
@@ -69,12 +82,22 @@ var DateCell = React.createClass({
         return true;
     },
 
+    /**
+     * @method isCurrent
+     * Determines if the cell is the current date.
+     * @returns {Boolean} - True if the cell contains the current date.
+     */
     isCurrent: function() {
         return utils.sameDate(this.props.value, new Date());
     },
 
+    /**
+     * @method isSelected
+     * Determines if the cell is selected.
+     * @returns {Boolean} - True if the cell is selected.
+     */
     isSelected: function() {
-        return this.props.selected && utils.sameDate(this.props.value, this.props.selected);
+        return this.props.selected && utils.sameDate(this.props.value, this.props.selected) ? true : false;
     }
 });
 

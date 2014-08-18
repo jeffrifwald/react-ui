@@ -152,7 +152,7 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
-        days = utils.getDays(date)
+        days = utils.getDays(date);
         this.setState({date: date, days: days});
     }
 });

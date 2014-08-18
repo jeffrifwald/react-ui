@@ -97,7 +97,8 @@ module.exports = function(grunt) {
          */
         clean: {
             coverage: ['.coverage'],
-            grunt: ['.grunt']
+            grunt: ['.grunt'],
+            transformed: ['transformed']
         },
 
         /**
