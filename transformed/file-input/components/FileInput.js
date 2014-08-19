@@ -43,6 +43,7 @@ var FileInput = React.createClass({displayName: 'FileInput',
             className: 'react-ui-file-input',
             clearButtonClassName: 'react-ui-file-input-clear',
             clearButtonText: 'Clear File',
+            disabled: false,
             fileNameClassName: 'react-ui-file-input-file-name',
             onChooseClick: emptyFn,
             onClearClick: emptyFn,
@@ -64,16 +65,19 @@ var FileInput = React.createClass({displayName: 'FileInput',
 
                 React.DOM.button(
                 {className:this.props.chooseButtonClassName,
+                disabled:this.props.disabled,
                 onClick:this.onChooseClick,
                 type:"button"}, this.props.chooseButtonText),
 
                 React.DOM.button(
                 {className:this.props.clearButtonClassName,
+                disabled:this.props.disabled,
                 onClick:this.onClearClick,
                 type:"button"}, this.props.clearButtonText),
 
                 React.DOM.input(
                 {className:this.props.fileNameClassName,
+                disabled:this.props.disabled,
                 readOnly:true,
                 type:"textbox",
                 value:this.state.inputValue} )
