@@ -599,7 +599,7 @@ var Input = React.createClass({displayName: 'Input',
 
         if (value !== '') { //only filter options if there is a value
             return options.filter(function(option) {
-                return utils.getValue(
+                return utils.getDisplayValue(
                     option,
                     this.props
                 ).toString().toLowerCase().indexOf(value.toLowerCase()) !== -1;
