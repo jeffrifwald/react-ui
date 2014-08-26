@@ -304,6 +304,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 
     render: function() {
         var renderOption = this.props.renderOption || this.renderOption;
+        var value = this.props.clear ? this.props.defaultValue : this.state.value;
 
         return (
             React.DOM.div( {className:this.getClassName()}, 
@@ -322,7 +323,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 placeholder:this.props.placeholder,
                 readOnly:!this.props.editable || this.props.disabled,
                 renderProps:this.state.renderProps,
-                value:this.state.value,
+                value:value,
                 valueProp:this.props.valueProp} ),
 
                 React.DOM.input(
