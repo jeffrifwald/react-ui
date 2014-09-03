@@ -118,7 +118,7 @@ describe('Input', function() {
     });
 
     it('should handle input', function() {
-        var options = [{value: 'Cool Value'}, {value: 'Cool Value 2'}];
+        var options = [{value: 'Cool Value'}, {value: 'Cool Value 2'}, {value: undefined}];
         var value = {value: 'Cool Value'};
         var rendered = TestUtils.renderIntoDocument(
             Input(
