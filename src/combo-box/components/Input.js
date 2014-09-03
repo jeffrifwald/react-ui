@@ -24,7 +24,6 @@ var Input = React.createClass({
             onClick={this.props.onClick}
             placeholder={this.props.placeholder}
             readOnly={this.props.readOnly}
-            ref="textInput"
             type="textbox"
             value={utils.getDisplayValue(value, this.props)} />
         );

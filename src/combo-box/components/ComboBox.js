@@ -290,9 +290,9 @@ var ComboBox = React.createClass({
      */
     clearValue: function() {
         this.setState({
-            dropDownOptions: [],
             dropDownVisible: false,
-            renderProps: false,
+            dropDownOptions: this.props.options,
+            renderProps: true,
             value: ''
         });
     },

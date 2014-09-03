@@ -475,9 +475,9 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      */
     clearValue: function() {
         this.setState({
-            dropDownOptions: [],
             dropDownVisible: false,
-            renderProps: false,
+            dropDownOptions: this.props.options,
+            renderProps: true,
             value: ''
         });
     },
@@ -580,7 +580,6 @@ var Input = React.createClass({displayName: 'Input',
             onClick:this.props.onClick,
             placeholder:this.props.placeholder,
             readOnly:this.props.readOnly,
-            ref:"textInput",
             type:"textbox",
             value:utils.getDisplayValue(value, this.props)} )
         );
