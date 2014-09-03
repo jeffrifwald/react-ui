@@ -321,6 +321,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 options:this.props.options,
                 placeholder:this.props.placeholder,
                 readOnly:!this.props.editable || this.props.disabled,
+                ref:"textInput",
                 renderProps:this.state.renderProps,
                 value:this.state.value,
                 valueProp:this.props.valueProp} ),
@@ -473,7 +474,8 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * Clears the value of the combo box.
      */
     clearValue: function() {
-        this.setState({value: ''});
+        this.setState({options: [], value: ''});
+        this.refs.textInput.handleInput(this.state.value, this.state.options);
     },
 
     /**
