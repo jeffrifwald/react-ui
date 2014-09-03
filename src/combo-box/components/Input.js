@@ -73,14 +73,6 @@ var Input = React.createClass({
         }
 
         return options;
-    },
-
-    /**
-     * @method clearValue
-     * Clears the value of the input.
-     */
-    clearValue: function() {
-        this.setState({value: ''});
     }
 });
 
