@@ -474,8 +474,12 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * Clears the value of the combo box.
      */
     clearValue: function() {
-        this.setState({options: [], value: ''});
-        this.refs.textInput.clearValue();
+        this.setState({
+            dropDownOptions: [],
+            dropDownVisible: false,
+            renderProps: false,
+            value: ''
+        });
     },
 
     /**
@@ -625,14 +629,6 @@ var Input = React.createClass({displayName: 'Input',
         }
 
         return options;
-    },
-
-    /**
-     * @method clearValue
-     * Clears the value of the input.
-     */
-    clearValue: function() {
-        this.setState({value: ''});
     }
 });
 
