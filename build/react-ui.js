@@ -475,7 +475,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      */
     clearValue: function() {
         this.setState({options: [], value: ''});
-        this.refs.textInput.handleInput(this.state.value, this.state.options);
+        this.refs.textInput.handleInput('', []);
     },
 
     /**

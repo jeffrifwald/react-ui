@@ -290,7 +290,7 @@ var ComboBox = React.createClass({
      */
     clearValue: function() {
         this.setState({options: [], value: ''});
-        this.refs.textInput.handleInput(this.state.value, this.state.options);
+        this.refs.textInput.handleInput('', []);
     },
 
     /**
