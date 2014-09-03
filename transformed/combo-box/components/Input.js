@@ -24,6 +24,7 @@ var Input = React.createClass({displayName: 'Input',
             onClick:this.props.onClick,
             placeholder:this.props.placeholder,
             readOnly:this.props.readOnly,
+            ref:"textInput",
             type:"textbox",
             value:utils.getDisplayValue(value, this.props)} )
         );
@@ -49,7 +50,6 @@ var Input = React.createClass({displayName: 'Input',
                 this.props.onInput.bind(null, value, filteredOptions),
                 this.props.filterDelay
             );
-
         }
     },
 
@@ -73,6 +73,14 @@ var Input = React.createClass({displayName: 'Input',
         }
 
         return options;
+    },
+
+    /**
+     * @method clearValue
+     * Clears the value of the input.
+     */
+    clearValue: function() {
+        this.setState({value: ''});
     }
 });
 
