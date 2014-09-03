@@ -150,7 +150,8 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 Trigger(
                 {className:this.props.triggerClassName,
                 onBlur:this.onBlur,
-                onClick:this.onTriggerClick} ),
+                onClick:this.onTriggerClick,
+                ref:"trigger"} ),
 
                 DropDown(
                 {className:this.props.dropDownClassName,
@@ -233,10 +234,12 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @method onBlur
      * Closes the drop down if not an option.
      */
-    onBlur: function() {
-        this.setState({
-            dropDownVisible: false
-        });
+    onBlur: function(evt) {
+        if (evt.target !== this.refs.trigger.getDOMNode()) {
+            this.setState({
+                dropDownVisible: false
+            });
+        }
     },
 
     /**
