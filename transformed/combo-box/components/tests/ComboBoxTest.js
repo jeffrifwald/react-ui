@@ -25,6 +25,16 @@ describe('ComboBox', function() {
         assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box react-ui-combo-box-disabled');
     });
 
+    it('should get and clear the value', function() {
+        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
+
+        rendered.setState({value: '1234'});
+        assert.equal(rendered.getValue(), '1234');
+
+        rendered.clearValue();
+        assert.equal(rendered.getValue(), '');
+    });
+
     it('should show/hide the drop down on trigger click', function() {
         var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
         var trigger = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-trigger');

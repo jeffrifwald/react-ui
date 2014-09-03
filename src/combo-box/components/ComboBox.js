@@ -281,6 +281,22 @@ var ComboBox = React.createClass({
                 dropDownVisible: !this.state.dropDownVisible
             });
         }
+    },
+
+    /**
+     * @method clearValue
+     * Clears the value of the combo box.
+     */
+    clearValue: function() {
+        this.setState({value: ''});
+    },
+
+    /**
+     * @method getValue
+     * Gets the current value of the combo box.
+     */
+    getValue: function() {
+        return this.state.value;
     }
 });
 
