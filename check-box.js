@@ -1,3 +1,1 @@
-module.exports = {
-    CheckBox: require('./transformed/check-box/components/CheckBox')
-};
+module.exports = require('./transformed/check-box/components/CheckBox');
