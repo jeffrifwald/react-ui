@@ -1,3 +1,1 @@
-module.exports = {
-    AjaxForm: require('./transformed/ajax-form/components/AjaxForm')
-};
+module.exports = require('./transformed/ajax-form/components/AjaxForm');

@@ -1,3 +1,1 @@
-module.exports = {
-    DatePicker: require('./transformed/date-picker/components/DatePicker')
-};
+module.exports = require('./transformed/date-picker/components/DatePicker');
