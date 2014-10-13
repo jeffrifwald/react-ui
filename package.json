@@ -19,6 +19,7 @@
   "devDependencies": {
     "blanket": "^1.1.6",
     "chai": "^1.9.1",
+    "cssstyle": "0.2.18",
     "envify": "^1.2.1",
     "grunt": "^0.4.5",
     "grunt-browserify": "^2.1.4",
