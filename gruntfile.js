@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         var jsdom = require('jsdom');
 
         //build the dom for tests
-        global.window = jsdom.jsdom().createWindow(
+        global.window = jsdom.jsdom(
             '<!DOCTYPE html>' +
             '<html>' +
                 '<head>' +
@@ -70,7 +70,7 @@ module.exports = function(grunt) {
                 '<body>' +
                 '</body>' +
             '</html>'
-        );
+        ).parentWindow;
         global.document = global.window.document;
         global.navigator = global.window.navigator;
         global.React = require('react/addons');
