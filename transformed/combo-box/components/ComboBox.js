@@ -121,50 +121,50 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
         var renderOption = this.props.renderOption || this.renderOption;
 
         return (
-            React.DOM.div( {className:this.getClassName()}, 
-                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
+            React.DOM.div({className: this.getClassName()}, 
+                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
 
-                Input(
-                {className:this.props.inputClassName,
-                disabled:this.props.disabled,
-                displayProp:this.props.displayProp,
-                filterDelay:this.props.filterDelay,
-                handleInputProps:this.handleInputProps,
-                onBlur:this.onBlur,
-                onClick:this.onInputClick,
-                onInput:this.onInput,
-                options:this.props.options,
-                placeholder:this.props.placeholder,
-                readOnly:!this.props.editable || this.props.disabled,
-                ref:"textInput",
-                renderProps:this.state.renderProps,
-                value:this.state.value,
-                valueProp:this.props.valueProp} ),
+                Input({
+                className: this.props.inputClassName, 
+                disabled: this.props.disabled, 
+                displayProp: this.props.displayProp, 
+                filterDelay: this.props.filterDelay, 
+                handleInputProps: this.handleInputProps, 
+                onBlur: this.onBlur, 
+                onClick: this.onInputClick, 
+                onInput: this.onInput, 
+                options: this.props.options, 
+                placeholder: this.props.placeholder, 
+                readOnly: !this.props.editable || this.props.disabled, 
+                ref: "textInput", 
+                renderProps: this.state.renderProps, 
+                value: this.state.value, 
+                valueProp: this.props.valueProp}), 
 
-                React.DOM.input(
-                {disabled:this.props.disabled,
-                name:this.props.name,
-                type:"hidden",
-                value:utils.getValue(this.state.value, this.props)} ),
+                React.DOM.input({
+                disabled: this.props.disabled, 
+                name: this.props.name, 
+                type: "hidden", 
+                value: utils.getValue(this.state.value, this.props)}), 
 
-                Trigger(
-                {className:this.props.triggerClassName,
-                onBlur:this.onBlur,
-                onClick:this.onTriggerClick,
-                ref:"trigger"} ),
+                Trigger({
+                className: this.props.triggerClassName, 
+                onBlur: this.onBlur, 
+                onClick: this.onTriggerClick, 
+                ref: "trigger"}), 
 
-                DropDown(
-                {className:this.props.dropDownClassName,
-                displayProp:this.props.displayProp,
-                onOptionMouseDown:this.onOptionMouseDown,
-                optionClassName:this.props.optionClassName,
-                options:this.getDropDownOptions(),
-                ref:"dropDown",
-                renderOption:renderOption,
-                selected:this.state.value,
-                selectedClassName:this.props.selectedClassName,
-                valueProp:this.props.valueProp,
-                visible:!this.props.disabled && this.state.dropDownVisible} )
+                DropDown({
+                className: this.props.dropDownClassName, 
+                displayProp: this.props.displayProp, 
+                onOptionMouseDown: this.onOptionMouseDown, 
+                optionClassName: this.props.optionClassName, 
+                options: this.getDropDownOptions(), 
+                ref: "dropDown", 
+                renderOption: renderOption, 
+                selected: this.state.value, 
+                selectedClassName: this.props.selectedClassName, 
+                valueProp: this.props.valueProp, 
+                visible: !this.props.disabled && this.state.dropDownVisible})
             )
         );
     },

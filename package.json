@@ -28,8 +28,8 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-contrib-uglify": "^0.5.1",
     "grunt-mocha-test": "^0.11.0",
-    "grunt-react": "^0.8.2",
-    "jsdom": "^0.11.1",
+    "grunt-react": "^0.9.0",
+    "jsdom": "^1.0.2",
     "react": "^0.11.0",
     "sinon": "^1.10.2"
   }

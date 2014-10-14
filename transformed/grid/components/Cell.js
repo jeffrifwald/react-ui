@@ -7,7 +7,7 @@
 var Cell = React.createClass({displayName: 'Cell',
     render: function() {
         return (
-            React.DOM.td( {className:this.props.className}, 
+            React.DOM.td({className: this.props.className}, 
                 this.getData()
             )
         );

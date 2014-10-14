@@ -10,12 +10,12 @@ describe('Input', function() {
     it('should render an input', function() {
         var value = {value: 'Cool Value'};
         var rendered = TestUtils.renderIntoDocument(
-            Input(
-            {className:"cool-input",
-            readOnly:false,
-            renderProps:true,
-            value:value,
-            valueProp:"value"} )
+            Input({
+            className: "cool-input", 
+            readOnly: false, 
+            renderProps: true, 
+            value: value, 
+            valueProp: "value"})
         );
 
         assert.equal(rendered.getDOMNode().className, 'cool-input');
@@ -26,13 +26,13 @@ describe('Input', function() {
     it('should render an input with a display value', function() {
         var value = {value: 'Cool Value', name: 'Cool Name'};
         var rendered = TestUtils.renderIntoDocument(
-            Input(
-            {className:"cool-input",
-            displayProp:"name",
-            readOnly:false,
-            renderProps:true,
-            value:value,
-            valueProp:"value"} )
+            Input({
+            className: "cool-input", 
+            displayProp: "name", 
+            readOnly: false, 
+            renderProps: true, 
+            value: value, 
+            valueProp: "value"})
         );
 
         assert.equal(rendered.getDOMNode().className, 'cool-input');
@@ -42,11 +42,11 @@ describe('Input', function() {
     it('should render a plain option', function() {
         var value = 'Cool Plain Value';
         var rendered = TestUtils.renderIntoDocument(
-            Input(
-            {className:"cool-input",
-            readOnly:false,
-            renderProps:true,
-            value:value} )
+            Input({
+            className: "cool-input", 
+            readOnly: false, 
+            renderProps: true, 
+            value: value})
         );
 
         assert.equal(rendered.getDOMNode().className, 'cool-input');
@@ -59,15 +59,15 @@ describe('Input', function() {
         var onInput = stub();
         var handleInputProps = stub();
         var rendered = TestUtils.renderIntoDocument(
-            Input(
-            {className:"cool-input",
-            filterDelay:200,
-            handleInputProps:handleInputProps,
-            onInput:onInput,
-            options:options,
-            renderProps:true,
-            value:value,
-            valueProp:"value"} )
+            Input({
+            className: "cool-input", 
+            filterDelay: 200, 
+            handleInputProps: handleInputProps, 
+            onInput: onInput, 
+            options: options, 
+            renderProps: true, 
+            value: value, 
+            valueProp: "value"})
         );
         var timeout;
 
@@ -121,13 +121,13 @@ describe('Input', function() {
         var options = [{value: 'Cool Value'}, {value: 'Cool Value 2'}, {value: undefined}];
         var value = {value: 'Cool Value'};
         var rendered = TestUtils.renderIntoDocument(
-            Input(
-            {className:"cool-input",
-            filterDelay:200,
-            options:options,
-            renderProps:true,
-            value:value,
-            valueProp:"value"} )
+            Input({
+            className: "cool-input", 
+            filterDelay: 200, 
+            options: options, 
+            renderProps: true, 
+            value: value, 
+            valueProp: "value"})
         );
 
         //mock set state and bind

@@ -7,7 +7,7 @@ var Calendar = require('../Calendar');
 
 describe('Calendar', function() {
     it('should not render', function() {
-        var rendered = TestUtils.renderIntoDocument(Calendar( {visible:false} ));
+        var rendered = TestUtils.renderIntoDocument(Calendar({visible: false}));
 
         assert.equal(rendered.getDOMNode(), null);
     });
