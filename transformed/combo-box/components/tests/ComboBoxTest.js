@@ -67,34 +67,66 @@ describe('ComboBox', function() {
         assert.isTrue(onOptionMouseDown.calledWith(options[0]));
     });
 
-    it('should not call onTriggerClick on input click when editable', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options}));
-        var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
+    it('should not call onInputClick when editable', function() {
+            var onInputClick = stub();
+            var rendered = TestUtils.renderIntoDocument(
+                ComboBox({onInputClick: onInputClick, options: options})
+            );
+            var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
-        //mock onTriggerClick
-        stub(rendered, 'onTriggerClick');
+            stub(rendered, 'setState');
 
-        TestUtils.Simulate.click(input.getDOMNode());
-        assert.equal(rendered.onTriggerClick.callCount, 0);
+            TestUtils.Simulate.click(input.getDOMNode());
+            assert.equal(rendered.setState.callCount, 0);
+            assert.equal(onInputClick.callCount, 0);
 
-        //restore mock
-        rendered.onTriggerClick.restore();
+            rendered.setState.restore();
     });
 
-    it('should call onTriggerClick on input click when not editable', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options, editable: false}));
+    it('should call onInputClick when not editable', function() {
+        var onInputClick = stub();
+        var rendered = TestUtils.renderIntoDocument(
+            ComboBox({editable: false, onInputClick: onInputClick, options: options})
+        );
         var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
-        //mock onTriggerClick
-        stub(rendered, 'onTriggerClick');
+        stub(rendered, 'setState');
 
         TestUtils.Simulate.click(input.getDOMNode());
-        assert.equal(rendered.onTriggerClick.callCount, 1);
-        assert.isTrue(rendered.onTriggerClick.calledWith());
+        assert.equal(onInputClick.callCount, 1);
+        assert.equal(rendered.setState.callCount, 1);
 
-        //restore mock
-        rendered.onTriggerClick.restore();
+        rendered.setState.restore();
     });
+
+    // it('should not call onTriggerClick on input click when editable', function() {
+    //     var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
+    //     var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
+
+    //     //mock onTriggerClick
+    //     stub(rendered, 'onTriggerClick');
+
+    //     TestUtils.Simulate.click(input.getDOMNode());
+    //     assert.equal(rendered.onTriggerClick.callCount, 0);
+
+    //     //restore mock
+    //     rendered.onTriggerClick.restore();
+    // });
+
+    // it('should call onInputClick on input click when not editable', function() {
+    //     var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} editable={false} />);
+    //     var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
+
+    //     //mock onTriggerClick
+    //     stub(rendered, 'onInputClick');
+
+    //     TestUtils.Simulate.click(input.getDOMNode());
+    //     assert.equal(rendered.onInputClick.callCount, 1);
+    //     assert.isTrue(rendered.onInputClick.calledWith());
+
+    //     //restore mock
+    //     rendered.onTriggerClick.restore();
+    // });
 
     it('should set state when the input is edited', function() {
         var simpleOptions = ['Option 1', 'Option 2', 'Option 3'];
