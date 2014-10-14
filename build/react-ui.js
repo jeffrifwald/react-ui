@@ -42,11 +42,11 @@ var AjaxForm = React.createClass({displayName: 'AjaxForm',
 
     render: function() {
         return (
-            React.DOM.form(
-            {action:this.props.url,
-            className:this.props.className,
-            method:"POST",
-            onSubmit:this.onSubmit}, 
+            React.DOM.form({
+            action: this.props.url, 
+            className: this.props.className, 
+            method: "POST", 
+            onSubmit: this.onSubmit}, 
                 this.props.children
             )
         );
@@ -152,19 +152,19 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
         var inputId = 'react-ui-check-box-' + this.props.name;
 
         return (
-           React.DOM.div( {className:this.props.className}, 
-                React.DOM.input(
-                {checked:this.state.checked,
-                className:this.props.inputClassName,
-                disabled:!this.props.disabled,
-                id:inputId,
-                onChange:this.onChange,
-                type:"checkbox"} ),
+           React.DOM.div({className: this.props.className}, 
+                React.DOM.input({
+                checked: this.state.checked, 
+                className: this.props.inputClassName, 
+                disabled: !this.props.disabled, 
+                id: inputId, 
+                onChange: this.onChange, 
+                type: "checkbox"}), 
 
-                React.DOM.label( {htmlFor:inputId}, React.DOM.span(null)),
-                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
+                React.DOM.label({htmlFor: inputId}, React.DOM.span(null)), 
+                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
 
-                React.DOM.input( {name:this.props.name, type:"hidden", value:this.state.checked} )
+                React.DOM.input({name: this.props.name, type: "hidden", value: this.state.checked})
             )
         );
     },
@@ -240,6 +240,9 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
         /** @prop {Function} onInput - The method called when the input is typed into. */
         onInput: React.PropTypes.func,
 
+        /** @prop {Function} onInputClick - The method called when the input is clicked. */
+        onInputClick: React.PropTypes.func,
+
         /** @prop {Function} onOptionMouseDown - The method called right before an option is clicked. */
         onOptionMouseDown: React.PropTypes.func,
 
@@ -283,6 +286,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
             label: '',
             labelClassName: 'react-ui-combo-box-label',
             onInput: utils.emptyFn,
+            onInputClick: utils.emptyFn,
             onOptionMouseDown: utils.emptyFn,
             onTriggerClick: utils.emptyFn,
             optionClassName: 'react-ui-combo-box-option',
@@ -306,50 +310,50 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
         var renderOption = this.props.renderOption || this.renderOption;
 
         return (
-            React.DOM.div( {className:this.getClassName()}, 
-                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
+            React.DOM.div({className: this.getClassName()}, 
+                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
 
-                Input(
-                {className:this.props.inputClassName,
-                disabled:this.props.disabled,
-                displayProp:this.props.displayProp,
-                filterDelay:this.props.filterDelay,
-                handleInputProps:this.handleInputProps,
-                onBlur:this.onBlur,
-                onClick:this.onInputClick,
-                onInput:this.onInput,
-                options:this.props.options,
-                placeholder:this.props.placeholder,
-                readOnly:!this.props.editable || this.props.disabled,
-                ref:"textInput",
-                renderProps:this.state.renderProps,
-                value:this.state.value,
-                valueProp:this.props.valueProp} ),
+                Input({
+                className: this.props.inputClassName, 
+                disabled: this.props.disabled, 
+                displayProp: this.props.displayProp, 
+                filterDelay: this.props.filterDelay, 
+                handleInputProps: this.handleInputProps, 
+                onBlur: this.onBlur, 
+                onClick: this.onInputClick, 
+                onInput: this.onInput, 
+                options: this.props.options, 
+                placeholder: this.props.placeholder, 
+                readOnly: !this.props.editable || this.props.disabled, 
+                ref: "textInput", 
+                renderProps: this.state.renderProps, 
+                value: this.state.value, 
+                valueProp: this.props.valueProp}), 
 
-                React.DOM.input(
-                {disabled:this.props.disabled,
-                name:this.props.name,
-                type:"hidden",
-                value:utils.getValue(this.state.value, this.props)} ),
+                React.DOM.input({
+                disabled: this.props.disabled, 
+                name: this.props.name, 
+                type: "hidden", 
+                value: utils.getValue(this.state.value, this.props)}), 
 
-                Trigger(
-                {className:this.props.triggerClassName,
-                onBlur:this.onBlur,
-                onClick:this.onTriggerClick,
-                ref:"trigger"} ),
+                Trigger({
+                className: this.props.triggerClassName, 
+                onBlur: this.onBlur, 
+                onClick: this.onTriggerClick, 
+                ref: "trigger"}), 
 
-                DropDown(
-                {className:this.props.dropDownClassName,
-                displayProp:this.props.displayProp,
-                onOptionMouseDown:this.onOptionMouseDown,
-                optionClassName:this.props.optionClassName,
-                options:this.getDropDownOptions(),
-                ref:"dropDown",
-                renderOption:renderOption,
-                selected:this.state.value,
-                selectedClassName:this.props.selectedClassName,
-                valueProp:this.props.valueProp,
-                visible:!this.props.disabled && this.state.dropDownVisible} )
+                DropDown({
+                className: this.props.dropDownClassName, 
+                displayProp: this.props.displayProp, 
+                onOptionMouseDown: this.onOptionMouseDown, 
+                optionClassName: this.props.optionClassName, 
+                options: this.getDropDownOptions(), 
+                ref: "dropDown", 
+                renderOption: renderOption, 
+                selected: this.state.value, 
+                selectedClassName: this.props.selectedClassName, 
+                valueProp: this.props.valueProp, 
+                visible: !this.props.disabled && this.state.dropDownVisible})
             )
         );
     },
@@ -419,24 +423,10 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @method onBlur
      * Closes the drop down if not an option.
      */
-    onBlur: function(evt) {
-        if (evt.target !== this.refs.trigger.getDOMNode()) {
-            this.setState({
-                dropDownVisible: false
-            });
-        }
-    },
-
-    /**
-     * @method onInputClick
-     * Handler called when the input is clicked.
-     * If the input is editable, does nothing.
-     * If the input is not editable, behaves like the trigger.
-     */
-    onInputClick: function(evt) {
-        if (!this.props.editable) {
-            this.onTriggerClick(evt);
-        }
+    onBlur: function() {
+        this.setState({
+            dropDownVisible: false
+        });
     },
 
     /**
@@ -454,6 +444,21 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
             renderProps: true,
             value: option
         });
+    },
+
+    /**
+     * @method onInputClick
+     * Handler called when the input is clicked.
+     * If the input is editable, does nothing.
+     * If the input is not editable, behaves similar to the trigger.
+     */
+    onInputClick: function(evt) {
+         if (!this.props.disabled && !this.props.editable) {
+            this.props.onInputClick.call(this, evt);
+            this.setState({
+                dropDownVisible: !this.state.dropDownVisible
+            });
+        }
     },
 
     /**
@@ -506,9 +511,9 @@ var DropDown = React.createClass({displayName: 'DropDown',
         };
 
         return (
-            React.DOM.div(
-            {className:this.props.className,
-            style:style}, 
+            React.DOM.div({
+            className: this.props.className, 
+            style: style}, 
                 this.renderOptions()
             )
         );
@@ -524,10 +529,10 @@ var DropDown = React.createClass({displayName: 'DropDown',
             var key = 'react-ui-combo-box-option-' + index;
 
             return (
-                React.DOM.div(
-                {className:this.getOptionClassName(option),
-                key:key,
-                onMouseDown:this.props.onOptionMouseDown.bind(null, option)}, 
+                React.DOM.div({
+                className: this.getOptionClassName(option), 
+                key: key, 
+                onMouseDown: this.props.onOptionMouseDown.bind(null, option)}, 
                     this.props.renderOption(option)
                 )
             );
@@ -575,16 +580,16 @@ var Input = React.createClass({displayName: 'Input',
         var value = this.props.renderProps ? this.props.value : this.state.value;
 
         return (
-            React.DOM.input(
-            {className:this.props.className,
-            disabled:this.props.disabled,
-            onBlur:this.props.onBlur,
-            onChange:this.onChange,
-            onClick:this.props.onClick,
-            placeholder:this.props.placeholder,
-            readOnly:this.props.readOnly,
-            type:"textbox",
-            value:utils.getDisplayValue(value, this.props)} )
+            React.DOM.input({
+            className: this.props.className, 
+            disabled: this.props.disabled, 
+            onBlur: this.props.onBlur, 
+            onChange: this.onChange, 
+            onClick: this.props.onClick, 
+            placeholder: this.props.placeholder, 
+            readOnly: this.props.readOnly, 
+            type: "textbox", 
+            value: utils.getDisplayValue(value, this.props)})
         );
     },
 
@@ -645,11 +650,11 @@ module.exports = Input;
 var Trigger = React.createClass({displayName: 'Trigger',
     render: function() {
         return (
-            React.DOM.button(
-            {className:this.props.className,
-            onBlur:this.props.onBlur,
-            onClick:this.props.onClick,
-            type:"button"}
+            React.DOM.button({
+            className: this.props.className, 
+            onBlur: this.props.onBlur, 
+            onClick: this.props.onClick, 
+            type: "button"}
             )
         );
     }
@@ -703,9 +708,9 @@ var Calendar = React.createClass({displayName: 'Calendar',
         }
 
         return (
-             React.DOM.table( {className:this.props.className}, 
-                this.renderHeader(),
-                React.DOM.tr(null, this.renderDayNames()),
+             React.DOM.table({className: this.props.className}, 
+                this.renderHeader(), 
+                React.DOM.tr(null, this.renderDayNames()), 
                 this.renderRows()
             )
         );
@@ -716,18 +721,18 @@ var Calendar = React.createClass({displayName: 'Calendar',
         var header = monthName + ' ' + this.props.date.getFullYear();
 
         return (
-            React.DOM.tr( {className:this.props.headerClassName}, 
-                React.DOM.td(
-                {className:this.props.prevClassName,
-                onClick:this.props.onPrevClick}, 
+            React.DOM.tr({className: this.props.headerClassName}, 
+                React.DOM.td({
+                className: this.props.prevClassName, 
+                onClick: this.props.onPrevClick}, 
                     this.props.prevChar
-                ),
+                ), 
 
-                React.DOM.td( {className:this.props.monthClassName, colSpan:"5"}, header),
+                React.DOM.td({className: this.props.monthClassName, colSpan: "5"}, header), 
 
-                React.DOM.td(
-                {className:this.props.nextClassName,
-                onClick:this.props.onNextClick}, 
+                React.DOM.td({
+                className: this.props.nextClassName, 
+                onClick: this.props.onNextClick}, 
                     this.props.nextChar
                 )
             )
@@ -736,24 +741,24 @@ var Calendar = React.createClass({displayName: 'Calendar',
 
     renderDayNames: function() {
         return this.props.dayNames.map(function(name, i) {
-            return (React.DOM.th( {key:i}, name.slice(0, 1)));
+            return (React.DOM.th({key: i}, name.slice(0, 1)));
         }, this);
     },
 
     renderDays: function(days) {
         return days.map(function(day, i) {
             return (
-                DateCell(
-                {className:this.props.dateClassName,
-                date:this.props.date,
-                disabledDates:this.props.disabledDates,
-                isDateDisabled:this.props.isDateDisabled,
-                key:i,
-                maxValue:this.props.maxValue,
-                minValue:this.props.minValue,
-                onMouseDown:this.props.onDateMouseDown,
-                selected:this.props.selected,
-                value:day} )
+                DateCell({
+                className: this.props.dateClassName, 
+                date: this.props.date, 
+                disabledDates: this.props.disabledDates, 
+                isDateDisabled: this.props.isDateDisabled, 
+                key: i, 
+                maxValue: this.props.maxValue, 
+                minValue: this.props.minValue, 
+                onMouseDown: this.props.onDateMouseDown, 
+                selected: this.props.selected, 
+                value: day})
             );
         }, this);
     },
@@ -767,7 +772,7 @@ var Calendar = React.createClass({displayName: 'Calendar',
             end = rows.length * 7 + 7;
             row = this.renderDays(this.props.days.slice(start, end));
             rows.push(
-                React.DOM.tr( {className:this.props.rowClassName, key:rows.length}, 
+                React.DOM.tr({className: this.props.rowClassName, key: rows.length}, 
                     row
                 )
             );
@@ -787,9 +792,9 @@ var utils = require('./utils');
 var DateCell = React.createClass({displayName: 'DateCell',
     render: function() {
         return (
-            React.DOM.td(
-            {className:this.getClassName(),
-            onMouseDown:this.onMouseDown}, 
+            React.DOM.td({
+            className: this.getClassName(), 
+            onMouseDown: this.onMouseDown}, 
                 this.props.value.getDate()
             )
         );
@@ -954,48 +959,48 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 
     render: function() {
         return (
-            React.DOM.div( {className:this.getClassName()}, 
-                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
+            React.DOM.div({className: this.getClassName()}, 
+                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
 
-                Input(
-                {className:this.props.inputClassName,
-                onClick:this.onInputClick,
-                placeholder:this.props.placeholder,
-                value:this.state.display} ),
+                Input({
+                className: this.props.inputClassName, 
+                onClick: this.onInputClick, 
+                placeholder: this.props.placeholder, 
+                value: this.state.display}), 
 
-                Trigger(
-                {className:this.props.triggerClassName,
-                onClick:this.onInputClick,
-                showTrigger:this.props.showTrigger,
-                triggerText:this.props.triggerText} ),
+                Trigger({
+                className: this.props.triggerClassName, 
+                onClick: this.onInputClick, 
+                showTrigger: this.props.showTrigger, 
+                triggerText: this.props.triggerText}), 
 
-                React.DOM.input(
-                {disabled:this.props.disabled,
-                name:this.props.name,
-                type:"hidden",
-                value:this.state.formatted} ),
+                React.DOM.input({
+                disabled: this.props.disabled, 
+                name: this.props.name, 
+                type: "hidden", 
+                value: this.state.formatted}), 
 
-                Calendar(
-                {className:this.props.calendarClassName,
-                date:this.state.date,
-                dateClassName:this.props.dateClassName,
-                dayNames:this.props.dayNames,
-                days:this.state.days,
-                disabledDates:this.props.disabledDates,
-                headerClassName:this.props.headerClassName,
-                isDateDisabled:this.props.isDateDisabled,
-                maxValue:this.props.maxValue,
-                minValue:this.props.minValue,
-                monthNames:this.props.monthNames,
-                nextChar:this.props.nextChar,
-                nextClassName:this.props.nextClassName,
-                onDateMouseDown:this.onDateMouseDown,
-                onNextClick:this.onNextClick,
-                onPrevClick:this.onPrevClick,
-                prevChar:this.props.prevChar,
-                prevClassName:this.props.prevClassName,
-                selected:this.state.selected,
-                visible:this.state.calendarVisible} )
+                Calendar({
+                className: this.props.calendarClassName, 
+                date: this.state.date, 
+                dateClassName: this.props.dateClassName, 
+                dayNames: this.props.dayNames, 
+                days: this.state.days, 
+                disabledDates: this.props.disabledDates, 
+                headerClassName: this.props.headerClassName, 
+                isDateDisabled: this.props.isDateDisabled, 
+                maxValue: this.props.maxValue, 
+                minValue: this.props.minValue, 
+                monthNames: this.props.monthNames, 
+                nextChar: this.props.nextChar, 
+                nextClassName: this.props.nextClassName, 
+                onDateMouseDown: this.onDateMouseDown, 
+                onNextClick: this.onNextClick, 
+                onPrevClick: this.onPrevClick, 
+                prevChar: this.props.prevChar, 
+                prevClassName: this.props.prevClassName, 
+                selected: this.state.selected, 
+                visible: this.state.calendarVisible})
 
             )
         );
@@ -1053,13 +1058,13 @@ module.exports = DatePicker;
 var Input = React.createClass({displayName: 'Input',
     render: function() {
         return (
-            React.DOM.input(
-            {className:this.props.className,
-            onClick:this.props.onClick,
-            placeholder:this.props.placeholder,
-            readOnly:true,
-            type:"textbox",
-            value:this.props.value} )
+            React.DOM.input({
+            className: this.props.className, 
+            onClick: this.props.onClick, 
+            placeholder: this.props.placeholder, 
+            readOnly: true, 
+            type: "textbox", 
+            value: this.props.value})
         );
     }
 });
@@ -1076,9 +1081,9 @@ var Trigger = React.createClass({displayName: 'Trigger',
         }
 
         return (
-            React.DOM.button(
-            {className:this.props.className,
-            onClick:this.props.onClick}, 
+            React.DOM.button({
+            className: this.props.className, 
+            onClick: this.props.onClick}, 
                 this.props.triggerText
             )
         );
@@ -1297,27 +1302,27 @@ var FileInput = React.createClass({displayName: 'FileInput',
 
     render: function() {
         return (
-            React.DOM.div( {className:this.props.className}, 
-                this.renderHiddenInput(),
+            React.DOM.div({className: this.props.className}, 
+                this.renderHiddenInput(), 
 
-                React.DOM.button(
-                {className:this.props.chooseButtonClassName,
-                disabled:this.props.disabled,
-                onClick:this.onChooseClick,
-                type:"button"}, this.props.chooseButtonText),
+                React.DOM.button({
+                className: this.props.chooseButtonClassName, 
+                disabled: this.props.disabled, 
+                onClick: this.onChooseClick, 
+                type: "button"}, this.props.chooseButtonText), 
 
-                React.DOM.button(
-                {className:this.props.clearButtonClassName,
-                disabled:this.props.disabled,
-                onClick:this.onClearClick,
-                type:"button"}, this.props.clearButtonText),
+                React.DOM.button({
+                className: this.props.clearButtonClassName, 
+                disabled: this.props.disabled, 
+                onClick: this.onClearClick, 
+                type: "button"}, this.props.clearButtonText), 
 
-                React.DOM.input(
-                {className:this.props.fileNameClassName,
-                disabled:this.props.disabled,
-                readOnly:true,
-                type:"textbox",
-                value:this.state.inputValue} )
+                React.DOM.input({
+                className: this.props.fileNameClassName, 
+                disabled: this.props.disabled, 
+                readOnly: true, 
+                type: "textbox", 
+                value: this.state.inputValue})
             )
         );
     },
@@ -1331,13 +1336,13 @@ var FileInput = React.createClass({displayName: 'FileInput',
         var key = 'hidden-input-' + this.state.inputKey;
 
         return (
-            React.DOM.input(
-            {key:key,
-            name:this.props.name,
-            onChange:this.onFileChange,
-            ref:"fileInput",
-            style:hiddenStyle,
-            type:"file"} )
+            React.DOM.input({
+            key: key, 
+            name: this.props.name, 
+            onChange: this.onFileChange, 
+            ref: "fileInput", 
+            style: hiddenStyle, 
+            type: "file"})
         );
     },
 
@@ -1392,7 +1397,7 @@ module.exports = FileInput;
 var Cell = React.createClass({displayName: 'Cell',
     render: function() {
         return (
-            React.DOM.td( {className:this.props.className}, 
+            React.DOM.td({className: this.props.className}, 
                 this.getData()
             )
         );
@@ -1478,10 +1483,10 @@ var Grid = React.createClass({displayName: 'Grid',
 
     render: function() {
         return (
-            React.DOM.table( {className:this.props.gridClassName}, 
-                React.DOM.tr( {className:this.props.rowClassName}, 
+            React.DOM.table({className: this.props.gridClassName}, 
+                React.DOM.tr({className: this.props.rowClassName}, 
                     this.renderHeaders()
-                ),
+                ), 
                 this.renderRows()
             )
         );
@@ -1495,15 +1500,15 @@ var Grid = React.createClass({displayName: 'Grid',
     renderHeaders: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Header(
-                {className:this.props.headerClassName,
-                clickedClassName:this.props.clickedHeaderClassName,
-                clickedIndex:this.state.clickedIndex,
-                column:column,
-                columnIndex:columnIndex,
-                columns:this.props.columns,
-                key:columnIndex,
-                onClick:this.onHeaderClick} )
+                Header({
+                className: this.props.headerClassName, 
+                clickedClassName: this.props.clickedHeaderClassName, 
+                clickedIndex: this.state.clickedIndex, 
+                column: column, 
+                columnIndex: columnIndex, 
+                columns: this.props.columns, 
+                key: columnIndex, 
+                onClick: this.onHeaderClick})
             );
         }, this);
     },
@@ -1516,13 +1521,13 @@ var Grid = React.createClass({displayName: 'Grid',
     renderRows: function() {
         return this.props.data.map(function(record, rowIndex) {
             return (
-                Row(
-                {className:this.props.rowClassName,
-                cellClassName:this.props.cellClassName,
-                columns:this.props.columns,
-                key:rowIndex,
-                record:record,
-                rowIndex:rowIndex} )
+                Row({
+                className: this.props.rowClassName, 
+                cellClassName: this.props.cellClassName, 
+                columns: this.props.columns, 
+                key: rowIndex, 
+                record: record, 
+                rowIndex: rowIndex})
             );
         }, this);
     },
@@ -1559,7 +1564,7 @@ var Header = React.createClass({displayName: 'Header',
 
     render: function() {
         return (
-            React.DOM.th( {className:this.getClassName(), onClick:this.onClick}, 
+            React.DOM.th({className: this.getClassName(), onClick: this.onClick}, 
                 this.props.column.name
             )
         );
@@ -1616,7 +1621,7 @@ var Cell = require('./Cell');
 var Row = React.createClass({displayName: 'Row',
     render: function() {
         return (
-            React.DOM.tr( {className:this.props.className}, 
+            React.DOM.tr({className: this.props.className}, 
                 this.renderCell()
             )
         );
@@ -1630,12 +1635,12 @@ var Row = React.createClass({displayName: 'Row',
     renderCell: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Cell(
-                {className:this.props.cellClassName,
-                column:column,
-                columns:this.props.columns,
-                key:columnIndex,
-                record:this.props.record} )
+                Cell({
+                className: this.props.cellClassName, 
+                column: column, 
+                columns: this.props.columns, 
+                key: columnIndex, 
+                record: this.props.record})
             );
         }, this);
     }

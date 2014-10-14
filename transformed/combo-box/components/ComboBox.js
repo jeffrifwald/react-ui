@@ -55,6 +55,9 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
         /** @prop {Function} onInput - The method called when the input is typed into. */
         onInput: React.PropTypes.func,
 
+        /** @prop {Function} onInputClick - The method called when the input is clicked. */
+        onInputClick: React.PropTypes.func,
+
         /** @prop {Function} onOptionMouseDown - The method called right before an option is clicked. */
         onOptionMouseDown: React.PropTypes.func,
 
@@ -98,6 +101,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
             label: '',
             labelClassName: 'react-ui-combo-box-label',
             onInput: utils.emptyFn,
+            onInputClick: utils.emptyFn,
             onOptionMouseDown: utils.emptyFn,
             onTriggerClick: utils.emptyFn,
             optionClassName: 'react-ui-combo-box-option',
@@ -234,24 +238,10 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @method onBlur
      * Closes the drop down if not an option.
      */
-    onBlur: function(evt) {
-        if (evt.target !== this.refs.trigger.getDOMNode()) {
-            this.setState({
-                dropDownVisible: false
-            });
-        }
-    },
-
-    /**
-     * @method onInputClick
-     * Handler called when the input is clicked.
-     * If the input is editable, does nothing.
-     * If the input is not editable, behaves like the trigger.
-     */
-    onInputClick: function(evt) {
-        if (!this.props.editable) {
-            this.onTriggerClick(evt);
-        }
+    onBlur: function() {
+        this.setState({
+            dropDownVisible: false
+        });
     },
 
     /**
@@ -269,6 +259,21 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
             renderProps: true,
             value: option
         });
+    },
+
+    /**
+     * @method onInputClick
+     * Handler called when the input is clicked.
+     * If the input is editable, does nothing.
+     * If the input is not editable, behaves similar to the trigger.
+     */
+    onInputClick: function(evt) {
+         if (!this.props.disabled && !this.props.editable) {
+            this.props.onInputClick.call(this, evt);
+            this.setState({
+                dropDownVisible: !this.state.dropDownVisible
+            });
+        }
     },
 
     /**
