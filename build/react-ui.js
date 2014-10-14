@@ -423,7 +423,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @method onBlur
      * Closes the drop down if not an option.
      */
-    onBlur: function(evt) {
+    onBlur: function() {
         this.setState({
             dropDownVisible: false
         });

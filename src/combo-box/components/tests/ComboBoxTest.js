@@ -99,35 +99,6 @@ describe('ComboBox', function() {
         rendered.setState.restore();
     });
 
-    // it('should not call onTriggerClick on input click when editable', function() {
-    //     var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
-    //     var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
-
-    //     //mock onTriggerClick
-    //     stub(rendered, 'onTriggerClick');
-
-    //     TestUtils.Simulate.click(input.getDOMNode());
-    //     assert.equal(rendered.onTriggerClick.callCount, 0);
-
-    //     //restore mock
-    //     rendered.onTriggerClick.restore();
-    // });
-
-    // it('should call onInputClick on input click when not editable', function() {
-    //     var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} editable={false} />);
-    //     var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
-
-    //     //mock onTriggerClick
-    //     stub(rendered, 'onInputClick');
-
-    //     TestUtils.Simulate.click(input.getDOMNode());
-    //     assert.equal(rendered.onInputClick.callCount, 1);
-    //     assert.isTrue(rendered.onInputClick.calledWith());
-
-    //     //restore mock
-    //     rendered.onTriggerClick.restore();
-    // });
-
     it('should set state when the input is edited', function() {
         var simpleOptions = ['Option 1', 'Option 2', 'Option 3'];
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={simpleOptions} />);
