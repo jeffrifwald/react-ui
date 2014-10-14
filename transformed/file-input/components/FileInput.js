@@ -60,27 +60,27 @@ var FileInput = React.createClass({displayName: 'FileInput',
 
     render: function() {
         return (
-            React.DOM.div( {className:this.props.className}, 
-                this.renderHiddenInput(),
+            React.DOM.div({className: this.props.className}, 
+                this.renderHiddenInput(), 
 
-                React.DOM.button(
-                {className:this.props.chooseButtonClassName,
-                disabled:this.props.disabled,
-                onClick:this.onChooseClick,
-                type:"button"}, this.props.chooseButtonText),
+                React.DOM.button({
+                className: this.props.chooseButtonClassName, 
+                disabled: this.props.disabled, 
+                onClick: this.onChooseClick, 
+                type: "button"}, this.props.chooseButtonText), 
 
-                React.DOM.button(
-                {className:this.props.clearButtonClassName,
-                disabled:this.props.disabled,
-                onClick:this.onClearClick,
-                type:"button"}, this.props.clearButtonText),
+                React.DOM.button({
+                className: this.props.clearButtonClassName, 
+                disabled: this.props.disabled, 
+                onClick: this.onClearClick, 
+                type: "button"}, this.props.clearButtonText), 
 
-                React.DOM.input(
-                {className:this.props.fileNameClassName,
-                disabled:this.props.disabled,
-                readOnly:true,
-                type:"textbox",
-                value:this.state.inputValue} )
+                React.DOM.input({
+                className: this.props.fileNameClassName, 
+                disabled: this.props.disabled, 
+                readOnly: true, 
+                type: "textbox", 
+                value: this.state.inputValue})
             )
         );
     },
@@ -94,13 +94,13 @@ var FileInput = React.createClass({displayName: 'FileInput',
         var key = 'hidden-input-' + this.state.inputKey;
 
         return (
-            React.DOM.input(
-            {key:key,
-            name:this.props.name,
-            onChange:this.onFileChange,
-            ref:"fileInput",
-            style:hiddenStyle,
-            type:"file"} )
+            React.DOM.input({
+            key: key, 
+            name: this.props.name, 
+            onChange: this.onFileChange, 
+            ref: "fileInput", 
+            style: hiddenStyle, 
+            type: "file"})
         );
     },
 

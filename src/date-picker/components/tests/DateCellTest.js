@@ -88,15 +88,21 @@ describe('DateCell', function() {
     it('should handle mouse down', function() {
         var onMouseDown = stub();
         var rendered = TestUtils.renderIntoDocument(
-            <DateCell
-            date={date}
-            disabledDates={[]}
-            isDateDisabled={notDisabled}
-            onMouseDown={onMouseDown}
-            value={date} />
+            <table>
+                <tr>
+                    <DateCell
+                    className="date-cell"
+                    date={date}
+                    disabledDates={[]}
+                    isDateDisabled={notDisabled}
+                    onMouseDown={onMouseDown}
+                    value={date} />
+                </tr>
+            </table>
         );
+        var dateCell = TestUtils.findRenderedDOMComponentWithClass(rendered, 'date-cell');
 
-        TestUtils.Simulate.mouseDown(rendered.getDOMNode());
+        TestUtils.Simulate.mouseDown(dateCell.getDOMNode());
         assert.equal(onMouseDown.callCount, 1);
         assert.isTrue(onMouseDown.calledWith(date));
     });

@@ -25,28 +25,28 @@ describe('DateCell', function() {
         var rendered;
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, isDateDisabled:isDateDisabled, value:date} )
+            DateCell({date: date, isDateDisabled: isDateDisabled, value: date})
         );
         assert.isFalse(rendered.isSelectable());
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, disabledDates:disabledDates, isDateDisabled:notDisabled, value:date} )
+            DateCell({date: date, disabledDates: disabledDates, isDateDisabled: notDisabled, value: date})
         );
         assert.isFalse(rendered.isSelectable());
 
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, disabledDates:[], isDateDisabled:notDisabled, maxValue:yesterday, value:date} )
+            DateCell({date: date, disabledDates: [], isDateDisabled: notDisabled, maxValue: yesterday, value: date})
         );
         assert.isFalse(rendered.isSelectable());
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, disabledDates:[], isDateDisabled:notDisabled, minValue:tomorrow, value:date} )
+            DateCell({date: date, disabledDates: [], isDateDisabled: notDisabled, minValue: tomorrow, value: date})
         );
         assert.isFalse(rendered.isSelectable());
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, disabledDates:[], isDateDisabled:notDisabled, value:date} )
+            DateCell({date: date, disabledDates: [], isDateDisabled: notDisabled, value: date})
         );
         assert.isTrue(rendered.isSelectable());
     });
@@ -55,32 +55,32 @@ describe('DateCell', function() {
         var rendered;
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, disabledDates:[], isDateDisabled:notDisabled, value:date} )
+            DateCell({date: date, disabledDates: [], isDateDisabled: notDisabled, value: date})
         );
         assert.isTrue(rendered.isCurrent());
 
         rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:tomorrow, disabledDates:[], isDateDisabled:notDisabled, value:tomorrow} )
+            DateCell({date: tomorrow, disabledDates: [], isDateDisabled: notDisabled, value: tomorrow})
         );
         assert.isFalse(rendered.isCurrent());
     });
 
     it('should determine if it is selected', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DateCell( {date:date, disabledDates:[], isDateDisabled:notDisabled, value:date} )
+            DateCell({date: date, disabledDates: [], isDateDisabled: notDisabled, value: date})
         );
         assert.isFalse(rendered.isSelected());
     });
 
     it('should determine the class name', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DateCell(
-            {className:"date-cell",
-            date:date,
-            disabledDates:[],
-            isDateDisabled:notDisabled,
-            selected:nextMonth,
-            value:nextMonth} )
+            DateCell({
+            className: "date-cell", 
+            date: date, 
+            disabledDates: [], 
+            isDateDisabled: notDisabled, 
+            selected: nextMonth, 
+            value: nextMonth})
         );
         assert.equal(rendered.getClassName(), 'date-cell other-month selected-date');
     });
@@ -88,15 +88,21 @@ describe('DateCell', function() {
     it('should handle mouse down', function() {
         var onMouseDown = stub();
         var rendered = TestUtils.renderIntoDocument(
-            DateCell(
-            {date:date,
-            disabledDates:[],
-            isDateDisabled:notDisabled,
-            onMouseDown:onMouseDown,
-            value:date} )
+            React.DOM.table(null, 
+                React.DOM.tr(null, 
+                    DateCell({
+                    className: "date-cell", 
+                    date: date, 
+                    disabledDates: [], 
+                    isDateDisabled: notDisabled, 
+                    onMouseDown: onMouseDown, 
+                    value: date})
+                )
+            )
         );
+        var dateCell = TestUtils.findRenderedDOMComponentWithClass(rendered, 'date-cell');
 
-        TestUtils.Simulate.mouseDown(rendered.getDOMNode());
+        TestUtils.Simulate.mouseDown(dateCell.getDOMNode());
         assert.equal(onMouseDown.callCount, 1);
         assert.isTrue(onMouseDown.calledWith(date));
     });

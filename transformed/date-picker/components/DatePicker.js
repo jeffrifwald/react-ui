@@ -66,48 +66,48 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 
     render: function() {
         return (
-            React.DOM.div( {className:this.getClassName()}, 
-                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
+            React.DOM.div({className: this.getClassName()}, 
+                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
 
-                Input(
-                {className:this.props.inputClassName,
-                onClick:this.onInputClick,
-                placeholder:this.props.placeholder,
-                value:this.state.display} ),
+                Input({
+                className: this.props.inputClassName, 
+                onClick: this.onInputClick, 
+                placeholder: this.props.placeholder, 
+                value: this.state.display}), 
 
-                Trigger(
-                {className:this.props.triggerClassName,
-                onClick:this.onInputClick,
-                showTrigger:this.props.showTrigger,
-                triggerText:this.props.triggerText} ),
+                Trigger({
+                className: this.props.triggerClassName, 
+                onClick: this.onInputClick, 
+                showTrigger: this.props.showTrigger, 
+                triggerText: this.props.triggerText}), 
 
-                React.DOM.input(
-                {disabled:this.props.disabled,
-                name:this.props.name,
-                type:"hidden",
-                value:this.state.formatted} ),
+                React.DOM.input({
+                disabled: this.props.disabled, 
+                name: this.props.name, 
+                type: "hidden", 
+                value: this.state.formatted}), 
 
-                Calendar(
-                {className:this.props.calendarClassName,
-                date:this.state.date,
-                dateClassName:this.props.dateClassName,
-                dayNames:this.props.dayNames,
-                days:this.state.days,
-                disabledDates:this.props.disabledDates,
-                headerClassName:this.props.headerClassName,
-                isDateDisabled:this.props.isDateDisabled,
-                maxValue:this.props.maxValue,
-                minValue:this.props.minValue,
-                monthNames:this.props.monthNames,
-                nextChar:this.props.nextChar,
-                nextClassName:this.props.nextClassName,
-                onDateMouseDown:this.onDateMouseDown,
-                onNextClick:this.onNextClick,
-                onPrevClick:this.onPrevClick,
-                prevChar:this.props.prevChar,
-                prevClassName:this.props.prevClassName,
-                selected:this.state.selected,
-                visible:this.state.calendarVisible} )
+                Calendar({
+                className: this.props.calendarClassName, 
+                date: this.state.date, 
+                dateClassName: this.props.dateClassName, 
+                dayNames: this.props.dayNames, 
+                days: this.state.days, 
+                disabledDates: this.props.disabledDates, 
+                headerClassName: this.props.headerClassName, 
+                isDateDisabled: this.props.isDateDisabled, 
+                maxValue: this.props.maxValue, 
+                minValue: this.props.minValue, 
+                monthNames: this.props.monthNames, 
+                nextChar: this.props.nextChar, 
+                nextClassName: this.props.nextClassName, 
+                onDateMouseDown: this.onDateMouseDown, 
+                onNextClick: this.onNextClick, 
+                onPrevClick: this.onPrevClick, 
+                prevChar: this.props.prevChar, 
+                prevClassName: this.props.prevClassName, 
+                selected: this.state.selected, 
+                visible: this.state.calendarVisible})
 
             )
         );

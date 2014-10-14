@@ -23,14 +23,14 @@ describe('DropDown', function() {
 
     it('should render a visible drop down', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DropDown(
-            {onOptionMouseDown:onOptionMouseDown,
-            optionClassName:"cool-option",
-            options:options,
-            renderOption:renderOption,
-            selected:options[0],
-            valueProp:"value",
-            visible:true} )
+            DropDown({
+            onOptionMouseDown: onOptionMouseDown, 
+            optionClassName: "cool-option", 
+            options: options, 
+            renderOption: renderOption, 
+            selected: options[0], 
+            valueProp: "value", 
+            visible: true})
         );
         var renderedOptions = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'cool-option');
 
@@ -43,14 +43,14 @@ describe('DropDown', function() {
 
     it('should render a hidden drop down', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DropDown(
-            {onOptionMouseDown:onOptionMouseDown,
-            optionClassName:"cool-option",
-            options:options,
-            renderOption:renderOption,
-            selected:options[0],
-            valueProp:"value",
-            visible:false} )
+            DropDown({
+            onOptionMouseDown: onOptionMouseDown, 
+            optionClassName: "cool-option", 
+            options: options, 
+            renderOption: renderOption, 
+            selected: options[0], 
+            valueProp: "value", 
+            visible: false})
         );
 
         assert.equal(rendered.getDOMNode().style.display, 'none');
@@ -58,14 +58,14 @@ describe('DropDown', function() {
 
     it('should handle a click', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DropDown(
-            {onOptionMouseDown:onOptionMouseDown,
-            optionClassName:"cool-option",
-            options:options,
-            renderOption:renderOption,
-            selected:options[0],
-            valueProp:"value",
-            visible:true} )
+            DropDown({
+            onOptionMouseDown: onOptionMouseDown, 
+            optionClassName: "cool-option", 
+            options: options, 
+            renderOption: renderOption, 
+            selected: options[0], 
+            valueProp: "value", 
+            visible: true})
         );
         var renderedOptions = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'cool-option');
 

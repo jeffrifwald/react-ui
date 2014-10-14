@@ -10,14 +10,19 @@ describe('Cell', function() {
         var column = {dataProp: 'margin'};
         var record = {profit: 10, margin: 0.56};
         var rendered = TestUtils.renderIntoDocument(
-            Cell(
-             {className:"cool-cell",
-             column:column,
-             record:record} )
+            React.DOM.table(null, 
+                React.DOM.tr(null, 
+                    Cell({
+                    className: "cool-cell", 
+                    column: column, 
+                    record: record})
+                )
+            )
         );
+        var cell = TestUtils.findRenderedComponentWithType(rendered, Cell);
 
-        assert.equal(rendered.getDOMNode().textContent, '0.56');
-        assert.equal(rendered.getDOMNode().className, 'cool-cell');
+        assert.equal(cell.getDOMNode().textContent, '0.56');
+        assert.equal(cell.getDOMNode().className, 'cool-cell');
     });
 
     it('should render a cell from a render method', function() {
@@ -27,16 +32,18 @@ describe('Cell', function() {
             }
         };
         var record = {profit: 10, margin: 0.56};
-        var rendered;
-
-
-        rendered = TestUtils.renderIntoDocument(
-            Cell(
-             {className:"cool-cell",
-             column:column,
-             record:record} )
+        var rendered = TestUtils.renderIntoDocument(
+            React.DOM.table(null, 
+                React.DOM.tr(null, 
+                    Cell({
+                    className: "cool-cell", 
+                    column: column, 
+                    record: record})
+                )
+            )
         );
+        var cell = TestUtils.findRenderedComponentWithType(rendered, Cell);
 
-        assert.equal(rendered.getDOMNode().textContent, '$10');
+        assert.equal(cell.getDOMNode().textContent, '$10');
     });
 });

@@ -13,7 +13,7 @@ var Header = React.createClass({displayName: 'Header',
 
     render: function() {
         return (
-            React.DOM.th( {className:this.getClassName(), onClick:this.onClick}, 
+            React.DOM.th({className: this.getClassName(), onClick: this.onClick}, 
                 this.props.column.name
             )
         );

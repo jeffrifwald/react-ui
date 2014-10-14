@@ -16,16 +16,16 @@ var Input = React.createClass({displayName: 'Input',
         var value = this.props.renderProps ? this.props.value : this.state.value;
 
         return (
-            React.DOM.input(
-            {className:this.props.className,
-            disabled:this.props.disabled,
-            onBlur:this.props.onBlur,
-            onChange:this.onChange,
-            onClick:this.props.onClick,
-            placeholder:this.props.placeholder,
-            readOnly:this.props.readOnly,
-            type:"textbox",
-            value:utils.getDisplayValue(value, this.props)} )
+            React.DOM.input({
+            className: this.props.className, 
+            disabled: this.props.disabled, 
+            onBlur: this.props.onBlur, 
+            onChange: this.onChange, 
+            onClick: this.props.onClick, 
+            placeholder: this.props.placeholder, 
+            readOnly: this.props.readOnly, 
+            type: "textbox", 
+            value: utils.getDisplayValue(value, this.props)})
         );
     },
 

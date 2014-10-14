@@ -14,19 +14,19 @@ describe('ComboBox', function() {
     ];
 
     it('should render a combo box', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options}));
 
         assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box');
     });
 
     it('should render a disabled combo box', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {disabled:true, options:options} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({disabled: true, options: options}));
 
         assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box react-ui-combo-box-disabled');
     });
 
     it('should get and clear the value', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options}));
 
         rendered.setState({value: '1234'});
         assert.equal(rendered.getValue(), '1234');
@@ -36,7 +36,7 @@ describe('ComboBox', function() {
     });
 
     it('should show/hide the drop down on trigger click', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options}));
         var trigger = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-trigger');
         var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
         var mockEvent = {preventDefault: stub()};
@@ -53,7 +53,7 @@ describe('ComboBox', function() {
 
     it('should handle option selection', function() {
         var onOptionMouseDown = stub();
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options, onOptionMouseDown:onOptionMouseDown} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options, onOptionMouseDown: onOptionMouseDown}));
         var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
         var dropDownOptions = TestUtils.scryRenderedDOMComponentsWithClass(
             rendered,
@@ -68,7 +68,7 @@ describe('ComboBox', function() {
     });
 
     it('should not call onTriggerClick on input click when editable', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options}));
         var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
         //mock onTriggerClick
@@ -82,7 +82,7 @@ describe('ComboBox', function() {
     });
 
     it('should call onTriggerClick on input click when not editable', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options, editable:false} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options, editable: false}));
         var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
         //mock onTriggerClick
@@ -98,7 +98,7 @@ describe('ComboBox', function() {
 
     it('should set state when the input is edited', function() {
         var simpleOptions = ['Option 1', 'Option 2', 'Option 3'];
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:simpleOptions} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: simpleOptions}));
         var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
         var mockEvent = {
             target: {value: '3'}
@@ -121,7 +121,7 @@ describe('ComboBox', function() {
     });
 
     it('should hide the drop down when the input is blurred', function() {
-        var rendered = TestUtils.renderIntoDocument(ComboBox( {options:options} ));
+        var rendered = TestUtils.renderIntoDocument(ComboBox({options: options}));
         var input = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-input');
 
         rendered.setState({dropDownVisible: true});

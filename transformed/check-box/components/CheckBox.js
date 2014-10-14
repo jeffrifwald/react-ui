@@ -33,19 +33,19 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
         var inputId = 'react-ui-check-box-' + this.props.name;
 
         return (
-           React.DOM.div( {className:this.props.className}, 
-                React.DOM.input(
-                {checked:this.state.checked,
-                className:this.props.inputClassName,
-                disabled:!this.props.disabled,
-                id:inputId,
-                onChange:this.onChange,
-                type:"checkbox"} ),
+           React.DOM.div({className: this.props.className}, 
+                React.DOM.input({
+                checked: this.state.checked, 
+                className: this.props.inputClassName, 
+                disabled: !this.props.disabled, 
+                id: inputId, 
+                onChange: this.onChange, 
+                type: "checkbox"}), 
 
-                React.DOM.label( {htmlFor:inputId}, React.DOM.span(null)),
-                React.DOM.label( {className:this.props.labelClassName}, this.props.label),
+                React.DOM.label({htmlFor: inputId}, React.DOM.span(null)), 
+                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
 
-                React.DOM.input( {name:this.props.name, type:"hidden", value:this.state.checked} )
+                React.DOM.input({name: this.props.name, type: "hidden", value: this.state.checked})
             )
         );
     },

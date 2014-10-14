@@ -11,16 +11,19 @@ describe('Header', function() {
         var column = {name: 'Profit'};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            <Header column={column} columnIndex={1} onClick={clickHandler} />
+            <table>
+                <Header column={column} columnIndex={1} onClick={clickHandler} />
+            </table>
         );
+        var header = TestUtils.findRenderedComponentWithType(rendered, Header);
 
-        assert.equal(rendered.getDOMNode().textContent, 'Profit');
+        assert.equal(header.getDOMNode().textContent, 'Profit');
 
-        TestUtils.Simulate.click(rendered.getDOMNode());
+        TestUtils.Simulate.click(header.getDOMNode());
         assert.equal(clickHandler.callCount, 1);
         assert.isTrue(clickHandler.calledWith(column, 1, false));
 
-        TestUtils.Simulate.click(rendered.getDOMNode());
+        TestUtils.Simulate.click(header.getDOMNode());
         assert.equal(clickHandler.callCount, 2);
         assert.isTrue(clickHandler.calledWith(column, 1, true));
     });
@@ -29,29 +32,35 @@ describe('Header', function() {
         var column = {name: 'Profit', ignoreHeaderClick: true};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            <Header column={column} columnIndex={1} onClick={clickHandler} />
+            <table>
+                <Header column={column} columnIndex={1} onClick={clickHandler} />
+            </table>
         );
+        var header = TestUtils.findRenderedComponentWithType(rendered, Header);
 
-        assert.equal(rendered.getDOMNode().textContent, 'Profit');
+        assert.equal(header.getDOMNode().textContent, 'Profit');
 
-        TestUtils.Simulate.click(rendered.getDOMNode());
+        TestUtils.Simulate.click(header.getDOMNode());
         assert.equal(clickHandler.callCount, 0);
-        assert.equal(rendered.state.numClicks, 0);
+        assert.equal(header.state.numClicks, 0);
     });
 
     it('should get a class name for a clicked header', function() {
         var column = {name: 'Profit'};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            <Header
-            className="cool-header"
-            clickedClassName="clicked-cool-header"
-            clickedIndex={1}
-            column={column}
-            columnIndex={1}
-            onClick={clickHandler} />
+            <table>
+                <Header
+                className="cool-header"
+                clickedClassName="clicked-cool-header"
+                clickedIndex={1}
+                column={column}
+                columnIndex={1}
+                onClick={clickHandler} />
+            </table>
         );
+        var header = TestUtils.findRenderedComponentWithType(rendered, Header);
 
-        assert.equal(rendered.getClassName(), 'cool-header clicked-cool-header');
+        assert.equal(header.getClassName(), 'cool-header clicked-cool-header');
     });
 });

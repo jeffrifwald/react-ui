@@ -38,7 +38,7 @@ describe('AjaxForm', function() {
         var onResponse = stub();
         var mockEvent = {preventDefault: stub()};
         var rendered = TestUtils.renderIntoDocument(
-            AjaxForm( {onResponse:onResponse, url:"/submit/"} )
+            AjaxForm({onResponse: onResponse, url: "/submit/"})
         );
         var node = rendered.getDOMNode();
         var formDataCalled = 0;
@@ -66,7 +66,7 @@ describe('AjaxForm', function() {
     it('should handle submission without FormData', function() {
         var mockEvent = {preventDefault: stub()};
         var rendered = TestUtils.renderIntoDocument(
-            AjaxForm( {url:"/submit/"} )
+            AjaxForm({url: "/submit/"})
         );
         var node = rendered.getDOMNode();
 

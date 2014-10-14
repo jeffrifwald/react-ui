@@ -5,9 +5,9 @@ var utils = require('./utils');
 var DateCell = React.createClass({displayName: 'DateCell',
     render: function() {
         return (
-            React.DOM.td(
-            {className:this.getClassName(),
-            onMouseDown:this.onMouseDown}, 
+            React.DOM.td({
+            className: this.getClassName(), 
+            onMouseDown: this.onMouseDown}, 
                 this.props.value.getDate()
             )
         );

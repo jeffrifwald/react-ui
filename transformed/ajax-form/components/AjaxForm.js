@@ -29,11 +29,11 @@ var AjaxForm = React.createClass({displayName: 'AjaxForm',
 
     render: function() {
         return (
-            React.DOM.form(
-            {action:this.props.url,
-            className:this.props.className,
-            method:"POST",
-            onSubmit:this.onSubmit}, 
+            React.DOM.form({
+            action: this.props.url, 
+            className: this.props.className, 
+            method: "POST", 
+            onSubmit: this.onSubmit}, 
                 this.props.children
             )
         );

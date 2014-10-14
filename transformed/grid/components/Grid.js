@@ -57,10 +57,10 @@ var Grid = React.createClass({displayName: 'Grid',
 
     render: function() {
         return (
-            React.DOM.table( {className:this.props.gridClassName}, 
-                React.DOM.tr( {className:this.props.rowClassName}, 
+            React.DOM.table({className: this.props.gridClassName}, 
+                React.DOM.tr({className: this.props.rowClassName}, 
                     this.renderHeaders()
-                ),
+                ), 
                 this.renderRows()
             )
         );
@@ -74,15 +74,15 @@ var Grid = React.createClass({displayName: 'Grid',
     renderHeaders: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Header(
-                {className:this.props.headerClassName,
-                clickedClassName:this.props.clickedHeaderClassName,
-                clickedIndex:this.state.clickedIndex,
-                column:column,
-                columnIndex:columnIndex,
-                columns:this.props.columns,
-                key:columnIndex,
-                onClick:this.onHeaderClick} )
+                Header({
+                className: this.props.headerClassName, 
+                clickedClassName: this.props.clickedHeaderClassName, 
+                clickedIndex: this.state.clickedIndex, 
+                column: column, 
+                columnIndex: columnIndex, 
+                columns: this.props.columns, 
+                key: columnIndex, 
+                onClick: this.onHeaderClick})
             );
         }, this);
     },
@@ -95,13 +95,13 @@ var Grid = React.createClass({displayName: 'Grid',
     renderRows: function() {
         return this.props.data.map(function(record, rowIndex) {
             return (
-                Row(
-                {className:this.props.rowClassName,
-                cellClassName:this.props.cellClassName,
-                columns:this.props.columns,
-                key:rowIndex,
-                record:record,
-                rowIndex:rowIndex} )
+                Row({
+                className: this.props.rowClassName, 
+                cellClassName: this.props.cellClassName, 
+                columns: this.props.columns, 
+                key: rowIndex, 
+                record: record, 
+                rowIndex: rowIndex})
             );
         }, this);
     },
