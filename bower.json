@@ -1,0 +1,28 @@
+{
+  "name": "react-ui",
+  "version": "0.2.0",
+  "homepage": "https://github.com/ambitioninc/react-ui",
+  "authors": [
+    "Ambition Team"
+  ],
+  "description": "A collection of components for React.",
+  "main": [
+    "build/react-ui.js",
+    "build.react-ui.min.js"
+  ],
+  "keywords": [
+    "React",
+    "UI",
+    "JavaScript"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src",
+    "transformed",
+    "examples",
+    "*.js"
+  ]
+}
