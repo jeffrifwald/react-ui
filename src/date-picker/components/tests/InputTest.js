@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;

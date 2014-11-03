@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 
 var utils = require('../utils');
