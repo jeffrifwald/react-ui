@@ -22,6 +22,8 @@
     "bower_components",
     "src",
     "transformed",
-    "examples"
+    "examples",
+    "./*.js",
+    "./*.json"
   ]
 }
