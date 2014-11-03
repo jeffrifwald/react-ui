@@ -23,7 +23,7 @@
     "src",
     "transformed",
     "examples",
-    "./*.js",
-    "./*.json"
+    "/*.js",
+    "/*.json"
   ]
 }
