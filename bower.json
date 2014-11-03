@@ -8,7 +8,7 @@
   "description": "A collection of components for React.",
   "main": [
     "build/react-ui.js",
-    "build.react-ui.min.js"
+    "build/react-ui.min.js"
   ],
   "keywords": [
     "React",
@@ -23,6 +23,7 @@
     "src",
     "transformed",
     "examples",
-    "*.js"
+    "./*.js",
+    "./*.json"
   ]
 }
