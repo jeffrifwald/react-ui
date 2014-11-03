@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Trigger = React.createClass({
     render: function() {
         return (

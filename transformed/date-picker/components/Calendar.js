@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var DateCell = require('./DateCell');
 
 var Calendar = React.createClass({displayName: 'Calendar',
@@ -9,9 +7,9 @@ var Calendar = React.createClass({displayName: 'Calendar',
         }
 
         return (
-             React.DOM.table({className: this.props.className}, 
+             React.createElement("table", {className: this.props.className}, 
                 this.renderHeader(), 
-                React.DOM.tr(null, this.renderDayNames()), 
+                React.createElement("tr", null, this.renderDayNames()), 
                 this.renderRows()
             )
         );
@@ -22,16 +20,16 @@ var Calendar = React.createClass({displayName: 'Calendar',
         var header = monthName + ' ' + this.props.date.getFullYear();
 
         return (
-            React.DOM.tr({className: this.props.headerClassName}, 
-                React.DOM.td({
+            React.createElement("tr", {className: this.props.headerClassName}, 
+                React.createElement("td", {
                 className: this.props.prevClassName, 
                 onClick: this.props.onPrevClick}, 
                     this.props.prevChar
                 ), 
 
-                React.DOM.td({className: this.props.monthClassName, colSpan: "5"}, header), 
+                React.createElement("td", {className: this.props.monthClassName, colSpan: "5"}, header), 
 
-                React.DOM.td({
+                React.createElement("td", {
                 className: this.props.nextClassName, 
                 onClick: this.props.onNextClick}, 
                     this.props.nextChar
@@ -42,14 +40,14 @@ var Calendar = React.createClass({displayName: 'Calendar',
 
     renderDayNames: function() {
         return this.props.dayNames.map(function(name, i) {
-            return (React.DOM.th({key: i}, name.slice(0, 1)));
+            return (React.createElement("th", {key: i}, name.slice(0, 1)));
         }, this);
     },
 
     renderDays: function(days) {
         return days.map(function(day, i) {
             return (
-                DateCell({
+                React.createElement(DateCell, {
                 className: this.props.dateClassName, 
                 date: this.props.date, 
                 disabledDates: this.props.disabledDates, 
@@ -73,7 +71,7 @@ var Calendar = React.createClass({displayName: 'Calendar',
             end = rows.length * 7 + 7;
             row = this.renderDays(this.props.days.slice(start, end));
             rows.push(
-                React.DOM.tr({className: this.props.rowClassName, key: rows.length}, 
+                React.createElement("tr", {className: this.props.rowClassName, key: rows.length}, 
                     row
                 )
             );

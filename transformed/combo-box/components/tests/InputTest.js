@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;
@@ -10,7 +8,7 @@ describe('Input', function() {
     it('should render an input', function() {
         var value = {value: 'Cool Value'};
         var rendered = TestUtils.renderIntoDocument(
-            Input({
+            React.createElement(Input, {
             className: "cool-input", 
             readOnly: false, 
             renderProps: true, 
@@ -26,7 +24,7 @@ describe('Input', function() {
     it('should render an input with a display value', function() {
         var value = {value: 'Cool Value', name: 'Cool Name'};
         var rendered = TestUtils.renderIntoDocument(
-            Input({
+            React.createElement(Input, {
             className: "cool-input", 
             displayProp: "name", 
             readOnly: false, 
@@ -42,7 +40,7 @@ describe('Input', function() {
     it('should render a plain option', function() {
         var value = 'Cool Plain Value';
         var rendered = TestUtils.renderIntoDocument(
-            Input({
+            React.createElement(Input, {
             className: "cool-input", 
             readOnly: false, 
             renderProps: true, 
@@ -59,7 +57,7 @@ describe('Input', function() {
         var onInput = stub();
         var handleInputProps = stub();
         var rendered = TestUtils.renderIntoDocument(
-            Input({
+            React.createElement(Input, {
             className: "cool-input", 
             filterDelay: 200, 
             handleInputProps: handleInputProps, 
@@ -121,7 +119,7 @@ describe('Input', function() {
         var options = [{value: 'Cool Value'}, {value: 'Cool Value 2'}, {value: undefined}];
         var value = {value: 'Cool Value'};
         var rendered = TestUtils.renderIntoDocument(
-            Input({
+            React.createElement(Input, {
             className: "cool-input", 
             filterDelay: 200, 
             options: options, 

@@ -12,7 +12,7 @@ describe('FileInput', function() {
         var onClearClick = stub();
         var onFileChange = stub();
         var rendered = TestUtils.renderIntoDocument(
-            FileInput({
+            React.createElement(FileInput, {
             name: "cool_name", 
             onChooseClick: onChooseClick, 
             onClearClick: onClearClick, 

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Header = require('./Header');
 var Row = require('./Row');
 
@@ -57,8 +55,8 @@ var Grid = React.createClass({displayName: 'Grid',
 
     render: function() {
         return (
-            React.DOM.table({className: this.props.gridClassName}, 
-                React.DOM.tr({className: this.props.rowClassName}, 
+            React.createElement("table", {className: this.props.gridClassName}, 
+                React.createElement("tr", {className: this.props.rowClassName}, 
                     this.renderHeaders()
                 ), 
                 this.renderRows()
@@ -74,7 +72,7 @@ var Grid = React.createClass({displayName: 'Grid',
     renderHeaders: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Header({
+                React.createElement(Header, {
                 className: this.props.headerClassName, 
                 clickedClassName: this.props.clickedHeaderClassName, 
                 clickedIndex: this.state.clickedIndex, 
@@ -95,7 +93,7 @@ var Grid = React.createClass({displayName: 'Grid',
     renderRows: function() {
         return this.props.data.map(function(record, rowIndex) {
             return (
-                Row({
+                React.createElement(Row, {
                 className: this.props.rowClassName, 
                 cellClassName: this.props.cellClassName, 
                 columns: this.props.columns, 

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * @class Cell
  * Renders a cell for the grid.
@@ -7,7 +5,7 @@
 var Cell = React.createClass({displayName: 'Cell',
     render: function() {
         return (
-            React.DOM.td({className: this.props.className}, 
+            React.createElement("td", {className: this.props.className}, 
                 this.getData()
             )
         );

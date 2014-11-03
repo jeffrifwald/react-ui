@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var utils = require('./utils');
 
 /**
@@ -29,7 +27,7 @@ var AjaxForm = React.createClass({displayName: 'AjaxForm',
 
     render: function() {
         return (
-            React.DOM.form({
+            React.createElement("form", {
             action: this.props.url, 
             className: this.props.className, 
             method: "POST", 

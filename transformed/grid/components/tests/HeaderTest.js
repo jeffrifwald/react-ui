@@ -11,8 +11,8 @@ describe('Header', function() {
         var column = {name: 'Profit'};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            React.DOM.table(null, 
-                Header({column: column, columnIndex: 1, onClick: clickHandler})
+            React.createElement("table", null, 
+                React.createElement(Header, {column: column, columnIndex: 1, onClick: clickHandler})
             )
         );
         var header = TestUtils.findRenderedComponentWithType(rendered, Header);
@@ -32,8 +32,8 @@ describe('Header', function() {
         var column = {name: 'Profit', ignoreHeaderClick: true};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            React.DOM.table(null, 
-                Header({column: column, columnIndex: 1, onClick: clickHandler})
+            React.createElement("table", null, 
+                React.createElement(Header, {column: column, columnIndex: 1, onClick: clickHandler})
             )
         );
         var header = TestUtils.findRenderedComponentWithType(rendered, Header);
@@ -49,8 +49,8 @@ describe('Header', function() {
         var column = {name: 'Profit'};
         var clickHandler = stub();
         var rendered = TestUtils.renderIntoDocument(
-            React.DOM.table(null, 
-                Header({
+            React.createElement("table", null, 
+                React.createElement(Header, {
                 className: "cool-header", 
                 clickedClassName: "clicked-cool-header", 
                 clickedIndex: 1, 

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;
@@ -20,7 +18,9 @@ describe('ComboBox', function() {
     });
 
     it('should render a disabled combo box', function() {
-        var rendered = TestUtils.renderIntoDocument(<ComboBox disabled={true} options={options} />);
+        var rendered = TestUtils.renderIntoDocument(
+            <ComboBox disabled={true} options={options} />
+        );
 
         assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box react-ui-combo-box-disabled');
     });
@@ -53,7 +53,9 @@ describe('ComboBox', function() {
 
     it('should handle option selection', function() {
         var onOptionMouseDown = stub();
-        var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} onOptionMouseDown={onOptionMouseDown} />);
+        var rendered = TestUtils.renderIntoDocument(
+            <ComboBox options={options} onOptionMouseDown={onOptionMouseDown} />
+        );
         var dropDown = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-drop-down');
         var dropDownOptions = TestUtils.scryRenderedDOMComponentsWithClass(
             rendered,

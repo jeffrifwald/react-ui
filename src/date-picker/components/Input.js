@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Input = React.createClass({
     render: function() {
         return (

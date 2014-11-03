@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * @class CheckBox
  * A check box component that can easily be styled.
@@ -33,8 +31,8 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
         var inputId = 'react-ui-check-box-' + this.props.name;
 
         return (
-           React.DOM.div({className: this.props.className}, 
-                React.DOM.input({
+           React.createElement("div", {className: this.props.className}, 
+                React.createElement("input", {
                 checked: this.state.checked, 
                 className: this.props.inputClassName, 
                 disabled: !this.props.disabled, 
@@ -42,10 +40,10 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
                 onChange: this.onChange, 
                 type: "checkbox"}), 
 
-                React.DOM.label({htmlFor: inputId}, React.DOM.span(null)), 
-                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
+                React.createElement("label", {htmlFor: inputId}, React.createElement("span", null)), 
+                React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
 
-                React.DOM.input({name: this.props.name, type: "hidden", value: this.state.checked})
+                React.createElement("input", {name: this.props.name, type: "hidden", value: this.state.checked})
             )
         );
     },

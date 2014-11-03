@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * @class Header
  * Renders a header for the grid.

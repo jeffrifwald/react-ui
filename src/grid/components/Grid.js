@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Header = require('./Header');
 var Row = require('./Row');
 

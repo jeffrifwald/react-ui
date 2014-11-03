@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var utils = require('./utils');
 
 var TAB_KEY_CODE = 9;
@@ -16,7 +14,7 @@ var Input = React.createClass({displayName: 'Input',
         var value = this.props.renderProps ? this.props.value : this.state.value;
 
         return (
-            React.DOM.input({
+            React.createElement("input", {
             className: this.props.className, 
             disabled: this.props.disabled, 
             onBlur: this.props.onBlur, 

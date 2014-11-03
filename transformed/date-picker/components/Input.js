@@ -1,9 +1,7 @@
-/** @jsx React.DOM */
-
 var Input = React.createClass({displayName: 'Input',
     render: function() {
         return (
-            React.DOM.input({
+            React.createElement("input", {
             className: this.props.className, 
             onClick: this.props.onClick, 
             placeholder: this.props.placeholder, 

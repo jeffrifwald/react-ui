@@ -10,7 +10,7 @@ describe('Input', function() {
     it('should handle a click', function() {
         var onClick = stub();
         var rendered = TestUtils.renderIntoDocument(
-            Input({onClick: onClick})
+            React.createElement(Input, {onClick: onClick})
         );
 
         TestUtils.Simulate.click(rendered.getDOMNode());

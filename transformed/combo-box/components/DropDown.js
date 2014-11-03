@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var DropDown = React.createClass({displayName: 'DropDown',
     render: function() {
         var style = {
@@ -7,7 +5,7 @@ var DropDown = React.createClass({displayName: 'DropDown',
         };
 
         return (
-            React.DOM.div({
+            React.createElement("div", {
             className: this.props.className, 
             style: style}, 
                 this.renderOptions()
@@ -25,7 +23,7 @@ var DropDown = React.createClass({displayName: 'DropDown',
             var key = 'react-ui-combo-box-option-' + index;
 
             return (
-                React.DOM.div({
+                React.createElement("div", {
                 className: this.getOptionClassName(option), 
                 key: key, 
                 onMouseDown: this.props.onOptionMouseDown.bind(null, option)}, 

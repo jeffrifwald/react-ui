@@ -30,23 +30,41 @@ describe('DateCell', function() {
         assert.isFalse(rendered.isSelectable());
 
         rendered = TestUtils.renderIntoDocument(
-            <DateCell date={date} disabledDates={disabledDates} isDateDisabled={notDisabled} value={date} />
+            <DateCell
+            date={date}
+            disabledDates={disabledDates}
+            isDateDisabled={notDisabled}
+            value={date} />
         );
         assert.isFalse(rendered.isSelectable());
 
 
         rendered = TestUtils.renderIntoDocument(
-            <DateCell date={date} disabledDates={[]} isDateDisabled={notDisabled} maxValue={yesterday} value={date} />
+            <DateCell
+            date={date}
+            disabledDates={[]}
+            isDateDisabled={notDisabled}
+            maxValue={yesterday}
+            value={date} />
         );
         assert.isFalse(rendered.isSelectable());
 
         rendered = TestUtils.renderIntoDocument(
-            <DateCell date={date} disabledDates={[]} isDateDisabled={notDisabled} minValue={tomorrow} value={date} />
+            <DateCell
+            date={date}
+            disabledDates={[]}
+            isDateDisabled={notDisabled}
+            minValue={tomorrow}
+            value={date} />
         );
         assert.isFalse(rendered.isSelectable());
 
         rendered = TestUtils.renderIntoDocument(
-            <DateCell date={date} disabledDates={[]} isDateDisabled={notDisabled} value={date} />
+            <DateCell
+            date={date}
+            disabledDates={[]}
+            isDateDisabled={notDisabled}
+            value={date} />
         );
         assert.isTrue(rendered.isSelectable());
     });
@@ -55,19 +73,31 @@ describe('DateCell', function() {
         var rendered;
 
         rendered = TestUtils.renderIntoDocument(
-            <DateCell date={date} disabledDates={[]} isDateDisabled={notDisabled} value={date} />
+            <DateCell
+            date={date}
+            disabledDates={[]}
+            isDateDisabled={notDisabled}
+            value={date} />
         );
         assert.isTrue(rendered.isCurrent());
 
         rendered = TestUtils.renderIntoDocument(
-            <DateCell date={tomorrow} disabledDates={[]} isDateDisabled={notDisabled} value={tomorrow} />
+            <DateCell
+            date={tomorrow}
+            disabledDates={[]}
+            isDateDisabled={notDisabled}
+            value={tomorrow} />
         );
         assert.isFalse(rendered.isCurrent());
     });
 
     it('should determine if it is selected', function() {
         var rendered = TestUtils.renderIntoDocument(
-            <DateCell date={date} disabledDates={[]} isDateDisabled={notDisabled} value={date} />
+            <DateCell
+            date={date}
+            disabledDates={[]}
+            isDateDisabled={notDisabled}
+            value={date} />
         );
         assert.isFalse(rendered.isSelected());
     });

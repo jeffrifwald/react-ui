@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Cell = require('./Cell');
 
 /**
@@ -9,7 +7,7 @@ var Cell = require('./Cell');
 var Row = React.createClass({displayName: 'Row',
     render: function() {
         return (
-            React.DOM.tr({className: this.props.className}, 
+            React.createElement("tr", {className: this.props.className}, 
                 this.renderCell()
             )
         );
@@ -23,7 +21,7 @@ var Row = React.createClass({displayName: 'Row',
     renderCell: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Cell({
+                React.createElement(Cell, {
                 className: this.props.cellClassName, 
                 column: column, 
                 columns: this.props.columns, 

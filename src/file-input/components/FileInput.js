@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var emptyFn = function() {};
 
 var FileInput = React.createClass({
