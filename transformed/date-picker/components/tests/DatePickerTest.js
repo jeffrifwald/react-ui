@@ -1,7 +1,4 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
-//var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;
 
 var DatePicker = require('../DatePicker');
@@ -9,8 +6,8 @@ var DatePicker = require('../DatePicker');
 
 describe('DatePicker', function() {
     var date = new Date(2014, 6, 9);
-    var rendered = TestUtils.renderIntoDocument(DatePicker({value: date}));
-    var disabled = TestUtils.renderIntoDocument(DatePicker({disabled: true}));
+    var rendered = TestUtils.renderIntoDocument(React.createElement(DatePicker, {value: date}));
+    var disabled = TestUtils.renderIntoDocument(React.createElement(DatePicker, {disabled: true}));
 
     it('should show the calendar', function() {
         var trigger = TestUtils.findRenderedDOMComponentWithTag(rendered, 'button');

@@ -1,9 +1,7 @@
-/** @jsx React.DOM */
-
 var Trigger = React.createClass({displayName: 'Trigger',
     render: function() {
         return (
-            React.DOM.button({
+            React.createElement("button", {
             className: this.props.className, 
             onBlur: this.props.onBlur, 
             onClick: this.props.onClick, 

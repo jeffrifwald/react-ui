@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var TestUtils = React.addons.TestUtils;
 var stub = require('sinon').stub;
@@ -38,7 +36,7 @@ describe('AjaxForm', function() {
         var onResponse = stub();
         var mockEvent = {preventDefault: stub()};
         var rendered = TestUtils.renderIntoDocument(
-            AjaxForm({onResponse: onResponse, url: "/submit/"})
+            React.createElement(AjaxForm, {onResponse: onResponse, url: "/submit/"})
         );
         var node = rendered.getDOMNode();
         var formDataCalled = 0;
@@ -66,7 +64,7 @@ describe('AjaxForm', function() {
     it('should handle submission without FormData', function() {
         var mockEvent = {preventDefault: stub()};
         var rendered = TestUtils.renderIntoDocument(
-            AjaxForm({url: "/submit/"})
+            React.createElement(AjaxForm, {url: "/submit/"})
         );
         var node = rendered.getDOMNode();
 

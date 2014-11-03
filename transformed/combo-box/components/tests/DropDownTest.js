@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;
@@ -23,7 +21,7 @@ describe('DropDown', function() {
 
     it('should render a visible drop down', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DropDown({
+            React.createElement(DropDown, {
             onOptionMouseDown: onOptionMouseDown, 
             optionClassName: "cool-option", 
             options: options, 
@@ -43,7 +41,7 @@ describe('DropDown', function() {
 
     it('should render a hidden drop down', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DropDown({
+            React.createElement(DropDown, {
             onOptionMouseDown: onOptionMouseDown, 
             optionClassName: "cool-option", 
             options: options, 
@@ -58,7 +56,7 @@ describe('DropDown', function() {
 
     it('should handle a click', function() {
         var rendered = TestUtils.renderIntoDocument(
-            DropDown({
+            React.createElement(DropDown, {
             onOptionMouseDown: onOptionMouseDown, 
             optionClassName: "cool-option", 
             options: options, 

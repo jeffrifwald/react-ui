@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var utils = require('./utils');
 
 /**

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * @class Cell
  * Renders a cell for the grid.

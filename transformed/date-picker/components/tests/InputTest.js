@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;
@@ -10,7 +8,7 @@ describe('Input', function() {
     it('should handle a click', function() {
         var onClick = stub();
         var rendered = TestUtils.renderIntoDocument(
-            Input({onClick: onClick})
+            React.createElement(Input, {onClick: onClick})
         );
 
         TestUtils.Simulate.click(rendered.getDOMNode());

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var assert = require('chai').assert;
 var TestUtils = React.addons.TestUtils;
 
@@ -10,8 +8,8 @@ describe('Row', function() {
         var record = {profit: 25, margin: 0.1};
         var columns = [{name: 'Profit', dataProp: 'profit'}, {name: 'Margin', dataProp: 'margin'}];
         var rendered = TestUtils.renderIntoDocument(
-            React.DOM.table(null, 
-                Row({
+            React.createElement("table", null, 
+                React.createElement(Row, {
                 cellClassName: "cool-cell", 
                 className: "cool-row", 
                 columns: columns, 

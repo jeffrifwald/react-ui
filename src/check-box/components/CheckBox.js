@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * @class CheckBox
  * A check box component that can easily be styled.

@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Trigger = React.createClass({displayName: 'Trigger',
     render: function() {
         if (!this.props.showTrigger) {
@@ -7,7 +5,7 @@ var Trigger = React.createClass({displayName: 'Trigger',
         }
 
         return (
-            React.DOM.button({
+            React.createElement("button", {
             className: this.props.className, 
             onClick: this.props.onClick}, 
                 this.props.triggerText

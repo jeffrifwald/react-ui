@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var DateCell = require('./DateCell');
 
 var Calendar = React.createClass({

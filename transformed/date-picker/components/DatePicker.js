@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Calendar = require('./Calendar');
 var Input = require('./Input');
 var Trigger = require('./Trigger');
@@ -66,28 +64,28 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 
     render: function() {
         return (
-            React.DOM.div({className: this.getClassName()}, 
-                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
+            React.createElement("div", {className: this.getClassName()}, 
+                React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
 
-                Input({
+                React.createElement(Input, {
                 className: this.props.inputClassName, 
                 onClick: this.onInputClick, 
                 placeholder: this.props.placeholder, 
                 value: this.state.display}), 
 
-                Trigger({
+                React.createElement(Trigger, {
                 className: this.props.triggerClassName, 
                 onClick: this.onInputClick, 
                 showTrigger: this.props.showTrigger, 
                 triggerText: this.props.triggerText}), 
 
-                React.DOM.input({
+                React.createElement("input", {
                 disabled: this.props.disabled, 
                 name: this.props.name, 
                 type: "hidden", 
                 value: this.state.formatted}), 
 
-                Calendar({
+                React.createElement(Calendar, {
                 className: this.props.calendarClassName, 
                 date: this.state.date, 
                 dateClassName: this.props.dateClassName, 

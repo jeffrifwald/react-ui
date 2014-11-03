@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var DropDown = require('./DropDown');
 var Input = require('./Input');
 var Trigger = require('./Trigger');

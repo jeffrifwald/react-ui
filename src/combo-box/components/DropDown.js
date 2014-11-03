@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var DropDown = React.createClass({
     render: function() {
         var style = {

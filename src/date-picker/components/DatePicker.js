@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var Calendar = require('./Calendar');
 var Input = require('./Input');
 var Trigger = require('./Trigger');

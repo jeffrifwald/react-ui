@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var emptyFn = function() {};
 
 var FileInput = React.createClass({displayName: 'FileInput',
@@ -60,22 +58,22 @@ var FileInput = React.createClass({displayName: 'FileInput',
 
     render: function() {
         return (
-            React.DOM.div({className: this.props.className}, 
+            React.createElement("div", {className: this.props.className}, 
                 this.renderHiddenInput(), 
 
-                React.DOM.button({
+                React.createElement("button", {
                 className: this.props.chooseButtonClassName, 
                 disabled: this.props.disabled, 
                 onClick: this.onChooseClick, 
                 type: "button"}, this.props.chooseButtonText), 
 
-                React.DOM.button({
+                React.createElement("button", {
                 className: this.props.clearButtonClassName, 
                 disabled: this.props.disabled, 
                 onClick: this.onClearClick, 
                 type: "button"}, this.props.clearButtonText), 
 
-                React.DOM.input({
+                React.createElement("input", {
                 className: this.props.fileNameClassName, 
                 disabled: this.props.disabled, 
                 readOnly: true, 
@@ -94,7 +92,7 @@ var FileInput = React.createClass({displayName: 'FileInput',
         var key = 'hidden-input-' + this.state.inputKey;
 
         return (
-            React.DOM.input({
+            React.createElement("input", {
             key: key, 
             name: this.props.name, 
             onChange: this.onFileChange, 

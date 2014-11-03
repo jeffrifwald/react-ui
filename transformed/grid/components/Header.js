@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 /**
  * @class Header
  * Renders a header for the grid.
@@ -13,7 +11,7 @@ var Header = React.createClass({displayName: 'Header',
 
     render: function() {
         return (
-            React.DOM.th({className: this.getClassName(), onClick: this.onClick}, 
+            React.createElement("th", {className: this.getClassName(), onClick: this.onClick}, 
                 this.props.column.name
             )
         );

@@ -11,8 +11,6 @@ global.ReactUI = {
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"./transformed/ajax-form/components/AjaxForm":2,"./transformed/check-box/components/CheckBox":4,"./transformed/combo-box/components/ComboBox":5,"./transformed/date-picker/components/DatePicker":12,"./transformed/file-input/components/FileInput":16,"./transformed/grid/components/Grid":18}],2:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var utils = require('./utils');
 
 /**
@@ -42,7 +40,7 @@ var AjaxForm = React.createClass({displayName: 'AjaxForm',
 
     render: function() {
         return (
-            React.DOM.form({
+            React.createElement("form", {
             action: this.props.url, 
             className: this.props.className, 
             method: "POST", 
@@ -117,8 +115,6 @@ module.exports = {
 };
 
 },{}],4:[function(require,module,exports){
-/** @jsx React.DOM */
-
 /**
  * @class CheckBox
  * A check box component that can easily be styled.
@@ -152,8 +148,8 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
         var inputId = 'react-ui-check-box-' + this.props.name;
 
         return (
-           React.DOM.div({className: this.props.className}, 
-                React.DOM.input({
+           React.createElement("div", {className: this.props.className}, 
+                React.createElement("input", {
                 checked: this.state.checked, 
                 className: this.props.inputClassName, 
                 disabled: !this.props.disabled, 
@@ -161,10 +157,10 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
                 onChange: this.onChange, 
                 type: "checkbox"}), 
 
-                React.DOM.label({htmlFor: inputId}, React.DOM.span(null)), 
-                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
+                React.createElement("label", {htmlFor: inputId}, React.createElement("span", null)), 
+                React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
 
-                React.DOM.input({name: this.props.name, type: "hidden", value: this.state.checked})
+                React.createElement("input", {name: this.props.name, type: "hidden", value: this.state.checked})
             )
         );
     },
@@ -183,8 +179,6 @@ var CheckBox = React.createClass({displayName: 'CheckBox',
 module.exports = CheckBox;
 
 },{}],5:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var DropDown = require('./DropDown');
 var Input = require('./Input');
 var Trigger = require('./Trigger');
@@ -310,10 +304,10 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
         var renderOption = this.props.renderOption || this.renderOption;
 
         return (
-            React.DOM.div({className: this.getClassName()}, 
-                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
+            React.createElement("div", {className: this.getClassName()}, 
+                React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
 
-                Input({
+                React.createElement(Input, {
                 className: this.props.inputClassName, 
                 disabled: this.props.disabled, 
                 displayProp: this.props.displayProp, 
@@ -330,19 +324,19 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
                 value: this.state.value, 
                 valueProp: this.props.valueProp}), 
 
-                React.DOM.input({
+                React.createElement("input", {
                 disabled: this.props.disabled, 
                 name: this.props.name, 
                 type: "hidden", 
                 value: utils.getValue(this.state.value, this.props)}), 
 
-                Trigger({
+                React.createElement(Trigger, {
                 className: this.props.triggerClassName, 
                 onBlur: this.onBlur, 
                 onClick: this.onTriggerClick, 
                 ref: "trigger"}), 
 
-                DropDown({
+                React.createElement(DropDown, {
                 className: this.props.dropDownClassName, 
                 displayProp: this.props.displayProp, 
                 onOptionMouseDown: this.onOptionMouseDown, 
@@ -365,7 +359,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @returns {Object} - The option component.
      */
     renderOption: function(option) {
-        return (React.DOM.span(null, utils.getDisplayValue(option, this.props)));
+        return (React.createElement("span", null, utils.getDisplayValue(option, this.props)));
     },
 
     /**
@@ -502,8 +496,6 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 module.exports = ComboBox;
 
 },{"./DropDown":6,"./Input":7,"./Trigger":8,"./utils":9}],6:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var DropDown = React.createClass({displayName: 'DropDown',
     render: function() {
         var style = {
@@ -511,7 +503,7 @@ var DropDown = React.createClass({displayName: 'DropDown',
         };
 
         return (
-            React.DOM.div({
+            React.createElement("div", {
             className: this.props.className, 
             style: style}, 
                 this.renderOptions()
@@ -529,7 +521,7 @@ var DropDown = React.createClass({displayName: 'DropDown',
             var key = 'react-ui-combo-box-option-' + index;
 
             return (
-                React.DOM.div({
+                React.createElement("div", {
                 className: this.getOptionClassName(option), 
                 key: key, 
                 onMouseDown: this.props.onOptionMouseDown.bind(null, option)}, 
@@ -562,8 +554,6 @@ var DropDown = React.createClass({displayName: 'DropDown',
 module.exports = DropDown;
 
 },{}],7:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var utils = require('./utils');
 
 var TAB_KEY_CODE = 9;
@@ -580,7 +570,7 @@ var Input = React.createClass({displayName: 'Input',
         var value = this.props.renderProps ? this.props.value : this.state.value;
 
         return (
-            React.DOM.input({
+            React.createElement("input", {
             className: this.props.className, 
             disabled: this.props.disabled, 
             onBlur: this.props.onBlur, 
@@ -645,12 +635,10 @@ var Input = React.createClass({displayName: 'Input',
 module.exports = Input;
 
 },{"./utils":9}],8:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var Trigger = React.createClass({displayName: 'Trigger',
     render: function() {
         return (
-            React.DOM.button({
+            React.createElement("button", {
             className: this.props.className, 
             onBlur: this.props.onBlur, 
             onClick: this.props.onClick, 
@@ -697,8 +685,6 @@ module.exports = {
 };
 
 },{}],10:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var DateCell = require('./DateCell');
 
 var Calendar = React.createClass({displayName: 'Calendar',
@@ -708,9 +694,9 @@ var Calendar = React.createClass({displayName: 'Calendar',
         }
 
         return (
-             React.DOM.table({className: this.props.className}, 
+             React.createElement("table", {className: this.props.className}, 
                 this.renderHeader(), 
-                React.DOM.tr(null, this.renderDayNames()), 
+                React.createElement("tr", null, this.renderDayNames()), 
                 this.renderRows()
             )
         );
@@ -721,16 +707,16 @@ var Calendar = React.createClass({displayName: 'Calendar',
         var header = monthName + ' ' + this.props.date.getFullYear();
 
         return (
-            React.DOM.tr({className: this.props.headerClassName}, 
-                React.DOM.td({
+            React.createElement("tr", {className: this.props.headerClassName}, 
+                React.createElement("td", {
                 className: this.props.prevClassName, 
                 onClick: this.props.onPrevClick}, 
                     this.props.prevChar
                 ), 
 
-                React.DOM.td({className: this.props.monthClassName, colSpan: "5"}, header), 
+                React.createElement("td", {className: this.props.monthClassName, colSpan: "5"}, header), 
 
-                React.DOM.td({
+                React.createElement("td", {
                 className: this.props.nextClassName, 
                 onClick: this.props.onNextClick}, 
                     this.props.nextChar
@@ -741,14 +727,14 @@ var Calendar = React.createClass({displayName: 'Calendar',
 
     renderDayNames: function() {
         return this.props.dayNames.map(function(name, i) {
-            return (React.DOM.th({key: i}, name.slice(0, 1)));
+            return (React.createElement("th", {key: i}, name.slice(0, 1)));
         }, this);
     },
 
     renderDays: function(days) {
         return days.map(function(day, i) {
             return (
-                DateCell({
+                React.createElement(DateCell, {
                 className: this.props.dateClassName, 
                 date: this.props.date, 
                 disabledDates: this.props.disabledDates, 
@@ -772,7 +758,7 @@ var Calendar = React.createClass({displayName: 'Calendar',
             end = rows.length * 7 + 7;
             row = this.renderDays(this.props.days.slice(start, end));
             rows.push(
-                React.DOM.tr({className: this.props.rowClassName, key: rows.length}, 
+                React.createElement("tr", {className: this.props.rowClassName, key: rows.length}, 
                     row
                 )
             );
@@ -785,14 +771,12 @@ var Calendar = React.createClass({displayName: 'Calendar',
 module.exports = Calendar;
 
 },{"./DateCell":11}],11:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var utils = require('./utils');
 
 var DateCell = React.createClass({displayName: 'DateCell',
     render: function() {
         return (
-            React.DOM.td({
+            React.createElement("td", {
             className: this.getClassName(), 
             onMouseDown: this.onMouseDown}, 
                 this.props.value.getDate()
@@ -891,8 +875,6 @@ var DateCell = React.createClass({displayName: 'DateCell',
 module.exports = DateCell;
 
 },{"./utils":15}],12:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var Calendar = require('./Calendar');
 var Input = require('./Input');
 var Trigger = require('./Trigger');
@@ -959,28 +941,28 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 
     render: function() {
         return (
-            React.DOM.div({className: this.getClassName()}, 
-                React.DOM.label({className: this.props.labelClassName}, this.props.label), 
+            React.createElement("div", {className: this.getClassName()}, 
+                React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
 
-                Input({
+                React.createElement(Input, {
                 className: this.props.inputClassName, 
                 onClick: this.onInputClick, 
                 placeholder: this.props.placeholder, 
                 value: this.state.display}), 
 
-                Trigger({
+                React.createElement(Trigger, {
                 className: this.props.triggerClassName, 
                 onClick: this.onInputClick, 
                 showTrigger: this.props.showTrigger, 
                 triggerText: this.props.triggerText}), 
 
-                React.DOM.input({
+                React.createElement("input", {
                 disabled: this.props.disabled, 
                 name: this.props.name, 
                 type: "hidden", 
                 value: this.state.formatted}), 
 
-                Calendar({
+                React.createElement(Calendar, {
                 className: this.props.calendarClassName, 
                 date: this.state.date, 
                 dateClassName: this.props.dateClassName, 
@@ -1053,12 +1035,10 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 module.exports = DatePicker;
 
 },{"./Calendar":10,"./Input":13,"./Trigger":14,"./utils":15}],13:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var Input = React.createClass({displayName: 'Input',
     render: function() {
         return (
-            React.DOM.input({
+            React.createElement("input", {
             className: this.props.className, 
             onClick: this.props.onClick, 
             placeholder: this.props.placeholder, 
@@ -1072,8 +1052,6 @@ var Input = React.createClass({displayName: 'Input',
 module.exports = Input;
 
 },{}],14:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var Trigger = React.createClass({displayName: 'Trigger',
     render: function() {
         if (!this.props.showTrigger) {
@@ -1081,7 +1059,7 @@ var Trigger = React.createClass({displayName: 'Trigger',
         }
 
         return (
-            React.DOM.button({
+            React.createElement("button", {
             className: this.props.className, 
             onClick: this.props.onClick}, 
                 this.props.triggerText
@@ -1240,8 +1218,6 @@ var utils = {
 module.exports = utils;
 
 },{}],16:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var emptyFn = function() {};
 
 var FileInput = React.createClass({displayName: 'FileInput',
@@ -1302,22 +1278,22 @@ var FileInput = React.createClass({displayName: 'FileInput',
 
     render: function() {
         return (
-            React.DOM.div({className: this.props.className}, 
+            React.createElement("div", {className: this.props.className}, 
                 this.renderHiddenInput(), 
 
-                React.DOM.button({
+                React.createElement("button", {
                 className: this.props.chooseButtonClassName, 
                 disabled: this.props.disabled, 
                 onClick: this.onChooseClick, 
                 type: "button"}, this.props.chooseButtonText), 
 
-                React.DOM.button({
+                React.createElement("button", {
                 className: this.props.clearButtonClassName, 
                 disabled: this.props.disabled, 
                 onClick: this.onClearClick, 
                 type: "button"}, this.props.clearButtonText), 
 
-                React.DOM.input({
+                React.createElement("input", {
                 className: this.props.fileNameClassName, 
                 disabled: this.props.disabled, 
                 readOnly: true, 
@@ -1336,7 +1312,7 @@ var FileInput = React.createClass({displayName: 'FileInput',
         var key = 'hidden-input-' + this.state.inputKey;
 
         return (
-            React.DOM.input({
+            React.createElement("input", {
             key: key, 
             name: this.props.name, 
             onChange: this.onFileChange, 
@@ -1388,8 +1364,6 @@ var FileInput = React.createClass({displayName: 'FileInput',
 module.exports = FileInput;
 
 },{}],17:[function(require,module,exports){
-/** @jsx React.DOM */
-
 /**
  * @class Cell
  * Renders a cell for the grid.
@@ -1397,7 +1371,7 @@ module.exports = FileInput;
 var Cell = React.createClass({displayName: 'Cell',
     render: function() {
         return (
-            React.DOM.td({className: this.props.className}, 
+            React.createElement("td", {className: this.props.className}, 
                 this.getData()
             )
         );
@@ -1424,8 +1398,6 @@ var Cell = React.createClass({displayName: 'Cell',
 module.exports = Cell;
 
 },{}],18:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var Header = require('./Header');
 var Row = require('./Row');
 
@@ -1483,8 +1455,8 @@ var Grid = React.createClass({displayName: 'Grid',
 
     render: function() {
         return (
-            React.DOM.table({className: this.props.gridClassName}, 
-                React.DOM.tr({className: this.props.rowClassName}, 
+            React.createElement("table", {className: this.props.gridClassName}, 
+                React.createElement("tr", {className: this.props.rowClassName}, 
                     this.renderHeaders()
                 ), 
                 this.renderRows()
@@ -1500,7 +1472,7 @@ var Grid = React.createClass({displayName: 'Grid',
     renderHeaders: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Header({
+                React.createElement(Header, {
                 className: this.props.headerClassName, 
                 clickedClassName: this.props.clickedHeaderClassName, 
                 clickedIndex: this.state.clickedIndex, 
@@ -1521,7 +1493,7 @@ var Grid = React.createClass({displayName: 'Grid',
     renderRows: function() {
         return this.props.data.map(function(record, rowIndex) {
             return (
-                Row({
+                React.createElement(Row, {
                 className: this.props.rowClassName, 
                 cellClassName: this.props.cellClassName, 
                 columns: this.props.columns, 
@@ -1549,8 +1521,6 @@ var Grid = React.createClass({displayName: 'Grid',
 module.exports = Grid;
 
 },{"./Header":19,"./Row":20}],19:[function(require,module,exports){
-/** @jsx React.DOM */
-
 /**
  * @class Header
  * Renders a header for the grid.
@@ -1564,7 +1534,7 @@ var Header = React.createClass({displayName: 'Header',
 
     render: function() {
         return (
-            React.DOM.th({className: this.getClassName(), onClick: this.onClick}, 
+            React.createElement("th", {className: this.getClassName(), onClick: this.onClick}, 
                 this.props.column.name
             )
         );
@@ -1610,8 +1580,6 @@ var Header = React.createClass({displayName: 'Header',
 module.exports = Header;
 
 },{}],20:[function(require,module,exports){
-/** @jsx React.DOM */
-
 var Cell = require('./Cell');
 
 /**
@@ -1621,7 +1589,7 @@ var Cell = require('./Cell');
 var Row = React.createClass({displayName: 'Row',
     render: function() {
         return (
-            React.DOM.tr({className: this.props.className}, 
+            React.createElement("tr", {className: this.props.className}, 
                 this.renderCell()
             )
         );
@@ -1635,7 +1603,7 @@ var Row = React.createClass({displayName: 'Row',
     renderCell: function() {
         return this.props.columns.map(function(column, columnIndex) {
             return (
-                Cell({
+                React.createElement(Cell, {
                 className: this.props.cellClassName, 
                 column: column, 
                 columns: this.props.columns, 
