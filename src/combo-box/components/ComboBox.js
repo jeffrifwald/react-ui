@@ -102,7 +102,7 @@ var ComboBox = React.createClass({
             onInputClick: utils.emptyFn,
             onOptionMouseDown: utils.emptyFn,
             onTriggerClick: utils.emptyFn,
-            openClassName: 'react-ui-combox-box-open',
+            openClassName: 'react-ui-combo-box-open',
             optionClassName: 'react-ui-combo-box-option',
             options: [],
             selectedClassName: 'react-ui-combo-box-selected',
