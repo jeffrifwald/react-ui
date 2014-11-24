@@ -102,6 +102,7 @@ var ComboBox = React.createClass({
             onInputClick: utils.emptyFn,
             onOptionMouseDown: utils.emptyFn,
             onTriggerClick: utils.emptyFn,
+            openClassName: 'react-ui-combo-box-open',
             optionClassName: 'react-ui-combo-box-option',
             options: [],
             selectedClassName: 'react-ui-combo-box-selected',
@@ -190,6 +191,10 @@ var ComboBox = React.createClass({
     getClassName: function() {
         if (this.props.disabled) {
             return this.props.className + ' ' + this.props.disabledClassName;
+        }
+
+        if (this.state.dropDownVisible) {
+            return this.props.className + ' ' + this.props.openClassName;
         }
 
         return this.props.className;
