@@ -10,10 +10,7 @@ var utils = require('./utils');
 var ComboBox = React.createClass({displayName: 'ComboBox',
     propTypes: {
 
-        /** @prop {String} baseClassName - The base className of the combo box. */
-        baseClassName: React.PropTypes.string,
-
-        /** @prop {String} className - The additional className of the combo box. */
+        /** @prop {String} className - The className of the combo box. */
         className: React.PropTypes.string,
 
         /** @prop {String|Object} defaultValue - The default value for the combo box. */
@@ -92,14 +89,12 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 
     getDefaultProps: function() {
         return {
-            baseClassName: 'react-ui-combo-box',
-            className: '',
+            className: 'react-ui-combo-box',
             disabled: false,
             disabledClassName: 'react-ui-combo-box-disabled',
             dropDownClassName: 'react-ui-combo-box-drop-down',
             editable: true,
             filterDelay: 200,
-            inputWrapClassName: 'react-ui-combo-box-input-wrap',
             inputClassName: 'react-ui-combo-box-input',
             label: '',
             labelClassName: 'react-ui-combo-box-label',
@@ -132,49 +127,47 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
             React.createElement("div", {className: this.getClassName()}, 
                 React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
 
-                React.createElement("div", {className: this.props.inputWrapClassName}, 
-                    React.createElement(Input, {
-                    className: this.props.inputClassName, 
-                    disabled: this.props.disabled, 
-                    displayProp: this.props.displayProp, 
-                    filterDelay: this.props.filterDelay, 
-                    handleInputProps: this.handleInputProps, 
-                    onBlur: this.onBlur, 
-                    onClick: this.onInputClick, 
-                    onInput: this.onInput, 
-                    options: this.props.options, 
-                    placeholder: this.props.placeholder, 
-                    readOnly: !this.props.editable || this.props.disabled, 
-                    ref: "textInput", 
-                    renderProps: this.state.renderProps, 
-                    value: this.state.value, 
-                    valueProp: this.props.valueProp}), 
+                React.createElement(Input, {
+                className: this.props.inputClassName, 
+                disabled: this.props.disabled, 
+                displayProp: this.props.displayProp, 
+                filterDelay: this.props.filterDelay, 
+                handleInputProps: this.handleInputProps, 
+                onBlur: this.onBlur, 
+                onClick: this.onInputClick, 
+                onInput: this.onInput, 
+                options: this.props.options, 
+                placeholder: this.props.placeholder, 
+                readOnly: !this.props.editable || this.props.disabled, 
+                ref: "textInput", 
+                renderProps: this.state.renderProps, 
+                value: this.state.value, 
+                valueProp: this.props.valueProp}), 
 
-                    React.createElement("input", {
-                    disabled: this.props.disabled, 
-                    name: this.props.name, 
-                    type: "hidden", 
-                    value: utils.getValue(this.state.value, this.props)}), 
+                React.createElement("input", {
+                disabled: this.props.disabled, 
+                name: this.props.name, 
+                type: "hidden", 
+                value: utils.getValue(this.state.value, this.props)}), 
 
-                    React.createElement(Trigger, {
-                    className: this.props.triggerClassName, 
-                    onBlur: this.onBlur, 
-                    onClick: this.onTriggerClick, 
-                    ref: "trigger"}), 
+                React.createElement(Trigger, {
+                className: this.props.triggerClassName, 
+                onBlur: this.onBlur, 
+                onClick: this.onTriggerClick, 
+                ref: "trigger"}), 
 
-                    React.createElement(DropDown, {
-                    className: this.props.dropDownClassName, 
-                    displayProp: this.props.displayProp, 
-                    onOptionMouseDown: this.onOptionMouseDown, 
-                    optionClassName: this.props.optionClassName, 
-                    options: this.getDropDownOptions(), 
-                    ref: "dropDown", 
-                    renderOption: renderOption, 
-                    selected: this.state.value, 
-                    selectedClassName: this.props.selectedClassName, 
-                    valueProp: this.props.valueProp, 
-                    visible: !this.props.disabled && this.state.dropDownVisible})
-                )
+                React.createElement(DropDown, {
+                className: this.props.dropDownClassName, 
+                displayProp: this.props.displayProp, 
+                onOptionMouseDown: this.onOptionMouseDown, 
+                optionClassName: this.props.optionClassName, 
+                options: this.getDropDownOptions(), 
+                ref: "dropDown", 
+                renderOption: renderOption, 
+                selected: this.state.value, 
+                selectedClassName: this.props.selectedClassName, 
+                valueProp: this.props.valueProp, 
+                visible: !this.props.disabled && this.state.dropDownVisible})
             )
         );
     },
@@ -196,13 +189,15 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
      * @returns {String} - The className for the combo box.
      */
     getClassName: function() {
-        var classNames = {};
-        classNames[this.props.baseClassName] = true;
-        classNames[this.props.className] = this.props.className ? true : false;
-        classNames[this.props.disabledClassName] = this.props.disabled ? true : false;
-        classNames[this.props.openClassName] = this.state.dropDownVisible ? true : false;
+        if (this.props.disabled) {
+            return this.props.className + ' ' + this.props.disabledClassName;
+        }
 
-        return utils.className(classNames);
+        if (this.state.dropDownVisible) {
+            return this.props.className + ' ' + this.props.openClassName;
+        }
+
+        return this.props.className;
     },
 
     /**
