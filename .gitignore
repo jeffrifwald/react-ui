@@ -3,3 +3,4 @@
 .grunt
 .yo-rc.json
 node_modules
+.idea
