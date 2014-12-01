@@ -17,6 +17,14 @@ describe('ComboBox', function() {
         assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box');
     });
 
+    it('should render a combo box with an additional class', function() {
+        var rendered = TestUtils.renderIntoDocument(
+            <ComboBox options={options} className='class-one' />
+        );
+
+        assert.equal(rendered.getDOMNode().className, 'react-ui-combo-box class-one');
+    });
+
     it('should render a disabled combo box', function() {
         var rendered = TestUtils.renderIntoDocument(
             <ComboBox disabled={true} options={options} />
