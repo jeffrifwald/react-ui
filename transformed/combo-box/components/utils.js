@@ -28,5 +28,18 @@ module.exports = {
      * @method emptyFn
      * Default handler for all events.
      */
-    emptyFn: function() {}
+    emptyFn: function() {},
+
+    /**
+     * @method className
+     * Creates a list of class names based on the given arguments.
+     * @params * args - An object or class name arguments.
+     * @returns {String} - The class names.
+     */
+    className: function() {
+        var args = Array.prototype.slice.call(arguments);
+        return (typeof args[0] === 'object' ? Object.keys(args[0]).filter(function(k) {
+            return args[0][k];
+        }) : args).join(' ');
+    }
 };
