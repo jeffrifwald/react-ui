@@ -577,7 +577,9 @@ var Input = React.createClass({displayName: 'Input',
     },
 
     render: function() {
-        var value = this.props.renderProps ? this.props.value : this.state.value;
+        var value = this.props.renderProps ? utils.getDisplayValue(
+            this.props.value, this.props
+        ) : this.state.value;
 
         return (
             React.createElement("input", {
@@ -589,7 +591,7 @@ var Input = React.createClass({displayName: 'Input',
             placeholder: this.props.placeholder, 
             readOnly: this.props.readOnly, 
             type: "textbox", 
-            value: utils.getDisplayValue(value, this.props)})
+            value: value})
         );
     },
 
