@@ -37,6 +37,36 @@ describe('Input', function() {
         assert.equal(rendered.getDOMNode().value, 'Cool Name');
     });
 
+    it('should use its state value when appropriate', function() {
+        var value = {value: 'Cool Value', name: 'Cool Name'};
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(Input, {
+            className: "cool-input", 
+            displayProp: "name", 
+            readOnly: false, 
+            renderProps: false, 
+            value: value, 
+            valueProp: "value"})
+        );
+
+        assert.equal('', rendered.getDOMNode().value);
+    });
+
+    it('should not its state value when appropriate', function() {
+        var value = {value: 'Cool Value', name: 'Cool Name'};
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(Input, {
+            className: "cool-input", 
+            displayProp: "name", 
+            readOnly: false, 
+            renderProps: true, 
+            value: value, 
+            valueProp: "value"})
+        );
+
+        assert.equal('Cool Name', rendered.getDOMNode().value);
+    });
+
     it('should render a plain option', function() {
         var value = 'Cool Plain Value';
         var rendered = TestUtils.renderIntoDocument(
