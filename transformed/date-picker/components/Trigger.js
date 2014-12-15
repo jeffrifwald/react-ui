@@ -7,7 +7,8 @@ var Trigger = React.createClass({displayName: 'Trigger',
         return (
             React.createElement("button", {
             className: this.props.className, 
-            onClick: this.props.onClick}, 
+            onClick: this.props.onClick, 
+            type: "button"}, 
                 this.props.triggerText
             )
         );
