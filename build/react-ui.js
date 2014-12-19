@@ -1025,7 +1025,7 @@ var DatePicker = React.createClass({displayName: "DatePicker",
     },
 
     onDateMouseDown: function(date) {
-        this.props.onDateMouseDown.call(this, date);
+        this.props.onDateMouseDown(date);
 
         this.setState({
             calendarVisible: false,
@@ -1243,7 +1243,13 @@ var utils = {
         return disabledDates.filter(function(disabledDate) {
             return this.sameDate(disabledDate, date);
         }, this).length ? true : false;
-    }
+    },
+
+    /**
+     * @method emptyFn
+     * Default handler for all events.
+     */
+    emptyFn: function() {}
 };
 
 module.exports = utils;
