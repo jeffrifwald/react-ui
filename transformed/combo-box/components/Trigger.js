@@ -1,4 +1,4 @@
-var Trigger = React.createClass({displayName: 'Trigger',
+var Trigger = React.createClass({displayName: "Trigger",
     render: function() {
         return (
             React.createElement("button", {

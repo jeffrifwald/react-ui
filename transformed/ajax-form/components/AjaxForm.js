@@ -5,7 +5,7 @@ var utils = require('./utils');
  * A form component that attempts to submit its contents with an asynchronous POST request.
  * Falls back to synchronously submitting the form in older browsers.
  */
-var AjaxForm = React.createClass({displayName: 'AjaxForm',
+var AjaxForm = React.createClass({displayName: "AjaxForm",
     propTypes: {
         /** @prop {String} className - The className of the form. */
         className: React.PropTypes.string,

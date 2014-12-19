@@ -1,6 +1,6 @@
 var utils = require('./utils');
 
-var DateCell = React.createClass({displayName: 'DateCell',
+var DateCell = React.createClass({displayName: "DateCell",
     render: function() {
         return (
             React.createElement("td", {
