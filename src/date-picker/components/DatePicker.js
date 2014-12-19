@@ -7,6 +7,8 @@ var DatePicker = React.createClass({
     propTypes: {
         /** @prop {String} className - The className of the date picker. */
         className: React.PropTypes.string,
+        /** @prop {Function} onDateMouseDown - The method called right before a date is clicked. */
+        onDateMouseDown: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -120,6 +122,8 @@ var DatePicker = React.createClass({
     },
 
     onDateMouseDown: function(date) {
+        this.props.onDateMouseDown.call(this, date);
+
         this.setState({
             calendarVisible: false,
             date: date,
