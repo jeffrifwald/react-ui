@@ -123,7 +123,7 @@ var DatePicker = React.createClass({
     },
 
     onDateMouseDown: function(date) {
-        this.props.onDateMouseDown.call(this, date);
+        this.props.onDateMouseDown(date);
 
         this.setState({
             calendarVisible: false,
