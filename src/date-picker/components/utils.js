@@ -139,7 +139,13 @@ var utils = {
         return disabledDates.filter(function(disabledDate) {
             return this.sameDate(disabledDate, date);
         }, this).length ? true : false;
-    }
+    },
+
+    /**
+     * @method emptyFn
+     * Default handler for all events.
+     */
+    emptyFn: function() {}
 };
 
 module.exports = utils;

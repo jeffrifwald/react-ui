@@ -1,6 +1,6 @@
 var DateCell = require('./DateCell');
 
-var Calendar = React.createClass({displayName: 'Calendar',
+var Calendar = React.createClass({displayName: "Calendar",
     render: function() {
         if (!this.props.visible) {
             return null;

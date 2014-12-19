@@ -18,7 +18,7 @@ var utils = require('./utils');
  * A form component that attempts to submit its contents with an asynchronous POST request.
  * Falls back to synchronously submitting the form in older browsers.
  */
-var AjaxForm = React.createClass({displayName: 'AjaxForm',
+var AjaxForm = React.createClass({displayName: "AjaxForm",
     propTypes: {
         /** @prop {String} className - The className of the form. */
         className: React.PropTypes.string,
@@ -119,7 +119,7 @@ module.exports = {
  * @class CheckBox
  * A check box component that can easily be styled.
  */
-var CheckBox = React.createClass({displayName: 'CheckBox',
+var CheckBox = React.createClass({displayName: "CheckBox",
     propTypes: {
 
         /** @prop {String} className - The class name of the component. */
@@ -188,7 +188,7 @@ var utils = require('./utils');
  * @class ComboBox
  * A mixed input and drop down selector component.
  */
-var ComboBox = React.createClass({displayName: 'ComboBox',
+var ComboBox = React.createClass({displayName: "ComboBox",
     propTypes: {
 
         /** @prop {String} baseClassName - The base className of the combo box. */
@@ -506,7 +506,7 @@ var ComboBox = React.createClass({displayName: 'ComboBox',
 module.exports = ComboBox;
 
 },{"./DropDown":6,"./Input":7,"./Trigger":8,"./utils":9}],6:[function(require,module,exports){
-var DropDown = React.createClass({displayName: 'DropDown',
+var DropDown = React.createClass({displayName: "DropDown",
     render: function() {
         var style = {
             display: this.props.visible ? 'block' : 'none'
@@ -568,7 +568,7 @@ var utils = require('./utils');
 
 var TAB_KEY_CODE = 9;
 
-var Input = React.createClass({displayName: 'Input',
+var Input = React.createClass({displayName: "Input",
 
     getInitialState: function() {
         return {
@@ -647,7 +647,7 @@ var Input = React.createClass({displayName: 'Input',
 module.exports = Input;
 
 },{"./utils":9}],8:[function(require,module,exports){
-var Trigger = React.createClass({displayName: 'Trigger',
+var Trigger = React.createClass({displayName: "Trigger",
     render: function() {
         return (
             React.createElement("button", {
@@ -712,7 +712,7 @@ module.exports = {
 },{}],10:[function(require,module,exports){
 var DateCell = require('./DateCell');
 
-var Calendar = React.createClass({displayName: 'Calendar',
+var Calendar = React.createClass({displayName: "Calendar",
     render: function() {
         if (!this.props.visible) {
             return null;
@@ -798,7 +798,7 @@ module.exports = Calendar;
 },{"./DateCell":11}],11:[function(require,module,exports){
 var utils = require('./utils');
 
-var DateCell = React.createClass({displayName: 'DateCell',
+var DateCell = React.createClass({displayName: "DateCell",
     render: function() {
         return (
             React.createElement("td", {
@@ -905,10 +905,12 @@ var Input = require('./Input');
 var Trigger = require('./Trigger');
 var utils = require('./utils');
 
-var DatePicker = React.createClass({displayName: 'DatePicker',
+var DatePicker = React.createClass({displayName: "DatePicker",
     propTypes: {
         /** @prop {String} className - The className of the date picker. */
         className: React.PropTypes.string,
+        /** @prop {Function} onDateMouseDown - The method called right before a date is clicked. */
+        onDateMouseDown: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -937,6 +939,7 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
             ],
             nextChar: '\u00bb',
             nextClassName: 'react-ui-date-picker-next',
+            onDateMouseDown: utils.emptyFn,
             prevChar: '\u00ab',
             prevClassName: 'react-ui-date-picker-prev',
             rowClassName: 'react-ui-date-picker-row',
@@ -1022,6 +1025,8 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
     },
 
     onDateMouseDown: function(date) {
+        this.props.onDateMouseDown(date);
+
         this.setState({
             calendarVisible: false,
             date: date,
@@ -1060,7 +1065,7 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
 module.exports = DatePicker;
 
 },{"./Calendar":10,"./Input":13,"./Trigger":14,"./utils":15}],13:[function(require,module,exports){
-var Input = React.createClass({displayName: 'Input',
+var Input = React.createClass({displayName: "Input",
     render: function() {
         return (
             React.createElement("input", {
@@ -1077,7 +1082,7 @@ var Input = React.createClass({displayName: 'Input',
 module.exports = Input;
 
 },{}],14:[function(require,module,exports){
-var Trigger = React.createClass({displayName: 'Trigger',
+var Trigger = React.createClass({displayName: "Trigger",
     render: function() {
         if (!this.props.showTrigger) {
             return null;
@@ -1238,7 +1243,13 @@ var utils = {
         return disabledDates.filter(function(disabledDate) {
             return this.sameDate(disabledDate, date);
         }, this).length ? true : false;
-    }
+    },
+
+    /**
+     * @method emptyFn
+     * Default handler for all events.
+     */
+    emptyFn: function() {}
 };
 
 module.exports = utils;
@@ -1246,7 +1257,7 @@ module.exports = utils;
 },{}],16:[function(require,module,exports){
 var emptyFn = function() {};
 
-var FileInput = React.createClass({displayName: 'FileInput',
+var FileInput = React.createClass({displayName: "FileInput",
     propTypes: {
 
         /** @prop {String} chooseButtonClassName - The className of the choose button. */
@@ -1394,7 +1405,7 @@ module.exports = FileInput;
  * @class Cell
  * Renders a cell for the grid.
  */
-var Cell = React.createClass({displayName: 'Cell',
+var Cell = React.createClass({displayName: "Cell",
     render: function() {
         return (
             React.createElement("td", {className: this.props.className}, 
@@ -1434,7 +1445,7 @@ var emptyFn = function() {};
  * @class Grid
  * A grid for rendering data.
  */
-var Grid = React.createClass({displayName: 'Grid',
+var Grid = React.createClass({displayName: "Grid",
     propTypes: {
 
         /** @prop {*[]} data - An array of data for the grid. */
@@ -1551,7 +1562,7 @@ module.exports = Grid;
  * @class Header
  * Renders a header for the grid.
  */
-var Header = React.createClass({displayName: 'Header',
+var Header = React.createClass({displayName: "Header",
     getInitialState: function() {
         return {
             numClicks: 0
@@ -1612,7 +1623,7 @@ var Cell = require('./Cell');
  * @class Row
  * Renders a row of cells for the grid.
  */
-var Row = React.createClass({displayName: 'Row',
+var Row = React.createClass({displayName: "Row",
     render: function() {
         return (
             React.createElement("tr", {className: this.props.className}, 

@@ -1,4 +1,4 @@
-var DropDown = React.createClass({displayName: 'DropDown',
+var DropDown = React.createClass({displayName: "DropDown",
     render: function() {
         var style = {
             display: this.props.visible ? 'block' : 'none'

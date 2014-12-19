@@ -2,7 +2,7 @@
  * @class CheckBox
  * A check box component that can easily be styled.
  */
-var CheckBox = React.createClass({displayName: 'CheckBox',
+var CheckBox = React.createClass({displayName: "CheckBox",
     propTypes: {
 
         /** @prop {String} className - The class name of the component. */

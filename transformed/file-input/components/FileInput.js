@@ -1,6 +1,6 @@
 var emptyFn = function() {};
 
-var FileInput = React.createClass({displayName: 'FileInput',
+var FileInput = React.createClass({displayName: "FileInput",
     propTypes: {
 
         /** @prop {String} chooseButtonClassName - The className of the choose button. */

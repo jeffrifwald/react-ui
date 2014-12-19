@@ -2,7 +2,7 @@
  * @class Header
  * Renders a header for the grid.
  */
-var Header = React.createClass({displayName: 'Header',
+var Header = React.createClass({displayName: "Header",
     getInitialState: function() {
         return {
             numClicks: 0

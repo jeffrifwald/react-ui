@@ -8,7 +8,7 @@ var emptyFn = function() {};
  * @class Grid
  * A grid for rendering data.
  */
-var Grid = React.createClass({displayName: 'Grid',
+var Grid = React.createClass({displayName: "Grid",
     propTypes: {
 
         /** @prop {*[]} data - An array of data for the grid. */

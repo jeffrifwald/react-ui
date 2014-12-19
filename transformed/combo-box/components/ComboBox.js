@@ -7,7 +7,7 @@ var utils = require('./utils');
  * @class ComboBox
  * A mixed input and drop down selector component.
  */
-var ComboBox = React.createClass({displayName: 'ComboBox',
+var ComboBox = React.createClass({displayName: "ComboBox",
     propTypes: {
 
         /** @prop {String} baseClassName - The base className of the combo box. */

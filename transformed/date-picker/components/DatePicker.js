@@ -3,10 +3,12 @@ var Input = require('./Input');
 var Trigger = require('./Trigger');
 var utils = require('./utils');
 
-var DatePicker = React.createClass({displayName: 'DatePicker',
+var DatePicker = React.createClass({displayName: "DatePicker",
     propTypes: {
         /** @prop {String} className - The className of the date picker. */
         className: React.PropTypes.string,
+        /** @prop {Function} onDateMouseDown - The method called right before a date is clicked. */
+        onDateMouseDown: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -35,6 +37,7 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
             ],
             nextChar: '\u00bb',
             nextClassName: 'react-ui-date-picker-next',
+            onDateMouseDown: utils.emptyFn,
             prevChar: '\u00ab',
             prevClassName: 'react-ui-date-picker-prev',
             rowClassName: 'react-ui-date-picker-row',
@@ -120,6 +123,8 @@ var DatePicker = React.createClass({displayName: 'DatePicker',
     },
 
     onDateMouseDown: function(date) {
+        this.props.onDateMouseDown(date);
+
         this.setState({
             calendarVisible: false,
             date: date,

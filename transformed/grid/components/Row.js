@@ -4,7 +4,7 @@ var Cell = require('./Cell');
  * @class Row
  * Renders a row of cells for the grid.
  */
-var Row = React.createClass({displayName: 'Row',
+var Row = React.createClass({displayName: "Row",
     render: function() {
         return (
             React.createElement("tr", {className: this.props.className}, 

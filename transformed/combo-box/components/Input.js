@@ -2,7 +2,7 @@ var utils = require('./utils');
 
 var TAB_KEY_CODE = 9;
 
-var Input = React.createClass({displayName: 'Input',
+var Input = React.createClass({displayName: "Input",
 
     getInitialState: function() {
         return {
