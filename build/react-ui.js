@@ -1288,7 +1288,10 @@ var FileInput = React.createClass({displayName: "FileInput",
         onClearClick: React.PropTypes.func,
 
         /** @prop {Function} onFileChange - The method to call when the file input changes. */
-        onFileChange: React.PropTypes.func
+        onFileChange: React.PropTypes.func,
+
+        /** @prop {String} placeholder - The placeholder text for the file input */
+        placeholder: React.PropTypes.string
     },
 
     getDefaultProps: function() {
@@ -1333,6 +1336,7 @@ var FileInput = React.createClass({displayName: "FileInput",
                 React.createElement("input", {
                 className: this.props.fileNameClassName, 
                 disabled: this.props.disabled, 
+                placeholder: this.props.placeholder, 
                 readOnly: true, 
                 type: "textbox", 
                 value: this.state.inputValue})
