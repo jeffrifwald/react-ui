@@ -10,7 +10,7 @@ global.ReactUI = {
 };
 
 }).call(this,typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./transformed/ajax-form/components/AjaxForm":2,"./transformed/check-box/components/CheckBox":4,"./transformed/combo-box/components/ComboBox":5,"./transformed/date-picker/components/DatePicker":12,"./transformed/file-input/components/FileInput":16,"./transformed/grid/components/Grid":18}],2:[function(require,module,exports){
+},{"./transformed/ajax-form/components/AjaxForm":2,"./transformed/check-box/components/CheckBox":4,"./transformed/combo-box/components/ComboBox":6,"./transformed/date-picker/components/DatePicker":13,"./transformed/file-input/components/FileInput":17,"./transformed/grid/components/Grid":19}],2:[function(require,module,exports){
 var utils = require('./utils');
 
 /**
@@ -179,6 +179,22 @@ var CheckBox = React.createClass({displayName: "CheckBox",
 module.exports = CheckBox;
 
 },{}],5:[function(require,module,exports){
+var ClearButton = React.createClass({displayName: "ClearButton",
+    render: function() {
+        return this.props.showClearButton ? (
+            React.createElement("button", {
+            className: this.props.className, 
+            onClick: this.props.onClick, 
+            type: "button"}
+            )
+        ) : null;
+    }
+});
+
+module.exports = ClearButton;
+
+},{}],6:[function(require,module,exports){
+var ClearButton = require('./ClearButton');
 var DropDown = require('./DropDown');
 var Input = require('./Input');
 var Trigger = require('./Trigger');
@@ -196,6 +212,9 @@ var ComboBox = React.createClass({displayName: "ComboBox",
 
         /** @prop {String} className - The additional className of the combo box. */
         className: React.PropTypes.string,
+
+        /** @prop {String} triggerClassName - The className of the cleart button. */
+        clearButtonClassName: React.PropTypes.string,
 
         /** @prop {String|Object} defaultValue - The default value for the combo box. */
         defaultValue: React.PropTypes.oneOfType([
@@ -258,13 +277,16 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         /** @prop {Function} renderOption - The method called to render options. */
         renderOption: React.PropTypes.func,
 
+        /** @prop {Boolean} - True to show a clear button. */
+        showClearButton: React.PropTypes.bool,
+
         /** @prop {String} selectedClassName - The className of the combo box's selected option. */
         selectedClassName: React.PropTypes.string,
 
         /** @prop {Boolean} - True to let the combo box handle its own options. */
         statefulOptions: React.PropTypes.bool,
 
-        /** @prop {String} triggerClassName - The className of the grid's rows. */
+        /** @prop {String} triggerClassName - The className of the trigger button. */
         triggerClassName: React.PropTypes.string,
 
         /** @prop {String} valueProp - The property for accessing the values. */
@@ -278,6 +300,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             disabled: false,
             disabledClassName: 'react-ui-combo-box-disabled',
             dropDownClassName: 'react-ui-combo-box-drop-down',
+            clearButtonClassName: 'react-ui-combo-box-clear',
             editable: true,
             filterDelay: 200,
             inputWrapClassName: 'react-ui-combo-box-input-wrap',
@@ -291,6 +314,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             openClassName: 'react-ui-combo-box-open',
             optionClassName: 'react-ui-combo-box-option',
             options: [],
+            showClearButton: false,
             selectedClassName: 'react-ui-combo-box-selected',
             statefulOptions: true,
             triggerClassName: 'react-ui-combo-box-trigger'
@@ -326,7 +350,6 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     options: this.props.options, 
                     placeholder: this.props.placeholder, 
                     readOnly: !this.props.editable || this.props.disabled, 
-                    ref: "textInput", 
                     renderProps: this.state.renderProps, 
                     value: this.state.value, 
                     valueProp: this.props.valueProp}), 
@@ -340,8 +363,12 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     React.createElement(Trigger, {
                     className: this.props.triggerClassName, 
                     onBlur: this.onBlur, 
-                    onClick: this.onTriggerClick, 
-                    ref: "trigger"}), 
+                    onClick: this.onTriggerClick}), 
+
+                    React.createElement(ClearButton, {
+                    className: this.props.clearButtonClassName, 
+                    onClick: this.clearValue, 
+                    showClearButton: this.props.showClearButton}), 
 
                     React.createElement(DropDown, {
                     className: this.props.dropDownClassName, 
@@ -349,7 +376,6 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     onOptionMouseDown: this.onOptionMouseDown, 
                     optionClassName: this.props.optionClassName, 
                     options: this.getDropDownOptions(), 
-                    ref: "dropDown", 
                     renderOption: renderOption, 
                     selected: this.state.value, 
                     selectedClassName: this.props.selectedClassName, 
@@ -505,7 +531,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
 
 module.exports = ComboBox;
 
-},{"./DropDown":6,"./Input":7,"./Trigger":8,"./utils":9}],6:[function(require,module,exports){
+},{"./ClearButton":5,"./DropDown":7,"./Input":8,"./Trigger":9,"./utils":10}],7:[function(require,module,exports){
 var DropDown = React.createClass({displayName: "DropDown",
     render: function() {
         var style = {
@@ -563,7 +589,7 @@ var DropDown = React.createClass({displayName: "DropDown",
 
 module.exports = DropDown;
 
-},{}],7:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 var utils = require('./utils');
 
 var TAB_KEY_CODE = 9;
@@ -646,7 +672,7 @@ var Input = React.createClass({displayName: "Input",
 
 module.exports = Input;
 
-},{"./utils":9}],8:[function(require,module,exports){
+},{"./utils":10}],9:[function(require,module,exports){
 var Trigger = React.createClass({displayName: "Trigger",
     render: function() {
         return (
@@ -662,7 +688,7 @@ var Trigger = React.createClass({displayName: "Trigger",
 
 module.exports = Trigger;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 module.exports = {
 
     /**
@@ -709,7 +735,7 @@ module.exports = {
     }
 };
 
-},{}],10:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 var DateCell = require('./DateCell');
 
 var Calendar = React.createClass({displayName: "Calendar",
@@ -795,7 +821,7 @@ var Calendar = React.createClass({displayName: "Calendar",
 
 module.exports = Calendar;
 
-},{"./DateCell":11}],11:[function(require,module,exports){
+},{"./DateCell":12}],12:[function(require,module,exports){
 var utils = require('./utils');
 
 var DateCell = React.createClass({displayName: "DateCell",
@@ -899,7 +925,7 @@ var DateCell = React.createClass({displayName: "DateCell",
 
 module.exports = DateCell;
 
-},{"./utils":15}],12:[function(require,module,exports){
+},{"./utils":16}],13:[function(require,module,exports){
 var Calendar = require('./Calendar');
 var Input = require('./Input');
 var Trigger = require('./Trigger');
@@ -1064,7 +1090,7 @@ var DatePicker = React.createClass({displayName: "DatePicker",
 
 module.exports = DatePicker;
 
-},{"./Calendar":10,"./Input":13,"./Trigger":14,"./utils":15}],13:[function(require,module,exports){
+},{"./Calendar":11,"./Input":14,"./Trigger":15,"./utils":16}],14:[function(require,module,exports){
 var Input = React.createClass({displayName: "Input",
     render: function() {
         return (
@@ -1081,7 +1107,7 @@ var Input = React.createClass({displayName: "Input",
 
 module.exports = Input;
 
-},{}],14:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 var Trigger = React.createClass({displayName: "Trigger",
     render: function() {
         if (!this.props.showTrigger) {
@@ -1101,7 +1127,7 @@ var Trigger = React.createClass({displayName: "Trigger",
 
 module.exports = Trigger;
 
-},{}],15:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 var utils = {
     formatMap: {
         /**
@@ -1254,7 +1280,7 @@ var utils = {
 
 module.exports = utils;
 
-},{}],16:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 var emptyFn = function() {};
 
 var FileInput = React.createClass({displayName: "FileInput",
@@ -1404,7 +1430,7 @@ var FileInput = React.createClass({displayName: "FileInput",
 
 module.exports = FileInput;
 
-},{}],17:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 /**
  * @class Cell
  * Renders a cell for the grid.
@@ -1438,7 +1464,7 @@ var Cell = React.createClass({displayName: "Cell",
 
 module.exports = Cell;
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 var Header = require('./Header');
 var Row = require('./Row');
 
@@ -1561,7 +1587,7 @@ var Grid = React.createClass({displayName: "Grid",
 
 module.exports = Grid;
 
-},{"./Header":19,"./Row":20}],19:[function(require,module,exports){
+},{"./Header":20,"./Row":21}],20:[function(require,module,exports){
 /**
  * @class Header
  * Renders a header for the grid.
@@ -1620,7 +1646,7 @@ var Header = React.createClass({displayName: "Header",
 
 module.exports = Header;
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 var Cell = require('./Cell');
 
 /**
@@ -1657,4 +1683,4 @@ var Row = React.createClass({displayName: "Row",
 
 module.exports = Row;
 
-},{"./Cell":17}]},{},[1]);
+},{"./Cell":18}]},{},[1]);

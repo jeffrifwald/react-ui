@@ -1,3 +1,4 @@
+var ClearButton = require('./ClearButton');
 var DropDown = require('./DropDown');
 var Input = require('./Input');
 var Trigger = require('./Trigger');
@@ -15,6 +16,9 @@ var ComboBox = React.createClass({displayName: "ComboBox",
 
         /** @prop {String} className - The additional className of the combo box. */
         className: React.PropTypes.string,
+
+        /** @prop {String} triggerClassName - The className of the cleart button. */
+        clearButtonClassName: React.PropTypes.string,
 
         /** @prop {String|Object} defaultValue - The default value for the combo box. */
         defaultValue: React.PropTypes.oneOfType([
@@ -77,13 +81,16 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         /** @prop {Function} renderOption - The method called to render options. */
         renderOption: React.PropTypes.func,
 
+        /** @prop {Boolean} - True to show a clear button. */
+        showClearButton: React.PropTypes.bool,
+
         /** @prop {String} selectedClassName - The className of the combo box's selected option. */
         selectedClassName: React.PropTypes.string,
 
         /** @prop {Boolean} - True to let the combo box handle its own options. */
         statefulOptions: React.PropTypes.bool,
 
-        /** @prop {String} triggerClassName - The className of the grid's rows. */
+        /** @prop {String} triggerClassName - The className of the trigger button. */
         triggerClassName: React.PropTypes.string,
 
         /** @prop {String} valueProp - The property for accessing the values. */
@@ -97,6 +104,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             disabled: false,
             disabledClassName: 'react-ui-combo-box-disabled',
             dropDownClassName: 'react-ui-combo-box-drop-down',
+            clearButtonClassName: 'react-ui-combo-box-clear',
             editable: true,
             filterDelay: 200,
             inputWrapClassName: 'react-ui-combo-box-input-wrap',
@@ -110,6 +118,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             openClassName: 'react-ui-combo-box-open',
             optionClassName: 'react-ui-combo-box-option',
             options: [],
+            showClearButton: false,
             selectedClassName: 'react-ui-combo-box-selected',
             statefulOptions: true,
             triggerClassName: 'react-ui-combo-box-trigger'
@@ -145,7 +154,6 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     options: this.props.options, 
                     placeholder: this.props.placeholder, 
                     readOnly: !this.props.editable || this.props.disabled, 
-                    ref: "textInput", 
                     renderProps: this.state.renderProps, 
                     value: this.state.value, 
                     valueProp: this.props.valueProp}), 
@@ -159,8 +167,12 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     React.createElement(Trigger, {
                     className: this.props.triggerClassName, 
                     onBlur: this.onBlur, 
-                    onClick: this.onTriggerClick, 
-                    ref: "trigger"}), 
+                    onClick: this.onTriggerClick}), 
+
+                    React.createElement(ClearButton, {
+                    className: this.props.clearButtonClassName, 
+                    onClick: this.clearValue, 
+                    showClearButton: this.props.showClearButton}), 
 
                     React.createElement(DropDown, {
                     className: this.props.dropDownClassName, 
@@ -168,7 +180,6 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     onOptionMouseDown: this.onOptionMouseDown, 
                     optionClassName: this.props.optionClassName, 
                     options: this.getDropDownOptions(), 
-                    ref: "dropDown", 
                     renderOption: renderOption, 
                     selected: this.state.value, 
                     selectedClassName: this.props.selectedClassName, 
