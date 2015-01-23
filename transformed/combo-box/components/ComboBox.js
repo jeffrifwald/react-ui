@@ -130,7 +130,8 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             dropDownVisible: false,
             dropDownOptions: this.props.options,
             renderProps: true,
-            value: this.props.defaultValue
+            value: this.props.defaultValue,
+            index: -1
         };
     },
 
@@ -150,6 +151,9 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     handleInputProps: this.handleInputProps, 
                     onBlur: this.onBlur, 
                     onClick: this.onInputClick, 
+                    onArrowDownPress: this.onArrowDownPress, 
+                    onArrowUpPress: this.onArrowUpPress, 
+                    onEnterPress: this.onEnterPress, 
                     onInput: this.onInput, 
                     options: this.props.options, 
                     placeholder: this.props.placeholder, 
@@ -208,6 +212,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      */
     getClassName: function() {
         var classNames = {};
+
         classNames[this.props.baseClassName] = true;
         classNames[this.props.className] = this.props.className ? true : false;
         classNames[this.props.disabledClassName] = this.props.disabled ? true : false;
@@ -268,16 +273,59 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      * Handler called when an option is selected.
      * Sets the combo box's value, hides the drop down, and resets the options.
      * @param {Object} option - The selected option.
+     * @param {Object} index - The selected index.
      */
-    onOptionMouseDown: function(option) {
+    onOptionMouseDown: function(option, index) {
         this.props.onOptionMouseDown.call(this, option);
 
         this.setState({
             dropDownOptions: this.props.options,
             dropDownVisible: false,
             renderProps: true,
-            value: option
+            value: option,
+            index: index
         });
+    },
+
+    /**
+     * @method onArrowDownPress
+     * Handler called when the down arrow is pressed.
+     */
+    onArrowDownPress: function() {
+        var index = Math.min(this.state.index + 1, this.props.options.length - 1);
+        var value = this.props.options[index];
+
+        this.setState({
+            dropDownVisible: true,
+            index: index,
+            renderProps: true,
+            value: value
+        });
+    },
+
+    /**
+     * @method onArrowUpPress
+     * Handler called when the up arrow is pressed.
+     */
+    onArrowUpPress: function() {
+        var index = Math.max(this.state.index - 1, 0);
+        var value = this.props.options[index];
+
+        this.setState({
+            dropDownVisible: true,
+            index: index,
+            renderProps: true,
+            value: value
+        });
+    },
+
+    /**
+     * @method onEnterPress
+     * Handler called when enter is pressed.
+     */
+    onEnterPress: function() {
+        this.props.onOptionMouseDown.call(this, this.getValue());
+        this.setState({dropDownVisible: false});
     },
 
     /**
@@ -320,7 +368,8 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             dropDownVisible: false,
             dropDownOptions: this.props.options,
             renderProps: true,
-            value: ''
+            value: '',
+            index: -1
         });
     },
 

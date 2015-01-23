@@ -142,5 +142,40 @@ describe('ComboBox', function() {
         TestUtils.Simulate.blur(input);
         assert.isFalse(rendered.state.dropDownVisible);
     });
+
+    it('should handle up and down arrow press', function() {
+        var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
+
+        rendered.onArrowDownPress();
+        assert.equal(rendered.state.index, 0);
+        assert.equal(rendered.state.value.value, 'Option 1');
+
+        rendered.onArrowDownPress();
+        assert.equal(rendered.state.index, 1);
+        assert.equal(rendered.state.value.value, 'Option 2');
+
+        rendered.onArrowUpPress();
+        assert.equal(rendered.state.index, 0);
+        assert.equal(rendered.state.value.value, 'Option 1');
+
+        rendered.onArrowUpPress();
+        assert.equal(rendered.state.index, 0);
+        assert.equal(rendered.state.value.value, 'Option 1');
+    });
+
+    it('should handle enter press', function() {
+        var onOptionMouseDown = stub();
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(ComboBox, {
+            onOptionMouseDown: onOptionMouseDown, 
+            options: options})
+        );
+
+        rendered.setState({dropDownVisible: true});
+        assert.equal(rendered.state.dropDownVisible, true);
+        rendered.onEnterPress();
+        assert.equal(rendered.state.dropDownVisible, false);
+        assert.equal(onOptionMouseDown.callCount, 1);
+    });
 });
 

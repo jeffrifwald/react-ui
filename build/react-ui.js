@@ -326,7 +326,8 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             dropDownVisible: false,
             dropDownOptions: this.props.options,
             renderProps: true,
-            value: this.props.defaultValue
+            value: this.props.defaultValue,
+            index: -1
         };
     },
 
@@ -346,6 +347,9 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     handleInputProps: this.handleInputProps, 
                     onBlur: this.onBlur, 
                     onClick: this.onInputClick, 
+                    onArrowDownPress: this.onArrowDownPress, 
+                    onArrowUpPress: this.onArrowUpPress, 
+                    onEnterPress: this.onEnterPress, 
                     onInput: this.onInput, 
                     options: this.props.options, 
                     placeholder: this.props.placeholder, 
@@ -404,6 +408,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      */
     getClassName: function() {
         var classNames = {};
+
         classNames[this.props.baseClassName] = true;
         classNames[this.props.className] = this.props.className ? true : false;
         classNames[this.props.disabledClassName] = this.props.disabled ? true : false;
@@ -464,16 +469,59 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      * Handler called when an option is selected.
      * Sets the combo box's value, hides the drop down, and resets the options.
      * @param {Object} option - The selected option.
+     * @param {Object} index - The selected index.
      */
-    onOptionMouseDown: function(option) {
+    onOptionMouseDown: function(option, index) {
         this.props.onOptionMouseDown.call(this, option);
 
         this.setState({
             dropDownOptions: this.props.options,
             dropDownVisible: false,
             renderProps: true,
-            value: option
+            value: option,
+            index: index
         });
+    },
+
+    /**
+     * @method onArrowDownPress
+     * Handler called when the down arrow is pressed.
+     */
+    onArrowDownPress: function() {
+        var index = Math.min(this.state.index + 1, this.props.options.length - 1);
+        var value = this.props.options[index];
+
+        this.setState({
+            dropDownVisible: true,
+            index: index,
+            renderProps: true,
+            value: value
+        });
+    },
+
+    /**
+     * @method onArrowUpPress
+     * Handler called when the up arrow is pressed.
+     */
+    onArrowUpPress: function() {
+        var index = Math.max(this.state.index - 1, 0);
+        var value = this.props.options[index];
+
+        this.setState({
+            dropDownVisible: true,
+            index: index,
+            renderProps: true,
+            value: value
+        });
+    },
+
+    /**
+     * @method onEnterPress
+     * Handler called when enter is pressed.
+     */
+    onEnterPress: function() {
+        this.props.onOptionMouseDown.call(this, this.getValue());
+        this.setState({dropDownVisible: false});
     },
 
     /**
@@ -516,7 +564,8 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             dropDownVisible: false,
             dropDownOptions: this.props.options,
             renderProps: true,
-            value: ''
+            value: '',
+            index: -1
         });
     },
 
@@ -560,7 +609,7 @@ var DropDown = React.createClass({displayName: "DropDown",
                 React.createElement("div", {
                 className: this.getOptionClassName(option), 
                 key: key, 
-                onMouseDown: this.props.onOptionMouseDown.bind(null, option)}, 
+                onMouseDown: this.props.onOptionMouseDown.bind(null, option, index)}, 
                     this.props.renderOption(option)
                 )
             );
@@ -592,7 +641,11 @@ module.exports = DropDown;
 },{}],8:[function(require,module,exports){
 var utils = require('./utils');
 
+
+var ENTER_KEY_CODE = 13;
 var TAB_KEY_CODE = 9;
+var ARROW_DOWN_KEY_CODE = 40;
+var ARROW_UP_KEY_CODE = 38;
 
 var Input = React.createClass({displayName: "Input",
 
@@ -614,11 +667,27 @@ var Input = React.createClass({displayName: "Input",
             onBlur: this.props.onBlur, 
             onChange: this.onChange, 
             onClick: this.props.onClick, 
+            onKeyDown: this.onKeyDown, 
             placeholder: this.props.placeholder, 
             readOnly: this.props.readOnly, 
             type: "textbox", 
             value: value})
         );
+    },
+
+    /**
+     * @method onKeyDown
+     * Handles pressing special keys.
+     * @param {Object} evt - The event object.
+     */
+    onKeyDown: function(evt) {
+        if (evt.keyCode === ARROW_DOWN_KEY_CODE) {
+            this.props.onArrowDownPress();
+        } else if (evt.keyCode === ARROW_UP_KEY_CODE) {
+            this.props.onArrowUpPress();
+        } else if(evt.keyCode === ENTER_KEY_CODE) {
+            this.props.onEnterPress();
+        }
     },
 
     /**
@@ -634,14 +703,16 @@ var Input = React.createClass({displayName: "Input",
 
         clearTimeout(this.inputTimeout); //always clear the timeout
 
-        if (evt.keyCode !== TAB_KEY_CODE) {
-            this.props.handleInputProps();
-            filteredOptions = this.handleInput(value, options);
-            this.inputTimeout = setTimeout(
-                this.props.onInput.bind(null, value, filteredOptions),
-                this.props.filterDelay
-            );
+        if (evt.keyCode === TAB_KEY_CODE) {
+            return;
         }
+
+        this.props.handleInputProps();
+        filteredOptions = this.handleInput(value, options);
+        this.inputTimeout = setTimeout(
+            this.props.onInput.bind(null, value, filteredOptions),
+            this.props.filterDelay
+        );
     },
 
     /**

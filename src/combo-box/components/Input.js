@@ -1,6 +1,10 @@
 var utils = require('./utils');
 
+
+var ENTER_KEY_CODE = 13;
 var TAB_KEY_CODE = 9;
+var ARROW_DOWN_KEY_CODE = 40;
+var ARROW_UP_KEY_CODE = 38;
 
 var Input = React.createClass({
 
@@ -22,11 +26,27 @@ var Input = React.createClass({
             onBlur={this.props.onBlur}
             onChange={this.onChange}
             onClick={this.props.onClick}
+            onKeyDown={this.onKeyDown}
             placeholder={this.props.placeholder}
             readOnly={this.props.readOnly}
             type="textbox"
             value={value} />
         );
+    },
+
+    /**
+     * @method onKeyDown
+     * Handles pressing special keys.
+     * @param {Object} evt - The event object.
+     */
+    onKeyDown: function(evt) {
+        if (evt.keyCode === ARROW_DOWN_KEY_CODE) {
+            this.props.onArrowDownPress();
+        } else if (evt.keyCode === ARROW_UP_KEY_CODE) {
+            this.props.onArrowUpPress();
+        } else if(evt.keyCode === ENTER_KEY_CODE) {
+            this.props.onEnterPress();
+        }
     },
 
     /**
@@ -42,14 +62,16 @@ var Input = React.createClass({
 
         clearTimeout(this.inputTimeout); //always clear the timeout
 
-        if (evt.keyCode !== TAB_KEY_CODE) {
-            this.props.handleInputProps();
-            filteredOptions = this.handleInput(value, options);
-            this.inputTimeout = setTimeout(
-                this.props.onInput.bind(null, value, filteredOptions),
-                this.props.filterDelay
-            );
+        if (evt.keyCode === TAB_KEY_CODE) {
+            return;
         }
+
+        this.props.handleInputProps();
+        filteredOptions = this.handleInput(value, options);
+        this.inputTimeout = setTimeout(
+            this.props.onInput.bind(null, value, filteredOptions),
+            this.props.filterDelay
+        );
     },
 
     /**

@@ -27,12 +27,13 @@
         }, {
             name: 'Peter Parker',
             id: 3
-        }]
+        }];
 
         React.render(
             <ReactUI.ComboBox
             defaultValue={options[0]}
             displayProp="name"
+            onOptionMouseDown={onOptionMouseDown}
             options={options}
             showClearButton={true}
             valueProp="id"/>,

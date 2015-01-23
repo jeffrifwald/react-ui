@@ -172,4 +172,29 @@ describe('Input', function() {
         //restore mocks
         rendered.setState.restore();
     });
+
+    it('should handle key down', function() {
+        var arrowUp = stub();
+        var arrowDown = stub();
+        var enter = stub();
+        var options = [{value: 'Cool Value'}, {value: 'Cool Value 2'}, {value: undefined}];
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(Input, {
+            className: "cool-input", 
+            onArrowUpPress: arrowUp, 
+            onArrowDownPress: arrowDown, 
+            onEnterPress: enter, 
+            options: options, 
+            valueProp: "value"})
+        );
+
+        TestUtils.Simulate.keyDown(rendered.getDOMNode(), {keyCode: 13});
+        assert.equal(enter.callCount, 1);
+
+        TestUtils.Simulate.keyDown(rendered.getDOMNode(), {keyCode: 38});
+        assert.equal(arrowUp.callCount, 1);
+
+        TestUtils.Simulate.keyDown(rendered.getDOMNode(), {keyCode: 40});
+        assert.equal(arrowDown.callCount, 1);
+    });
 });
