@@ -473,8 +473,8 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      * @param {Object} option - The selected option.
      * @param {Object} index - The selected index.
      */
-    onOptionMouseDown: function(option, index) {
-        this.props.onOptionMouseDown.call(this, option);
+    onOptionMouseDown: function(option, index, evt) {
+        this.props.onOptionMouseDown.call(this, option, evt);
 
         this.setState({
             dropDownOptions: this.props.options,
