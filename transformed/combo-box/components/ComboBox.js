@@ -254,7 +254,8 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         this.setState({
             value: value,
             dropDownOptions: options,
-            dropDownVisible: true
+            dropDownVisible: true,
+            index: 0
         });
     },
 
