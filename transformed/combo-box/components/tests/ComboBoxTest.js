@@ -43,6 +43,16 @@ describe('ComboBox', function() {
         assert.equal(rendered.getValue(), '');
     });
 
+    it('should close the drop down', function() {
+        var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
+
+        rendered.setState({dropDownVisible: true});
+
+        assert.isTrue(rendered.state.dropDownVisible);
+        rendered.closeDropDown();
+        assert.isFalse(rendered.state.dropDownVisible);
+    });
+
     it('should show/hide the drop down on trigger click', function() {
         var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
         var trigger = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-trigger');

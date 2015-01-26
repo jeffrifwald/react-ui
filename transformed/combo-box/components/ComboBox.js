@@ -39,6 +39,12 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         /** @prop {String} dropDownClassName - The className of the combo box's drop down. */
         dropDownClassName: React.PropTypes.string,
 
+        /**
+         * @prop {Boolean} closeDropDownOnOptionMouseDown
+         * True to close the drop down when an option is selected.
+         */
+        closeDropDownOnOptionMouseDown: React.PropTypes.bool,
+
         /** @prop {Number} editable - False if the combo box's input should be readonly. */
         editable: React.PropTypes.bool,
 
@@ -104,6 +110,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             disabled: false,
             disabledClassName: 'react-ui-combo-box-disabled',
             dropDownClassName: 'react-ui-combo-box-drop-down',
+            closeDropDownOnOptionMouseDown: true,
             clearButtonClassName: 'react-ui-combo-box-clear',
             editable: true,
             filterDelay: 200,
@@ -278,11 +285,16 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      * @param {Object} index - The selected index.
      */
     onOptionMouseDown: function(option, index, evt) {
+        var dropDownVisible =
+            this.props.closeDropDownOnOptionMouseDown ?
+            false : this.state.dropDownVisible;
+
+
         this.props.onOptionMouseDown.call(this, option, evt);
 
         this.setState({
             dropDownOptions: this.props.options,
-            dropDownVisible: false,
+            dropDownVisible: dropDownVisible,
             renderProps: true,
             value: option,
             index: index
@@ -379,6 +391,14 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             value: '',
             index: -1
         });
+    },
+
+    /**
+     * @method closeDropDown
+     * Closes the drop down.
+     */
+    closeDropDown: function() {
+        this.setState({dropDownVisible: false});
     },
 
     /**
