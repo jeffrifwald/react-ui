@@ -171,7 +171,10 @@ describe('ComboBox', function() {
             options={options} />
         );
 
-        rendered.setState({dropDownVisible: true});
+        rendered.setState({
+            dropDownVisible: true,
+            value: {}
+        });
         assert.equal(rendered.state.dropDownVisible, true);
         rendered.onEnterPress();
         assert.equal(rendered.state.dropDownVisible, false);
