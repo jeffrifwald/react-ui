@@ -176,10 +176,10 @@ describe('ComboBox', function() {
     });
 
     it('should handle enter press', function() {
-        var onOptionMouseDown = stub();
+        var onEnterPress = stub();
         var rendered = TestUtils.renderIntoDocument(
             <ComboBox
-            onOptionMouseDown={onOptionMouseDown}
+            onEnterPress={onEnterPress}
             options={options} />
         );
 
@@ -190,7 +190,7 @@ describe('ComboBox', function() {
         assert.equal(rendered.state.dropDownVisible, true);
         rendered.onEnterPress();
         assert.equal(rendered.state.dropDownVisible, false);
-        assert.equal(onOptionMouseDown.callCount, 1);
+        assert.equal(onEnterPress.callCount, 1);
     });
 });
 

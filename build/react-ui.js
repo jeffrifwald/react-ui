@@ -256,6 +256,9 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         /** @prop {String} - The name of the combo box's input. */
         name: React.PropTypes.string,
 
+        /** @prop {Function} onEnterPress - The method called when the enter key is pressed. */
+        onEnterPress: React.PropTypes.func,
+
         /** @prop {Function} onInput - The method called when the input is typed into. */
         onInput: React.PropTypes.func,
 
@@ -311,6 +314,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
             inputClassName: 'react-ui-combo-box-input',
             label: '',
             labelClassName: 'react-ui-combo-box-label',
+            onEnterPress: utils.emptyFn,
             onInput: utils.emptyFn,
             onInputClick: utils.emptyFn,
             onOptionMouseDown: utils.emptyFn,
@@ -529,7 +533,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      */
     onEnterPress: function() {
         if (this.getValue()) {
-            this.props.onOptionMouseDown.call(this, this.getValue());
+            this.props.onEnterPress();
             this.setState({dropDownVisible: this.maybeDropDownVisible()});
         }
     },
