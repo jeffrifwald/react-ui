@@ -11,6 +11,9 @@ var utils = require('./utils');
 var ComboBox = React.createClass({
     propTypes: {
 
+        /** @prop {Boolean} autoCloseDropDown - True to close the drop down automatically. */
+        autoCloseDropDown: React.PropTypes.bool,
+
         /** @prop {String} baseClassName - The base className of the combo box. */
         baseClassName: React.PropTypes.string,
 
@@ -38,12 +41,6 @@ var ComboBox = React.createClass({
 
         /** @prop {String} dropDownClassName - The className of the combo box's drop down. */
         dropDownClassName: React.PropTypes.string,
-
-        /**
-         * @prop {Boolean} closeDropDownOnOptionMouseDown
-         * True to close the drop down when an option is selected.
-         */
-        closeDropDownOnOptionMouseDown: React.PropTypes.bool,
 
         /** @prop {Number} editable - False if the combo box's input should be readonly. */
         editable: React.PropTypes.bool,
@@ -105,12 +102,12 @@ var ComboBox = React.createClass({
 
     getDefaultProps: function() {
         return {
+            autoCloseDropDown: true,
             baseClassName: 'react-ui-combo-box',
             className: '',
             disabled: false,
             disabledClassName: 'react-ui-combo-box-disabled',
             dropDownClassName: 'react-ui-combo-box-drop-down',
-            closeDropDownOnOptionMouseDown: true,
             clearButtonClassName: 'react-ui-combo-box-clear',
             editable: true,
             filterDelay: 200,
@@ -272,9 +269,7 @@ var ComboBox = React.createClass({
      * Closes the drop down if not an option.
      */
     onBlur: function() {
-        this.setState({
-            dropDownVisible: false
-        });
+        this.setState({dropDownVisible: this.maybeDropDownVisible()});
     },
 
     /**
@@ -285,16 +280,11 @@ var ComboBox = React.createClass({
      * @param {Object} index - The selected index.
      */
     onOptionMouseDown: function(option, index, evt) {
-        var dropDownVisible =
-            this.props.closeDropDownOnOptionMouseDown ?
-            false : this.state.dropDownVisible;
-
-
         this.props.onOptionMouseDown.call(this, option, evt);
 
         this.setState({
             dropDownOptions: this.props.options,
-            dropDownVisible: dropDownVisible,
+            dropDownVisible: this.maybeDropDownVisible(),
             renderProps: true,
             value: option,
             index: index
@@ -344,7 +334,7 @@ var ComboBox = React.createClass({
     onEnterPress: function() {
         if (this.getValue()) {
             this.props.onOptionMouseDown.call(this, this.getValue());
-            this.setState({dropDownVisible: false});
+            this.setState({dropDownVisible: this.maybeDropDownVisible()});
         }
     },
 
@@ -391,6 +381,14 @@ var ComboBox = React.createClass({
             value: '',
             index: -1
         });
+    },
+
+    /**
+     * @method maybeDropDownVisible
+     * Returns the drop visible state baed on the autoCloseDropDown prop
+     */
+    maybeDropDownVisible: function() {
+        return this.props.autoCloseDropDown ? false : this.state.dropDownVisible;
     },
 
     /**
