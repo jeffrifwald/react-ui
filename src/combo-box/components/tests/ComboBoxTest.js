@@ -146,6 +146,8 @@ describe('ComboBox', function() {
     it('should handle up and down arrow press', function() {
         var rendered = TestUtils.renderIntoDocument(<ComboBox options={options} />);
 
+        rendered.refs.input.getDOMNode().value = 'O';
+
         rendered.onArrowDownPress();
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');

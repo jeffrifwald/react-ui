@@ -354,6 +354,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     options: this.props.options, 
                     placeholder: this.props.placeholder, 
                     readOnly: !this.props.editable || this.props.disabled, 
+                    ref: "input", 
                     renderProps: this.state.renderProps, 
                     value: this.state.value, 
                     valueProp: this.props.valueProp}), 
@@ -492,7 +493,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         var index = Math.min(this.state.index + 1, this.props.options.length - 1);
         var value = this.props.options[index];
 
-        if (value) {
+        if (this.refs.input.getDOMNode().value) {
             this.setState({
                 dropDownVisible: true,
                 index: index,
@@ -510,7 +511,7 @@ var ComboBox = React.createClass({displayName: "ComboBox",
         var index = Math.max(this.state.index - 1, 0);
         var value = this.props.options[index];
 
-        if (value) {
+        if (this.refs.input.getDOMNode().value) {
             this.setState({
                 dropDownVisible: true,
                 index: index,
