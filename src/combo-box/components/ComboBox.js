@@ -335,8 +335,10 @@ var ComboBox = React.createClass({
      * @method onEnterPress
      * Handler called when enter is pressed.
      */
-    onEnterPress: function() {
+    onEnterPress: function(evt) {
         var value = this.getValue();
+
+        evt.preventDefault();
 
         if (value) {
             this.props.onEnterPress(value);

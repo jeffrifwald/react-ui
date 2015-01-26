@@ -177,6 +177,7 @@ describe('ComboBox', function() {
 
     it('should handle enter press', function() {
         var onEnterPress = stub();
+        var preventDefault = stub();
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ComboBox, {
             onEnterPress: onEnterPress, 
@@ -188,9 +189,10 @@ describe('ComboBox', function() {
             value: {}
         });
         assert.equal(rendered.state.dropDownVisible, true);
-        rendered.onEnterPress();
+        rendered.onEnterPress({preventDefault: preventDefault});
         assert.equal(rendered.state.dropDownVisible, false);
         assert.equal(onEnterPress.callCount, 1);
+        assert.equal(preventDefault.callCount, 1);
     });
 });
 
