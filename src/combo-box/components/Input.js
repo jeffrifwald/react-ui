@@ -41,11 +41,11 @@ var Input = React.createClass({
      */
     onKeyDown: function(evt) {
         if (evt.keyCode === ARROW_DOWN_KEY_CODE) {
-            this.props.onArrowDownPress();
+            this.props.onArrowDownPress(evt);
         } else if (evt.keyCode === ARROW_UP_KEY_CODE) {
-            this.props.onArrowUpPress();
+            this.props.onArrowUpPress(evt);
         } else if(evt.keyCode === ENTER_KEY_CODE) {
-            this.props.onEnterPress();
+            this.props.onEnterPress(evt);
         }
     },
 

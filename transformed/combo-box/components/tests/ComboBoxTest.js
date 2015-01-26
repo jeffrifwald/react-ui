@@ -43,6 +43,16 @@ describe('ComboBox', function() {
         assert.equal(rendered.getValue(), '');
     });
 
+    it('should close the drop down', function() {
+        var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
+
+        rendered.setState({dropDownVisible: true});
+
+        assert.isTrue(rendered.state.dropDownVisible);
+        rendered.closeDropDown();
+        assert.isFalse(rendered.state.dropDownVisible);
+    });
+
     it('should show/hide the drop down on trigger click', function() {
         var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
         var trigger = TestUtils.findRenderedDOMComponentWithClass(rendered, 'react-ui-combo-box-trigger');
@@ -145,37 +155,45 @@ describe('ComboBox', function() {
 
     it('should handle up and down arrow press', function() {
         var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
+        var evt = {
+            target: {value: 'C'}
+        };
 
-        rendered.onArrowDownPress();
+        rendered.onArrowDownPress(evt);
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');
 
-        rendered.onArrowDownPress();
+        rendered.onArrowDownPress(evt);
         assert.equal(rendered.state.index, 1);
         assert.equal(rendered.state.value.value, 'Option 2');
 
-        rendered.onArrowUpPress();
+        rendered.onArrowUpPress(evt);
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');
 
-        rendered.onArrowUpPress();
+        rendered.onArrowUpPress(evt);
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');
     });
 
     it('should handle enter press', function() {
-        var onOptionMouseDown = stub();
+        var onEnterPress = stub();
+        var preventDefault = stub();
         var rendered = TestUtils.renderIntoDocument(
             React.createElement(ComboBox, {
-            onOptionMouseDown: onOptionMouseDown, 
+            onEnterPress: onEnterPress, 
             options: options})
         );
 
-        rendered.setState({dropDownVisible: true});
+        rendered.setState({
+            dropDownVisible: true,
+            value: {}
+        });
         assert.equal(rendered.state.dropDownVisible, true);
-        rendered.onEnterPress();
+        rendered.onEnterPress({preventDefault: preventDefault});
         assert.equal(rendered.state.dropDownVisible, false);
-        assert.equal(onOptionMouseDown.callCount, 1);
+        assert.equal(onEnterPress.callCount, 1);
+        assert.equal(preventDefault.callCount, 1);
     });
 });
 
