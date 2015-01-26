@@ -155,22 +155,23 @@ describe('ComboBox', function() {
 
     it('should handle up and down arrow press', function() {
         var rendered = TestUtils.renderIntoDocument(React.createElement(ComboBox, {options: options}));
+        var evt = {
+            target: {value: 'C'}
+        };
 
-        rendered.refs.input.getDOMNode().value = 'O';
-
-        rendered.onArrowDownPress();
+        rendered.onArrowDownPress(evt);
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');
 
-        rendered.onArrowDownPress();
+        rendered.onArrowDownPress(evt);
         assert.equal(rendered.state.index, 1);
         assert.equal(rendered.state.value.value, 'Option 2');
 
-        rendered.onArrowUpPress();
+        rendered.onArrowUpPress(evt);
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');
 
-        rendered.onArrowUpPress();
+        rendered.onArrowUpPress(evt);
         assert.equal(rendered.state.index, 0);
         assert.equal(rendered.state.value.value, 'Option 1');
     });

@@ -187,14 +187,18 @@ describe('Input', function() {
             options: options, 
             valueProp: "value"})
         );
+        var evt = {};
 
-        TestUtils.Simulate.keyDown(rendered.getDOMNode(), {keyCode: 13});
+        evt.keyCode = 13;
+        TestUtils.Simulate.keyDown(rendered.getDOMNode(), evt);
         assert.equal(enter.callCount, 1);
 
-        TestUtils.Simulate.keyDown(rendered.getDOMNode(), {keyCode: 38});
+        evt.keyCode = 38;
+        TestUtils.Simulate.keyDown(rendered.getDOMNode(), evt);
         assert.equal(arrowUp.callCount, 1);
 
-        TestUtils.Simulate.keyDown(rendered.getDOMNode(), {keyCode: 40});
+        evt.keyCode = 40;
+        TestUtils.Simulate.keyDown(rendered.getDOMNode(), evt);
         assert.equal(arrowDown.callCount, 1);
     });
 });

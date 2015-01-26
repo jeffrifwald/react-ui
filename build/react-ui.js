@@ -362,7 +362,6 @@ var ComboBox = React.createClass({displayName: "ComboBox",
                     options: this.props.options, 
                     placeholder: this.props.placeholder, 
                     readOnly: !this.props.editable || this.props.disabled, 
-                    ref: "input", 
                     renderProps: this.state.renderProps, 
                     value: this.state.value, 
                     valueProp: this.props.valueProp}), 
@@ -495,11 +494,11 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      * @method onArrowDownPress
      * Handler called when the down arrow is pressed.
      */
-    onArrowDownPress: function() {
+    onArrowDownPress: function(evt) {
         var index = Math.min(this.state.index + 1, this.props.options.length - 1);
         var value = this.props.options[index];
 
-        if (this.refs.input.getDOMNode().value) {
+        if (evt.target.value) {
             this.setState({
                 dropDownVisible: true,
                 index: index,
@@ -513,11 +512,11 @@ var ComboBox = React.createClass({displayName: "ComboBox",
      * @method onArrowUpPress
      * Handler called when the up arrow is pressed.
      */
-    onArrowUpPress: function() {
+    onArrowUpPress: function(evt) {
         var index = Math.max(this.state.index - 1, 0);
         var value = this.props.options[index];
 
-        if (this.refs.input.getDOMNode().value) {
+        if (evt.target.value) {
             this.setState({
                 dropDownVisible: true,
                 index: index,
@@ -716,11 +715,11 @@ var Input = React.createClass({displayName: "Input",
      */
     onKeyDown: function(evt) {
         if (evt.keyCode === ARROW_DOWN_KEY_CODE) {
-            this.props.onArrowDownPress();
+            this.props.onArrowDownPress(evt);
         } else if (evt.keyCode === ARROW_UP_KEY_CODE) {
-            this.props.onArrowUpPress();
+            this.props.onArrowUpPress(evt);
         } else if(evt.keyCode === ENTER_KEY_CODE) {
-            this.props.onEnterPress();
+            this.props.onEnterPress(evt);
         }
     },
 
