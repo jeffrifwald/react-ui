@@ -26,6 +26,9 @@ var AjaxForm = React.createClass({displayName: "AjaxForm",
         /** @prop {Function} onResponse - The method to call when a response is available. */
         onResponse: React.PropTypes.func,
 
+        /** @prop {Function} onBeforeSubmit - The method to call before the form is submitted. */
+        onBeforeSubmit: React.PropTypes.func,
+
         /** @prop {String} url - The url for sending the request. */
         url: React.PropTypes.string
     },
@@ -34,6 +37,7 @@ var AjaxForm = React.createClass({displayName: "AjaxForm",
         return {
             className: 'react-ui-ajax-form',
             onResponse: utils.emptyFn,
+            onBeforeSubmit: utils.emptyFn,
             url: ''
         };
     },
@@ -58,6 +62,17 @@ var AjaxForm = React.createClass({displayName: "AjaxForm",
      */
     onSubmit: function(evt) {
         evt.preventDefault(); //do not submit the form yet
+
+        this.submit();
+    },
+
+    /**
+     * @method submit
+     * Programmatic way to submit the form
+     * Submits the form via ajax with FormData or posts to an iframe.
+     */
+    submit: function() {
+        this.props.onBeforeSubmit();
         utils.handleForm(this.getDOMNode(), this.props.onResponse);
     }
 });
