@@ -32,33 +32,20 @@ describe('AjaxForm', function() {
         return mockRequest;
     };
 
-    it('should handle submission with FormData', function() {
-        var onResponse = stub();
+    it('should submit the form', function() {
         var mockEvent = {preventDefault: stub()};
         var rendered = TestUtils.renderIntoDocument(
-            React.createElement(AjaxForm, {onResponse: onResponse, url: "/submit/"})
+            React.createElement(AjaxForm, {url: "/submit/"})
         );
+        var mockSubmit = stub(rendered, 'submit');
         var node = rendered.getDOMNode();
-        var formDataCalled = 0;
-
-        //mock FormData
-        window.FormData = function(form) {
-            formDataCalled++;
-            assert.equal(form, node);
-        };
 
         TestUtils.Simulate.submit(node, mockEvent);
         assert.equal(mockEvent.preventDefault.callCount, 1);
         assert.isTrue(mockEvent.preventDefault.calledWith());
-        assert.equal(onResponse.callCount, 3); //called for ok, failure, and error
-        assert.isTrue(onResponse.calledWith(undefined, mockRequest));
-        assert.isTrue(onResponse.calledWith(new Error('AjaxForm: StatusError'), mockRequest));
-        assert.isTrue(onResponse.calledWith(new Error('AjaxForm: Network Error'), mockRequest));
-        assert.equal(formDataCalled, 1);
-        assert.equal(mockRequest.open.callCount, 1);
-        assert.isTrue(mockRequest.open.calledWith('POST', '/submit/', true));
-        assert.equal(mockRequest.send.callCount, 1);
-        assert.isTrue(mockRequest.send.calledWith(new window.FormData(node)));
+        assert.equal(mockSubmit.callCount, 1);
+
+        mockSubmit.restore();
     });
 
     it('should handle submission without FormData', function() {
@@ -78,5 +65,33 @@ describe('AjaxForm', function() {
 
         //restore mocks
         node.submit.restore();
+    });
+
+    it('should handle submission with FormData', function() {
+        var onResponse = stub();
+        var onBeforeSubmit = stub();
+        var rendered = TestUtils.renderIntoDocument(
+            React.createElement(AjaxForm, {onResponse: onResponse, onBeforeSubmit: onBeforeSubmit, url: "/submit/"})
+        );
+        var node = rendered.getDOMNode();
+        var formDataCalled = 0;
+
+        //mock FormData
+        window.FormData = function(form) {
+            formDataCalled++;
+            assert.equal(form, node);
+        };
+
+        rendered.submit();
+        assert.equal(onBeforeSubmit.callCount, 1);
+        assert.equal(onResponse.callCount, 3); //called for ok, failure, and error
+        assert.isTrue(onResponse.calledWith(undefined, mockRequest));
+        assert.isTrue(onResponse.calledWith(new Error('AjaxForm: StatusError'), mockRequest));
+        assert.isTrue(onResponse.calledWith(new Error('AjaxForm: Network Error'), mockRequest));
+        assert.equal(formDataCalled, 1);
+        assert.equal(mockRequest.open.callCount, 1);
+        assert.isTrue(mockRequest.open.calledWith('POST', '/submit/', true));
+        assert.equal(mockRequest.send.callCount, 1);
+        assert.isTrue(mockRequest.send.calledWith(new window.FormData(node)));
     });
 });

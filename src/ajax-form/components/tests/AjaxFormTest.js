@@ -37,7 +37,7 @@ describe('AjaxForm', function() {
         var rendered = TestUtils.renderIntoDocument(
             <AjaxForm url="/submit/" />
         );
-        var mockSubmit = stub(rendered.submit);
+        var mockSubmit = stub(rendered, 'submit');
         var node = rendered.getDOMNode();
 
         TestUtils.Simulate.submit(node, mockEvent);
