@@ -64,11 +64,16 @@ var Grid = React.createClass({
     render: function() {
         return (
             <table className={this.props.gridClassName}>
-                <tr className={this.props.rowClassName}>
-                    {this.renderHeaders()}
-                </tr>
-                {this.renderLoadingMask()}
-                {this.renderRows()}
+                <thead>
+                    <tr className={this.props.rowClassName}>
+                        {this.renderHeaders()}
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {this.renderLoadingMask()}
+                    {this.renderRows()}
+                </tbody>
             </table>
         );
     },

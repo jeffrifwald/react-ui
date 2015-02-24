@@ -1650,11 +1650,16 @@ var Grid = React.createClass({displayName: "Grid",
     render: function() {
         return (
             React.createElement("table", {className: this.props.gridClassName}, 
-                React.createElement("tr", {className: this.props.rowClassName}, 
-                    this.renderHeaders()
+                React.createElement("thead", null, 
+                    React.createElement("tr", {className: this.props.rowClassName}, 
+                        this.renderHeaders()
+                    )
                 ), 
-                this.renderLoadingMask(), 
-                this.renderRows()
+
+                React.createElement("tbody", null, 
+                    this.renderLoadingMask(), 
+                    this.renderRows()
+                )
             )
         );
     },
