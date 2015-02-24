@@ -1619,7 +1619,13 @@ var Grid = React.createClass({displayName: "Grid",
         onHeaderClick: React.PropTypes.func,
 
         /** @prop {String} rowClassName - The className of the grid's rows. */
-        rowClassName: React.PropTypes.string
+        rowClassName: React.PropTypes.string,
+
+        /** @prop {String} rowClassName - The className of the grid's loading mask. */
+        loadingMaskClassName: React.PropTypes.string,
+
+        /** @prop {Boolean} showLoading - True to show a loading mask. */
+        showLoadingMask: React.PropTypes.bool
     },
 
     getDefaultProps: function() {
@@ -1628,8 +1634,10 @@ var Grid = React.createClass({displayName: "Grid",
             clickedHeaderClassName: 'react-ui-grid-header-clicked',
             gridClassName: 'react-ui-grid',
             headerClassName: 'react-ui-grid-header',
+            loadingMaskClassName: 'react-ui-grid-loading-mask',
             onHeaderClick: emptyFn,
-            rowClassName: 'react-ui-grid-row'
+            rowClassName: 'react-ui-grid-row',
+            showLoadingMask: false
         };
     },
 
@@ -1645,6 +1653,7 @@ var Grid = React.createClass({displayName: "Grid",
                 React.createElement("tr", {className: this.props.rowClassName}, 
                     this.renderHeaders()
                 ), 
+                this.renderLoadingMask(), 
                 this.renderRows()
             )
         );
@@ -1669,6 +1678,18 @@ var Grid = React.createClass({displayName: "Grid",
                 onClick: this.onHeaderClick})
             );
         }, this);
+    },
+
+    /**
+     * @renderLoadingMask
+     * Renders the loading mask if updating.
+     * @returns {Object} - An loading mask component.
+     */
+    renderLoadingMask: function() {
+        return this.props.showLoadingMask ? (
+            React.createElement("div", {className: this.props.loadingMaskClasName}
+            )
+        ) : null;
     },
 
     /**
