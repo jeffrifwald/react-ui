@@ -35,7 +35,7 @@ var Grid = React.createClass({displayName: "Grid",
         /** @prop {String} rowClassName - The className of the grid's rows. */
         rowClassName: React.PropTypes.string,
 
-        /** @prop {String} rowClassName - The className of the grid's loading mask. */
+        /** @prop {String} loadingMaskClassName - The className of the grid's loading mask. */
         loadingMaskClassName: React.PropTypes.string,
 
         /** @prop {Boolean} showLoading - True to show a loading mask. */
@@ -101,7 +101,7 @@ var Grid = React.createClass({displayName: "Grid",
      */
     renderLoadingMask: function() {
         return this.props.showLoadingMask ? (
-            React.createElement("div", {className: this.props.loadingMaskClasName}
+            React.createElement("div", {className: this.props.loadingMaskClassName}
             )
         ) : null;
     },
