@@ -63,18 +63,20 @@ var Grid = React.createClass({
 
     render: function() {
         return (
-            <table className={this.props.gridClassName}>
-                <thead>
-                    <tr className={this.props.rowClassName}>
-                        {this.renderHeaders()}
-                    </tr>
-                </thead>
+            <div className="react-ui-grid-wrapper">
+                {this.renderLoadingMask()}
 
-                <tbody>
-                    {this.renderLoadingMask()}
-                    {this.renderRows()}
-                </tbody>
-            </table>
+                <table className={this.props.gridClassName}>
+                    <thead>
+                        <tr className={this.props.rowClassName}>
+                            {this.renderHeaders()}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {this.renderRows()}
+                    </tbody>
+                </table>
+            </div>
         );
     },
 
