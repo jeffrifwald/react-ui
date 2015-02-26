@@ -25,8 +25,11 @@ var Row = React.createClass({
                 className={this.props.cellClassName}
                 column={column}
                 columns={this.props.columns}
+                columnIndex={columnIndex}
+                onClick={this.props.onCellClick}
                 key={columnIndex}
-                record={this.props.record} />
+                record={this.props.record}
+                rowIndex={this.props.rowIndex} />
             );
         }, this);
     }

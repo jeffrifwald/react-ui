@@ -32,6 +32,9 @@ var Grid = React.createClass({
         /** @prop {Function} onHeaderClick - The method called when a grid header is clicked. */
         onHeaderClick: React.PropTypes.func,
 
+        /** @prop {Function} onCellClick - The method called when a grid cell is clicked. */
+        onCellClick: React.PropTypes.func,
+
         /** @prop {String} rowClassName - The className of the grid's rows. */
         rowClassName: React.PropTypes.string,
 
@@ -50,6 +53,7 @@ var Grid = React.createClass({
             headerClassName: 'react-ui-grid-header',
             loadingMaskClassName: 'react-ui-grid-loading-mask',
             onHeaderClick: emptyFn,
+            onCellClick: emptyFn,
             rowClassName: 'react-ui-grid-row',
             showLoadingMask: false
         };
@@ -127,6 +131,7 @@ var Grid = React.createClass({
                 columns={this.props.columns}
                 key={rowIndex}
                 record={record}
+                onCellClick={this.props.onCellClick}
                 rowIndex={rowIndex} />
             );
         }, this);

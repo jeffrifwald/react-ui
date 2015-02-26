@@ -5,7 +5,9 @@
 var Cell = React.createClass({displayName: "Cell",
     render: function() {
         return (
-            React.createElement("td", {className: this.props.className}, 
+            React.createElement("td", {
+            className: this.props.className, 
+            onClick: this.onClick}, 
                 this.getData()
             )
         );
@@ -26,6 +28,20 @@ var Cell = React.createClass({displayName: "Cell",
         }
 
         return record[column.dataProp];
+    },
+
+    /**
+     * @method onClick
+     * Calls the click handler when the cell is clicked.
+     */
+    onClick: function(evt) {
+        this.props.onClick(
+            this.props.record,
+            this.props.column,
+            this.props.rowIndex,
+            this.props.columnIndex,
+            evt
+        );
     }
 });
 
