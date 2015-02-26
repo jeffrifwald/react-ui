@@ -145,10 +145,13 @@ var ComboBox = React.createClass({
 
     render: function() {
         var renderOption = this.props.renderOption || this.renderOption;
+        var label = this.props.label ? (
+            <label className={this.props.labelClassName}>{this.props.label}</label>
+        ) : null;
 
         return (
             <div className={this.getClassName()}>
-                <label className={this.props.labelClassName}>{this.props.label}</label>
+                {label}
 
                 <div className={this.props.inputWrapClassName}>
                     <Input

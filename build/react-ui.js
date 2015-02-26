@@ -356,10 +356,13 @@ var ComboBox = React.createClass({displayName: "ComboBox",
 
     render: function() {
         var renderOption = this.props.renderOption || this.renderOption;
+        var label = this.props.label ? (
+            React.createElement("label", {className: this.props.labelClassName}, this.props.label)
+        ) : null;
 
         return (
             React.createElement("div", {className: this.getClassName()}, 
-                React.createElement("label", {className: this.props.labelClassName}, this.props.label), 
+                label, 
 
                 React.createElement("div", {className: this.props.inputWrapClassName}, 
                     React.createElement(Input, {
