@@ -1,4 +1,5 @@
 var assert = require('chai').assert;
+var stub = require('sinon').stub;
 var TestUtils = React.addons.TestUtils;
 
 var Grid = require('../Grid');
@@ -41,5 +42,38 @@ describe('Grid', function() {
         assert.equal(rendered.state.clickedIndex, 1);
         assert.equal(headers[0].getDOMNode().className, 'react-ui-grid-header');
         assert.equal(headers[1].getDOMNode().className, 'react-ui-grid-header react-ui-grid-header-clicked');
+    });
+
+    it('should handle a cell click', function() {
+        var onCellClick = stub();
+        var mockEvent = {};
+        var rendered = TestUtils.renderIntoDocument(
+            <Grid
+            columns={columns}
+            data={data}
+            onCellClick={onCellClick} />
+        );
+        var cells = TestUtils.scryRenderedDOMComponentsWithClass(rendered, 'react-ui-grid-cell');
+
+        TestUtils.Simulate.click(cells[0], mockEvent);
+        assert.equal(onCellClick.callCount, 1);
+
+        TestUtils.Simulate.click(cells[1], mockEvent);
+        assert.equal(onCellClick.callCount, 2);
+
+        TestUtils.Simulate.click(cells[2], mockEvent);
+        assert.equal(onCellClick.callCount, 3);
+
+        TestUtils.Simulate.click(cells[3], mockEvent);
+        assert.equal(onCellClick.callCount, 4);
+
+        TestUtils.Simulate.click(cells[4], mockEvent);
+        assert.equal(onCellClick.callCount, 5);
+
+        TestUtils.Simulate.click(cells[5], mockEvent);
+        assert.equal(onCellClick.callCount, 6);
+
+        TestUtils.Simulate.click(cells[5], mockEvent);
+        assert.equal(onCellClick.callCount, 7);
     });
 });

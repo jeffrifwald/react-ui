@@ -1560,7 +1560,9 @@ module.exports = FileInput;
 var Cell = React.createClass({displayName: "Cell",
     render: function() {
         return (
-            React.createElement("td", {className: this.props.className}, 
+            React.createElement("td", {
+            className: this.props.className, 
+            onClick: this.onClick}, 
                 this.getData()
             )
         );
@@ -1581,6 +1583,20 @@ var Cell = React.createClass({displayName: "Cell",
         }
 
         return record[column.dataProp];
+    },
+
+    /**
+     * @method onClick
+     * Calls the click handler when the cell is clicked.
+     */
+    onClick: function(evt) {
+        this.props.onClick(
+            this.props.record,
+            this.props.column,
+            this.props.rowIndex,
+            this.props.columnIndex,
+            evt
+        );
     }
 });
 
@@ -1621,6 +1637,9 @@ var Grid = React.createClass({displayName: "Grid",
         /** @prop {Function} onHeaderClick - The method called when a grid header is clicked. */
         onHeaderClick: React.PropTypes.func,
 
+        /** @prop {Function} onCellClick - The method called when a grid cell is clicked. */
+        onCellClick: React.PropTypes.func,
+
         /** @prop {String} rowClassName - The className of the grid's rows. */
         rowClassName: React.PropTypes.string,
 
@@ -1639,6 +1658,7 @@ var Grid = React.createClass({displayName: "Grid",
             headerClassName: 'react-ui-grid-header',
             loadingMaskClassName: 'react-ui-grid-loading-mask',
             onHeaderClick: emptyFn,
+            onCellClick: emptyFn,
             rowClassName: 'react-ui-grid-row',
             showLoadingMask: false
         };
@@ -1716,6 +1736,7 @@ var Grid = React.createClass({displayName: "Grid",
                 columns: this.props.columns, 
                 key: rowIndex, 
                 record: record, 
+                onCellClick: this.props.onCellClick, 
                 rowIndex: rowIndex})
             );
         }, this);
@@ -1824,8 +1845,11 @@ var Row = React.createClass({displayName: "Row",
                 className: this.props.cellClassName, 
                 column: column, 
                 columns: this.props.columns, 
+                columnIndex: columnIndex, 
+                onClick: this.props.onCellClick, 
                 key: columnIndex, 
-                record: this.props.record})
+                record: this.props.record, 
+                rowIndex: this.props.rowIndex})
             );
         }, this);
     }
