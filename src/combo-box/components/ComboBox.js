@@ -181,11 +181,13 @@ var ComboBox = React.createClass({
 
                     <Trigger
                     className={this.props.triggerClassName}
+                    disabled={this.props.disabled}
                     onBlur={this.onBlur}
                     onClick={this.onTriggerClick} />
 
                     <ClearButton
                     className={this.props.clearButtonClassName}
+                    disabled={this.props.disabled}
                     onClick={this.clearValue}
                     showClearButton={this.props.showClearButton} />
 

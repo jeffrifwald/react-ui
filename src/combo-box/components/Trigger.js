@@ -3,6 +3,7 @@ var Trigger = React.createClass({
         return (
             <button
             className={this.props.className}
+            disabled={this.props.disabled}
             onBlur={this.props.onBlur}
             onClick={this.props.onClick}
             type="button">

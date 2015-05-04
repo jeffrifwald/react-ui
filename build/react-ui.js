@@ -199,6 +199,7 @@ var ClearButton = React.createClass({displayName: "ClearButton",
         return this.props.showClearButton ? (
             React.createElement("button", {
             className: this.props.className, 
+            disabled: this.props.disabled, 
             onClick: this.props.onClick, 
             type: "button"}
             )
@@ -392,11 +393,13 @@ var ComboBox = React.createClass({displayName: "ComboBox",
 
                     React.createElement(Trigger, {
                     className: this.props.triggerClassName, 
+                    disabled: this.props.disabled, 
                     onBlur: this.onBlur, 
                     onClick: this.onTriggerClick}), 
 
                     React.createElement(ClearButton, {
                     className: this.props.clearButtonClassName, 
+                    disabled: this.props.disabled, 
                     onClick: this.clearValue, 
                     showClearButton: this.props.showClearButton}), 
 
@@ -800,6 +803,7 @@ var Trigger = React.createClass({displayName: "Trigger",
         return (
             React.createElement("button", {
             className: this.props.className, 
+            disabled: this.props.disabled, 
             onBlur: this.props.onBlur, 
             onClick: this.props.onClick, 
             type: "button"}
