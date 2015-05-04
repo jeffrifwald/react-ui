@@ -3,6 +3,7 @@ var ClearButton = React.createClass({displayName: "ClearButton",
         return this.props.showClearButton ? (
             React.createElement("button", {
             className: this.props.className, 
+            disabled: this.props.disabled, 
             onClick: this.props.onClick, 
             type: "button"}
             )

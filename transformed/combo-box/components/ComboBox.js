@@ -181,11 +181,13 @@ var ComboBox = React.createClass({displayName: "ComboBox",
 
                     React.createElement(Trigger, {
                     className: this.props.triggerClassName, 
+                    disabled: this.props.disabled, 
                     onBlur: this.onBlur, 
                     onClick: this.onTriggerClick}), 
 
                     React.createElement(ClearButton, {
                     className: this.props.clearButtonClassName, 
+                    disabled: this.props.disabled, 
                     onClick: this.clearValue, 
                     showClearButton: this.props.showClearButton}), 
 
