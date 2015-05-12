@@ -12,7 +12,7 @@ var Header = React.createClass({displayName: "Header",
     render: function() {
         return (
             React.createElement("th", {className: this.getClassName(), onClick: this.onClick}, 
-                React.createElement("span", {title: this.props.column.tooltip}, 
+                React.createElement("span", {title: this.props.column.nameTooltip}, 
                     this.props.column.name
                 )
             )
