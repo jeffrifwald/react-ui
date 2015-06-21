@@ -7,8 +7,8 @@
   ],
   "description": "A collection of components for React.",
   "main": [
-    "build/react-ui.js",
-    "build/react-ui.min.js"
+    "dist/react-ui.js",
+    "dist/react-ui.min.js"
   ],
   "keywords": [
     "React",
@@ -21,8 +21,7 @@
     "node_modules",
     "bower_components",
     "src",
-    "transformed",
-    "examples",
+    "docs",
     "/*.js",
     "/*.json"
   ]
