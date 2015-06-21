@@ -12,15 +12,33 @@
   },
   "homepage": "https://github.com/ambitioninc/react-ui",
   "scripts": {
-    "build": "echo build",
-    "test": "echo test"
+    "build": "npm run build_dist && npm run build_src",
+    "build_dist": "browserify src/index.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js",
+    "build_src": "echo build src",
+    "lint": "eslint src",
+    "test": "npm run lint"
   },
   "devDependencies": {
     "babel": "^5.6.1",
     "babel-istanbul": "^0.2.8",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
+    "browserify-shim": "^3.8.9",
+    "eslint": "^0.23.0",
+    "eslint-plugin-react": "^2.5.2",
     "mocha": "^2.2.5",
     "uglify-js": "^2.4.23"
+  },
+  "dependencies": {
+    "react": "^0.13.3"
+  },
+  "browserify": {
+    "transform": [
+      "babelify",
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "react": "global:React"
   }
 }
