@@ -1,6 +1,6 @@
 import AjaxForm from './AjaxForm';
 
 
-export default {
+export default [
     AjaxForm
-};
+];

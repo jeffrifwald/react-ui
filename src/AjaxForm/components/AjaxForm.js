@@ -59,17 +59,18 @@ class AjaxForm extends React.Component {
 }
 
 AjaxForm.propTypes = {
+    action: React.PropTypes.string,
     className: React.PropTypes.string,
     onResponse: React.PropTypes.func,
-    onSubmit: React.PropTypes.func,
-    url: React.PropTypes.string
+    onSubmit: React.PropTypes.func
 };
 
 AjaxForm.defaultProps = {
+    action: '',
     className: '',
     onResponse: noop,
-    onSubmit: noop,
-    url: ''
+    onSubmit: noop
 };
 
+export default AjaxForm;
 
