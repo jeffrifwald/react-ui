@@ -1,8 +1,14 @@
 import React from 'react';
 
-import {classNames, noop, post} from '../../utils';
+import {getClassName, noop, post} from '../../utils';
 
 
+/**
+ * @class AjaxForm
+ * A form that submits its contents with an
+ * asynchronous POST request via FormData. Falls back to synchronously
+ * submitting the form when FormData does not exist.
+ */
 class AjaxForm extends React.Component {
     constructor(...args) {
         super(...args);
@@ -12,10 +18,15 @@ class AjaxForm extends React.Component {
     }
 
     render() {
+        const className = getClassName(
+            'react-ui-ajax-form',
+            this.props.className
+        );
+
         return (
             <form
             action={this.props.action}
-            className={this.getClassName()}
+            className={className}
             method='POST'
             onSubmit={this.onSubmit}>
                 {this.props.children}
@@ -30,13 +41,6 @@ class AjaxForm extends React.Component {
     onSubmit(evt) {
         evt.preventDefault();
         this.submit(evt);
-    }
-
-    getClassName() {
-        return classNames({
-            [this.props.className]: !!this.props.className,
-            'react-ui-ajax-form': true
-        });
     }
 
     submit(evt) {

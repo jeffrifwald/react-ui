@@ -6,6 +6,14 @@ export function classNames(...args) {
     ).join(' ');
 }
 
+export function getClassName(cls, ...args) {
+    const classNameConfig = {};
+
+    args.forEach((arg) => classNameConfig[arg] = arg);
+
+    return classNames(classNameConfig);
+}
+
 export function noop() {
 
 }

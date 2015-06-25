@@ -14,8 +14,8 @@
   "homepage": "https://github.com/ambitioninc/react-ui",
   "scripts": {
     "build": "npm run build_dist && npm run build_docs",
-    "build_dist": "browserify browserify.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js",
-    "build_docs": "browserify docs/js/index.js -o static/js/index.js && stylus docs/css/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
+    "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js",
+    "build_docs": "browserify docs/js/index.js | uglifyjs -o static/js/index.min.js && stylus docs/css/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
     "lint": "eslint src",
     "test": "npm run lint"
   },
