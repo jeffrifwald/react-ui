@@ -30,6 +30,7 @@
     "padded-blocks": [2, "never"],
     "quotes": [2, "single"],
     "radix": 2,
+    "react/jsx-uses-react": 2,
     "react/wrap-multilines": 2,
     "space-after-keywords": [2, "always"],
     "space-before-blocks": [2, "always"],

@@ -39,6 +39,7 @@ class FileInput extends React.Component {
 
         return (
             <input
+            disabled={this.props.disabled}
             key={this.state.inputKey}
             name={this.props.name}
             onChange={this.onChange}
@@ -54,7 +55,7 @@ class FileInput extends React.Component {
             this.props.chooseClassName
         );
 
-        return (
+        return this.props.showChooseButton ? (
             <button
             className={className}
             disabled={this.props.disabled}
@@ -62,16 +63,16 @@ class FileInput extends React.Component {
             type="button">
                 {this.props.chooseText}
             </button>
-        );
+        ) : null;
     }
 
     renderClearButton() {
         const className = getClassName(
             'react-ui-file-input-clear',
-            this.props.chooseClassName
+            this.props.clearClassName
         );
 
-        return (
+        return this.props.showClearButton ? (
             <button
             className={className}
             disabled={this.props.disabled}
@@ -79,7 +80,7 @@ class FileInput extends React.Component {
             type="button">
                 {this.props.clearText}
             </button>
-        );
+        ) : null;
     }
 
     renderInput() {
@@ -88,16 +89,16 @@ class FileInput extends React.Component {
             this.props.inputClassName
         );
 
-        return (
+        return this.props.showInput ? (
             <input
             className={className}
             disabled={this.props.disabled}
             onClick={this.onChooseClick}
             placeholder={this.props.placeholder}
             readOnly={true}
-            type="textbox"
+            type="text"
             value={this.state.inputDisplay} />
-        );
+        ) : null;
     }
 
     onChange(evt) {
@@ -110,7 +111,7 @@ class FileInput extends React.Component {
     onChooseClick(evt) {
         evt.preventDefault();
         this.props.onChooseClick(evt);
-        this.refs.fileInput.getDOMNode().click();
+        React.findDOMNode(this.refs.fileInput).click();
     }
 
     onClearClick(evt) {
@@ -152,7 +153,10 @@ FileInput.defaultProps = {
     onChange: noop,
     onChooseClick: noop,
     onClearClick: noop,
-    placeholder: ''
+    placeholder: '',
+    showChooseButton: true,
+    showClearButton: true,
+    showInput: true
 };
 
 export default FileInput;

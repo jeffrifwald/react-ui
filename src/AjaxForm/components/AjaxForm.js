@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getClassName, noop, post} from '../../utils';
+import {getClassName, noop, request} from '../../utils';
 
 
 /**
@@ -27,8 +27,9 @@ class AjaxForm extends React.Component {
             <form
             action={this.props.action}
             className={className}
-            method='POST'
-            onSubmit={this.onSubmit}>
+            method="POST"
+            onSubmit={this.onSubmit}
+            ref="form">
                 {this.props.children}
             </form>
         );
@@ -40,23 +41,24 @@ class AjaxForm extends React.Component {
 
     onSubmit(evt) {
         evt.preventDefault();
-        this.submit(evt);
+        this.props.onSubmit(evt);
+        this.submit();
     }
 
-    submit(evt) {
-        this.props.onSubmit(evt);
+    submit() {
+        let form = React.findDOMNode(this.refs.form);
 
         if (global.FormData) {
-            this.submitFormData(evt);
+            this.submitFormData(form);
         } else {
-            evt.target.submit();
+            form.submit();
         }
     }
 
-    submitFormData(evt) {
-        post(
-            evt.target.action,
-            new global.FormData(evt.target),
+    submitFormData(form) {
+        request.post(
+            form.action,
+            new global.FormData(form),
             this.onResponse
         );
     }

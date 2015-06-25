@@ -7,7 +7,9 @@ export function classNames(...args) {
 }
 
 export function getClassName(cls, ...args) {
-    const classNameConfig = {};
+    const classNameConfig = {
+        [cls]: true
+    };
 
     args.forEach((arg) => classNameConfig[arg] = arg);
 
@@ -18,15 +20,31 @@ export function noop() {
 
 }
 
-export function post(url, data, cb) {
-    const req = new global.XMLHttpRequest();
+export const request = {
+    post(url, data, cb) {
+        const req = new global.XMLHttpRequest();
 
-    req.onload = () => (
-        req.status > 199 && req.status < 400 ?
-        cb(undefined, req) :
-        cb(new Error('ReactUI.AjaxForm: Status Error'), req)
-    );
-    req.onerror = () => cb(new Error('ReactUI.AjaxForm: Network Error'), req);
-    req.open('POST', url, true);
-    req.send(data);
-}
+        req.onload = () => (
+            req.status > 199 && req.status < 400 ?
+            cb(undefined, req) :
+            cb(new Error('ReactUI.AjaxForm: Status Error'), req)
+        );
+        req.onerror = () => cb(
+            new Error('ReactUI.AjaxForm: Network Error'),
+            req
+        );
+        req.open('POST', url, true);
+        req.send(data);
+    }
+};
+
+export const TestUtils = {
+    createComponent(cls) {
+        const Component = cls.type;
+
+        return new Component(
+            cls.props,
+            cls._context //eslint-disable-line
+        );
+    }
+};
