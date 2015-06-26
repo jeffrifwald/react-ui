@@ -15,7 +15,6 @@ class Cell extends React.Component {
         return (
             <td
             className={this.getClassName()}
-            onBlur={this.onBlur}
             onClick={this.onClick}>
                 {this.renderData()}
             </td>
@@ -37,7 +36,7 @@ class Cell extends React.Component {
             this.props.columnIndex,
             this.props.rowIndex,
             this.props.record,
-            this.state.numClicks % 2 !== 0
+            this.state.numClicks + 1
         );
 
         this.setState({numClicks: this.state.numClicks + 1});
@@ -47,7 +46,7 @@ class Cell extends React.Component {
         return getClassName(
             'react-ui-grid-cell',
             this.props.cellClassName,
-            this.props.getIsActive() ? getClassName(
+            this.getIsActive() ? getClassName(
                 'react-ui-grid-cell-active',
                 this.props.activeCellClassName
             ) : null

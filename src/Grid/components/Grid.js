@@ -1,5 +1,7 @@
 import React from 'react';
 
+import Header from './Header';
+import Row from './Row';
 import {getClassName, noop} from '../../utils';
 
 
@@ -30,7 +32,10 @@ class Grid extends React.Component {
     }
 
     renderHeaders() {
-        const className = getClassName('react-ui-grid-row', this.props.rowClassName);
+        const className = getClassName(
+            'react-ui-grid-row',
+            this.props.rowClassName
+        );
         const headers = this.props.columns.map((column, i) => (
             <Header
             {...this.props}
@@ -55,6 +60,7 @@ class Grid extends React.Component {
             <Row
             {...this.props}
             {...this.state}
+            key={i}
             onCellClick={this.onCellClick}
             onRowClick={this.onRowClick}
             record={record}
@@ -69,7 +75,7 @@ class Grid extends React.Component {
     }
 
     onCellClick(...args) {
-        this.props.onHeaderClick(...args);
+        this.props.onCellClick(...args);
         this.setState({activeCell: [args[2], args[3]]});
     }
 
@@ -79,7 +85,7 @@ class Grid extends React.Component {
     }
 
     onRowClick(...args) {
-        this.props.onHeaderClick(...args);
+        this.props.onRowClick(...args);
         this.setState({activeRow: args[3]});
     }
 }

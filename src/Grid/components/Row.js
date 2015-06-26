@@ -35,10 +35,11 @@ class Row extends React.Component {
     onClick(evt) {
         this.props.onRowClick(
             evt,
-            this.props.column,
-            0,
+            undefined,
+            undefined,
             this.props.rowIndex,
-            this.state.numClicks % 2 !== 0
+            undefined,
+            this.state.numClicks + 1
         );
 
         this.setState({numClicks: this.state.numClicks + 1});
@@ -48,7 +49,7 @@ class Row extends React.Component {
         return getClassName(
             'react-ui-grid-row',
             this.props.headerClassName,
-            this.props.getIsActive() ? getClassName(
+            this.getIsActive() ? getClassName(
                 'react-ui-grid-row-active',
                 this.props.activeRowClassName
             ) : null

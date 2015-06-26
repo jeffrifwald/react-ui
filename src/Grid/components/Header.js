@@ -22,17 +22,14 @@ class Header extends React.Component {
         );
     }
 
-    onClick() {
-        if (this.props.column.ignoreHeaderClick) {
-            return;
-        }
-
+    onClick(evt) {
         this.props.onHeaderClick(
+            evt,
             this.props.column,
             this.props.columnIndex,
-            0,
             undefined,
-            this.state.numClicks % 2 !== 0
+            undefined,
+            this.state.numClicks + 1
         );
 
         this.setState({numClicks: this.state.numClicks + 1});
@@ -42,11 +39,10 @@ class Header extends React.Component {
         return getClassName(
             'react-ui-grid-header',
             this.props.headerClassName,
-            this.props.getIsActive() ? getClassName(
+            this.getIsActive() ? getClassName(
                 'react-ui-grid-header-active',
                 this.props.activeHeaderClassName
-            ) : null,
-            this.state.numClicks && !this.state.numClicks % 2 ? 'reverse' : null
+            ) : null
         );
     }
 
