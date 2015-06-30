@@ -47,11 +47,11 @@ describe('utils/noop', () => {
 
 describe('utils/post', () => {
     const originalXMLHttpRequest = global.XMLHttpRequest;
-    let mockRequest;
+    const mocks = {};
 
     class MockXMLHttpRequest {
         constructor() {
-            mockRequest = this;
+            mocks.request = this;
         }
 
         open() {
@@ -89,24 +89,28 @@ describe('utils/post', () => {
 
         request.post('/api/neato/', 'mock data', onResponse);
 
-        assert.equal(mockRequest.open.callCount, 1);
-        assert.equal(mockRequest.send.callCount, 1);
-        assert.equal(mockRequest.onload.callCount, 2);
-        assert.equal(mockRequest.onerror.callCount, 1);
+        assert.equal(mocks.request.open.callCount, 1);
+        assert.equal(mocks.request.send.callCount, 1);
+        assert.equal(mocks.request.onload.callCount, 2);
+        assert.equal(mocks.request.onerror.callCount, 1);
         assert.equal(onResponse.callCount, 3);
-        assert.isTrue(mockRequest.open.calledWith('POST', '/api/neato/', true));
-        assert.isTrue(mockRequest.send.calledWith('mock data'));
+        assert.isTrue(mocks.request.open.calledWith(
+            'POST',
+            '/api/neato/',
+            true
+        ));
+        assert.isTrue(mocks.request.send.calledWith('mock data'));
         assert.isTrue(onResponse.calledWith(
             new Error('ReactUI.AjaxForm: Network Error'),
-            mockRequest
+            mocks.request
         ));
         assert.isTrue(onResponse.calledWith(
             new Error('ReactUI.AjaxForm: Status Error'),
-            mockRequest
+            mocks.request
         ));
         assert.isTrue(onResponse.calledWith(
             undefined,
-            mockRequest
+            mocks.request
         ));
     });
 });

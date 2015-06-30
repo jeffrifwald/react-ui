@@ -1,0 +1,36 @@
+color-gray = #cdcdcd;
+
+.react-ui-select-box {
+    border: 1px solid color-gray;
+    border-radius: 4px;
+    box-sizing: border-box;
+    min-height: 30px;
+    position: relative;
+    width: 100%;
+}
+
+.react-ui-select-box-open {
+    .react-ui-select-box-trigger {
+        &:after {
+            content: '\25b2';
+        }
+    }
+}
+
+.react-ui-select-box-trigger {
+    &:after {
+        color: color-gray;
+        content: '\25bc';
+        display: inline-block;
+        font-size: 10px;
+        position: absolute;
+        right: 6px;
+        top: 9px;
+    }
+}
+
+.react-ui-select-box-drop-down {
+    box-sizing: border-box;
+    padding: 4px;
+    width: 100%;
+}

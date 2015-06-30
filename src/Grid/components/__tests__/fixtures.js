@@ -11,7 +11,7 @@ export default {
         name: 'Name',
         nameTooltip: 'This is the user\'s name',
         render(record) {
-            let message = `My name is ${record.name}.`;
+            const message = `My name is ${record.name}.`;
 
             return (
                 <div>

@@ -46,7 +46,7 @@ class AjaxForm extends React.Component {
     }
 
     submit() {
-        let form = React.findDOMNode(this.refs.form);
+        const form = React.findDOMNode(this.refs.form);
 
         if (global.FormData) {
             this.submitFormData(form);
@@ -73,7 +73,6 @@ AjaxForm.propTypes = {
 
 AjaxForm.defaultProps = {
     action: '',
-    className: '',
     onResponse: noop,
     onSubmit: noop
 };

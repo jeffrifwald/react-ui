@@ -8,13 +8,13 @@ import {request, TestUtils} from '../../../utils';
 
 describe('AjaxForm/AjaxForm', () => {
     it('should render form and its children', () => {
-        let component = TestUtils.createComponent(
+        const component = TestUtils.createComponent(
             <AjaxForm action="/login/" className="cool-form">
                 <input />
                 <button>Submit</button>
             </AjaxForm>
         );
-        let rendered = component.render();
+        const rendered = component.render();
 
         assert.equal(rendered.type, 'form');
         assert.equal(rendered.props.children.length, 2);
@@ -30,8 +30,8 @@ describe('AjaxForm/AjaxForm', () => {
     });
 
     it('should handle onResponse', () => {
-        let onResponse = stub();
-        let component = TestUtils.createComponent(
+        const onResponse = stub();
+        const component = TestUtils.createComponent(
             <AjaxForm onResponse={onResponse} />
         );
 
@@ -41,9 +41,9 @@ describe('AjaxForm/AjaxForm', () => {
     });
 
     it('should handle a onSubmit', () => {
-        let onSubmit = stub();
-        let evt = {preventDefault: stub()};
-        let component = TestUtils.createComponent(
+        const onSubmit = stub();
+        const evt = {preventDefault: stub()};
+        const component = TestUtils.createComponent(
             <AjaxForm onSubmit={onSubmit} />
         );
 
@@ -59,7 +59,7 @@ describe('AjaxForm/AjaxForm', () => {
     });
 
     it('should submit with FormData', () => {
-        let component = TestUtils.createComponent(
+        const component = TestUtils.createComponent(
             <AjaxForm />
         );
 
@@ -80,8 +80,8 @@ describe('AjaxForm/AjaxForm', () => {
     });
 
     it('should submit without FormData', () => {
-        let node = {submit: stub()};
-        let component = TestUtils.createComponent(
+        const node = {submit: stub()};
+        const component = TestUtils.createComponent(
             <AjaxForm />
         );
 
@@ -97,8 +97,8 @@ describe('AjaxForm/AjaxForm', () => {
     });
 
     it('should submit form data', () => {
-        let form = {action: '/login/'};
-        let component = TestUtils.createComponent(
+        const form = {action: '/login/'};
+        const component = TestUtils.createComponent(
             <AjaxForm />
         );
 

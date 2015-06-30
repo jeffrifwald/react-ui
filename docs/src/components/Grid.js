@@ -74,7 +74,7 @@ const columns = [{
     }
 }, {
     dataProp: 'championships',
-    name: 'NBA Championships',
+    name: 'Championships',
     sorter(a, b) {
         return b.championships - a.championships;
     }

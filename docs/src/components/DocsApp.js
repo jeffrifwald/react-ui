@@ -2,12 +2,16 @@ import AjaxForm from './AjaxForm';
 import FileInput from './FileInput';
 import Grid from './Grid';
 import ReactUI from '../../../src/ReactUI';
+import SearchBox from './SearchBox';
+import SelectBox from './SelectBox';
 
 
 const components = [
     AjaxForm,
     FileInput,
-    Grid
+    Grid,
+    SearchBox,
+    SelectBox
 ];
 
 class DocsApp extends React.Component {

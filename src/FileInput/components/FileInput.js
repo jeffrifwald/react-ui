@@ -143,17 +143,11 @@ FileInput.propTypes = {
 };
 
 FileInput.defaultProps = {
-    chooseClassName: '',
     chooseText: 'Choose File',
-    className: '',
-    clearClassName: '',
     clearText: 'Clear File',
-    inputClassName: '',
-    name: '',
     onChange: noop,
     onChooseClick: noop,
     onClearClick: noop,
-    placeholder: '',
     showChooseButton: true,
     showClearButton: true,
     showInput: true

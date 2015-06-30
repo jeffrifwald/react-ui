@@ -95,28 +95,20 @@ Grid.propTypes = {
     activeColumnClassName: React.PropTypes.string,
     activeHeaderClassName: React.PropTypes.string,
     activeRowClassName: React.PropTypes.string,
-    data: React.PropTypes.array.isRequired,
-    columns: React.PropTypes.array.isRequired,
     cellClassName: React.PropTypes.string,
     className: React.PropTypes.string,
+    columns: React.PropTypes.array.isRequired,
+    data: React.PropTypes.array.isRequired,
     headerClassName: React.PropTypes.string,
-    rowClassName: React.PropTypes.string,
-    onCellClick: noop,
-    onHeaderClick: noop,
-    onRowClick: noop
+    onCellClick: React.PropTypes.func,
+    onHeaderClick: React.PropTypes.func,
+    onRowClick: React.PropTypes.func,
+    rowClassName: React.PropTypes.string
 };
 
 Grid.defaultProps = {
-    activeCellClassName: '',
-    activeColumnClassName: '',
-    activeHeaderClassName: '',
-    activeRowClassName: '',
-    data: React.PropTypes.array.isRequired,
-    columns: React.PropTypes.array.isRequired,
-    cellClassName: '',
-    className: '',
-    headerClassName: '',
-    rowClassName: '',
+    columns: [],
+    data: [],
     onCellClick: noop,
     onHeaderClick: noop,
     onRowClick: noop

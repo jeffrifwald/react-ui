@@ -28,8 +28,8 @@ module.exports={
   "homepage": "https://github.com/ambitioninc/react-ui",
   "scripts": {
     "build": "npm run build_dist && npm run build_docs",
-    "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js",
-    "build_docs": "browserify docs/js/index.js | uglifyjs -o static/js/index.min.js && stylus docs/css/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
+    "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js && stylus src/**/style/*.styl --out dist/react-ui.css --use nib && cleancss dist/react-ui.css -o dist/react-ui.min.css",
+    "build_docs": "browserify docs/src/index.js | uglifyjs -o static/js/index.min.js && stylus docs/style/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
     "cover": "babel-node node_modules/.bin/babel-istanbul cover _mocha -- --recursive src",
     "lint": "eslint src",
     "test": "npm run lint && npm run cover"
@@ -43,6 +43,7 @@ module.exports={
     "browserify": "^10.2.4",
     "browserify-shim": "^3.8.9",
     "chai": "^3.0.0",
+    "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
     "mocha": "^2.2.5",
@@ -170,7 +171,6 @@ AjaxForm.propTypes = {
 
 AjaxForm.defaultProps = {
     action: '',
-    className: '',
     onResponse: _utils.noop,
     onSubmit: _utils.noop
 };
@@ -179,7 +179,7 @@ exports['default'] = AjaxForm;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":13}],4:[function(require,module,exports){
+},{"../../utils":15}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -365,17 +365,11 @@ FileInput.propTypes = {
 };
 
 FileInput.defaultProps = {
-    chooseClassName: '',
     chooseText: 'Choose File',
-    className: '',
-    clearClassName: '',
     clearText: 'Clear File',
-    inputClassName: '',
-    name: '',
     onChange: _utils.noop,
     onChooseClick: _utils.noop,
     onClearClick: _utils.noop,
-    placeholder: '',
     showChooseButton: true,
     showClearButton: true,
     showInput: true
@@ -385,7 +379,7 @@ exports['default'] = FileInput;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":13}],6:[function(require,module,exports){
+},{"../../utils":15}],6:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -483,7 +477,7 @@ exports['default'] = Cell;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":13}],8:[function(require,module,exports){
+},{"../../utils":15}],8:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -630,28 +624,20 @@ Grid.propTypes = {
     activeColumnClassName: _react2['default'].PropTypes.string,
     activeHeaderClassName: _react2['default'].PropTypes.string,
     activeRowClassName: _react2['default'].PropTypes.string,
-    data: _react2['default'].PropTypes.array.isRequired,
-    columns: _react2['default'].PropTypes.array.isRequired,
     cellClassName: _react2['default'].PropTypes.string,
     className: _react2['default'].PropTypes.string,
+    columns: _react2['default'].PropTypes.array.isRequired,
+    data: _react2['default'].PropTypes.array.isRequired,
     headerClassName: _react2['default'].PropTypes.string,
-    rowClassName: _react2['default'].PropTypes.string,
-    onCellClick: _utils.noop,
-    onHeaderClick: _utils.noop,
-    onRowClick: _utils.noop
+    onCellClick: _react2['default'].PropTypes.func,
+    onHeaderClick: _react2['default'].PropTypes.func,
+    onRowClick: _react2['default'].PropTypes.func,
+    rowClassName: _react2['default'].PropTypes.string
 };
 
 Grid.defaultProps = {
-    activeCellClassName: '',
-    activeColumnClassName: '',
-    activeHeaderClassName: '',
-    activeRowClassName: '',
-    data: _react2['default'].PropTypes.array.isRequired,
-    columns: _react2['default'].PropTypes.array.isRequired,
-    cellClassName: '',
-    className: '',
-    headerClassName: '',
-    rowClassName: '',
+    columns: [],
+    data: [],
     onCellClick: _utils.noop,
     onHeaderClick: _utils.noop,
     onRowClick: _utils.noop
@@ -661,7 +647,7 @@ exports['default'] = Grid;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":13,"./Header":9,"./Row":10}],9:[function(require,module,exports){
+},{"../../utils":15,"./Header":9,"./Row":10}],9:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -740,7 +726,7 @@ exports['default'] = Header;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":13}],10:[function(require,module,exports){
+},{"../../utils":15}],10:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -835,7 +821,7 @@ exports['default'] = Row;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":13,"./Cell":7}],11:[function(require,module,exports){
+},{"../../utils":15,"./Cell":7}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -862,8 +848,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 var _packageJson = require('../package.json');
 
-var _packageJson2 = _interopRequireDefault(_packageJson);
-
 var _AjaxForm = require('./AjaxForm');
 
 var _AjaxForm2 = _interopRequireDefault(_AjaxForm);
@@ -876,15 +860,230 @@ var _Grid = require('./Grid');
 
 var _Grid2 = _interopRequireDefault(_Grid);
 
+var _SearchBox = require('./SearchBox');
+
+var _SearchBox2 = _interopRequireDefault(_SearchBox);
+
 exports['default'] = {
     AjaxForm: _AjaxForm2['default'],
     FileInput: _FileInput2['default'],
     Grid: _Grid2['default'],
-    version: _packageJson2['default'].version
+    SearchBox: _SearchBox2['default'],
+    version: _packageJson.version
 };
 module.exports = exports['default'];
 
-},{"../package.json":2,"./AjaxForm":4,"./FileInput":6,"./Grid":11}],13:[function(require,module,exports){
+},{"../package.json":2,"./AjaxForm":4,"./FileInput":6,"./Grid":11,"./SearchBox":14}],13:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _utils = require('../../utils');
+
+var SearchBox = (function (_React$Component) {
+    function SearchBox() {
+        _classCallCheck(this, SearchBox);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        _get(Object.getPrototypeOf(SearchBox.prototype), 'constructor', this).apply(this, args);
+
+        this.state = {
+            showDropDown: false,
+            results: []
+        };
+        this.onResponse = this.onResponse.bind(this);
+        this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
+        this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
+    }
+
+    _inherits(SearchBox, _React$Component);
+
+    _createClass(SearchBox, [{
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.delayBlur.cancel();
+            this.delaySearch.cancel();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var className = (0, _utils.getClassName)('react-ui-search-box', this.props.className);
+
+            return _react2['default'].createElement(
+                'div',
+                { className: className },
+                _react2['default'].createElement('input', {
+                    onBlur: this.delayBlur,
+                    onChange: this.delaySearch,
+                    placeholder: this.props.placeholder,
+                    ref: 'search',
+                    type: 'text' }),
+                this.renderDropDown()
+            );
+        }
+    }, {
+        key: 'renderDropDown',
+        value: function renderDropDown() {
+            var _this = this;
+
+            if (!this.state.showDropDown) {
+                return null;
+            }
+
+            var dropDownClassName = (0, _utils.getClassName)('react-ui-search-box-drop-down', this.props.resultsWapperClassName);
+            var resultClassName = (0, _utils.getClassName)('react-ui-search-box-result', this.props.resultClassName);
+            var results = (this.state.results || []).map(function (result, i) {
+                return _react2['default'].createElement(
+                    'div',
+                    {
+                        className: resultClassName,
+                        key: i,
+                        onClick: _this.onResultClick.bind(_this, result) },
+                    _this.props.renderResult(result)
+                );
+            });
+
+            return _react2['default'].createElement(
+                'div',
+                {
+                    className: dropDownClassName,
+                    onClick: this.onDropDownClick },
+                results
+            );
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.hideDropDown();
+        }
+    }, {
+        key: 'onResultClick',
+        value: function onResultClick(result, evt) {
+            this.delayBlur.cancel();
+            this.props.onResultClick(evt, result);
+            this.hideDropDown();
+        }
+    }, {
+        key: 'onDropDownClick',
+        value: function onDropDownClick(evt) {
+            this.props.onDropDownClick(evt);
+            this.delayBlur.cancel();
+        }
+    }, {
+        key: 'onResponse',
+        value: function onResponse(err, req) {
+            var results = this.props.parseResults(req);
+
+            this.props.onResponse(err, req, results);
+            this.setState({
+                results: results,
+                showDropDown: true
+            });
+        }
+    }, {
+        key: 'onSearch',
+        value: function onSearch(evt) {
+            var value = _react2['default'].findDOMNode(this.refs.search).value;
+            var url = this.getUrl(value);
+
+            if (value) {
+                this.props.onSearch(evt, url);
+                _utils.request.get(url, this.onResponse);
+            } else {
+                this.hideDropDown();
+            }
+        }
+    }, {
+        key: 'getUrl',
+        value: function getUrl(query) {
+            return this.props.queryParam ? this.props.url + '?' + this.props.queryParam + '=' + query : this.props.url;
+        }
+    }, {
+        key: 'hideDropDown',
+        value: function hideDropDown() {
+            this.setState({ showDropDown: false });
+        }
+    }, {
+        key: 'showDropDown',
+        value: function showDropDown() {
+            this.setState({ showDropDown: true });
+        }
+    }]);
+
+    return SearchBox;
+})(_react2['default'].Component);
+
+SearchBox.propTypes = {
+    className: _react2['default'].PropTypes.string,
+    delay: _react2['default'].PropTypes.number,
+    dropDownClassName: _react2['default'].PropTypes.string,
+    name: _react2['default'].PropTypes.string,
+    onResponse: _react2['default'].PropTypes.func,
+    onResultClick: _react2['default'].PropTypes.func,
+    onSearch: _react2['default'].PropTypes.func,
+    placeholder: _react2['default'].PropTypes.string,
+    resultClassName: _react2['default'].PropTypes.string,
+    renderResult: _react2['default'].PropTypes.func,
+    url: _react2['default'].PropTypes.string
+};
+
+SearchBox.defaultProps = {
+    delay: 400,
+    onDropDownClick: _utils.noop,
+    onResultClick: _utils.noop,
+    onResponse: _utils.noop,
+    onSearch: _utils.noop,
+    placeholder: '',
+    parseResults: function parseResults(req) {
+        return req;
+    },
+    renderResult: function renderResult(result) {
+        return result;
+    }
+};
+
+exports['default'] = SearchBox;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../utils":15}],14:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _componentsSearchBox = require('./components/SearchBox');
+
+var _componentsSearchBox2 = _interopRequireDefault(_componentsSearchBox);
+
+exports['default'] = _componentsSearchBox2['default'];
+module.exports = exports['default'];
+
+},{"./components/SearchBox":13}],15:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -892,6 +1091,7 @@ Object.defineProperty(exports, '__esModule', {
     value: true
 });
 exports.classNames = classNames;
+exports.debounce = debounce;
 exports.getClassName = getClassName;
 exports.noop = noop;
 
@@ -907,11 +1107,31 @@ function classNames() {
     }) : args).join(' ');
 }
 
+function debounce(fn, ms) {
+    var debounced = {};
+
+    debounced.fn = function () {
+        for (var _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
+            args[_key2] = arguments[_key2];
+        }
+
+        debounced.fn.cancel();
+        debounced.timeout = setTimeout(function () {
+            return fn.apply(undefined, args);
+        }, ms);
+    };
+    debounced.fn.cancel = function () {
+        return clearTimeout(debounced.timeout);
+    };
+
+    return debounced.fn;
+}
+
 function getClassName(cls) {
     var classNameConfig = _defineProperty({}, cls, true);
 
-    for (var _len2 = arguments.length, args = Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-        args[_key2 - 1] = arguments[_key2];
+    for (var _len3 = arguments.length, args = Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+        args[_key3 - 1] = arguments[_key3];
     }
 
     args.forEach(function (arg) {
@@ -928,17 +1148,33 @@ var request = {
         var req = new global.XMLHttpRequest();
 
         req.onload = function () {
-            return req.status > 199 && req.status < 400 ? cb(undefined, req) : cb(new Error('ReactUI.AjaxForm: Status Error'), req);
+            return req.status > 199 && req.status < 400 ? cb(undefined, req) : cb(new Error('POST: Status Error'), req);
         };
         req.onerror = function () {
-            return cb(new Error('ReactUI.AjaxForm: Network Error'), req);
+            return cb(new Error('POST: Network Error'), req);
         };
         req.open('POST', url, true);
         req.send(data);
+    },
+
+    get: function get(url, cb) {
+        var req = new global.XMLHttpRequest();
+
+        req.onload = function () {
+            return req.status > 199 && req.status < 400 ? cb(undefined, req) : cb(new Error('GET: Status Error'), req);
+        };
+        req.onerror = function () {
+            return cb(new Error('GET: Network Error'), req);
+        };
+        req.open('GET', url, true);
+        req.send();
     }
 };
 
 exports.request = request;
+var BLUR_DELAY_MS = 100;
+
+exports.BLUR_DELAY_MS = BLUR_DELAY_MS;
 var TestUtils = {
     createComponent: function createComponent(cls) {
         var Component = cls.type;
