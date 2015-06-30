@@ -6,7 +6,7 @@ export default {
         '<FileInput',
         'chooseText="Choose"',
         'clearText="Remove"',
-        'placeholder="Upload a file"',
+        'placeholder="Upload a file..."',
         'name="photo" />'
     ].join('\n'),
     name: 'FileInput',
@@ -14,7 +14,7 @@ export default {
         <FileInput
         chooseText="Choose"
         clearText="Remove"
-        placeholder="Upload a file"
+        placeholder="Upload a file..."
         name="photo" />
     )
 };

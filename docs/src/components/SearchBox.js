@@ -14,9 +14,9 @@ function parseResults(req) {
     ];
 
     return (
-        results
-        .map((x) => x.toLowerCase())
-        .filter((x) => x.includes(query))
+        results.filter(
+            (x) => x.toLowerCase().includes(query)
+        )
     );
 }
 
@@ -29,7 +29,7 @@ export default {
         '<SearchBox',
         'onResultClick={onResultClick}',
         'parseResults={parseResults}',
-        'placeholder="Search by name..."',
+        'placeholder="Type \'j\' to see results..."',
         'queryParam="query"',
         'url="http://httpbin.org/get" />'
     ].join('\n'),
@@ -38,7 +38,7 @@ export default {
         <SearchBox
         onResultClick={onResultClick}
         parseResults={parseResults}
-        placeholder="Search by name..."
+        placeholder="Type 'j' to see results..."
         queryParam="query"
         url="http://httpbin.org/get" />
     )

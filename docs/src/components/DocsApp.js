@@ -1,4 +1,5 @@
 import AjaxForm from './AjaxForm';
+import DatePicker from './DatePicker';
 import FileInput from './FileInput';
 import Grid from './Grid';
 import ReactUI from '../../../src/ReactUI';
@@ -8,6 +9,7 @@ import SelectBox from './SelectBox';
 
 const components = [
     AjaxForm,
+    DatePicker,
     FileInput,
     Grid,
     SearchBox,

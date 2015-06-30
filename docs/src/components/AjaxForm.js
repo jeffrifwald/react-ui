@@ -14,14 +14,14 @@ function onResponse(err, res) {
 export default {
     code: [
         '<AjaxForm action="http://httpbin.org/post" onResponse={onResponse}>',
-        '    <input name="message" placeholder="message" type="text" />',
+        '    <input name="message" placeholder="Type message..." type="text" />',
         '    <button type="submit">Send Message</button>',
         '</AjaxForm>'
     ].join('\n'),
     name: 'AjaxForm',
     rendered: (
         <AjaxForm action="http://httpbin.org/post" onResponse={onResponse}>
-            <input name="message" placeholder="message" type="text" />
+            <input name="message" placeholder="Type message..." type="text" />
             <button type="submit">Send Message</button>
         </AjaxForm>
     )

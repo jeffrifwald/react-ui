@@ -88,11 +88,20 @@ function sortColumn(evt, column, columnIndex, rowIndex, record, numClicks) {
     }
 }
 
+function onCellClick(evt, column, columnIndex, rowIndex, record) {
+    if (column.dataProp === 'name') {
+        alert(`Clicked ${record.name.first} ${record.name.last}`);
+    } else {
+        alert(`Clicked ${record[column.dataProp]}`);
+    }
+}
+
 export default {
     code: [
         '<Grid',
         'columns={columns}',
         'data={data}',
+        'onCellClick={onCellClick}',
         'onHeaderClick={sortColumn} />'
     ].join('\n'),
     name: 'Grid',
@@ -100,6 +109,7 @@ export default {
         <Grid
         columns={columns}
         data={data}
+        onCellClick={onCellClick}
         onHeaderClick={sortColumn} />
     )
 };

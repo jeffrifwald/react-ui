@@ -92,6 +92,7 @@ class SearchBox extends React.Component {
     onResultClick(result, evt) {
         this.delayBlur.cancel();
         this.props.onResultClick(evt, result);
+        this.select(result);
         this.hideDropDown();
     }
 
@@ -128,6 +129,10 @@ class SearchBox extends React.Component {
         ) : (
             this.props.url
         );
+    }
+
+    select(result) {
+        this.setState({value: result});
     }
 
     hideDropDown() {
