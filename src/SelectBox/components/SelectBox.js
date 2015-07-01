@@ -156,7 +156,6 @@ class SelectBox extends React.Component {
             'react-ui-select-box-option',
             this.props.optionClassName
         );
-        const options = this.getOptions();
 
         return this.getOptions().map((option, i) => (
             <div

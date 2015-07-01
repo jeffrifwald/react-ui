@@ -2,6 +2,7 @@ import {assert} from 'chai';
 import {spy, stub} from 'sinon';
 
 import {
+    chunk,
     classNames,
     getClassName,
     noop,
@@ -112,5 +113,26 @@ describe('utils/post', () => {
             undefined,
             mocks.request
         ));
+    });
+});
+
+describe('utils/chunk', () => {
+    it('should chunk an iterable with items', () => {
+        const xs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const result = chunk(xs, 3);
+
+        assert.deepEqual(result, [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+            [10]
+        ]);
+    });
+
+    it('should chunk with too large n', () => {
+        const xs = [1, 2, 3, 4];
+        const result = chunk(xs, 10);
+
+        assert.deepEqual(result, [[1, 2, 3, 4]]);
     });
 });

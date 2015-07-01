@@ -13,9 +13,19 @@ class DatePicker extends React.Component {
     constructor(...args) {
         super(...args);
 
+        const today = this.getToday();
+
         this.state = {
             showCalendar: false,
-            value: this.props.defaultValue || this.cleanDate(new Date())
+            today: today,
+            selectedMonth: this.getSelectedMonth(
+                this.props.defaultValue || today
+            ),
+            value: (
+                this.props.defaultValue ?
+                this.cleanDate(this.props.defaultValue) :
+                undefined
+            )
         };
         this.delayBlur = debounce(
             this.onBlur.bind(this),
@@ -24,6 +34,9 @@ class DatePicker extends React.Component {
         this.onCalendarClick = this.onCalendarClick.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
+        this.onDateClick = this.onDateClick.bind(this);
+        this.onNextClick = this.onNextClick.bind(this);
+        this.onPreviousClick = this.onPreviousClick.bind(this);
     }
 
     render() {
@@ -117,7 +130,10 @@ class DatePicker extends React.Component {
             <Calendar
             {...this.props}
             {...this.state}
-            onClick={this.onCalendarClick} />
+            onCalendarClick={this.onCalendarClick}
+            onDateClick={this.onDateClick}
+            onNextClick={this.onNextClick}
+            onPreviousClick={this.onPreviousClick} />
         ) : null;
     }
 
@@ -142,12 +158,42 @@ class DatePicker extends React.Component {
     }
 
     onCalendarClick(evt) {
-        this.props.onCalendarClick(evt);
+        evt.stopPropagation();
         this.delayBlur.cancel();
     }
 
+    onDateClick(date, disabled, evt) {
+        evt.stopPropagation();
+        this.delayBlur.cancel();
+
+        if (!disabled) {
+            this.props.onDateClick();
+            this.setState({
+                selectedMonth: this.getSelectedMonth(date),
+                showCalendar: false,
+                value: date
+            });
+        }
+    }
+
+    onNextClick(evt) {
+        evt.stopPropagation();
+        this.delayBlur.cancel();
+        this.setState({
+            selectedMonth: this.addMonths(this.state.selectedMonth, 1)
+        });
+    }
+
+    onPreviousClick(evt) {
+        evt.stopPropagation();
+        this.delayBlur.cancel();
+        this.setState({
+            selectedMonth: this.addMonths(this.state.selectedMonth, -1)
+        });
+    }
+
     clear() {
-        this.setState({value: this.getToday()});
+        this.setState({value: undefined});
     }
 
     hideCalendar() {
@@ -156,6 +202,26 @@ class DatePicker extends React.Component {
 
     showCalendar() {
         this.setState({showCalendar: true});
+    }
+
+    addMonths(d, n) {
+        const date = new Date(d);
+
+        date.setMonth(date.getMonth() + n);
+
+        return date;
+    }
+
+    getToday() {
+        return this.cleanDate(new Date());
+    }
+
+    getSelectedMonth(date) {
+        return new Date(
+            date.getFullYear(),
+            date.getMonth(),
+            1
+        );
     }
 
     cleanDate(date) {
@@ -175,34 +241,42 @@ DatePicker.propTypes = {
     calendarHeaderNextClassName: React.PropTypes.string,
     calendarHeaderPreviousClassName: React.PropTypes.string,
     className: React.PropTypes.string,
+    getDisplay: React.PropTypes.func,
+    getValue: React.PropTypes.func,
+    isDateDisabled: React.PropTypes.func,
     name: React.PropTypes.string,
+    onClearClick: React.PropTypes.func,
+    onClick: React.PropTypes.func,
+    onDateClick: React.PropTypes.func,
+    placeholder: React.PropTypes.string,
     triggerClassName: React.PropTypes.string,
     valueClassName: React.PropTypes.string
 };
 
 DatePicker.defaultProps = {
-     getValue: (date) => (
+    getValue: (date) => (
         `${date.getFullYear()}-` +
         `${date.getMonth() + 1}-` +
-        `${date.getDate()}`
+        `${date.getDate()} `
     ),
     getDisplay: (date) => (
-        `${date.getMonth() + 1}-` +
-        `${date.getDate()}-` +
+        `${date.getMonth() + 1}/` +
+        `${date.getDate()}/` +
         `${date.getFullYear()}`
     ),
     dayNames: [
         'Sunday', 'Monday', 'Tuesday', 'Wednesday',
         'Thursday', 'Friday', 'Saturday'
     ],
+    isDateDisabled: () => false,
     monthNames: [
         'January', 'February', 'March', 'April',
         'May', 'June', 'July', 'August',
         'September', 'October', 'November', 'December'
     ],
-    onCalendarClick: noop,
     onClearClick: noop,
     onClick: noop,
+    onDateClick: noop,
     placeholder: ''
 };
 

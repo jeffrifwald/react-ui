@@ -4,7 +4,10 @@
 }
 .react-ui-date-picker .react-ui-date-picker-inner {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 30px;
   width: 100%;
@@ -37,17 +40,101 @@
 }
 .react-ui-date-picker-open .react-ui-date-picker-inner {
   border-bottom-width: 0;
+  -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 .react-ui-date-picker-open .react-ui-date-picker-trigger:after {
   content: '\25b2';
+}
+.react-ui-date-picker-calendar {
+  background-color: #fff;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+  border-top-width: 0;
+  font-size: 12px;
+  position: absolute;
+  table-layout: fixed;
+  top: 30px;
+  width: 100%;
+  z-index: 999;
+}
+.react-ui-date-picker-calendar td {
+  height: 30px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.react-ui-date-picker-calendar-header td {
+  border: 1px solid #cdcdcd;
+  border-width: 1px 0;
+}
+.react-ui-date-picker-calendar-header td:first-child {
+  text-align: left;
+}
+.react-ui-date-picker-calendar-header td:last-child {
+  text-align: right;
+}
+.react-ui-date-picker-calendar-day {
+  color: #cdcdcd;
+  border: 1px solid #cdcdcd;
+  border-width: 1px 0 0 1px;
+  cursor: pointer;
+}
+.react-ui-date-picker-calendar-day:first-child {
+  border-left-width: 0;
+}
+.react-ui-date-picker-calendar-day:hover {
+  background-color: #6ac;
+  color: #fff;
+}
+.react-ui-date-picker-calendar-disabled-day {
+  background: #efefef;
+  cursor: not-allowed;
+}
+.react-ui-date-picker-calendar-disabled-day:hover {
+  background-color: #efefef;
+  color: #cdcdcd;
+}
+.react-ui-date-picker-calendar-selected-month {
+  color: #000;
+}
+.react-ui-date-picker-calendar-selected-month.react-ui-date-picker-calendar-disabled-day {
+  color: #000;
+}
+.react-ui-date-picker-calendar-selected-month.react-ui-date-picker-calendar-disabled-day:hover {
+  color: #000;
+}
+.react-ui-date-picker-calendar-current-day {
+  color: #c97;
+}
+.react-ui-date-picker-calendar-selected-day {
+  background-color: #6ac;
+  color: #fff;
+}
+.react-ui-date-picker-calendar-header-next:after {
+  color: #adadad;
+  content: '\300b';
+  cursor: pointer;
+  font-size: 18px;
+}
+.react-ui-date-picker-calendar-header-previous:after {
+  color: #adadad;
+  content: '\300a';
+  cursor: pointer;
+  font-size: 18px;
 }
 .react-ui-file-input {
   width: 100%;
 }
 .react-ui-file-input-input {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   outline: none;
@@ -57,7 +144,10 @@
 .react-ui-file-input-choose {
   background-color: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   margin-right: 10px;
@@ -66,7 +156,10 @@
 .react-ui-file-input-clear {
   background-color: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   margin-right: 10px;
@@ -74,6 +167,7 @@
 }
 .react-ui-grid {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 100%;
 }
@@ -82,6 +176,9 @@
   cursor: pointer;
   height: 40px;
   padding-left: 10px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 .react-ui-grid .react-ui-grid-header:first-child {
@@ -104,7 +201,10 @@
 }
 .react-ui-search-box input[type='text'] {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   outline: none;
@@ -115,7 +215,10 @@
 .react-ui-search-box-drop-down {
   background: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin-top: 2px;
   position: absolute;
@@ -135,7 +238,10 @@
 }
 .react-ui-select-box .react-ui-select-box-inner {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 30px;
   width: 100%;
@@ -168,17 +274,22 @@
 }
 .react-ui-select-box-open .react-ui-select-box-inner {
   border-bottom-width: 0;
+  -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 .react-ui-select-box-open .react-ui-select-box-trigger:after {
   content: '\25b2';
 }
 .react-ui-select-box-search {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0 10px;
   width: 100%;
 }
 .react-ui-select-box-search input[type='text'] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 2px 6px;
   width: 100%;
@@ -186,8 +297,11 @@
 .react-ui-select-box-drop-down {
   background-color: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
   border-top-width: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin-bottom: 10px;
   position: absolute;
@@ -208,7 +322,10 @@
 }
 .react-ui-date-picker .react-ui-date-picker-inner {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 30px;
   width: 100%;
@@ -241,17 +358,101 @@
 }
 .react-ui-date-picker-open .react-ui-date-picker-inner {
   border-bottom-width: 0;
+  -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 .react-ui-date-picker-open .react-ui-date-picker-trigger:after {
   content: '\25b2';
+}
+.react-ui-date-picker-calendar {
+  background-color: #fff;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 0 0 4px 4px;
+  border-radius: 0 0 4px 4px;
+  border-top-width: 0;
+  font-size: 12px;
+  position: absolute;
+  table-layout: fixed;
+  top: 30px;
+  width: 100%;
+  z-index: 999;
+}
+.react-ui-date-picker-calendar td {
+  height: 30px;
+  text-align: center;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.react-ui-date-picker-calendar-header td {
+  border: 1px solid #cdcdcd;
+  border-width: 1px 0;
+}
+.react-ui-date-picker-calendar-header td:first-child {
+  text-align: left;
+}
+.react-ui-date-picker-calendar-header td:last-child {
+  text-align: right;
+}
+.react-ui-date-picker-calendar-day {
+  color: #cdcdcd;
+  border: 1px solid #cdcdcd;
+  border-width: 1px 0 0 1px;
+  cursor: pointer;
+}
+.react-ui-date-picker-calendar-day:first-child {
+  border-left-width: 0;
+}
+.react-ui-date-picker-calendar-day:hover {
+  background-color: #6ac;
+  color: #fff;
+}
+.react-ui-date-picker-calendar-disabled-day {
+  background: #efefef;
+  cursor: not-allowed;
+}
+.react-ui-date-picker-calendar-disabled-day:hover {
+  background-color: #efefef;
+  color: #cdcdcd;
+}
+.react-ui-date-picker-calendar-selected-month {
+  color: #000;
+}
+.react-ui-date-picker-calendar-selected-month.react-ui-date-picker-calendar-disabled-day {
+  color: #000;
+}
+.react-ui-date-picker-calendar-selected-month.react-ui-date-picker-calendar-disabled-day:hover {
+  color: #000;
+}
+.react-ui-date-picker-calendar-current-day {
+  color: #c97;
+}
+.react-ui-date-picker-calendar-selected-day {
+  background-color: #6ac;
+  color: #fff;
+}
+.react-ui-date-picker-calendar-header-next:after {
+  color: #adadad;
+  content: '\300b';
+  cursor: pointer;
+  font-size: 18px;
+}
+.react-ui-date-picker-calendar-header-previous:after {
+  color: #adadad;
+  content: '\300a';
+  cursor: pointer;
+  font-size: 18px;
 }
 .react-ui-file-input {
   width: 100%;
 }
 .react-ui-file-input-input {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   outline: none;
@@ -261,7 +462,10 @@
 .react-ui-file-input-choose {
   background-color: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   margin-right: 10px;
@@ -270,7 +474,10 @@
 .react-ui-file-input-clear {
   background-color: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   margin-right: 10px;
@@ -278,6 +485,7 @@
 }
 .react-ui-grid {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 100%;
 }
@@ -286,6 +494,9 @@
   cursor: pointer;
   height: 40px;
   padding-left: 10px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   user-select: none;
 }
 .react-ui-grid .react-ui-grid-header:first-child {
@@ -308,7 +519,10 @@
 }
 .react-ui-search-box input[type='text'] {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   font-size: 13px;
   outline: none;
@@ -319,7 +533,10 @@
 .react-ui-search-box-drop-down {
   background: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin-top: 2px;
   position: absolute;
@@ -339,7 +556,10 @@
 }
 .react-ui-select-box .react-ui-select-box-inner {
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   height: 30px;
   width: 100%;
@@ -372,17 +592,22 @@
 }
 .react-ui-select-box-open .react-ui-select-box-inner {
   border-bottom-width: 0;
+  -webkit-border-radius: 4px 4px 0 0;
   border-radius: 4px 4px 0 0;
 }
 .react-ui-select-box-open .react-ui-select-box-trigger:after {
   content: '\25b2';
 }
 .react-ui-select-box-search {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 0 10px;
   width: 100%;
 }
 .react-ui-select-box-search input[type='text'] {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   padding: 2px 6px;
   width: 100%;
@@ -390,8 +615,11 @@
 .react-ui-select-box-drop-down {
   background-color: #fff;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 0 0 4px 4px;
   border-radius: 0 0 4px 4px;
   border-top-width: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
   box-sizing: border-box;
   margin-bottom: 10px;
   position: absolute;

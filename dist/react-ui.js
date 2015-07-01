@@ -1097,12 +1097,23 @@ module.exports = exports['default'];
 Object.defineProperty(exports, '__esModule', {
     value: true
 });
+exports.chunk = chunk;
 exports.classNames = classNames;
 exports.debounce = debounce;
 exports.getClassName = getClassName;
 exports.noop = noop;
 
 function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
+
+function chunk(xs, n) {
+    var chunks = [];
+
+    for (var i = 0; i < xs.length; i += n) {
+        chunks.push(xs.slice(i, i + n));
+    }
+
+    return chunks;
+}
 
 function classNames() {
     for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {

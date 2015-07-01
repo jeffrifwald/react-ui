@@ -1,3 +1,13 @@
+export function chunk(xs, n) {
+    const chunks = [];
+
+    for (let i = 0; i < xs.length; i += n) {
+        chunks.push(xs.slice(i, i + n));
+    }
+
+    return chunks;
+}
+
 export function classNames(...args) {
     return (
         typeof args[0] === 'object' ?

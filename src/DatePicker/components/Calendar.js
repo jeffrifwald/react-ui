@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getClassName} from '../../utils';
+import {getClassName, chunk} from '../../utils';
 
 
 class Calendar extends React.Component {
@@ -8,10 +8,6 @@ class Calendar extends React.Component {
         const className = getClassName(
             'react-ui-date-picker-calendar',
             this.props.calendarClassName
-        );
-        const headerClassName = getClassName(
-            'react-ui-date-picker-calendar-header',
-            this.props.calendarHeaderClassName
         );
         const subHeaderClassName = getClassName(
             'react-ui-date-picker-calendar-sub-header',
@@ -24,11 +20,10 @@ class Calendar extends React.Component {
 
         return (
             <table
-            onClick={this.props.onClick}
+            onClick={this.props.onCalendarClick}
             className={className}>
-                <tr className={headerClassName}>
-                    {this.renderHeader()}
-                </tr>
+                {this.renderHeader()}
+
                 <tr className={subHeaderClassName}>
                     {this.renderSubHeader()}
                 </tr>
@@ -41,9 +36,13 @@ class Calendar extends React.Component {
     }
 
     renderHeader() {
-        const date = this.props.value;
+        const date = this.props.selectedMonth;
         const month = this.props.monthNames[date.getMonth()];
         const title = `${month} ${date.getFullYear()}`;
+        const headerClassName = getClassName(
+            'react-ui-date-picker-calendar-header',
+            this.props.calendarHeaderClassName
+        );
         const previousClassName = getClassName(
             'react-ui-date-picker-calendar-header-previous',
             this.props.calendarHeaderPreviousClassName
@@ -54,7 +53,7 @@ class Calendar extends React.Component {
         );
 
         return (
-            <tr className={className}>
+            <tr className={headerClassName}>
                 <td onClick={this.props.onPreviousClick}>
                     <span className={previousClassName}></span>
                 </td>
@@ -77,35 +76,106 @@ class Calendar extends React.Component {
     }
 
     renderBody() {
-        return this.getDates().map((date, i) => (
-            <td>
-                {date.getDate()}
-            </td>
-        ));
+        return chunk(this.getDates(), 7).map((week, i) => {
+            const days = week.map((day, j) => {
+                const disabled = this.isDateDisabled(day);
+                const value = this.props.value;
+                const today = this.props.today;
+                const currentDayClass = (
+                    this.datesEqual(day, today) ?
+                    'react-ui-date-picker-calendar-current-day' :
+                    null
+                );
+                const disabledDayClass = (
+                    disabled ?
+                    'react-ui-date-picker-calendar-disabled-day' :
+                    null
+                );
+                const selectedDayClass = (
+                    value && this.datesEqual(day, value) ?
+                    'react-ui-date-picker-calendar-selected-day' :
+                    null
+                );
+                const selectedMonthClass = (
+                    this.props.selectedMonth.getMonth() === day.getMonth() ?
+                    'react-ui-date-picker-calendar-selected-month' :
+                    null
+                );
+                const dayClassName = getClassName(
+                    'react-ui-date-picker-calendar-day',
+                    currentDayClass ,
+                    selectedMonthClass,
+                    disabledDayClass,
+                    selectedDayClass
+                );
+
+                return (
+                    <td
+                    className={dayClassName}
+                    disabled={disabled}
+                    key={j}
+                    onClick={this.props.onDateClick.bind(null, day, disabled)}>
+                        {day.getDate()}
+                    </td>
+                );
+            });
+
+            return (
+                <tr
+                className="react-ui-date-picker-calendar-week"
+                key={i}>
+                    {days}
+                </tr>
+            );
+        });
     }
 
     getDates() {
         const startDate = this.getStartDate();
         const dates = [startDate];
 
-        while (dates[dates.length - 1].getMonth() === startDate.getMonth()) {
-            dates.push(new Date(
-                startDate.getFullYear(),
-                startDate.getMonth(),
-                dates[dates.length - 1].getDate() + 1
-            ));
+        while (dates.length < 42) {
+            dates.push(this.addDays(dates[dates.length - 1], 1));
         }
-
-        dates.pop();
 
         return dates;
     }
 
+    datesEqual(a, b) {
+        return (
+            a.getDate() === b.getDate() &&
+            a.getMonth() === b.getMonth() &&
+            a.getFullYear() === b.getFullYear()
+        );
+    }
+
+    addDays(d, n) {
+        const date = new Date(d);
+
+        date.setDate(date.getDate() + n);
+
+        return date;
+    }
+
     getStartDate() {
-        return new Date(
-            this.props.value.getFullYear(),
-            this.props.value.getMonth(),
+        const date = new Date(
+            this.props.selectedMonth.getFullYear(),
+            this.props.selectedMonth.getMonth(),
             1
+        );
+
+        while (date.getDay() !== 0) {
+            date.setDate(date.getDate() - 1);
+        }
+
+        return date;
+    }
+
+    isDateDisabled(date) {
+        return (
+            this.props.isDateDisabled(date) ||
+            (this.props.maxValue && date > this.props.maxValue) ||
+            (this.props.minValue && date < this.props.minValue)
         );
     }
 }

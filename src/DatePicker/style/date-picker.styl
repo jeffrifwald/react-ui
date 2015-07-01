@@ -47,7 +47,6 @@
 }
 
 .react-ui-date-picker-open {
-
     .react-ui-date-picker-inner {
         border-bottom-width: 0;
         border-radius: 4px 4px 0 0;
@@ -60,24 +59,102 @@
     }
 }
 
-/*.react-ui-date-picker-drop-down {
+.react-ui-date-picker-calendar {
     background-color: #fff;
     border: 1px solid #cdcdcd;
     border-radius: 0 0 4px 4px;
     border-top-width: 0;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+    font-size: 12px;
     position: absolute;
-    top: 28px;
+    table-layout: fixed;
+    top: 30px;
     width: 100%;
+    z-index: 999;
+
+    td {
+        height: 30px;
+        text-align: center;
+        user-select: none;
+    }
 }
 
-.react-ui-date-picker-option {
+.react-ui-date-picker-calendar-header {
+    td {
+        border: 1px solid #cdcdcd;
+        border-width: 1px 0;
+
+        &:first-child {
+            text-align: left;
+        }
+
+        &:last-child {
+            text-align: right;
+        }
+    }
+}
+
+.react-ui-date-picker-calendar-day {
+    color: #cdcdcd;
+    border: 1px solid #cdcdcd;
+    border-width: 1px 0 0 1px;
     cursor: pointer;
-    padding: 4px 10px;
+
+    &:first-child {
+        border-left-width: 0;
+    }
 
     &:hover {
-        background-color: #cdcdcd;
+        background-color: #66aacc;
         color: #fff;
     }
-}*/
+}
+
+.react-ui-date-picker-calendar-disabled-day {
+    background: #efefef;
+    cursor: not-allowed;
+
+    &:hover {
+        background-color: #efefef;
+        color: #cdcdcd;
+    }
+}
+
+.react-ui-date-picker-calendar-selected-month {
+    color: #000;
+
+    &.react-ui-date-picker-calendar-disabled-day {
+        color: #000;
+
+        &:hover {
+            color: #000;
+        }
+    }
+}
+
+.react-ui-date-picker-calendar-current-day {
+    color: #cc9977;
+}
+
+.react-ui-date-picker-calendar-selected-day {
+    background-color: #66aacc;
+    color: #fff;
+}
+
+.react-ui-date-picker-calendar-header-next {
+    &:after {
+        color: #adadad;
+        content: '\300b';
+        cursor: pointer;
+        font-size: 18px;
+    }
+}
+
+.react-ui-date-picker-calendar-header-previous {
+    &:after {
+        color: #adadad;
+        content: '\300a';
+        cursor: pointer;
+        font-size: 18px;
+    }
+}
+
