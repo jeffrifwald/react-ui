@@ -8,7 +8,7 @@ import {TestUtils} from '../../../utils';
 
 
 describe('Grid/Row', () => {
-    it('should render the correct number of elements', () => {
+    it('should render the correct top level elements', () => {
         const rendered = TestUtils.createComponent(
             <Row
             columns={fixtures.columns}

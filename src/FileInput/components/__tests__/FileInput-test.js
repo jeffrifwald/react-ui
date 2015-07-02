@@ -7,7 +7,7 @@ import {TestUtils} from '../../../utils';
 
 
 describe('FileInput/FileInput', () => {
-    it('should render the correct top level element', () => {
+    it('should render the correct top level elements', () => {
         const rendered = TestUtils.createComponent(
             <FileInput className="test-file-input" />
         ).render();

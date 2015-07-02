@@ -131,7 +131,13 @@ class SelectBox extends React.Component {
     }
 
     renderSearch() {
-        if (this.props.children.length < this.props.searchThreshold) {
+        const hideSearch = (
+            !this.props.children ||
+            !this.props.children.length ||
+            this.props.children.length > this.props.searchThreshold
+        );
+
+        if (hideSearch) {
             return null;
         }
 
@@ -179,8 +185,8 @@ class SelectBox extends React.Component {
         this.clear();
     }
 
-    onClick() {
-        this.props.onClick(this.state.showDropDown);
+    onClick(evt) {
+        this.props.onClick(evt, this.state.showDropDown);
 
         if (this.state.showDropDown) {
             this.hideDropDown();
@@ -189,8 +195,7 @@ class SelectBox extends React.Component {
         }
     }
 
-    onDropDownClick(evt) {
-        this.props.onDropDownClick(evt);
+    onDropDownClick() {
         this.delayBlur.cancel();
     }
 
@@ -213,8 +218,11 @@ class SelectBox extends React.Component {
     }
 
     getOptions() {
-        const options = (this.props.children || []).filter(
-            (child) => child.type === 'option'
+        let options = (
+            this.props.children && this.props.children.length !== undefined ?
+            this.props.children : [this.props.children]
+        ).filter(
+            (child) => child && child.type === 'option'
         ).map((child) => ({
             display: child.props.children,
             value: child.props.value || child.props.children
@@ -261,7 +269,6 @@ SelectBox.defaultProps = {
     onChange: noop,
     onClearClick: noop,
     onClick: noop,
-    onDropDownClick: noop,
     placeholder: '',
     searchThreshold: 5
 };

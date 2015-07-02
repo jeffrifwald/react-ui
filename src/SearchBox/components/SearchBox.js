@@ -67,7 +67,7 @@ class SearchBox extends React.Component {
             'react-ui-search-box-result',
             this.props.resultClassName
         );
-        const results = (this.state.results || []).map((result, i) => (
+        const results = this.state.results.map((result, i) => (
             <div
             className={resultClassName}
             key={i}
@@ -96,13 +96,12 @@ class SearchBox extends React.Component {
         this.hideDropDown();
     }
 
-    onDropDownClick(evt) {
-        this.props.onDropDownClick(evt);
+    onDropDownClick() {
         this.delayBlur.cancel();
     }
 
     onResponse(err, req) {
-        const results = this.props.parseResults(req);
+        const results = this.props.parseResults(req) || [];
 
         this.props.onResponse(err, req, results);
         this.setState({
@@ -131,8 +130,8 @@ class SearchBox extends React.Component {
         );
     }
 
-    select(result) {
-        this.setState({value: result});
+    select(value) {
+        this.setState({value});
     }
 
     hideDropDown() {
@@ -160,7 +159,6 @@ SearchBox.propTypes = {
 
 SearchBox.defaultProps = {
     delay: 400,
-    onDropDownClick: noop,
     onResultClick: noop,
     onResponse: noop,
     onSearch: noop,

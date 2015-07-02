@@ -8,7 +8,7 @@ import {TestUtils} from '../../../utils';
 
 
 describe('Grid/Cell', () => {
-    it('should render the correct element', () => {
+    it('should render the correct top level element', () => {
         const rendered = TestUtils.createComponent(
             <Cell
             activeCell={[0, 0]}

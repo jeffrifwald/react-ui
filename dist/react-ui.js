@@ -38,7 +38,7 @@ module.exports={
   "devDependencies": {
     "babel": "^5.6.7",
     "babel-core": "^5.6.7",
-    "babel-istanbul": "^0.2.8",
+    "babel-istanbul": "^0.2.9",
     "babel-runtime": "^5.6.7",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
@@ -954,7 +954,7 @@ var SearchBox = (function (_React$Component) {
 
             var dropDownClassName = (0, _utils.getClassName)('react-ui-search-box-drop-down', this.props.resultsWapperClassName);
             var resultClassName = (0, _utils.getClassName)('react-ui-search-box-result', this.props.resultClassName);
-            var results = (this.state.results || []).map(function (result, i) {
+            var results = this.state.results.map(function (result, i) {
                 return _react2['default'].createElement(
                     'div',
                     {
@@ -988,14 +988,13 @@ var SearchBox = (function (_React$Component) {
         }
     }, {
         key: 'onDropDownClick',
-        value: function onDropDownClick(evt) {
-            this.props.onDropDownClick(evt);
+        value: function onDropDownClick() {
             this.delayBlur.cancel();
         }
     }, {
         key: 'onResponse',
         value: function onResponse(err, req) {
-            var results = this.props.parseResults(req);
+            var results = this.props.parseResults(req) || [];
 
             this.props.onResponse(err, req, results);
             this.setState({
@@ -1057,7 +1056,6 @@ SearchBox.propTypes = {
 
 SearchBox.defaultProps = {
     delay: 400,
-    onDropDownClick: _utils.noop,
     onResultClick: _utils.noop,
     onResponse: _utils.noop,
     onSearch: _utils.noop,
@@ -1103,7 +1101,7 @@ exports.debounce = debounce;
 exports.getClassName = getClassName;
 exports.noop = noop;
 
-function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function chunk(xs, n) {
     var chunks = [];

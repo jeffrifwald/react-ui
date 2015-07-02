@@ -7,7 +7,7 @@ import {request, TestUtils} from '../../../utils';
 
 
 describe('AjaxForm/AjaxForm', () => {
-    it('should render form and its children', () => {
+    it('should render the correct top level elements', () => {
         const component = TestUtils.createComponent(
             <AjaxForm action="/login/" className="cool-form">
                 <input />

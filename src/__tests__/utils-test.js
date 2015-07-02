@@ -4,11 +4,33 @@ import {spy, stub} from 'sinon';
 import {
     chunk,
     classNames,
+    debounce,
     getClassName,
     noop,
     request
 } from '../utils';
 
+
+describe('utils/chunk', () => {
+    it('should chunk an iterable with items', () => {
+        const xs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+        const result = chunk(xs, 3);
+
+        assert.deepEqual(result, [
+            [1, 2, 3],
+            [4, 5, 6],
+            [7, 8, 9],
+            [10]
+        ]);
+    });
+
+    it('should chunk with too large n', () => {
+        const xs = [1, 2, 3, 4];
+        const result = chunk(xs, 10);
+
+        assert.deepEqual(result, [[1, 2, 3, 4]]);
+    });
+});
 
 describe('utils/classNames', () => {
     it('should generate an empty class names with arguments', () => {
@@ -32,6 +54,29 @@ describe('utils/classNames', () => {
     });
 });
 
+describe('utils/debounce', () => {
+    beforeEach(() => {
+        stub(global, 'setTimeout', (cb) => cb());
+        stub(global, 'clearTimeout');
+    });
+
+    afterEach(() => {
+        global.setTimeout.restore();
+        global.clearTimeout.restore();
+    });
+
+    it('should call a function', () => {
+        const mock = {callCount: 0};
+        const fn = debounce(() => (mock.callCount += 1), 325);
+
+        fn('a', 'b', 'c');
+        assert.equal(global.setTimeout.callCount, 1);
+        assert.equal(mock.callCount, 1);
+        assert.typeOf(global.setTimeout.firstCall.args[0], 'function');
+        assert.equal(global.setTimeout.firstCall.args[1], 325);
+    });
+});
+
 describe('utils/getClassName', () => {
     it('should generate a class name for a component', () => {
         const result = getClassName('react-ui-ajax-form', 'custom-form');
@@ -46,7 +91,7 @@ describe('utils/noop', () => {
     });
 });
 
-describe('utils/post', () => {
+describe('utils/request', () => {
     const originalXMLHttpRequest = global.XMLHttpRequest;
     const mocks = {};
 
@@ -102,11 +147,11 @@ describe('utils/post', () => {
         ));
         assert.isTrue(mocks.request.send.calledWith('mock data'));
         assert.isTrue(onResponse.calledWith(
-            new Error('ReactUI.AjaxForm: Network Error'),
+            new Error('POST: Network Error'),
             mocks.request
         ));
         assert.isTrue(onResponse.calledWith(
-            new Error('ReactUI.AjaxForm: Status Error'),
+            new Error('POST: Status Error'),
             mocks.request
         ));
         assert.isTrue(onResponse.calledWith(
@@ -114,25 +159,34 @@ describe('utils/post', () => {
             mocks.request
         ));
     });
-});
 
-describe('utils/chunk', () => {
-    it('should chunk an iterable with items', () => {
-        const xs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-        const result = chunk(xs, 3);
+    it('should make a GET request', () => {
+        const onResponse = stub();
 
-        assert.deepEqual(result, [
-            [1, 2, 3],
-            [4, 5, 6],
-            [7, 8, 9],
-            [10]
-        ]);
-    });
+        request.get('/api/neato/', onResponse);
 
-    it('should chunk with too large n', () => {
-        const xs = [1, 2, 3, 4];
-        const result = chunk(xs, 10);
-
-        assert.deepEqual(result, [[1, 2, 3, 4]]);
+        assert.equal(mocks.request.open.callCount, 1);
+        assert.equal(mocks.request.send.callCount, 1);
+        assert.equal(mocks.request.onload.callCount, 2);
+        assert.equal(mocks.request.onerror.callCount, 1);
+        assert.equal(onResponse.callCount, 3);
+        assert.isTrue(mocks.request.open.calledWith(
+            'GET',
+            '/api/neato/',
+            true
+        ));
+        assert.isTrue(mocks.request.send.calledWith());
+        assert.isTrue(onResponse.calledWith(
+            new Error('GET: Network Error'),
+            mocks.request
+        ));
+        assert.isTrue(onResponse.calledWith(
+            new Error('GET: Status Error'),
+            mocks.request
+        ));
+        assert.isTrue(onResponse.calledWith(
+            undefined,
+            mocks.request
+        ));
     });
 });

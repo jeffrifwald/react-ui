@@ -103,7 +103,7 @@ class Calendar extends React.Component {
                 );
                 const dayClassName = getClassName(
                     'react-ui-date-picker-calendar-day',
-                    currentDayClass ,
+                    currentDayClass,
                     selectedMonthClass,
                     disabledDayClass,
                     selectedDayClass
