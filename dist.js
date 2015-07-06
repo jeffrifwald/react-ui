@@ -1,4 +1,4 @@
-import ReactUI from './src/ReactUI';
+import ReactUI from './src';
 
 
 global.ReactUI = ReactUI;

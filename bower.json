@@ -8,7 +8,9 @@
   "description": "A collection of reusable components for React.",
   "main": [
     "dist/react-ui.js",
-    "dist/react-ui.min.js"
+    "dist/react-ui.min.js",
+    "dist/react-ui.css",
+    "dist/react-ui.min.css"
   ],
   "keywords": [
     "React",

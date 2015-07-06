@@ -4,14 +4,14 @@
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _srcReactUI = require('./src/ReactUI');
+var _src = require('./src');
 
-var _srcReactUI2 = _interopRequireDefault(_srcReactUI);
+var _src2 = _interopRequireDefault(_src);
 
-global.ReactUI = _srcReactUI2['default'];
+global.ReactUI = _src2['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./src/ReactUI":12}],2:[function(require,module,exports){
+},{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
   "version": "0.4.0",
@@ -26,6 +26,7 @@ module.exports={
     "url": "https://github.com/ambitioninc/react-ui/issues"
   },
   "homepage": "https://github.com/ambitioninc/react-ui",
+  "main": "ReactUI.js",
   "scripts": {
     "build": "npm run build_dist && npm run build_docs",
     "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js && stylus src/style --out dist --use nib && cleancss dist/react-ui.css -o dist/react-ui.min.css",
@@ -49,6 +50,7 @@ module.exports={
     "eslint-plugin-react": "^2.5.2",
     "mocha": "^2.2.5",
     "nib": "^1.1.0",
+    "shelljs": "^0.5.1",
     "sinon": "^1.15.3",
     "stylus": "^0.51.1",
     "uglify-js": "^2.4.23"
@@ -180,7 +182,7 @@ exports['default'] = AjaxForm;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15}],4:[function(require,module,exports){
+},{"../../utils":20}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -197,6 +199,492 @@ exports['default'] = _componentsAjaxForm2['default'];
 module.exports = exports['default'];
 
 },{"./components/AjaxForm":3}],5:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _utils = require('../../utils');
+
+var Calendar = (function (_React$Component) {
+    function Calendar() {
+        _classCallCheck(this, Calendar);
+
+        _get(Object.getPrototypeOf(Calendar.prototype), 'constructor', this).apply(this, arguments);
+    }
+
+    _inherits(Calendar, _React$Component);
+
+    _createClass(Calendar, [{
+        key: 'render',
+        value: function render() {
+            var className = (0, _utils.getClassName)('react-ui-date-picker-calendar', this.props.calendarClassName);
+            var subHeaderClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-sub-header', this.props.calendarSubHeaderClassName);
+            var bodyClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-body', this.props.calendarBodyClassName);
+
+            return _react2['default'].createElement(
+                'table',
+                {
+                    onClick: this.props.onCalendarClick,
+                    className: className },
+                this.renderHeader(),
+                _react2['default'].createElement(
+                    'tr',
+                    { className: subHeaderClassName },
+                    this.renderSubHeader()
+                ),
+                _react2['default'].createElement(
+                    'tr',
+                    { className: bodyClassName },
+                    this.renderBody()
+                )
+            );
+        }
+    }, {
+        key: 'renderHeader',
+        value: function renderHeader() {
+            var date = this.props.selectedMonth;
+            var month = this.props.monthNames[date.getMonth()];
+            var title = month + ' ' + date.getFullYear();
+            var headerClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-header', this.props.calendarHeaderClassName);
+            var previousClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-header-previous', this.props.calendarHeaderPreviousClassName);
+            var nextClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-header-next', this.props.calendarHeaderNextClassName);
+
+            return _react2['default'].createElement(
+                'tr',
+                { className: headerClassName },
+                _react2['default'].createElement(
+                    'td',
+                    { onClick: this.props.onPreviousClick },
+                    _react2['default'].createElement('span', { className: previousClassName })
+                ),
+                _react2['default'].createElement(
+                    'td',
+                    { colSpan: 5 },
+                    title
+                ),
+                _react2['default'].createElement(
+                    'td',
+                    { onClick: this.props.onNextClick },
+                    _react2['default'].createElement('span', { className: nextClassName })
+                )
+            );
+        }
+    }, {
+        key: 'renderSubHeader',
+        value: function renderSubHeader() {
+            return this.props.dayNames.map(function (name) {
+                return name[0];
+            }).map(function (name, i) {
+                return _react2['default'].createElement(
+                    'td',
+                    { key: i },
+                    name
+                );
+            });
+        }
+    }, {
+        key: 'renderBody',
+        value: function renderBody() {
+            var _this = this;
+
+            return (0, _utils.chunk)(this.getDates(), 7).map(function (week, i) {
+                var days = week.map(function (day, j) {
+                    var disabled = _this.isDateDisabled(day);
+                    var value = _this.props.value;
+                    var today = _this.props.today;
+                    var currentDayClass = _this.datesEqual(day, today) ? 'react-ui-date-picker-calendar-current-day' : null;
+                    var disabledDayClass = disabled ? 'react-ui-date-picker-calendar-disabled-day' : null;
+                    var selectedDayClass = value && _this.datesEqual(day, value) ? 'react-ui-date-picker-calendar-selected-day' : null;
+                    var selectedMonthClass = _this.props.selectedMonth.getMonth() === day.getMonth() ? 'react-ui-date-picker-calendar-selected-month' : null;
+                    var dayClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-day', currentDayClass, selectedMonthClass, disabledDayClass, selectedDayClass);
+
+                    return _react2['default'].createElement(
+                        'td',
+                        {
+                            className: dayClassName,
+                            disabled: disabled,
+                            key: j,
+                            onClick: _this.props.onDateClick.bind(null, day, disabled) },
+                        day.getDate()
+                    );
+                });
+
+                return _react2['default'].createElement(
+                    'tr',
+                    {
+                        className: 'react-ui-date-picker-calendar-week',
+                        key: i },
+                    days
+                );
+            });
+        }
+    }, {
+        key: 'getDates',
+        value: function getDates() {
+            var startDate = this.getStartDate();
+            var dates = [startDate];
+
+            while (dates.length < 42) {
+                dates.push(this.addDays(dates[dates.length - 1], 1));
+            }
+
+            return dates;
+        }
+    }, {
+        key: 'datesEqual',
+        value: function datesEqual(a, b) {
+            return a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
+        }
+    }, {
+        key: 'addDays',
+        value: function addDays(d, n) {
+            var date = new Date(d);
+
+            date.setDate(date.getDate() + n);
+
+            return date;
+        }
+    }, {
+        key: 'getStartDate',
+        value: function getStartDate() {
+            var date = new Date(this.props.selectedMonth.getFullYear(), this.props.selectedMonth.getMonth(), 1);
+
+            while (date.getDay() !== 0) {
+                date.setDate(date.getDate() - 1);
+            }
+
+            return date;
+        }
+    }, {
+        key: 'isDateDisabled',
+        value: function isDateDisabled(date) {
+            return this.props.isDateDisabled(date) || this.props.maxValue && date > this.props.maxValue || this.props.minValue && date < this.props.minValue;
+        }
+    }]);
+
+    return Calendar;
+})(_react2['default'].Component);
+
+exports['default'] = Calendar;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../utils":20}],6:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _utils = require('../../utils');
+
+var _Calendar = require('./Calendar');
+
+var _Calendar2 = _interopRequireDefault(_Calendar);
+
+var DatePicker = (function (_React$Component) {
+    function DatePicker() {
+        _classCallCheck(this, DatePicker);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        _get(Object.getPrototypeOf(DatePicker.prototype), 'constructor', this).apply(this, args);
+
+        var today = this.getToday();
+
+        this.state = {
+            showCalendar: false,
+            today: today,
+            selectedMonth: this.getSelectedMonth(this.props.defaultValue || today),
+            value: this.props.defaultValue ? this.cleanDate(this.props.defaultValue) : undefined
+        };
+        this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
+        this.onCalendarClick = this.onCalendarClick.bind(this);
+        this.onClick = this.onClick.bind(this);
+        this.onClearClick = this.onClearClick.bind(this);
+        this.onDateClick = this.onDateClick.bind(this);
+        this.onNextClick = this.onNextClick.bind(this);
+        this.onPreviousClick = this.onPreviousClick.bind(this);
+    }
+
+    _inherits(DatePicker, _React$Component);
+
+    _createClass(DatePicker, [{
+        key: 'render',
+        value: function render() {
+            var className = (0, _utils.getClassName)('react-ui-date-picker', this.props.className, this.state.showCalendar ? 'react-ui-date-picker-open' : '');
+            var value = this.state.value ? this.props.getValue(this.state.value) : undefined;
+
+            return _react2['default'].createElement(
+                'div',
+                {
+                    className: className,
+                    onBlur: this.delayBlur,
+                    onClick: this.onClick,
+                    tabIndex: 9999 },
+                _react2['default'].createElement('input', {
+                    disabled: this.props.disabled,
+                    name: this.props.name,
+                    type: 'hidden',
+                    value: value }),
+                _react2['default'].createElement(
+                    'div',
+                    { className: 'react-ui-date-picker-inner' },
+                    this.renderValue(),
+                    _react2['default'].createElement(
+                        'div',
+                        { className: 'react-ui-date-picker-controls' },
+                        this.renderClear(),
+                        this.renderTrigger()
+                    )
+                ),
+                this.renderCalendar()
+            );
+        }
+    }, {
+        key: 'renderValue',
+        value: function renderValue() {
+            var className = (0, _utils.getClassName)('react-ui-date-picker-value', this.props.valueClassName, !this.state.value ? 'react-ui-date-picker-placeholder' : '');
+            var display = this.state.value ? this.props.getDisplay(this.state.value) : this.props.placeholder;
+            var value = this.state.value ? this.props.getValue(this.state.value) : this.state.value;
+
+            return _react2['default'].createElement(
+                'span',
+                { className: className },
+                _react2['default'].createElement('input', {
+                    disabled: this.props.disabled,
+                    name: this.props.name,
+                    type: 'hidden',
+                    value: value }),
+                display
+            );
+        }
+    }, {
+        key: 'renderTrigger',
+        value: function renderTrigger() {
+            var className = (0, _utils.getClassName)('react-ui-date-picker-trigger', this.props.triggerClassName);
+
+            return _react2['default'].createElement('span', { className: className });
+        }
+    }, {
+        key: 'renderClear',
+        value: function renderClear() {
+            var className = (0, _utils.getClassName)('react-ui-date-picker-clear', this.props.clearClassName);
+
+            return this.state.value ? _react2['default'].createElement('span', {
+                className: className,
+                onClick: this.onClearClick }) : null;
+        }
+    }, {
+        key: 'renderCalendar',
+        value: function renderCalendar() {
+            return this.state.showCalendar ? _react2['default'].createElement(_Calendar2['default'], _extends({}, this.props, this.state, {
+                onCalendarClick: this.onCalendarClick,
+                onDateClick: this.onDateClick,
+                onNextClick: this.onNextClick,
+                onPreviousClick: this.onPreviousClick })) : null;
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.hideCalendar();
+        }
+    }, {
+        key: 'onClearClick',
+        value: function onClearClick(evt) {
+            evt.stopPropagation();
+            this.props.onClearClick(evt);
+            this.clear();
+        }
+    }, {
+        key: 'onClick',
+        value: function onClick() {
+            this.props.onClick(this.state.showCalendar);
+
+            if (this.state.showCalendar) {
+                this.hideCalendar();
+            } else {
+                this.showCalendar();
+            }
+        }
+    }, {
+        key: 'onCalendarClick',
+        value: function onCalendarClick(evt) {
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+        }
+    }, {
+        key: 'onDateClick',
+        value: function onDateClick(date, disabled, evt) {
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+            this.props.onDateClick(evt, date, disabled);
+
+            if (!disabled) {
+                this.setState({
+                    selectedMonth: this.getSelectedMonth(date),
+                    showCalendar: false,
+                    value: date
+                });
+            }
+        }
+    }, {
+        key: 'onNextClick',
+        value: function onNextClick(evt) {
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+            this.setState({
+                selectedMonth: this.addMonths(this.state.selectedMonth, 1)
+            });
+        }
+    }, {
+        key: 'onPreviousClick',
+        value: function onPreviousClick(evt) {
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+            this.setState({
+                selectedMonth: this.addMonths(this.state.selectedMonth, -1)
+            });
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this.setState({ value: undefined });
+        }
+    }, {
+        key: 'hideCalendar',
+        value: function hideCalendar() {
+            this.setState({ showCalendar: false });
+        }
+    }, {
+        key: 'showCalendar',
+        value: function showCalendar() {
+            this.setState({ showCalendar: true });
+        }
+    }, {
+        key: 'addMonths',
+        value: function addMonths(d, n) {
+            var date = new Date(d);
+
+            date.setMonth(date.getMonth() + n);
+
+            return date;
+        }
+    }, {
+        key: 'getToday',
+        value: function getToday() {
+            return this.cleanDate(new Date());
+        }
+    }, {
+        key: 'getSelectedMonth',
+        value: function getSelectedMonth(date) {
+            return new Date(date.getFullYear(), date.getMonth(), 1);
+        }
+    }, {
+        key: 'cleanDate',
+        value: function cleanDate(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        }
+    }]);
+
+    return DatePicker;
+})(_react2['default'].Component);
+
+DatePicker.propTypes = {
+    calendarClassName: _react2['default'].PropTypes.string,
+    calendarHeaderClassName: _react2['default'].PropTypes.string,
+    calendarSubHeaderClassName: _react2['default'].PropTypes.string,
+    calendarBodyClassName: _react2['default'].PropTypes.string,
+    calendarHeaderNextClassName: _react2['default'].PropTypes.string,
+    calendarHeaderPreviousClassName: _react2['default'].PropTypes.string,
+    className: _react2['default'].PropTypes.string,
+    getDisplay: _react2['default'].PropTypes.func,
+    getValue: _react2['default'].PropTypes.func,
+    isDateDisabled: _react2['default'].PropTypes.func,
+    name: _react2['default'].PropTypes.string,
+    onClearClick: _react2['default'].PropTypes.func,
+    onClick: _react2['default'].PropTypes.func,
+    onDateClick: _react2['default'].PropTypes.func,
+    placeholder: _react2['default'].PropTypes.string,
+    triggerClassName: _react2['default'].PropTypes.string,
+    valueClassName: _react2['default'].PropTypes.string
+};
+
+DatePicker.defaultProps = {
+    getValue: function getValue(date) {
+        return date.getFullYear() + '-' + (date.getMonth() + 1 + '-') + ('' + date.getDate());
+    },
+    getDisplay: function getDisplay(date) {
+        return date.getMonth() + 1 + '/' + (date.getDate() + '/') + ('' + date.getFullYear());
+    },
+    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    isDateDisabled: function isDateDisabled() {
+        return false;
+    },
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    onClearClick: _utils.noop,
+    onClick: _utils.noop,
+    onDateClick: _utils.noop,
+    placeholder: ''
+};
+
+exports['default'] = DatePicker;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../utils":20,"./Calendar":5}],7:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _componentsDatePicker = require('./components/DatePicker');
+
+var _componentsDatePicker2 = _interopRequireDefault(_componentsDatePicker);
+
+exports['default'] = _componentsDatePicker2['default'];
+module.exports = exports['default'];
+
+},{"./components/DatePicker":6}],8:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -380,7 +868,7 @@ exports['default'] = FileInput;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15}],6:[function(require,module,exports){
+},{"../../utils":20}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -396,7 +884,7 @@ var _componentsFileInput2 = _interopRequireDefault(_componentsFileInput);
 exports['default'] = _componentsFileInput2['default'];
 module.exports = exports['default'];
 
-},{"./components/FileInput":5}],7:[function(require,module,exports){
+},{"./components/FileInput":8}],10:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -478,7 +966,7 @@ exports['default'] = Cell;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15}],8:[function(require,module,exports){
+},{"../../utils":20}],11:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -648,7 +1136,7 @@ exports['default'] = Grid;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15,"./Header":9,"./Row":10}],9:[function(require,module,exports){
+},{"../../utils":20,"./Header":12,"./Row":13}],12:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -727,7 +1215,7 @@ exports['default'] = Header;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15}],10:[function(require,module,exports){
+},{"../../utils":20}],13:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -822,7 +1310,7 @@ exports['default'] = Row;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15,"./Cell":7}],11:[function(require,module,exports){
+},{"../../utils":20,"./Cell":10}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -838,43 +1326,7 @@ var _componentsGrid2 = _interopRequireDefault(_componentsGrid);
 exports['default'] = _componentsGrid2['default'];
 module.exports = exports['default'];
 
-},{"./components/Grid":8}],12:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, '__esModule', {
-    value: true
-});
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-var _packageJson = require('../package.json');
-
-var _AjaxForm = require('./AjaxForm');
-
-var _AjaxForm2 = _interopRequireDefault(_AjaxForm);
-
-var _FileInput = require('./FileInput');
-
-var _FileInput2 = _interopRequireDefault(_FileInput);
-
-var _Grid = require('./Grid');
-
-var _Grid2 = _interopRequireDefault(_Grid);
-
-var _SearchBox = require('./SearchBox');
-
-var _SearchBox2 = _interopRequireDefault(_SearchBox);
-
-exports['default'] = {
-    AjaxForm: _AjaxForm2['default'],
-    FileInput: _FileInput2['default'],
-    Grid: _Grid2['default'],
-    SearchBox: _SearchBox2['default'],
-    version: _packageJson.version
-};
-module.exports = exports['default'];
-
-},{"../package.json":2,"./AjaxForm":4,"./FileInput":6,"./Grid":11,"./SearchBox":14}],13:[function(require,module,exports){
+},{"./components/Grid":11}],15:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1072,7 +1524,7 @@ exports['default'] = SearchBox;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":15}],14:[function(require,module,exports){
+},{"../../utils":20}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1088,7 +1540,353 @@ var _componentsSearchBox2 = _interopRequireDefault(_componentsSearchBox);
 exports['default'] = _componentsSearchBox2['default'];
 module.exports = exports['default'];
 
-},{"./components/SearchBox":13}],15:[function(require,module,exports){
+},{"./components/SearchBox":15}],17:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _utils = require('../../utils');
+
+var SelectBox = (function (_React$Component) {
+    function SelectBox() {
+        _classCallCheck(this, SelectBox);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        _get(Object.getPrototypeOf(SelectBox.prototype), 'constructor', this).apply(this, args);
+
+        this.state = {
+            showDropDown: false,
+            value: undefined
+        };
+        this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
+        this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
+        this.onClick = this.onClick.bind(this);
+        this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.onSearchClick = this.onSearchClick.bind(this);
+        this.onClearClick = this.onClearClick.bind(this);
+    }
+
+    _inherits(SelectBox, _React$Component);
+
+    _createClass(SelectBox, [{
+        key: 'render',
+        value: function render() {
+            var className = (0, _utils.getClassName)('react-ui-select-box', this.props.className, this.state.showDropDown ? 'react-ui-select-box-open' : '');
+
+            return _react2['default'].createElement(
+                'div',
+                {
+                    className: className,
+                    onBlur: this.delayBlur,
+                    onClick: this.onClick,
+                    tabIndex: 9999 },
+                _react2['default'].createElement(
+                    'div',
+                    { className: 'react-ui-select-box-inner' },
+                    this.renderValue(),
+                    _react2['default'].createElement(
+                        'div',
+                        { className: 'react-ui-select-box-controls' },
+                        this.renderClear(),
+                        this.renderTrigger()
+                    )
+                ),
+                this.renderDropDown()
+            );
+        }
+    }, {
+        key: 'renderValue',
+        value: function renderValue() {
+            var className = (0, _utils.getClassName)('react-ui-select-box-value', this.props.valueClassName, !this.state.value ? 'react-ui-select-box-placeholder' : '');
+            var display = this.state.value ? this.state.value.display : this.props.placeholder;
+            var value = this.state.value ? this.state.value.value : this.state.value;
+
+            return _react2['default'].createElement(
+                'span',
+                { className: className },
+                _react2['default'].createElement('input', {
+                    disabled: this.props.disabled,
+                    name: this.props.name,
+                    type: 'hidden',
+                    value: value }),
+                display
+            );
+        }
+    }, {
+        key: 'renderDropDown',
+        value: function renderDropDown() {
+            if (!this.state.showDropDown) {
+                return null;
+            }
+
+            var className = (0, _utils.getClassName)('react-ui-select-box-drop-down', this.props.dropDownClassName);
+
+            return _react2['default'].createElement(
+                'div',
+                {
+                    className: className,
+                    onDropDownClick: this.onDropDownClick },
+                this.renderSearch(),
+                this.renderOptions()
+            );
+        }
+    }, {
+        key: 'renderClear',
+        value: function renderClear() {
+            var className = (0, _utils.getClassName)('react-ui-select-box-clear', this.props.clearClassName);
+
+            return this.state.value ? _react2['default'].createElement('span', {
+                className: className,
+                onClick: this.onClearClick }) : null;
+        }
+    }, {
+        key: 'renderTrigger',
+        value: function renderTrigger() {
+            var className = (0, _utils.getClassName)('react-ui-select-box-trigger', this.props.triggerClassName);
+
+            return _react2['default'].createElement('span', { className: className });
+        }
+    }, {
+        key: 'renderSearch',
+        value: function renderSearch() {
+            var hideSearch = !this.props.children || !this.props.children.length || this.props.children.length <= this.props.searchThreshold;
+
+            if (hideSearch) {
+                return null;
+            }
+
+            var className = (0, _utils.getClassName)('react-ui-select-box-search', this.props.searchClassName);
+
+            return _react2['default'].createElement(
+                'div',
+                { className: className },
+                _react2['default'].createElement('input', {
+                    onClick: this.onSearchClick,
+                    onChange: this.delaySearch,
+                    ref: 'search',
+                    type: 'text' })
+            );
+        }
+    }, {
+        key: 'renderOptions',
+        value: function renderOptions() {
+            var _this = this;
+
+            var className = (0, _utils.getClassName)('react-ui-select-box-option', this.props.optionClassName);
+
+            return this.getOptions().map(function (option, i) {
+                return _react2['default'].createElement(
+                    'div',
+                    {
+                        className: className,
+                        key: i,
+                        onClick: _this.onChange.bind(_this, option) },
+                    option.display
+                );
+            });
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(option, evt) {
+            this.props.onChange(evt, option);
+
+            this.setState({ value: option });
+        }
+    }, {
+        key: 'onClearClick',
+        value: function onClearClick(evt) {
+            evt.stopPropagation();
+            this.props.onClearClick(evt);
+            this.clear();
+        }
+    }, {
+        key: 'onClick',
+        value: function onClick(evt) {
+            this.props.onClick(evt, this.state.showDropDown);
+
+            if (this.state.showDropDown) {
+                this.hideDropDown();
+            } else {
+                this.showDropDown();
+            }
+        }
+    }, {
+        key: 'onDropDownClick',
+        value: function onDropDownClick() {
+            this.delayBlur.cancel();
+        }
+    }, {
+        key: 'onBlur',
+        value: function onBlur() {
+            this.hideDropDown();
+            this.clearQuery();
+        }
+    }, {
+        key: 'onSearch',
+        value: function onSearch() {
+            var query = _react2['default'].findDOMNode(this.refs.search).value.toLowerCase();
+
+            this.setState({ query: query });
+        }
+    }, {
+        key: 'onSearchClick',
+        value: function onSearchClick(evt) {
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+        }
+    }, {
+        key: 'getOptions',
+        value: function getOptions() {
+            var _this2 = this;
+
+            var options = (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]).filter(function (child) {
+                return child && child.type === 'option';
+            }).map(function (child) {
+                return {
+                    display: child.props.children,
+                    value: child.props.value || child.props.children
+                };
+            });
+
+            return this.state.query ? options.filter(function (option) {
+                return option.display.toLowerCase().includes(_this2.state.query);
+            }) : options;
+        }
+    }, {
+        key: 'clear',
+        value: function clear() {
+            this.setState({ value: undefined });
+        }
+    }, {
+        key: 'clearQuery',
+        value: function clearQuery() {
+            this.setState({ query: '' });
+        }
+    }, {
+        key: 'hideDropDown',
+        value: function hideDropDown() {
+            this.setState({ showDropDown: false });
+        }
+    }, {
+        key: 'showDropDown',
+        value: function showDropDown() {
+            this.setState({ showDropDown: true });
+        }
+    }]);
+
+    return SelectBox;
+})(_react2['default'].Component);
+
+SelectBox.propTypes = {
+    className: _react2['default'].PropTypes.string,
+    clearClassName: _react2['default'].PropTypes.string,
+    dropDownClassName: _react2['default'].PropTypes.string,
+    name: _react2['default'].PropTypes.string,
+    onChange: _react2['default'].PropTypes.func,
+    onClearClick: _react2['default'].PropTypes.func,
+    onClick: _react2['default'].PropTypes.func,
+    onDropDownClick: _react2['default'].PropTypes.func,
+    optionClassName: _react2['default'].PropTypes.string,
+    placeholder: _react2['default'].PropTypes.string,
+    searchThreshold: _react2['default'].PropTypes.number,
+    valueClassName: _react2['default'].PropTypes.string
+};
+
+SelectBox.defaultProps = {
+    onChange: _utils.noop,
+    onClearClick: _utils.noop,
+    onClick: _utils.noop,
+    placeholder: '',
+    searchThreshold: 5
+};
+
+exports['default'] = SelectBox;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../utils":20}],18:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _componentsSelectBox = require('./components/SelectBox');
+
+var _componentsSelectBox2 = _interopRequireDefault(_componentsSelectBox);
+
+exports['default'] = _componentsSelectBox2['default'];
+module.exports = exports['default'];
+
+},{"./components/SelectBox":17}],19:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _packageJson = require('../package.json');
+
+var _AjaxForm = require('./AjaxForm');
+
+var _AjaxForm2 = _interopRequireDefault(_AjaxForm);
+
+var _DatePicker = require('./DatePicker');
+
+var _DatePicker2 = _interopRequireDefault(_DatePicker);
+
+var _FileInput = require('./FileInput');
+
+var _FileInput2 = _interopRequireDefault(_FileInput);
+
+var _Grid = require('./Grid');
+
+var _Grid2 = _interopRequireDefault(_Grid);
+
+var _SearchBox = require('./SearchBox');
+
+var _SearchBox2 = _interopRequireDefault(_SearchBox);
+
+var _SelectBox = require('./SelectBox');
+
+var _SelectBox2 = _interopRequireDefault(_SelectBox);
+
+exports['default'] = {
+    AjaxForm: _AjaxForm2['default'],
+    DatePicker: _DatePicker2['default'],
+    FileInput: _FileInput2['default'],
+    Grid: _Grid2['default'],
+    SearchBox: _SearchBox2['default'],
+    SelectBox: _SelectBox2['default'],
+    version: _packageJson.version
+};
+module.exports = exports['default'];
+
+},{"../package.json":2,"./AjaxForm":4,"./DatePicker":7,"./FileInput":9,"./Grid":14,"./SearchBox":16,"./SelectBox":18}],20:[function(require,module,exports){
 (function (global){
 'use strict';
 

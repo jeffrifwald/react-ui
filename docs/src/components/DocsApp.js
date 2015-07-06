@@ -2,7 +2,7 @@ import AjaxForm from './AjaxForm';
 import DatePicker from './DatePicker';
 import FileInput from './FileInput';
 import Grid from './Grid';
-import ReactUI from '../../../src/ReactUI';
+import ReactUI from '../../../src';
 import SearchBox from './SearchBox';
 import SelectBox from './SelectBox';
 

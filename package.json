@@ -12,6 +12,7 @@
     "url": "https://github.com/ambitioninc/react-ui/issues"
   },
   "homepage": "https://github.com/ambitioninc/react-ui",
+  "main": "ReactUI.js",
   "scripts": {
     "build": "npm run build_dist && npm run build_docs",
     "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js && stylus src/style --out dist --use nib && cleancss dist/react-ui.css -o dist/react-ui.min.css",
