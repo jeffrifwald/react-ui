@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.0",
+  "version": "0.4.3",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -25,14 +25,14 @@ module.exports={
   "bugs": {
     "url": "https://github.com/ambitioninc/react-ui/issues"
   },
-  "homepage": "https://github.com/ambitioninc/react-ui",
-  "main": "ReactUI.js",
+  "homepage": "https://ambitioninc.github.com/react-ui",
   "scripts": {
     "build": "npm run build_dist && npm run build_docs",
     "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js && stylus src/style --out dist --use nib && cleancss dist/react-ui.css -o dist/react-ui.min.css",
     "build_docs": "browserify docs/src/index.js | uglifyjs -o static/js/index.min.js && stylus docs/style/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
     "cover": "babel-node node_modules/.bin/babel-istanbul cover _mocha -- --recursive src",
     "lint": "eslint src",
+    "prepublish": "babel-node make.js",
     "test": "npm run lint && npm run cover",
     "watch_style": "stylus --watch src/style --out dist --use nib"
   },
@@ -50,7 +50,6 @@ module.exports={
     "eslint-plugin-react": "^2.5.2",
     "mocha": "^2.2.5",
     "nib": "^1.1.0",
-    "shelljs": "^0.5.1",
     "sinon": "^1.15.3",
     "stylus": "^0.51.1",
     "uglify-js": "^2.4.23"
