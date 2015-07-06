@@ -19,7 +19,7 @@
     "build_docs": "browserify docs/src/index.js | uglifyjs -o static/js/index.min.js && stylus docs/style/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
     "cover": "babel-node node_modules/.bin/babel-istanbul cover _mocha -- --recursive src",
     "lint": "eslint src",
-    "prepublish": "babel_node make.js",
+    "prepublish": "babel-node make.js",
     "test": "npm run lint && npm run cover",
     "watch_style": "stylus --watch src/style --out dist --use nib"
   },
