@@ -23,6 +23,7 @@
     "node_modules",
     "bower_components",
     "src",
+    "static",
     "docs",
     "/*.js",
     "/*.json"
