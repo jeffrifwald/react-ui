@@ -1022,8 +1022,8 @@ var SearchBox = (function (_React$Component) {
         }
     }, {
         key: 'select',
-        value: function select(result) {
-            this.setState({ value: result });
+        value: function select(value) {
+            this.setState({ value: value });
         }
     }, {
         key: 'hideDropDown',

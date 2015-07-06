@@ -45,6 +45,9 @@ class DatePicker extends React.Component {
             this.props.className,
             this.state.showCalendar ? 'react-ui-date-picker-open' : ''
         );
+        const value = this.state.value ? (
+            this.props.getValue(this.state.value)
+        ) : undefined;
 
         return (
             <div
@@ -56,7 +59,7 @@ class DatePicker extends React.Component {
                 disabled={this.props.disabled}
                 name={this.props.name}
                 type="hidden"
-                value={this.state.value} />
+                value={value} />
 
                 <div className="react-ui-date-picker-inner">
                     {this.renderValue()}
@@ -165,9 +168,9 @@ class DatePicker extends React.Component {
     onDateClick(date, disabled, evt) {
         evt.stopPropagation();
         this.delayBlur.cancel();
+        this.props.onDateClick(evt, date, disabled);
 
         if (!disabled) {
-            this.props.onDateClick();
             this.setState({
                 selectedMonth: this.getSelectedMonth(date),
                 showCalendar: false,
@@ -257,7 +260,7 @@ DatePicker.defaultProps = {
     getValue: (date) => (
         `${date.getFullYear()}-` +
         `${date.getMonth() + 1}-` +
-        `${date.getDate()} `
+        `${date.getDate()}`
     ),
     getDisplay: (date) => (
         `${date.getMonth() + 1}/` +

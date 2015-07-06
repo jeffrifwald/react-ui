@@ -33,6 +33,19 @@ describe('SelectBox/SelectBox', () => {
         assert.equal(renderedValue.props.children[1], 'Cool');
     });
 
+    it('should not render a search box under the threshold', () => {
+        const component = TestUtils.createComponent(
+            <SelectBox searchThreshold={1}>
+                <option>1</option>
+                <option>2</option>
+            </SelectBox>
+        );
+        const search = component.renderSearch();
+
+        assert.equal(search.type, 'div');
+        assert.equal(search.props.children.type, 'input');
+    });
+
     it('should render with an open drop down', () => {
         const component = TestUtils.createComponent(
             <SelectBox>

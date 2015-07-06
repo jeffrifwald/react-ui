@@ -116,15 +116,17 @@
 }
 .react-ui-date-picker-calendar-header-next:after {
   color: #adadad;
-  content: '\300b';
+  content: '\25ba';
   cursor: pointer;
   font-size: 18px;
+  margin-right: 6px;
 }
 .react-ui-date-picker-calendar-header-previous:after {
   color: #adadad;
-  content: '\300a';
+  content: '\25c4';
   cursor: pointer;
   font-size: 18px;
+  margin-left: 6px;
 }
 .react-ui-file-input {
   width: 100%;
@@ -434,15 +436,17 @@
 }
 .react-ui-date-picker-calendar-header-next:after {
   color: #adadad;
-  content: '\300b';
+  content: '\25ba';
   cursor: pointer;
   font-size: 18px;
+  margin-right: 6px;
 }
 .react-ui-date-picker-calendar-header-previous:after {
   color: #adadad;
-  content: '\300a';
+  content: '\25c4';
   cursor: pointer;
   font-size: 18px;
+  margin-left: 6px;
 }
 .react-ui-file-input {
   width: 100%;

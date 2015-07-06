@@ -134,7 +134,7 @@ class SelectBox extends React.Component {
         const hideSearch = (
             !this.props.children ||
             !this.props.children.length ||
-            this.props.children.length > this.props.searchThreshold
+            this.props.children.length <= this.props.searchThreshold
         );
 
         if (hideSearch) {

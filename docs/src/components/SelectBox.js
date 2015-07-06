@@ -2,7 +2,7 @@ import SelectBox from '../../../src/SelectBox';
 
 
 function onChange(evt, option) {
-    alert(`You selected ${option.name} with a value of ${option.value}`);
+    alert(`You selected ${option.display} with a value of ${option.value}`);
 }
 
 export default {

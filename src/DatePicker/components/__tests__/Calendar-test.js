@@ -13,7 +13,7 @@ describe('DatePicker/Calendar', () => {
     const value = new Date(2015, 7, 1);
     const props = DatePicker.defaultProps;
 
-    it('render the correct top level elements', () => {
+    it('should render the correct top level elements', () => {
         const rendered = TestUtils.createComponent(
             <Calendar
             {...props}
