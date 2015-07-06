@@ -4,6 +4,3 @@
 node_modules
 npm-debug.log
 .idea
-/*.js
-!/dist.js
-!/make.js
