@@ -16,7 +16,7 @@ npm install git://github.com/ambitioninc/react-ui.git
 
 ## Documentation
 
-Full documentation will be available eventually.
+[ReactUI](https://ambitioninc.github.com/react-ui/)
 
 ## License
 
