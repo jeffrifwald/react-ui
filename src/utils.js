@@ -78,6 +78,12 @@ export const request = {
 
 export const BLUR_DELAY_MS = 100;
 
+export const KEY_CODES = {
+    ARROW_DOWN: 40,
+    ARROW_UP: 38,
+    ENTER: 13
+};
+
 export const TestUtils = {
     createComponent(cls) {
         const Component = cls.type;

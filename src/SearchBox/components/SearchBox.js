@@ -4,6 +4,7 @@ import {
     BLUR_DELAY_MS,
     debounce,
     getClassName,
+    KEY_CODES,
     noop,
     request
 } from '../../utils';
@@ -15,10 +16,12 @@ class SearchBox extends React.Component {
 
         this.state = {
             showDropDown: false,
+            selectedIndex: -1,
             results: []
         };
         this.onResponse = this.onResponse.bind(this);
         this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         this.delayBlur = debounce(
             this.onBlur.bind(this),
             BLUR_DELAY_MS
@@ -45,6 +48,7 @@ class SearchBox extends React.Component {
                 <input
                 onBlur={this.delayBlur}
                 onChange={this.delaySearch}
+                onKeyDown={this.onKeyDown}
                 placeholder={this.props.placeholder}
                 ref="search"
                 type="text" />
@@ -63,18 +67,26 @@ class SearchBox extends React.Component {
             'react-ui-search-box-drop-down',
             this.props.resultsWapperClassName
         );
-        const resultClassName = getClassName(
-            'react-ui-search-box-result',
-            this.props.resultClassName
-        );
-        const results = this.state.results.map((result, i) => (
-            <div
-            className={resultClassName}
-            key={i}
-            onClick={this.onResultClick.bind(this, result)}>
-                {this.props.renderResult(result)}
-            </div>
-        ));
+        const results = this.state.results.map((result, i) => {
+            const resultClassName = getClassName(
+                'react-ui-search-box-result',
+                this.props.resultClassName,
+                (
+                    i === this.state.selectedIndex ?
+                    'react-ui-search-box-result-selected' :
+                    ''
+                )
+            );
+
+            return (
+                <div
+                className={resultClassName}
+                key={i}
+                onClick={this.onChange.bind(this, result)}>
+                    {this.props.renderResult(result)}
+                </div>
+            );
+        });
 
         return (
             <div
@@ -89,9 +101,22 @@ class SearchBox extends React.Component {
         this.hideDropDown();
     }
 
-    onResultClick(result, evt) {
+    onKeyDown(evt) {
+        if (evt.keyCode === KEY_CODES.ENTER && this.state.selectedIndex > -1) {
+            this.onChange(
+                this.state.results[this.state.selectedIndex],
+                evt
+            );
+        } else if (evt.keyCode === KEY_CODES.ARROW_DOWN) {
+            this.selectIndex(this.state.selectedIndex + 1);
+        } else if (evt.keyCode === KEY_CODES.ARROW_UP) {
+            this.selectIndex(this.state.selectedIndex - 1);
+        }
+    }
+
+    onChange(result, evt) {
         this.delayBlur.cancel();
-        this.props.onResultClick(evt, result);
+        this.props.onChange(evt, result);
         this.select(result);
         this.hideDropDown();
     }
@@ -106,13 +131,14 @@ class SearchBox extends React.Component {
         this.props.onResponse(err, req, results);
         this.setState({
             results: results,
+            selectedIndex: -1,
             showDropDown: true
         });
     }
 
     onSearch(evt) {
         const value = React.findDOMNode(this.refs.search).value;
-        const url = this.getUrl(value);
+        const url = this.props.getUrl(value);
 
         if (value) {
             this.props.onSearch(evt, url);
@@ -122,16 +148,20 @@ class SearchBox extends React.Component {
         }
     }
 
-    getUrl(query) {
-        return this.props.queryParam ? (
-            `${this.props.url}?${this.props.queryParam}=${query}`
-        ) : (
-            this.props.url
-        );
-    }
-
     select(value) {
         this.setState({value});
+    }
+
+    selectIndex(index) {
+        if (index >= this.state.results.length) {
+            index = this.state.results.length - 1;
+        }
+
+        if (index < 0) {
+            index = 0;
+        }
+
+        this.setState({selectedIndex: index});
     }
 
     hideDropDown() {
@@ -147,19 +177,20 @@ SearchBox.propTypes = {
     className: React.PropTypes.string,
     delay: React.PropTypes.number,
     dropDownClassName: React.PropTypes.string,
+    getUrl: React.PropTypes.func,
     name: React.PropTypes.string,
+    onChange: React.PropTypes.func,
     onResponse: React.PropTypes.func,
-    onResultClick: React.PropTypes.func,
     onSearch: React.PropTypes.func,
     placeholder: React.PropTypes.string,
     resultClassName: React.PropTypes.string,
-    renderResult: React.PropTypes.func,
-    url: React.PropTypes.string
+    renderResult: React.PropTypes.func
 };
 
 SearchBox.defaultProps = {
     delay: 400,
-    onResultClick: noop,
+    getUrl: () => '',
+    onChange: noop,
     onResponse: noop,
     onSearch: noop,
     placeholder: '',
