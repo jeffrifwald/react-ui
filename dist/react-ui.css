@@ -321,6 +321,9 @@
   background-color: #cdcdcd;
   color: #fff;
 }
+.react-ui-select-box-option-selected {
+  background-color: #ededed;
+}
 .react-ui-date-picker {
   position: relative;
   width: 100%;
@@ -643,4 +646,7 @@
 .react-ui-select-box-option:hover {
   background-color: #cdcdcd;
   color: #fff;
+}
+.react-ui-select-box-option-selected {
+  background-color: #ededed;
 }
