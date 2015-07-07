@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1605,7 +1605,7 @@ var SelectBox = (function (_React$Component) {
 
         this.state = {
             showDropDown: false,
-            value: undefined
+            value: this.props.defaultValue
         };
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
