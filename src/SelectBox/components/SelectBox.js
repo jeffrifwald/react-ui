@@ -14,7 +14,7 @@ class SelectBox extends React.Component {
 
         this.state = {
             showDropDown: false,
-            value: undefined
+            value: this.props.defaultValue
         };
         this.delayBlur = debounce(
             this.onBlur.bind(this),
