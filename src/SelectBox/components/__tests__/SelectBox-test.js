@@ -290,7 +290,7 @@ describe('SelectBox/SelectBox', () => {
     it('should get filtered options with prop options', () => {
         const options = [{name: 'a'}, {name: 'b'}];
         const component = TestUtils.createComponent(
-            <SelectBox options={options} queryProp="name" />
+            <SelectBox displayProp="name" options={options} />
         );
 
         component.state.query = 'a';
