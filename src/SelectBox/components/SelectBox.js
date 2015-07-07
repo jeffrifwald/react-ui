@@ -131,10 +131,14 @@ class SelectBox extends React.Component {
     }
 
     renderSearch() {
+        const options = this.props.options || (
+            this.props.children && this.props.children.length !== undefined ?
+            this.props.children : [this.props.children]
+        );
         const hideSearch = (
-            !this.props.children ||
-            !this.props.children.length ||
-            this.props.children.length <= this.props.searchThreshold
+            !options ||
+            !options.length ||
+            options.length <= this.props.searchThreshold
         );
 
         if (hideSearch) {
@@ -158,19 +162,26 @@ class SelectBox extends React.Component {
     }
 
     renderOptions() {
-        const className = getClassName(
-            'react-ui-select-box-option',
-            this.props.optionClassName
-        );
+        return this.getOptions().map((option, i) => {
+            const className = getClassName(
+                'react-ui-select-box-option',
+                this.props.optionClassName,
+                (
+                    this.isOptionSelected(option) ?
+                    'react-ui-select-box-option-selected' :
+                    ''
+                )
+            );
 
-        return this.getOptions().map((option, i) => (
-            <div
-            className={className}
-            key={i}
-            onClick={this.onChange.bind(this, option)}>
-                {option[this.props.displayProp]}
-            </div>
-        ));
+            return (
+                <div
+                className={className}
+                key={i}
+                onClick={this.onChange.bind(this, option)}>
+                    {option[this.props.displayProp]}
+                </div>
+            );
+        });
     }
 
     onChange(option, evt) {
@@ -233,6 +244,17 @@ class SelectBox extends React.Component {
                 this.state.query
             )
         ) : options;
+    }
+
+    isOptionSelected(option) {
+        const value = this.state.value;
+
+        return !!(
+            option &&
+            value &&
+            option[this.props.valueProp] === value[this.props.valueProp] &&
+            option[this.props.displayProp] === value[this.props.displayProp]
+        );
     }
 
     clear() {

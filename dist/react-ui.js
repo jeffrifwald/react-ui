@@ -1698,7 +1698,8 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'renderSearch',
         value: function renderSearch() {
-            var hideSearch = !this.props.children || !this.props.children.length || this.props.children.length <= this.props.searchThreshold;
+            var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]);
+            var hideSearch = !options || !options.length || options.length <= this.props.searchThreshold;
 
             if (hideSearch) {
                 return null;
@@ -1721,9 +1722,9 @@ var SelectBox = (function (_React$Component) {
         value: function renderOptions() {
             var _this = this;
 
-            var className = (0, _utils.getClassName)('react-ui-select-box-option', this.props.optionClassName);
-
             return this.getOptions().map(function (option, i) {
+                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '');
+
                 return _react2['default'].createElement(
                     'div',
                     {
@@ -1799,6 +1800,13 @@ var SelectBox = (function (_React$Component) {
             return this.state.query ? options.filter(function (option) {
                 return option[_this2.props.displayProp].toLowerCase().includes(_this2.state.query);
             }) : options;
+        }
+    }, {
+        key: 'isOptionSelected',
+        value: function isOptionSelected(option) {
+            var value = this.state.value;
+
+            return !!(option && value && option[this.props.valueProp] === value[this.props.valueProp] && option[this.props.displayProp] === value[this.props.displayProp]);
         }
     }, {
         key: 'clear',
