@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.6",
+  "version": "0.4.7",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1581,6 +1581,8 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
@@ -1645,8 +1647,8 @@ var SelectBox = (function (_React$Component) {
         key: 'renderValue',
         value: function renderValue() {
             var className = (0, _utils.getClassName)('react-ui-select-box-value', this.props.valueClassName, !this.state.value ? 'react-ui-select-box-placeholder' : '');
-            var display = this.state.value ? this.state.value.display : this.props.placeholder;
-            var value = this.state.value ? this.state.value.value : this.state.value;
+            var display = this.state.value ? this.state.value[this.props.displayProp] : this.props.placeholder;
+            var value = this.state.value ? this.state.value[this.props.valueProp] : this.state.value;
 
             return _react2['default'].createElement(
                 'span',
@@ -1728,7 +1730,7 @@ var SelectBox = (function (_React$Component) {
                         className: className,
                         key: i,
                         onClick: _this.onChange.bind(_this, option) },
-                    option.display
+                    option[_this.props.displayProp]
                 );
             });
         }
@@ -1789,14 +1791,13 @@ var SelectBox = (function (_React$Component) {
             var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]).filter(function (child) {
                 return child && child.type === 'option';
             }).map(function (child) {
-                return {
-                    display: child.props.children,
-                    value: child.props.value || child.props.children
-                };
+                var _ref;
+
+                return (_ref = {}, _defineProperty(_ref, _this2.props.displayProp, child.props.children), _defineProperty(_ref, _this2.props.valueProp, child.props.value || child.props.children), _ref);
             });
 
             return this.state.query ? options.filter(function (option) {
-                return option[_this2.props.queryProp].toLowerCase().includes(_this2.state.query);
+                return option[_this2.props.displayProp].toLowerCase().includes(_this2.state.query);
             }) : options;
         }
     }, {
@@ -1827,6 +1828,7 @@ var SelectBox = (function (_React$Component) {
 SelectBox.propTypes = {
     className: _react2['default'].PropTypes.string,
     clearClassName: _react2['default'].PropTypes.string,
+    displayProp: _react2['default'].PropTypes.string,
     dropDownClassName: _react2['default'].PropTypes.string,
     name: _react2['default'].PropTypes.string,
     onChange: _react2['default'].PropTypes.func,
@@ -1836,18 +1838,19 @@ SelectBox.propTypes = {
     options: _react2['default'].PropTypes.array,
     optionClassName: _react2['default'].PropTypes.string,
     placeholder: _react2['default'].PropTypes.string,
-    queryProp: _react2['default'].PropTypes.string,
     searchThreshold: _react2['default'].PropTypes.number,
-    valueClassName: _react2['default'].PropTypes.string
+    valueClassName: _react2['default'].PropTypes.string,
+    valueProp: _react2['default'].PropTypes.string
 };
 
 SelectBox.defaultProps = {
+    displayProp: 'display',
     onChange: _utils.noop,
     onClearClick: _utils.noop,
     onClick: _utils.noop,
     placeholder: '',
-    queryProp: 'display',
-    searchThreshold: 5
+    searchThreshold: 5,
+    valueProp: 'value'
 };
 
 exports['default'] = SelectBox;
