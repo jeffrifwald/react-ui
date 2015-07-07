@@ -118,14 +118,14 @@
   color: #adadad;
   content: '\25ba';
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
   margin-right: 6px;
 }
 .react-ui-date-picker-calendar-header-previous:after {
   color: #adadad;
   content: '\25c4';
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
   margin-left: 6px;
 }
 .react-ui-file-input {
@@ -234,6 +234,9 @@
   background-color: #cdcdcd;
   color: #fff;
 }
+.react-ui-search-box-result-selected {
+  background-color: #ededed;
+}
 .react-ui-select-box {
   position: relative;
   width: 100%;
@@ -317,6 +320,9 @@
 .react-ui-select-box-option:hover {
   background-color: #cdcdcd;
   color: #fff;
+}
+.react-ui-select-box-option-selected {
+  background-color: #ededed;
 }
 .react-ui-date-picker {
   position: relative;
@@ -438,14 +444,14 @@
   color: #adadad;
   content: '\25ba';
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
   margin-right: 6px;
 }
 .react-ui-date-picker-calendar-header-previous:after {
   color: #adadad;
   content: '\25c4';
   cursor: pointer;
-  font-size: 18px;
+  font-size: 14px;
   margin-left: 6px;
 }
 .react-ui-file-input {
@@ -554,6 +560,9 @@
   background-color: #cdcdcd;
   color: #fff;
 }
+.react-ui-search-box-result-selected {
+  background-color: #ededed;
+}
 .react-ui-select-box {
   position: relative;
   width: 100%;
@@ -637,4 +646,7 @@
 .react-ui-select-box-option:hover {
   background-color: #cdcdcd;
   color: #fff;
+}
+.react-ui-select-box-option-selected {
+  background-color: #ededed;
 }

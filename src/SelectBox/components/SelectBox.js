@@ -14,7 +14,7 @@ class SelectBox extends React.Component {
 
         this.state = {
             showDropDown: false,
-            value: undefined
+            value: this.props.defaultValue
         };
         this.delayBlur = debounce(
             this.onBlur.bind(this),
@@ -65,12 +65,12 @@ class SelectBox extends React.Component {
         );
         const display = (
             this.state.value ?
-            this.state.value.display :
+            this.state.value[this.props.displayProp] :
             this.props.placeholder
         );
         const value = (
             this.state.value ?
-            this.state.value.value :
+            this.state.value[this.props.valueProp] :
             this.state.value
         );
 
@@ -131,10 +131,14 @@ class SelectBox extends React.Component {
     }
 
     renderSearch() {
+        const options = this.props.options || (
+            this.props.children && this.props.children.length !== undefined ?
+            this.props.children : [this.props.children]
+        );
         const hideSearch = (
-            !this.props.children ||
-            !this.props.children.length ||
-            this.props.children.length <= this.props.searchThreshold
+            !options ||
+            !options.length ||
+            options.length <= this.props.searchThreshold
         );
 
         if (hideSearch) {
@@ -158,19 +162,26 @@ class SelectBox extends React.Component {
     }
 
     renderOptions() {
-        const className = getClassName(
-            'react-ui-select-box-option',
-            this.props.optionClassName
-        );
+        return this.getOptions().map((option, i) => {
+            const className = getClassName(
+                'react-ui-select-box-option',
+                this.props.optionClassName,
+                (
+                    this.isOptionSelected(option) ?
+                    'react-ui-select-box-option-selected' :
+                    ''
+                )
+            );
 
-        return this.getOptions().map((option, i) => (
-            <div
-            className={className}
-            key={i}
-            onClick={this.onChange.bind(this, option)}>
-                {option.display}
-            </div>
-        ));
+            return (
+                <div
+                className={className}
+                key={i}
+                onClick={this.onChange.bind(this, option)}>
+                    {option[this.props.displayProp]}
+                </div>
+            );
+        });
     }
 
     onChange(option, evt) {
@@ -218,19 +229,32 @@ class SelectBox extends React.Component {
     }
 
     getOptions() {
-        let options = (
+        let options = this.props.options || (
             this.props.children && this.props.children.length !== undefined ?
             this.props.children : [this.props.children]
         ).filter(
             (child) => child && child.type === 'option'
         ).map((child) => ({
-            display: child.props.children,
-            value: child.props.value || child.props.children
+            [this.props.displayProp]: child.props.children,
+            [this.props.valueProp]: child.props.value || child.props.children
         }));
 
         return this.state.query ? options.filter(
-            option => option.display.toLowerCase().includes(this.state.query)
+            option => option[this.props.displayProp].toLowerCase().includes(
+                this.state.query
+            )
         ) : options;
+    }
+
+    isOptionSelected(option) {
+        const value = this.state.value;
+
+        return !!(
+            option &&
+            value &&
+            option[this.props.valueProp] === value[this.props.valueProp] &&
+            option[this.props.displayProp] === value[this.props.displayProp]
+        );
     }
 
     clear() {
@@ -253,24 +277,29 @@ class SelectBox extends React.Component {
 SelectBox.propTypes = {
     className: React.PropTypes.string,
     clearClassName: React.PropTypes.string,
+    displayProp: React.PropTypes.string,
     dropDownClassName: React.PropTypes.string,
     name: React.PropTypes.string,
     onChange: React.PropTypes.func,
     onClearClick: React.PropTypes.func,
     onClick: React.PropTypes.func,
     onDropDownClick: React.PropTypes.func,
+    options: React.PropTypes.array,
     optionClassName: React.PropTypes.string,
     placeholder: React.PropTypes.string,
     searchThreshold: React.PropTypes.number,
-    valueClassName: React.PropTypes.string
+    valueClassName: React.PropTypes.string,
+    valueProp: React.PropTypes.string
 };
 
 SelectBox.defaultProps = {
+    displayProp: 'display',
     onChange: noop,
     onClearClick: noop,
     onClick: noop,
     placeholder: '',
-    searchThreshold: 5
+    searchThreshold: 5,
+    valueProp: 'value'
 };
 
 export default SelectBox;

@@ -20,26 +20,28 @@ function parseResults(req) {
     );
 }
 
-function onResultClick(evt, result) {
+function getUrl(query) {
+    return `http://httpbin.org/get?query=${query}`;
+}
+
+function onChange(evt, result) {
     alert(`Selected: ${result}`);
 }
 
 export default {
     code: [
         '<SearchBox',
-        'onResultClick={onResultClick}',
+        'getUrl={getUrl}',
+        'onChange={onChange}',
         'parseResults={parseResults}',
-        'placeholder="Type \'j\' to see results..."',
-        'queryParam="query"',
-        'url="http://httpbin.org/get" />'
+        'placeholder="Type \'j\' to see results..." />'
     ].join('\n'),
     name: 'SearchBox',
     rendered: (
         <SearchBox
-        onResultClick={onResultClick}
+        getUrl={getUrl}
+        onChange={onChange}
         parseResults={parseResults}
-        placeholder="Type 'j' to see results..."
-        queryParam="query"
-        url="http://httpbin.org/get" />
+        placeholder="Type 'j' to see results..." />
     )
 };

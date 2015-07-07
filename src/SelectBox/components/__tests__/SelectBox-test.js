@@ -145,6 +145,25 @@ describe('SelectBox/SelectBox', () => {
         assert.equal(clear.props.onClick, component.onClearClick);
     });
 
+    it('should render options', () => {
+        const component = TestUtils.createComponent(
+            <SelectBox>
+                <option>A</option>
+                <option>B</option>
+            </SelectBox>
+        );
+
+        component.state.value = {display: 'B', value: 'B'};
+
+        const options = component.renderOptions();
+
+        assert.equal(options.length, 2);
+        assert.equal(
+            options[1].props.className,
+            'react-ui-select-box-option react-ui-select-box-option-selected'
+        );
+    });
+
     it('should handle onChange', () => {
         const onChange = stub();
         const component = TestUtils.createComponent(
@@ -285,6 +304,29 @@ describe('SelectBox/SelectBox', () => {
             display: 'Four',
             value: 'Four'
         }]);
+    });
+
+    it('should get filtered options with prop options', () => {
+        const options = [{name: 'a'}, {name: 'b'}];
+        const component = TestUtils.createComponent(
+            <SelectBox displayProp="name" options={options} />
+        );
+
+        component.state.query = 'a';
+        assert.deepEqual(component.getOptions(), [{name: 'a'}]);
+    });
+
+    it('should determine if an option is selected', () => {
+        const component = TestUtils.createComponent(
+            <SelectBox />
+        );
+
+        assert.isFalse(component.isOptionSelected());
+        assert.isFalse(component.isOptionSelected({}));
+        component.state.value = {display: 'A', value: 'A'};
+        assert.isTrue(component.isOptionSelected({display: 'A', value: 'A'}));
+        assert.isFalse(component.isOptionSelected({display: 'A', value: 'B'}));
+        assert.isFalse(component.isOptionSelected({display: 'B', value: 'A'}));
     });
 
     it('should clear the value', () => {
