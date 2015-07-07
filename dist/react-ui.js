@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.4",
+  "version": "0.4.6",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -40,7 +40,7 @@ module.exports={
   "devDependencies": {
     "babel": "^5.6.7",
     "babel-core": "^5.6.7",
-    "babel-istanbul": "^0.2.9",
+    "babel-istanbul": "^0.2.10",
     "babel-runtime": "^5.6.7",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
@@ -1786,7 +1786,7 @@ var SelectBox = (function (_React$Component) {
         value: function getOptions() {
             var _this2 = this;
 
-            var options = (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]).filter(function (child) {
+            var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]).filter(function (child) {
                 return child && child.type === 'option';
             }).map(function (child) {
                 return {
@@ -1796,7 +1796,7 @@ var SelectBox = (function (_React$Component) {
             });
 
             return this.state.query ? options.filter(function (option) {
-                return option.display.toLowerCase().includes(_this2.state.query);
+                return option[_this2.props.queryProp].toLowerCase().includes(_this2.state.query);
             }) : options;
         }
     }, {
@@ -1833,8 +1833,10 @@ SelectBox.propTypes = {
     onClearClick: _react2['default'].PropTypes.func,
     onClick: _react2['default'].PropTypes.func,
     onDropDownClick: _react2['default'].PropTypes.func,
+    options: _react2['default'].PropTypes.array,
     optionClassName: _react2['default'].PropTypes.string,
     placeholder: _react2['default'].PropTypes.string,
+    queryProp: _react2['default'].PropTypes.string,
     searchThreshold: _react2['default'].PropTypes.number,
     valueClassName: _react2['default'].PropTypes.string
 };
@@ -1844,6 +1846,7 @@ SelectBox.defaultProps = {
     onClearClick: _utils.noop,
     onClick: _utils.noop,
     placeholder: '',
+    queryProp: 'display',
     searchThreshold: 5
 };
 
