@@ -218,7 +218,7 @@ class SelectBox extends React.Component {
     }
 
     getOptions() {
-        let options = (
+        let options = this.props.options || (
             this.props.children && this.props.children.length !== undefined ?
             this.props.children : [this.props.children]
         ).filter(
@@ -229,7 +229,9 @@ class SelectBox extends React.Component {
         }));
 
         return this.state.query ? options.filter(
-            option => option.display.toLowerCase().includes(this.state.query)
+            option => option[this.props.queryProp].toLowerCase().includes(
+                this.state.query
+            )
         ) : options;
     }
 
@@ -259,8 +261,10 @@ SelectBox.propTypes = {
     onClearClick: React.PropTypes.func,
     onClick: React.PropTypes.func,
     onDropDownClick: React.PropTypes.func,
+    options: React.PropTypes.array,
     optionClassName: React.PropTypes.string,
     placeholder: React.PropTypes.string,
+    queryProp: React.PropTypes.string,
     searchThreshold: React.PropTypes.number,
     valueClassName: React.PropTypes.string
 };
@@ -270,6 +274,7 @@ SelectBox.defaultProps = {
     onClearClick: noop,
     onClick: noop,
     placeholder: '',
+    queryProp: 'display',
     searchThreshold: 5
 };
 

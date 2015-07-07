@@ -287,6 +287,16 @@ describe('SelectBox/SelectBox', () => {
         }]);
     });
 
+    it('should get filtered options with prop options', () => {
+        const options = [{name: 'a'}, {name: 'b'}];
+        const component = TestUtils.createComponent(
+            <SelectBox options={options} queryProp="name" />
+        );
+
+        component.state.query = 'a';
+        assert.deepEqual(component.getOptions(), [{name: 'a'}]);
+    });
+
     it('should clear the value', () => {
         const component = TestUtils.createComponent(
             <SelectBox />
