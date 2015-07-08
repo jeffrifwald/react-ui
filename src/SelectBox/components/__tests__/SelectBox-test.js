@@ -3,7 +3,7 @@ import React from 'react';
 import {stub} from 'sinon';
 
 import SelectBox from '../SelectBox';
-import {TestUtils} from '../../../utils';
+import {KEY_CODES, TestUtils} from '../../../utils';
 
 describe('SelectBox/SelectBox', () => {
     it('should render the correct top level elements', () => {
@@ -34,13 +34,14 @@ describe('SelectBox/SelectBox', () => {
     });
 
     it('should not render a search box under the threshold', () => {
+        const options = [{display: 1, value: 1}, {display: 2, value: 2}];
         const component = TestUtils.createComponent(
             <SelectBox searchThreshold={1}>
                 <option>1</option>
                 <option>2</option>
             </SelectBox>
         );
-        const search = component.renderSearch();
+        const search = component.renderSearch(options);
 
         assert.equal(search.type, 'div');
         assert.equal(search.props.children.type, 'input');
@@ -146,6 +147,10 @@ describe('SelectBox/SelectBox', () => {
     });
 
     it('should render options', () => {
+        const options = [
+            {display: 'A', value: 'A'},
+            {display: 'B', value: 'B'}
+        ];
         const component = TestUtils.createComponent(
             <SelectBox>
                 <option>A</option>
@@ -154,12 +159,17 @@ describe('SelectBox/SelectBox', () => {
         );
 
         component.state.value = {display: 'B', value: 'B'};
+        component.state.highlightIndex = 0;
 
-        const options = component.renderOptions();
+        const renderedOptions = component.renderOptions(options);
 
-        assert.equal(options.length, 2);
+        assert.equal(renderedOptions.length, 2);
         assert.equal(
-            options[1].props.className,
+            renderedOptions[0].props.className,
+            'react-ui-select-box-option react-ui-select-box-option-highlighted'
+        );
+        assert.equal(
+            renderedOptions[1].props.className,
             'react-ui-select-box-option react-ui-select-box-option-selected'
         );
     });
@@ -177,6 +187,8 @@ describe('SelectBox/SelectBox', () => {
         assert.equal(component.setState.callCount, 1);
         assert.isTrue(onChange.calledWith('mock evt', 'mock value'));
         assert.isTrue(component.setState.calledWith({
+            highlightIndex: -1,
+            showDropDown: false,
             value: 'mock value'
         }));
 
@@ -191,11 +203,13 @@ describe('SelectBox/SelectBox', () => {
         const mockEvt = {stopPropagation: stub()};
 
         stub(component, 'clear');
+        component.delayBlur = {cancel: stub()};
 
         component.onClearClick(mockEvt);
         assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(onClearClick.callCount, 1);
         assert.equal(component.clear.callCount, 1);
+        assert.equal(component.delayBlur.cancel.callCount, 1);
         assert.isTrue(onClearClick.calledWith(mockEvt));
 
         component.clear.restore();
@@ -214,14 +228,47 @@ describe('SelectBox/SelectBox', () => {
         assert.equal(onClick.callCount, 1);
         assert.equal(component.showDropDown.callCount, 1);
         assert.equal(component.hideDropDown.callCount, 0);
-        assert.isTrue(onClick.calledWith('mock evt', false));
+        assert.isTrue(onClick.calledWith('mock evt', false, false));
 
         component.state.showDropDown = true;
         component.onClick('mock evt');
         assert.equal(onClick.callCount, 2);
         assert.equal(component.showDropDown.callCount, 1);
         assert.equal(component.hideDropDown.callCount, 1);
-        assert.isTrue(onClick.calledWith('mock evt', true));
+        assert.isTrue(onClick.calledWith('mock evt', true, false));
+
+        component.hideDropDown.restore();
+        component.showDropDown.restore();
+    });
+
+    it('should handle onClick disabled', () => {
+        const onClick = stub();
+        const component = TestUtils.createComponent(
+            <SelectBox disabled={true} onClick={onClick} />
+        );
+
+        stub(component, 'hideDropDown');
+        stub(component, 'showDropDown');
+
+        const rendered = component.render();
+
+        assert.equal(
+            rendered.props.className,
+            'react-ui-select-box react-ui-select-box-disabled'
+        );
+
+        component.onClick('mock evt');
+        assert.equal(onClick.callCount, 1);
+        assert.equal(component.showDropDown.callCount, 0);
+        assert.equal(component.hideDropDown.callCount, 0);
+        assert.isTrue(onClick.calledWith('mock evt', false, true));
+
+        component.state.showDropDown = true;
+        component.onClick('mock evt');
+        assert.equal(onClick.callCount, 2);
+        assert.equal(component.showDropDown.callCount, 0);
+        assert.equal(component.hideDropDown.callCount, 0);
+        assert.isTrue(onClick.calledWith('mock evt', true, true));
 
         component.hideDropDown.restore();
         component.showDropDown.restore();
@@ -277,16 +324,50 @@ describe('SelectBox/SelectBox', () => {
         component.setState.restore();
     });
 
-    it('should handle onSearchClick', () => {
+    it('should handle onSearchFocus', () => {
         const component = TestUtils.createComponent(
             <SelectBox />
         );
         const mockEvt = {stopPropagation: stub()};
 
         component.delayBlur = {cancel: stub()};
-        component.onSearchClick(mockEvt);
+        component.onSearchFocus(mockEvt);
         assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(component.delayBlur.cancel.callCount, 1);
+    });
+
+    it('should handle onSearchKeyDown', () => {
+        const mockEvt = {};
+        const component = TestUtils.createComponent(<SelectBox />);
+
+        stub(component, 'onChange');
+        stub(component, 'highlightIndex');
+
+        component.onSearchKeyDown([], mockEvt);
+        assert.equal(component.onChange.callCount, 0);
+        assert.equal(component.highlightIndex.callCount, 0);
+
+        mockEvt.keyCode = KEY_CODES.ARROW_DOWN;
+        component.onSearchKeyDown([], mockEvt);
+        assert.equal(component.onChange.callCount, 0);
+        assert.equal(component.highlightIndex.callCount, 1);
+        assert.isTrue(component.highlightIndex.calledWith(0));
+
+        mockEvt.keyCode = KEY_CODES.ARROW_UP;
+        component.onSearchKeyDown([], mockEvt);
+        assert.equal(component.onChange.callCount, 0);
+        assert.equal(component.highlightIndex.callCount, 2);
+        assert.isTrue(component.highlightIndex.calledWith(-2));
+
+        mockEvt.keyCode = KEY_CODES.ENTER;
+        component.state.highlightIndex = 1;
+        component.onSearchKeyDown(['a', 'b', 'c'], mockEvt);
+        assert.equal(component.onChange.callCount, 1);
+        assert.equal(component.highlightIndex.callCount, 2);
+        assert.isTrue(component.onChange.calledWith('b', mockEvt));
+
+        component.onChange.restore();
+        component.highlightIndex.restore();
     });
 
     it('should get filtered options', () => {
@@ -332,6 +413,35 @@ describe('SelectBox/SelectBox', () => {
         assert.isFalse(component.isOptionSelected({display: 'B', value: 'A'}));
     });
 
+    it('should highlight an index', () => {
+        const component = TestUtils.createComponent(
+            <SelectBox />
+        );
+        const options = ['a', 'b', 'c'];
+
+        stub(component, 'setState');
+
+        component.highlightIndex(1, options);
+        assert.equal(component.setState.callCount, 1);
+        assert.isTrue(component.setState.calledWith({
+            highlightIndex: 1
+        }));
+
+        component.highlightIndex(-2, options);
+        assert.equal(component.setState.callCount, 2);
+        assert.isTrue(component.setState.calledWith({
+            highlightIndex: 0
+        }));
+
+        component.highlightIndex(10, options);
+        assert.equal(component.setState.callCount, 3);
+        assert.isTrue(component.setState.calledWith({
+            highlightIndex: 2
+        }));
+
+        component.setState.restore();
+    });
+
     it('should clear the value', () => {
         const component = TestUtils.createComponent(
             <SelectBox />
@@ -341,7 +451,10 @@ describe('SelectBox/SelectBox', () => {
 
         component.clear();
         assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({value: undefined}));
+        assert.isTrue(component.setState.calledWith({
+            highlightIndex: -1,
+            value: undefined
+        }));
 
         component.setState.restore();
     });

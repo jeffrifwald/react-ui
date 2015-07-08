@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.10",
+  "version": "0.4.11",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -507,7 +507,7 @@ var DatePicker = (function (_React$Component) {
         value: function renderClear() {
             var className = (0, _utils.getClassName)('react-ui-date-picker-clear', this.props.clearClassName);
 
-            return this.state.value ? _react2['default'].createElement('span', {
+            return this.props.showClear && this.state.value ? _react2['default'].createElement('span', {
                 className: className,
                 onClick: this.onClearClick }) : null;
         }
@@ -642,6 +642,7 @@ DatePicker.propTypes = {
     onClick: _react2['default'].PropTypes.func,
     onDateClick: _react2['default'].PropTypes.func,
     placeholder: _react2['default'].PropTypes.string,
+    showClear: _react2['default'].PropTypes.boolean,
     triggerClassName: _react2['default'].PropTypes.string,
     valueClassName: _react2['default'].PropTypes.string
 };
@@ -661,7 +662,8 @@ DatePicker.defaultProps = {
     onClearClick: _utils.noop,
     onClick: _utils.noop,
     onDateClick: _utils.noop,
-    placeholder: ''
+    placeholder: '',
+    showClear: true
 };
 
 exports['default'] = DatePicker;
@@ -1361,8 +1363,8 @@ var SearchBox = (function (_React$Component) {
         _get(Object.getPrototypeOf(SearchBox.prototype), 'constructor', this).apply(this, args);
 
         this.state = {
-            showDropDown: false,
             selectedIndex: -1,
+            showDropDown: false,
             results: []
         };
         this.onResponse = this.onResponse.bind(this);
@@ -1389,6 +1391,7 @@ var SearchBox = (function (_React$Component) {
                 'div',
                 { className: className },
                 _react2['default'].createElement('input', {
+                    disabled: this.props.disabled,
                     onBlur: this.delayBlur,
                     onChange: this.delaySearch,
                     onKeyDown: this.onKeyDown,
@@ -1532,6 +1535,7 @@ SearchBox.propTypes = {
 
 SearchBox.defaultProps = {
     delay: 400,
+    disabled: false,
     getUrl: function getUrl() {
         return '';
     },
@@ -1604,6 +1608,7 @@ var SelectBox = (function (_React$Component) {
         _get(Object.getPrototypeOf(SelectBox.prototype), 'constructor', this).apply(this, args);
 
         this.state = {
+            highlightIndex: -1,
             showDropDown: false,
             value: this.props.defaultValue
         };
@@ -1611,7 +1616,7 @@ var SelectBox = (function (_React$Component) {
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
         this.onClick = this.onClick.bind(this);
         this.onDropDownClick = this.onDropDownClick.bind(this);
-        this.onSearchClick = this.onSearchClick.bind(this);
+        this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
     }
 
@@ -1620,7 +1625,7 @@ var SelectBox = (function (_React$Component) {
     _createClass(SelectBox, [{
         key: 'render',
         value: function render() {
-            var className = (0, _utils.getClassName)('react-ui-select-box', this.props.className, this.state.showDropDown ? 'react-ui-select-box-open' : '');
+            var className = (0, _utils.getClassName)('react-ui-select-box', this.props.className, this.state.showDropDown ? 'react-ui-select-box-open' : '', this.props.disabled ? 'react-ui-select-box-disabled' : '');
 
             return _react2['default'].createElement(
                 'div',
@@ -1669,14 +1674,15 @@ var SelectBox = (function (_React$Component) {
             }
 
             var className = (0, _utils.getClassName)('react-ui-select-box-drop-down', this.props.dropDownClassName);
+            var options = this.getOptions();
 
             return _react2['default'].createElement(
                 'div',
                 {
                     className: className,
                     onDropDownClick: this.onDropDownClick },
-                this.renderSearch(),
-                this.renderOptions()
+                this.renderSearch(options),
+                this.renderOptions(options)
             );
         }
     }, {
@@ -1684,7 +1690,7 @@ var SelectBox = (function (_React$Component) {
         value: function renderClear() {
             var className = (0, _utils.getClassName)('react-ui-select-box-clear', this.props.clearClassName);
 
-            return this.state.value ? _react2['default'].createElement('span', {
+            return this.props.showClear && this.state.value ? _react2['default'].createElement('span', {
                 className: className,
                 onClick: this.onClearClick }) : null;
         }
@@ -1697,27 +1703,29 @@ var SelectBox = (function (_React$Component) {
         }
     }, {
         key: 'renderSearch',
-        value: function renderSearch() {
-            var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]);
+        value: function renderSearch(options) {
             var className = (0, _utils.getClassName)('react-ui-select-box-search', this.props.searchClassName);
 
             return options.length >= this.props.searchThreshold ? _react2['default'].createElement(
                 'div',
                 { className: className },
                 _react2['default'].createElement('input', {
-                    onClick: this.onSearchClick,
+                    autoFocus: true,
+                    onClick: this.onSearchFocus,
+                    onFocus: this.onSearchFocus,
                     onChange: this.delaySearch,
+                    onKeyDown: this.onSearchKeyDown.bind(this, options),
                     ref: 'search',
                     type: 'text' })
             ) : null;
         }
     }, {
         key: 'renderOptions',
-        value: function renderOptions() {
+        value: function renderOptions(options) {
             var _this = this;
 
-            return this.getOptions().map(function (option, i) {
-                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '');
+            return options.map(function (option, i) {
+                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '', i === _this.state.highlightIndex ? 'react-ui-select-box-option-highlighted' : '');
 
                 return _react2['default'].createElement(
                     'div',
@@ -1739,24 +1747,31 @@ var SelectBox = (function (_React$Component) {
         value: function onChange(option, evt) {
             this.props.onChange(evt, option);
 
-            this.setState({ value: option });
+            this.setState({
+                highlightIndex: -1,
+                showDropDown: false,
+                value: option
+            });
         }
     }, {
         key: 'onClearClick',
         value: function onClearClick(evt) {
             evt.stopPropagation();
             this.props.onClearClick(evt);
+            this.delayBlur.cancel();
             this.clear();
         }
     }, {
         key: 'onClick',
         value: function onClick(evt) {
-            this.props.onClick(evt, this.state.showDropDown);
+            this.props.onClick(evt, this.state.showDropDown, this.props.disabled);
 
-            if (this.state.showDropDown) {
-                this.hideDropDown();
-            } else {
-                this.showDropDown();
+            if (!this.props.disabled) {
+                if (this.state.showDropDown) {
+                    this.hideDropDown();
+                } else {
+                    this.showDropDown();
+                }
             }
         }
     }, {
@@ -1779,10 +1794,21 @@ var SelectBox = (function (_React$Component) {
             this.setState({ query: query });
         }
     }, {
-        key: 'onSearchClick',
-        value: function onSearchClick(evt) {
+        key: 'onSearchFocus',
+        value: function onSearchFocus(evt) {
             evt.stopPropagation();
             this.delayBlur.cancel();
+        }
+    }, {
+        key: 'onSearchKeyDown',
+        value: function onSearchKeyDown(options, evt) {
+            if (evt.keyCode === _utils.KEY_CODES.ENTER && this.state.highlightIndex > -1) {
+                this.onChange(options[this.state.highlightIndex], evt);
+            } else if (evt.keyCode === _utils.KEY_CODES.ARROW_DOWN) {
+                this.highlightIndex(this.state.highlightIndex + 1, options);
+            } else if (evt.keyCode === _utils.KEY_CODES.ARROW_UP) {
+                this.highlightIndex(this.state.highlightIndex - 1, options);
+            }
         }
     }, {
         key: 'getOptions',
@@ -1809,9 +1835,25 @@ var SelectBox = (function (_React$Component) {
             return !!(option && value && option[this.props.valueProp] === value[this.props.valueProp] && option[this.props.displayProp] === value[this.props.displayProp]);
         }
     }, {
+        key: 'highlightIndex',
+        value: function highlightIndex(index, options) {
+            if (index >= options.length) {
+                index = options.length - 1;
+            }
+
+            if (index < 0) {
+                index = 0;
+            }
+
+            this.setState({ highlightIndex: index });
+        }
+    }, {
         key: 'clear',
         value: function clear() {
-            this.setState({ value: undefined });
+            this.setState({
+                highlightIndex: -1,
+                value: undefined
+            });
         }
     }, {
         key: 'clearQuery',
@@ -1847,11 +1889,14 @@ SelectBox.propTypes = {
     renderOption: _react2['default'].PropTypes.func,
     placeholder: _react2['default'].PropTypes.string,
     searchThreshold: _react2['default'].PropTypes.number,
+    showClear: _react2['default'].PropTypes.boolean,
     valueClassName: _react2['default'].PropTypes.string,
     valueProp: _react2['default'].PropTypes.string
 };
 
 SelectBox.defaultProps = {
+    delay: 400,
+    disabled: false,
     displayProp: 'display',
     onChange: _utils.noop,
     onClearClick: _utils.noop,
@@ -1861,6 +1906,7 @@ SelectBox.defaultProps = {
     remote: false,
     renderOption: _utils.noop,
     searchThreshold: 5,
+    showClear: true,
     valueProp: 'value'
 };
 
