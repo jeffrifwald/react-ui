@@ -95,13 +95,20 @@ class SelectBox extends React.Component {
             'react-ui-select-box-drop-down',
             this.props.dropDownClassName
         );
+        const optionsClassName = getClassName(
+            'react-ui-select-box-options',
+            this.props.optionsClassName
+        );
 
         return this.state.showDropDown ? (
             <div
             className={className}
             onDropDownClick={this.onDropDownClick}>
                 {this.renderSearch()}
-                {this.renderOptions()}
+
+                <div className={optionsClassName}>
+                    {this.renderOptions()}
+                </div>
             </div>
         ) : null;
     }
@@ -327,10 +334,11 @@ SelectBox.propTypes = {
     onClick: React.PropTypes.func,
     options: React.PropTypes.array,
     optionClassName: React.PropTypes.string,
+    optionsClassName: React.PropTypes.string,
     renderOption: React.PropTypes.func,
     placeholder: React.PropTypes.string,
     searchThreshold: React.PropTypes.number,
-    showClear: React.PropTypes.boolean,
+    showClear: React.PropTypes.bool,
     valueClassName: React.PropTypes.string,
     valueProp: React.PropTypes.string
 };
