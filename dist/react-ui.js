@@ -1361,8 +1361,8 @@ var SearchBox = (function (_React$Component) {
         _get(Object.getPrototypeOf(SearchBox.prototype), 'constructor', this).apply(this, args);
 
         this.state = {
-            showDropDown: false,
             selectedIndex: -1,
+            showDropDown: false,
             results: []
         };
         this.onResponse = this.onResponse.bind(this);
@@ -1604,6 +1604,7 @@ var SelectBox = (function (_React$Component) {
         _get(Object.getPrototypeOf(SelectBox.prototype), 'constructor', this).apply(this, args);
 
         this.state = {
+            highlightIndex: -1,
             showDropDown: false,
             value: this.props.defaultValue
         };
@@ -1611,7 +1612,7 @@ var SelectBox = (function (_React$Component) {
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
         this.onClick = this.onClick.bind(this);
         this.onDropDownClick = this.onDropDownClick.bind(this);
-        this.onSearchClick = this.onSearchClick.bind(this);
+        this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
     }
 
@@ -1669,14 +1670,15 @@ var SelectBox = (function (_React$Component) {
             }
 
             var className = (0, _utils.getClassName)('react-ui-select-box-drop-down', this.props.dropDownClassName);
+            var options = this.getOptions();
 
             return _react2['default'].createElement(
                 'div',
                 {
                     className: className,
                     onDropDownClick: this.onDropDownClick },
-                this.renderSearch(),
-                this.renderOptions()
+                this.renderSearch(options),
+                this.renderOptions(options)
             );
         }
     }, {
@@ -1697,27 +1699,29 @@ var SelectBox = (function (_React$Component) {
         }
     }, {
         key: 'renderSearch',
-        value: function renderSearch() {
-            var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]);
+        value: function renderSearch(options) {
             var className = (0, _utils.getClassName)('react-ui-select-box-search', this.props.searchClassName);
 
             return options.length >= this.props.searchThreshold ? _react2['default'].createElement(
                 'div',
                 { className: className },
                 _react2['default'].createElement('input', {
-                    onClick: this.onSearchClick,
+                    autoFocus: true,
+                    onClick: this.onSearchFocus,
+                    onFocus: this.onSearchFocus,
                     onChange: this.delaySearch,
+                    onKeyDown: this.onSearchKeyDown.bind(this, options),
                     ref: 'search',
                     type: 'text' })
             ) : null;
         }
     }, {
         key: 'renderOptions',
-        value: function renderOptions() {
+        value: function renderOptions(options) {
             var _this = this;
 
-            return this.getOptions().map(function (option, i) {
-                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '');
+            return options.map(function (option, i) {
+                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '', i === _this.state.highlightIndex ? 'react-ui-select-box-option-highlighted' : '');
 
                 return _react2['default'].createElement(
                     'div',
@@ -1739,13 +1743,17 @@ var SelectBox = (function (_React$Component) {
         value: function onChange(option, evt) {
             this.props.onChange(evt, option);
 
-            this.setState({ value: option });
+            this.setState({
+                highlightIndex: -1,
+                value: option
+            });
         }
     }, {
         key: 'onClearClick',
         value: function onClearClick(evt) {
             evt.stopPropagation();
             this.props.onClearClick(evt);
+            this.delayBlur.cancel();
             this.clear();
         }
     }, {
@@ -1779,10 +1787,22 @@ var SelectBox = (function (_React$Component) {
             this.setState({ query: query });
         }
     }, {
-        key: 'onSearchClick',
-        value: function onSearchClick(evt) {
+        key: 'onSearchFocus',
+        value: function onSearchFocus(evt) {
             evt.stopPropagation();
             this.delayBlur.cancel();
+        }
+    }, {
+        key: 'onSearchKeyDown',
+        value: function onSearchKeyDown(options, evt) {
+            if (evt.keyCode === _utils.KEY_CODES.ENTER && this.state.highlightIndex > -1) {
+                this.onChange(options[this.state.highlightIndex], evt);
+                this.hideDropDown();
+            } else if (evt.keyCode === _utils.KEY_CODES.ARROW_DOWN) {
+                this.highlightIndex(this.state.highlightIndex + 1, options);
+            } else if (evt.keyCode === _utils.KEY_CODES.ARROW_UP) {
+                this.highlightIndex(this.state.highlightIndex - 1, options);
+            }
         }
     }, {
         key: 'getOptions',
@@ -1809,9 +1829,25 @@ var SelectBox = (function (_React$Component) {
             return !!(option && value && option[this.props.valueProp] === value[this.props.valueProp] && option[this.props.displayProp] === value[this.props.displayProp]);
         }
     }, {
+        key: 'highlightIndex',
+        value: function highlightIndex(index, options) {
+            if (index >= options.length) {
+                index = options.length - 1;
+            }
+
+            if (index < 0) {
+                index = 0;
+            }
+
+            this.setState({ highlightIndex: index });
+        }
+    }, {
         key: 'clear',
         value: function clear() {
-            this.setState({ value: undefined });
+            this.setState({
+                highlightIndex: -1,
+                value: undefined
+            });
         }
     }, {
         key: 'clearQuery',
@@ -1852,6 +1888,7 @@ SelectBox.propTypes = {
 };
 
 SelectBox.defaultProps = {
+    delay: 400,
     displayProp: 'display',
     onChange: _utils.noop,
     onClearClick: _utils.noop,

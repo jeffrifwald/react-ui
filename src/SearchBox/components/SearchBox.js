@@ -46,6 +46,7 @@ class SearchBox extends React.Component {
         return (
             <div className={className}>
                 <input
+                disabled={this.props.disabled}
                 onBlur={this.delayBlur}
                 onChange={this.delaySearch}
                 onKeyDown={this.onKeyDown}
@@ -189,6 +190,7 @@ SearchBox.propTypes = {
 
 SearchBox.defaultProps = {
     delay: 400,
+    disabled: false,
     getUrl: () => '',
     onChange: noop,
     onResponse: noop,
