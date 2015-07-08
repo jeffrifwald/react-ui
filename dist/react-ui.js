@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.14",
+  "version": "0.4.15",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1689,8 +1689,9 @@ var SelectBox = (function (_React$Component) {
         key: 'renderClear',
         value: function renderClear() {
             var className = (0, _utils.getClassName)('react-ui-select-box-clear', this.props.clearClassName);
+            var showClear = this.props.showClear && this.state.value && !this.state.disabled;
 
-            return this.props.showClear && this.state.value ? _react2['default'].createElement('span', {
+            return showClear ? _react2['default'].createElement('span', {
                 className: className,
                 onClick: this.onClearClick }) : null;
         }
