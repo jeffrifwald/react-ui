@@ -119,8 +119,13 @@ class DatePicker extends React.Component {
             'react-ui-date-picker-clear',
             this.props.clearClassName
         );
+        const showClear = (
+            this.props.showClear &&
+            this.state.value &&
+            !this.props.disabled
+        );
 
-        return this.props.showClear && this.state.value ? (
+        return showClear ? (
             <span
             className={className}
             onClick={this.onClearClick}>
