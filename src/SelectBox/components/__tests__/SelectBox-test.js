@@ -254,8 +254,9 @@ describe('SelectBox/SelectBox', () => {
     });
 
     it('should handle onSearch', () => {
+        const onSearch = stub();
         const component = TestUtils.createComponent(
-            <SelectBox />
+            <SelectBox onSearch={onSearch} />
         );
         const mockNode = {value: 'Mock Value'};
 
@@ -266,8 +267,10 @@ describe('SelectBox/SelectBox', () => {
 
         component.onSearch();
         assert.equal(React.findDOMNode.callCount, 1);
+        assert.equal(onSearch.callCount, 1);
         assert.equal(component.setState.callCount, 1);
         assert.isTrue(React.findDOMNode.calledWith('mock ref'));
+        assert.isTrue(onSearch.calledWith('mock value'));
         assert.isTrue(component.setState.calledWith({query: 'mock value'}));
 
         React.findDOMNode.restore();

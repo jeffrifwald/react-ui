@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1699,15 +1699,9 @@ var SelectBox = (function (_React$Component) {
         key: 'renderSearch',
         value: function renderSearch() {
             var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]);
-            var hideSearch = !options || !options.length || options.length <= this.props.searchThreshold;
-
-            if (hideSearch) {
-                return null;
-            }
-
             var className = (0, _utils.getClassName)('react-ui-select-box-search', this.props.searchClassName);
 
-            return _react2['default'].createElement(
+            return options.length >= this.props.searchThreshold ? _react2['default'].createElement(
                 'div',
                 { className: className },
                 _react2['default'].createElement('input', {
@@ -1715,7 +1709,7 @@ var SelectBox = (function (_React$Component) {
                     onChange: this.delaySearch,
                     ref: 'search',
                     type: 'text' })
-            );
+            ) : null;
         }
     }, {
         key: 'renderOptions',
@@ -1731,9 +1725,14 @@ var SelectBox = (function (_React$Component) {
                         className: className,
                         key: i,
                         onClick: _this.onChange.bind(_this, option) },
-                    option[_this.props.displayProp]
+                    _this.renderOption(option)
                 );
             });
+        }
+    }, {
+        key: 'renderOption',
+        value: function renderOption(option) {
+            return this.props.renderOption(option) || option[this.props.displayProp];
         }
     }, {
         key: 'onChange',
@@ -1776,6 +1775,7 @@ var SelectBox = (function (_React$Component) {
         value: function onSearch() {
             var query = _react2['default'].findDOMNode(this.refs.search).value.toLowerCase();
 
+            this.props.onSearch(query);
             this.setState({ query: query });
         }
     }, {
@@ -1842,9 +1842,9 @@ SelectBox.propTypes = {
     onChange: _react2['default'].PropTypes.func,
     onClearClick: _react2['default'].PropTypes.func,
     onClick: _react2['default'].PropTypes.func,
-    onDropDownClick: _react2['default'].PropTypes.func,
     options: _react2['default'].PropTypes.array,
     optionClassName: _react2['default'].PropTypes.string,
+    renderOption: _react2['default'].PropTypes.func,
     placeholder: _react2['default'].PropTypes.string,
     searchThreshold: _react2['default'].PropTypes.number,
     valueClassName: _react2['default'].PropTypes.string,
@@ -1856,7 +1856,10 @@ SelectBox.defaultProps = {
     onChange: _utils.noop,
     onClearClick: _utils.noop,
     onClick: _utils.noop,
+    onSearch: _utils.noop,
     placeholder: '',
+    remote: false,
+    renderOption: _utils.noop,
     searchThreshold: 5,
     valueProp: 'value'
 };
