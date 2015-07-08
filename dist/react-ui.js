@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1701,7 +1701,7 @@ var SelectBox = (function (_React$Component) {
         value: function renderSearch() {
             var className = (0, _utils.getClassName)('react-ui-select-box-search', this.props.searchClassName);
             var options = this.getOptions();
-            var filteredOptions = this.getFilteredOptions();
+            var filteredOptions = this.filterOptions(options);
 
             return options.length >= this.props.searchThreshold ? _react2['default'].createElement(
                 'div',
@@ -1711,7 +1711,7 @@ var SelectBox = (function (_React$Component) {
                     onClick: this.onSearchFocus,
                     onFocus: this.onSearchFocus,
                     onChange: this.delaySearch,
-                    onKeyDown: this.onSearchKeyDown.bind(this, options),
+                    onKeyDown: this.onSearchKeyDown.bind(this, filteredOptions),
                     ref: 'search',
                     type: 'text' })
             ) : null;
@@ -1721,7 +1721,7 @@ var SelectBox = (function (_React$Component) {
         value: function renderOptions() {
             var _this = this;
 
-            return this.getFilteredOptions().map(function (option, i) {
+            return this.filterOptions().map(function (option, i) {
                 var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '', i === _this.state.highlightIndex ? 'react-ui-select-box-option-highlighted' : '');
 
                 return _react2['default'].createElement(
@@ -1821,11 +1821,11 @@ var SelectBox = (function (_React$Component) {
             });
         }
     }, {
-        key: 'getFilteredOptions',
-        value: function getFilteredOptions() {
+        key: 'filterOptions',
+        value: function filterOptions(options) {
             var _this3 = this;
 
-            var options = this.getOptions();
+            options = options || this.getOptions();
 
             return this.state.query ? options.filter(function (option) {
                 return option[_this3.props.displayProp].toLowerCase().includes(_this3.state.query);
