@@ -135,22 +135,12 @@ class SelectBox extends React.Component {
             this.props.children && this.props.children.length !== undefined ?
             this.props.children : [this.props.children]
         );
-        const hideSearch = (
-            !options ||
-            !options.length ||
-            options.length <= this.props.searchThreshold
-        );
-
-        if (hideSearch) {
-            return null;
-        }
-
         const className = getClassName(
             'react-ui-select-box-search',
             this.props.searchClassName
         );
 
-        return (
+        return options.length >= this.props.searchThreshold ? (
             <div className={className}>
                 <input
                 onClick={this.onSearchClick}
@@ -158,7 +148,7 @@ class SelectBox extends React.Component {
                 ref="search"
                 type="text" />
             </div>
-        );
+        ) : null;
     }
 
     renderOptions() {
@@ -178,10 +168,17 @@ class SelectBox extends React.Component {
                 className={className}
                 key={i}
                 onClick={this.onChange.bind(this, option)}>
-                    {option[this.props.displayProp]}
+                    {this.renderOption(option)}
                 </div>
             );
         });
+    }
+
+    renderOption(option) {
+        return (
+            this.props.renderOption(option) ||
+            option[this.props.displayProp]
+        );
     }
 
     onChange(option, evt) {
@@ -220,6 +217,7 @@ class SelectBox extends React.Component {
             this.refs.search
         ).value.toLowerCase();
 
+        this.props.onSearch(query);
         this.setState({query});
     }
 
@@ -283,9 +281,9 @@ SelectBox.propTypes = {
     onChange: React.PropTypes.func,
     onClearClick: React.PropTypes.func,
     onClick: React.PropTypes.func,
-    onDropDownClick: React.PropTypes.func,
     options: React.PropTypes.array,
     optionClassName: React.PropTypes.string,
+    renderOption: React.PropTypes.func,
     placeholder: React.PropTypes.string,
     searchThreshold: React.PropTypes.number,
     valueClassName: React.PropTypes.string,
@@ -297,7 +295,10 @@ SelectBox.defaultProps = {
     onChange: noop,
     onClearClick: noop,
     onClick: noop,
+    onSearch: noop,
     placeholder: '',
+    remote: false,
+    renderOption: noop,
     searchThreshold: 5,
     valueProp: 'value'
 };
