@@ -121,7 +121,7 @@ class SelectBox extends React.Component {
         const showClear = (
             this.props.showClear &&
             this.state.value &&
-            !this.state.disabled
+            !this.props.disabled
         );
 
         return showClear ? (
