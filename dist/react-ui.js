@@ -1669,21 +1669,16 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'renderDropDown',
         value: function renderDropDown() {
-            if (!this.state.showDropDown) {
-                return null;
-            }
-
             var className = (0, _utils.getClassName)('react-ui-select-box-drop-down', this.props.dropDownClassName);
-            var options = this.getOptions();
 
-            return _react2['default'].createElement(
+            return this.state.showDropDown ? _react2['default'].createElement(
                 'div',
                 {
                     className: className,
                     onDropDownClick: this.onDropDownClick },
-                this.renderSearch(options),
-                this.renderOptions(options)
-            );
+                this.renderSearch(),
+                this.renderOptions()
+            ) : null;
         }
     }, {
         key: 'renderClear',
@@ -1703,8 +1698,10 @@ var SelectBox = (function (_React$Component) {
         }
     }, {
         key: 'renderSearch',
-        value: function renderSearch(options) {
+        value: function renderSearch() {
             var className = (0, _utils.getClassName)('react-ui-select-box-search', this.props.searchClassName);
+            var options = this.getOptions();
+            var filteredOptions = this.getFilteredOptions();
 
             return options.length >= this.props.searchThreshold ? _react2['default'].createElement(
                 'div',
@@ -1721,10 +1718,10 @@ var SelectBox = (function (_React$Component) {
         }
     }, {
         key: 'renderOptions',
-        value: function renderOptions(options) {
+        value: function renderOptions() {
             var _this = this;
 
-            return options.map(function (option, i) {
+            return this.getFilteredOptions().map(function (option, i) {
                 var className = (0, _utils.getClassName)('react-ui-select-box-option', _this.props.optionClassName, _this.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '', i === _this.state.highlightIndex ? 'react-ui-select-box-option-highlighted' : '');
 
                 return _react2['default'].createElement(
@@ -1815,16 +1812,23 @@ var SelectBox = (function (_React$Component) {
         value: function getOptions() {
             var _this2 = this;
 
-            var options = this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]).filter(function (child) {
+            return this.props.options || (this.props.children && this.props.children.length !== undefined ? this.props.children : [this.props.children]).filter(function (child) {
                 return child && child.type === 'option';
             }).map(function (child) {
                 var _ref;
 
                 return (_ref = {}, _defineProperty(_ref, _this2.props.displayProp, child.props.children), _defineProperty(_ref, _this2.props.valueProp, child.props.value || child.props.children), _ref);
             });
+        }
+    }, {
+        key: 'getFilteredOptions',
+        value: function getFilteredOptions() {
+            var _this3 = this;
+
+            var options = this.getOptions();
 
             return this.state.query ? options.filter(function (option) {
-                return option[_this2.props.displayProp].toLowerCase().includes(_this2.state.query);
+                return option[_this3.props.displayProp].toLowerCase().includes(_this3.state.query);
             }) : options;
         }
     }, {

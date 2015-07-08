@@ -381,7 +381,7 @@ describe('SelectBox/SelectBox', () => {
         );
 
         component.state.query = 'o';
-        assert.deepEqual(component.getOptions(), [{
+        assert.deepEqual(component.filterOptions(), [{
             display: 'Two',
             value: 2
         }, {
@@ -397,7 +397,7 @@ describe('SelectBox/SelectBox', () => {
         );
 
         component.state.query = 'a';
-        assert.deepEqual(component.getOptions(), [{name: 'a'}]);
+        assert.deepEqual(component.filterOptions(), [{name: 'a'}]);
     });
 
     it('should determine if an option is selected', () => {

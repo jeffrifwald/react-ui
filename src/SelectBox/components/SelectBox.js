@@ -91,24 +91,19 @@ class SelectBox extends React.Component {
     }
 
     renderDropDown() {
-        if (!this.state.showDropDown) {
-            return null;
-        }
-
         const className = getClassName(
             'react-ui-select-box-drop-down',
             this.props.dropDownClassName
         );
-        const options = this.getOptions();
 
-        return (
+        return this.state.showDropDown ? (
             <div
             className={className}
             onDropDownClick={this.onDropDownClick}>
-                {this.renderSearch(options)}
-                {this.renderOptions(options)}
+                {this.renderSearch()}
+                {this.renderOptions()}
             </div>
-        );
+        ) : null;
     }
 
     renderClear() {
@@ -134,11 +129,13 @@ class SelectBox extends React.Component {
         return (<span className={className}></span>);
     }
 
-    renderSearch(options) {
+    renderSearch() {
         const className = getClassName(
             'react-ui-select-box-search',
             this.props.searchClassName
         );
+        const options = this.getOptions();
+        const filteredOptions = this.filterOptions(options);
 
         return options.length >= this.props.searchThreshold ? (
             <div className={className}>
@@ -147,15 +144,15 @@ class SelectBox extends React.Component {
                 onClick={this.onSearchFocus}
                 onFocus={this.onSearchFocus}
                 onChange={this.delaySearch}
-                onKeyDown={this.onSearchKeyDown.bind(this, options)}
+                onKeyDown={this.onSearchKeyDown.bind(this, filteredOptions)}
                 ref="search"
                 type="text" />
             </div>
         ) : null;
     }
 
-    renderOptions(options) {
-        return options.map((option, i) => {
+    renderOptions() {
+        return this.filterOptions().map((option, i) => {
             const className = getClassName(
                 'react-ui-select-box-option',
                 this.props.optionClassName,
@@ -255,7 +252,7 @@ class SelectBox extends React.Component {
     }
 
     getOptions() {
-        const options = this.props.options || (
+        return this.props.options || (
             this.props.children && this.props.children.length !== undefined ?
             this.props.children : [this.props.children]
         ).filter(
@@ -264,6 +261,10 @@ class SelectBox extends React.Component {
             [this.props.displayProp]: child.props.children,
             [this.props.valueProp]: child.props.value || child.props.children
         }));
+    }
+
+    filterOptions(options) {
+        options = options || this.getOptions();
 
         return this.state.query ? options.filter(
             option => option[this.props.displayProp].toLowerCase().includes(
