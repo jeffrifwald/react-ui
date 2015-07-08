@@ -120,7 +120,7 @@ class DatePicker extends React.Component {
             this.props.clearClassName
         );
 
-        return this.state.value ? (
+        return this.props.showClear && this.state.value ? (
             <span
             className={className}
             onClick={this.onClearClick}>
@@ -252,6 +252,7 @@ DatePicker.propTypes = {
     onClick: React.PropTypes.func,
     onDateClick: React.PropTypes.func,
     placeholder: React.PropTypes.string,
+    showClear: React.PropTypes.boolean,
     triggerClassName: React.PropTypes.string,
     valueClassName: React.PropTypes.string
 };
@@ -280,7 +281,8 @@ DatePicker.defaultProps = {
     onClearClick: noop,
     onClick: noop,
     onDateClick: noop,
-    placeholder: ''
+    placeholder: '',
+    showClear: true
 };
 
 export default DatePicker;

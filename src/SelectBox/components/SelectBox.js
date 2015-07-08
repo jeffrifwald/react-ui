@@ -4,6 +4,7 @@ import {
     BLUR_DELAY_MS,
     debounce,
     getClassName,
+    KEY_CODES,
     noop
 } from '../../utils';
 
@@ -13,6 +14,7 @@ class SelectBox extends React.Component {
         super(...args);
 
         this.state = {
+            highlightIndex: -1,
             showDropDown: false,
             value: this.props.defaultValue
         };
@@ -26,7 +28,7 @@ class SelectBox extends React.Component {
         );
         this.onClick = this.onClick.bind(this);
         this.onDropDownClick = this.onDropDownClick.bind(this);
-        this.onSearchClick = this.onSearchClick.bind(this);
+        this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
     }
 
@@ -34,7 +36,8 @@ class SelectBox extends React.Component {
         const className = getClassName(
             'react-ui-select-box',
             this.props.className,
-            this.state.showDropDown ? 'react-ui-select-box-open' : ''
+            this.state.showDropDown ? 'react-ui-select-box-open' : '',
+            this.props.disabled ? 'react-ui-select-box-disabled' : ''
         );
 
         return (
@@ -96,13 +99,14 @@ class SelectBox extends React.Component {
             'react-ui-select-box-drop-down',
             this.props.dropDownClassName
         );
+        const options = this.getOptions();
 
         return (
             <div
             className={className}
             onDropDownClick={this.onDropDownClick}>
-                {this.renderSearch()}
-                {this.renderOptions()}
+                {this.renderSearch(options)}
+                {this.renderOptions(options)}
             </div>
         );
     }
@@ -113,7 +117,7 @@ class SelectBox extends React.Component {
             this.props.clearClassName
         );
 
-        return this.state.value ? (
+        return this.props.showClear && this.state.value ? (
             <span
             className={className}
             onClick={this.onClearClick}>
@@ -130,11 +134,7 @@ class SelectBox extends React.Component {
         return (<span className={className}></span>);
     }
 
-    renderSearch() {
-        const options = this.props.options || (
-            this.props.children && this.props.children.length !== undefined ?
-            this.props.children : [this.props.children]
-        );
+    renderSearch(options) {
         const className = getClassName(
             'react-ui-select-box-search',
             this.props.searchClassName
@@ -143,22 +143,30 @@ class SelectBox extends React.Component {
         return options.length >= this.props.searchThreshold ? (
             <div className={className}>
                 <input
-                onClick={this.onSearchClick}
+                autoFocus={true}
+                onClick={this.onSearchFocus}
+                onFocus={this.onSearchFocus}
                 onChange={this.delaySearch}
+                onKeyDown={this.onSearchKeyDown.bind(this, options)}
                 ref="search"
                 type="text" />
             </div>
         ) : null;
     }
 
-    renderOptions() {
-        return this.getOptions().map((option, i) => {
+    renderOptions(options) {
+        return options.map((option, i) => {
             const className = getClassName(
                 'react-ui-select-box-option',
                 this.props.optionClassName,
                 (
                     this.isOptionSelected(option) ?
                     'react-ui-select-box-option-selected' :
+                    ''
+                ),
+                (
+                    i === this.state.highlightIndex ?
+                    'react-ui-select-box-option-highlighted' :
                     ''
                 )
             );
@@ -184,22 +192,29 @@ class SelectBox extends React.Component {
     onChange(option, evt) {
         this.props.onChange(evt, option);
 
-        this.setState({value: option});
+        this.setState({
+            highlightIndex: -1,
+            showDropDown: false,
+            value: option
+        });
     }
 
     onClearClick(evt) {
         evt.stopPropagation();
         this.props.onClearClick(evt);
+        this.delayBlur.cancel();
         this.clear();
     }
 
     onClick(evt) {
-        this.props.onClick(evt, this.state.showDropDown);
+        this.props.onClick(evt, this.state.showDropDown, this.props.disabled);
 
-        if (this.state.showDropDown) {
-            this.hideDropDown();
-        } else {
-            this.showDropDown();
+        if (!this.props.disabled) {
+            if (this.state.showDropDown) {
+                this.hideDropDown();
+            } else {
+                this.showDropDown();
+            }
         }
     }
 
@@ -221,13 +236,26 @@ class SelectBox extends React.Component {
         this.setState({query});
     }
 
-    onSearchClick(evt) {
+    onSearchFocus(evt) {
         evt.stopPropagation();
         this.delayBlur.cancel();
     }
 
+    onSearchKeyDown(options, evt) {
+        if (evt.keyCode === KEY_CODES.ENTER && this.state.highlightIndex > -1) {
+            this.onChange(
+                options[this.state.highlightIndex],
+                evt
+            );
+        } else if (evt.keyCode === KEY_CODES.ARROW_DOWN) {
+            this.highlightIndex(this.state.highlightIndex + 1, options);
+        } else if (evt.keyCode === KEY_CODES.ARROW_UP) {
+            this.highlightIndex(this.state.highlightIndex - 1, options);
+        }
+    }
+
     getOptions() {
-        let options = this.props.options || (
+        const options = this.props.options || (
             this.props.children && this.props.children.length !== undefined ?
             this.props.children : [this.props.children]
         ).filter(
@@ -255,8 +283,23 @@ class SelectBox extends React.Component {
         );
     }
 
+    highlightIndex(index, options) {
+        if (index >= options.length) {
+            index = options.length - 1;
+        }
+
+        if (index < 0) {
+            index = 0;
+        }
+
+        this.setState({highlightIndex: index});
+    }
+
     clear() {
-        this.setState({value: undefined});
+        this.setState({
+            highlightIndex: -1,
+            value: undefined
+        });
     }
 
     clearQuery() {
@@ -286,11 +329,14 @@ SelectBox.propTypes = {
     renderOption: React.PropTypes.func,
     placeholder: React.PropTypes.string,
     searchThreshold: React.PropTypes.number,
+    showClear: React.PropTypes.boolean,
     valueClassName: React.PropTypes.string,
     valueProp: React.PropTypes.string
 };
 
 SelectBox.defaultProps = {
+    delay: 400,
+    disabled: false,
     displayProp: 'display',
     onChange: noop,
     onClearClick: noop,
@@ -300,6 +346,7 @@ SelectBox.defaultProps = {
     remote: false,
     renderOption: noop,
     searchThreshold: 5,
+    showClear: true,
     valueProp: 'value'
 };
 
