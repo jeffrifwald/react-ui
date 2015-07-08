@@ -320,6 +320,14 @@ describe('SelectBox/SelectBox', () => {
         assert.isTrue(onSearch.calledWith('mock value'));
         assert.isTrue(component.setState.calledWith({query: 'mock value'}));
 
+        onSearch.returns(true);
+        component.onSearch();
+        assert.equal(React.findDOMNode.callCount, 2);
+        assert.equal(onSearch.callCount, 2);
+        assert.equal(component.setState.callCount, 1);
+        assert.isTrue(React.findDOMNode.calledWith('mock ref'));
+        assert.isTrue(onSearch.calledWith('mock value'));
+
         React.findDOMNode.restore();
         component.setState.restore();
     });

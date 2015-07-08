@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.13",
+  "version": "0.4.14",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1791,9 +1791,11 @@ var SelectBox = (function (_React$Component) {
         key: 'onSearch',
         value: function onSearch() {
             var query = _react2['default'].findDOMNode(this.refs.search).value.toLowerCase();
+            var skipSetState = this.props.onSearch(query);
 
-            this.props.onSearch(query);
-            this.setState({ query: query });
+            if (!skipSetState) {
+                this.setState({ query: query });
+            }
         }
     }, {
         key: 'onSearchFocus',
