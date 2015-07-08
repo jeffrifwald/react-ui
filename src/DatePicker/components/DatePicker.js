@@ -252,7 +252,7 @@ DatePicker.propTypes = {
     onClick: React.PropTypes.func,
     onDateClick: React.PropTypes.func,
     placeholder: React.PropTypes.string,
-    showClear: React.PropTypes.boolean,
+    showClear: React.PropTypes.bool,
     triggerClassName: React.PropTypes.string,
     valueClassName: React.PropTypes.string
 };
