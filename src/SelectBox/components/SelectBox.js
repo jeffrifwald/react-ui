@@ -118,8 +118,13 @@ class SelectBox extends React.Component {
             'react-ui-select-box-clear',
             this.props.clearClassName
         );
+        const showClear = (
+            this.props.showClear &&
+            this.state.value &&
+            !this.state.disabled
+        );
 
-        return this.props.showClear && this.state.value ? (
+        return showClear ? (
             <span
             className={className}
             onClick={this.onClearClick}>
