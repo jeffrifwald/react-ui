@@ -291,6 +291,7 @@ SelectBox.propTypes = {
 };
 
 SelectBox.defaultProps = {
+    delay: 400,
     displayProp: 'display',
     onChange: noop,
     onClearClick: noop,

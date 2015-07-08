@@ -15,8 +15,8 @@ class SearchBox extends React.Component {
         super(...args);
 
         this.state = {
-            showDropDown: false,
             selectedIndex: -1,
+            showDropDown: false,
             results: []
         };
         this.onResponse = this.onResponse.bind(this);
