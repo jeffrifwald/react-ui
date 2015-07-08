@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -642,7 +642,7 @@ DatePicker.propTypes = {
     onClick: _react2['default'].PropTypes.func,
     onDateClick: _react2['default'].PropTypes.func,
     placeholder: _react2['default'].PropTypes.string,
-    showClear: _react2['default'].PropTypes.boolean,
+    showClear: _react2['default'].PropTypes.bool,
     triggerClassName: _react2['default'].PropTypes.string,
     valueClassName: _react2['default'].PropTypes.string
 };
@@ -1670,6 +1670,7 @@ var SelectBox = (function (_React$Component) {
         key: 'renderDropDown',
         value: function renderDropDown() {
             var className = (0, _utils.getClassName)('react-ui-select-box-drop-down', this.props.dropDownClassName);
+            var optionsClassName = (0, _utils.getClassName)('react-ui-select-box-options', this.props.optionsClassName);
 
             return this.state.showDropDown ? _react2['default'].createElement(
                 'div',
@@ -1677,7 +1678,11 @@ var SelectBox = (function (_React$Component) {
                     className: className,
                     onDropDownClick: this.onDropDownClick },
                 this.renderSearch(),
-                this.renderOptions()
+                _react2['default'].createElement(
+                    'div',
+                    { className: optionsClassName },
+                    this.renderOptions()
+                )
             ) : null;
         }
     }, {
@@ -1890,10 +1895,11 @@ SelectBox.propTypes = {
     onClick: _react2['default'].PropTypes.func,
     options: _react2['default'].PropTypes.array,
     optionClassName: _react2['default'].PropTypes.string,
+    optionsClassName: _react2['default'].PropTypes.string,
     renderOption: _react2['default'].PropTypes.func,
     placeholder: _react2['default'].PropTypes.string,
     searchThreshold: _react2['default'].PropTypes.number,
-    showClear: _react2['default'].PropTypes.boolean,
+    showClear: _react2['default'].PropTypes.bool,
     valueClassName: _react2['default'].PropTypes.string,
     valueProp: _react2['default'].PropTypes.string
 };

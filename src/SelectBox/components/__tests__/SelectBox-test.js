@@ -76,8 +76,8 @@ describe('SelectBox/SelectBox', () => {
         const renderedDropDown = component.renderDropDown();
         const renderedOptions = renderedDropDown.props.children[1];
 
-        assert.equal(renderedOptions.length, 1);
-        assert.equal(renderedOptions[0].props.children, '1');
+        assert.equal(renderedOptions.props.children.length, 1);
+        assert.equal(renderedOptions.props.children[0].props.children, '1');
     });
 
     it('should render with an open drop down with many children', () => {
@@ -93,9 +93,9 @@ describe('SelectBox/SelectBox', () => {
         const renderedDropDown = component.renderDropDown();
         const renderedOptions = renderedDropDown.props.children[1];
 
-        assert.equal(renderedOptions.length, 2);
-        assert.equal(renderedOptions[0].props.children, '1');
-        assert.equal(renderedOptions[1].props.children, '2');
+        assert.equal(renderedOptions.props.children.length, 2);
+        assert.equal(renderedOptions.props.children[0].props.children, '1');
+        assert.equal(renderedOptions.props.children[1].props.children, '2');
     });
 
     it('should render with an open drop down with an array of children', () => {
@@ -114,9 +114,9 @@ describe('SelectBox/SelectBox', () => {
         const renderedDropDown = component.renderDropDown();
         const renderedOptions = renderedDropDown.props.children[1];
 
-        assert.equal(renderedOptions.length, 2);
-        assert.equal(renderedOptions[0].props.children, '1');
-        assert.equal(renderedOptions[1].props.children, '2');
+        assert.equal(renderedOptions.props.children.length, 2);
+        assert.equal(renderedOptions.props.children[0].props.children, '1');
+        assert.equal(renderedOptions.props.children[1].props.children, '2');
     });
 
     it('should render with an open drop down with no children', () => {
