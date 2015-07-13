@@ -22,10 +22,11 @@ class AjaxForm extends React.Component {
             'react-ui-ajax-form',
             this.props.className
         );
+        const action = this.props.action || this.props.url;
 
         return (
             <form
-            action={this.props.action}
+            action={action}
             className={className}
             method="POST"
             onSubmit={this.onSubmit}
@@ -68,13 +69,15 @@ AjaxForm.propTypes = {
     action: React.PropTypes.string,
     className: React.PropTypes.string,
     onResponse: React.PropTypes.func,
-    onSubmit: React.PropTypes.func
+    onSubmit: React.PropTypes.func,
+    url: React.PropTypes.string
 };
 
 AjaxForm.defaultProps = {
     action: '',
     onResponse: noop,
-    onSubmit: noop
+    onSubmit: noop,
+    url: ''
 };
 
 export default AjaxForm;

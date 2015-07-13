@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.16",
+  "version": "0.4.17",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -120,11 +120,12 @@ var AjaxForm = (function (_React$Component) {
         key: 'render',
         value: function render() {
             var className = (0, _utils.getClassName)('react-ui-ajax-form', this.props.className);
+            var action = this.props.action || this.props.url;
 
             return _react2['default'].createElement(
                 'form',
                 {
-                    action: this.props.action,
+                    action: action,
                     className: className,
                     method: 'POST',
                     onSubmit: this.onSubmit,
@@ -169,13 +170,15 @@ AjaxForm.propTypes = {
     action: _react2['default'].PropTypes.string,
     className: _react2['default'].PropTypes.string,
     onResponse: _react2['default'].PropTypes.func,
-    onSubmit: _react2['default'].PropTypes.func
+    onSubmit: _react2['default'].PropTypes.func,
+    url: _react2['default'].PropTypes.string
 };
 
 AjaxForm.defaultProps = {
     action: '',
     onResponse: _utils.noop,
-    onSubmit: _utils.noop
+    onSubmit: _utils.noop,
+    url: ''
 };
 
 exports['default'] = AjaxForm;
