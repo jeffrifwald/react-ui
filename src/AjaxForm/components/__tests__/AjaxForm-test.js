@@ -29,6 +29,18 @@ describe('AjaxForm/AjaxForm', () => {
         );
     });
 
+    it('should accept url instead of action', () => {
+        const component = TestUtils.createComponent(
+            <AjaxForm url="/login/">
+                <input />
+                <button>Submit</button>
+            </AjaxForm>
+        );
+        const rendered = component.render();
+
+        assert.equal(rendered.props.action, '/login/');
+    });
+
     it('should handle onResponse', () => {
         const onResponse = stub();
         const component = TestUtils.createComponent(
