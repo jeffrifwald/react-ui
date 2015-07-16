@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":19}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.18",
+  "version": "0.4.19",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -449,6 +449,11 @@ var DatePicker = (function (_React$Component) {
     _inherits(DatePicker, _React$Component);
 
     _createClass(DatePicker, [{
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.delayBlur.cancel();
+        }
+    }, {
         key: 'render',
         value: function render() {
             var className = (0, _utils.getClassName)('react-ui-date-picker', this.props.className, this.state.showCalendar ? 'react-ui-date-picker-open' : '');
@@ -1628,6 +1633,12 @@ var SelectBox = (function (_React$Component) {
     _inherits(SelectBox, _React$Component);
 
     _createClass(SelectBox, [{
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.delayBlur.cancel();
+            this.delaySearch.cancel();
+        }
+    }, {
         key: 'render',
         value: function render() {
             var className = (0, _utils.getClassName)('react-ui-select-box', this.props.className, this.state.showDropDown ? 'react-ui-select-box-open' : '', this.props.disabled ? 'react-ui-select-box-disabled' : '');
