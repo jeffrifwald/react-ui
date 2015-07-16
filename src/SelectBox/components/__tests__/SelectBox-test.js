@@ -179,13 +179,17 @@ describe('SelectBox/SelectBox', () => {
         const component = TestUtils.createComponent(
             <SelectBox onChange={onChange} />
         );
+        const mockEvt = {stopPropagation: stub()};
 
+        component.delayBlur = {cancel: stub()};
         stub(component, 'setState');
 
-        component.onChange('mock value', 'mock evt');
+        component.onChange('mock value', mockEvt);
+        assert.equal(mockEvt.stopPropagation.callCount, 1);
+        assert.equal(component.delayBlur.cancel.callCount, 1);
         assert.equal(onChange.callCount, 1);
         assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onChange.calledWith('mock evt', 'mock value'));
+        assert.isTrue(onChange.calledWith(mockEvt, 'mock value'));
         assert.isTrue(component.setState.calledWith({
             highlightIndex: -1,
             showDropDown: false,
