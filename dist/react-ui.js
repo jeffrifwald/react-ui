@@ -1455,6 +1455,7 @@ var SearchBox = (function (_React$Component) {
     }, {
         key: 'onChange',
         value: function onChange(result, evt) {
+            evt.stopPropagation();
             this.delayBlur.cancel();
             this.props.onChange(evt, result);
             this.select(result);
@@ -1752,6 +1753,8 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'onChange',
         value: function onChange(option, evt) {
+            evt.stopPropagation();
+            this.delayBlur.cancel();
             this.props.onChange(evt, option);
 
             this.setState({

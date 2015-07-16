@@ -105,17 +105,19 @@ describe('SearchBox/SearchBox', () => {
             <SearchBox
             onChange={onChange} />
         );
+        const mockEvt = {stopPropagation: stub()};
 
         component.delayBlur = {cancel: stub()};
         stub(component, 'select');
         stub(component, 'hideDropDown');
 
-        component.onChange('mock result', 'mock evt');
+        component.onChange('mock result', mockEvt);
+        assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(component.delayBlur.cancel.callCount, 1);
         assert.equal(onChange.callCount, 1);
         assert.equal(component.select.callCount, 1);
         assert.equal(component.hideDropDown.callCount, 1);
-        assert.isTrue(onChange.calledWith('mock evt', 'mock result'));
+        assert.isTrue(onChange.calledWith(mockEvt, 'mock result'));
         assert.isTrue(component.select.calledWith('mock result'));
 
         component.select.restore();

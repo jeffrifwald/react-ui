@@ -199,6 +199,8 @@ class SelectBox extends React.Component {
     }
 
     onChange(option, evt) {
+        evt.stopPropagation();
+        this.delayBlur.cancel();
         this.props.onChange(evt, option);
 
         this.setState({
