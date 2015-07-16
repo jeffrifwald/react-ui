@@ -18,6 +18,17 @@ describe('SelectBox/SelectBox', () => {
         assert.equal(rendered.props.children.length, 2);
     });
 
+    it('should cancel timeouts when unmounted', () => {
+        const component = TestUtils.createComponent(<SelectBox />);
+
+        component.delayBlur = {cancel: stub()};
+        component.delaySearch = {cancel: stub()};
+
+        component.componentWillUnmount();
+        assert.equal(component.delayBlur.cancel.callCount, 1);
+        assert.equal(component.delaySearch.cancel.callCount, 1);
+    });
+
     it('should render a value', () => {
         const component = TestUtils.createComponent(
             <SelectBox />

@@ -39,6 +39,10 @@ class DatePicker extends React.Component {
         this.onPreviousClick = this.onPreviousClick.bind(this);
     }
 
+    componentWillUnmount() {
+        this.delayBlur.cancel();
+    }
+
     render() {
         const className = getClassName(
             'react-ui-date-picker',
