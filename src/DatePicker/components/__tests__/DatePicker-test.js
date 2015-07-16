@@ -15,6 +15,15 @@ describe('DatePicker/DatePicker', () => {
         assert.equal(rendered.type, 'div');
     });
 
+    it('should cancel timeouts when unmounted', () => {
+        const component = TestUtils.createComponent(<DatePicker />);
+
+        component.delayBlur = {cancel: stub()};
+
+        component.componentWillUnmount();
+        assert.equal(component.delayBlur.cancel.callCount, 1);
+    });
+
     it('should handle a default value', () => {
         const date = new Date(2015, 6, 1);
         const rendered = TestUtils.createComponent(

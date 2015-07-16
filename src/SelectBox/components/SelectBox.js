@@ -32,6 +32,11 @@ class SelectBox extends React.Component {
         this.onClearClick = this.onClearClick.bind(this);
     }
 
+    componentWillUnmount() {
+        this.delayBlur.cancel();
+        this.delaySearch.cancel();
+    }
+
     render() {
         const className = getClassName(
             'react-ui-select-box',
