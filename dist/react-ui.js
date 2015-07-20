@@ -11,10 +11,10 @@ var _src2 = _interopRequireDefault(_src);
 global.ReactUI = _src2['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./src":19}],2:[function(require,module,exports){
+},{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.19",
+  "version": "0.4.20",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -185,7 +185,7 @@ exports['default'] = AjaxForm;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],4:[function(require,module,exports){
+},{"../../utils":22}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -389,7 +389,7 @@ exports['default'] = Calendar;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],6:[function(require,module,exports){
+},{"../../utils":22}],6:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -679,7 +679,7 @@ exports['default'] = DatePicker;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20,"./Calendar":5}],7:[function(require,module,exports){
+},{"../../utils":22,"./Calendar":5}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -879,7 +879,7 @@ exports['default'] = FileInput;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],9:[function(require,module,exports){
+},{"../../utils":22}],9:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -977,7 +977,7 @@ exports['default'] = Cell;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],11:[function(require,module,exports){
+},{"../../utils":22}],11:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1147,7 +1147,7 @@ exports['default'] = Grid;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20,"./Header":12,"./Row":13}],12:[function(require,module,exports){
+},{"../../utils":22,"./Header":12,"./Row":13}],12:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1226,7 +1226,7 @@ exports['default'] = Header;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],13:[function(require,module,exports){
+},{"../../utils":22}],13:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -1321,7 +1321,7 @@ exports['default'] = Row;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20,"./Cell":10}],14:[function(require,module,exports){
+},{"../../utils":22,"./Cell":10}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1565,7 +1565,7 @@ exports['default'] = SearchBox;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],16:[function(require,module,exports){
+},{"../../utils":22}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1945,7 +1945,7 @@ exports['default'] = SelectBox;
 module.exports = exports['default'];
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../../utils":20}],18:[function(require,module,exports){
+},{"../../utils":22}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1962,6 +1962,199 @@ exports['default'] = _componentsSelectBox2['default'];
 module.exports = exports['default'];
 
 },{"./components/SelectBox":17}],19:[function(require,module,exports){
+(function (global){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+    value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x3, _x4, _x5) { var _again = true; _function: while (_again) { var object = _x3, property = _x4, receiver = _x5; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x3 = parent; _x4 = property; _x5 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
+var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _utils = require('../../utils');
+
+var Slider = (function (_React$Component) {
+    function Slider() {
+        _classCallCheck(this, Slider);
+
+        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+        }
+
+        _get(Object.getPrototypeOf(Slider.prototype), 'constructor', this).apply(this, args);
+
+        var value = Math.round(this.getBoundedValue(this.props.defaultValue, 0, 100));
+
+        this.state = {
+            clientX: 0,
+            fillWidth: value + 1 + '%',
+            handleLeft: value + '%',
+            sliding: false,
+            value: value
+        };
+        this.onChange = this.onChange.bind(this);
+        this.onDragStart = this.onDragStart.bind(this);
+        this.onMouseDown = this.onMouseDown.bind(this);
+        this.onMouseMove = this.onMouseMove.bind(this);
+    }
+
+    _inherits(Slider, _React$Component);
+
+    _createClass(Slider, [{
+        key: 'render',
+        value: function render() {
+            var className = (0, _utils.getClassName)('react-ui-slider', this.props.className);
+
+            return _react2['default'].createElement(
+                'div',
+                {
+                    className: className,
+                    onDragStart: this.onDragStart,
+                    onMouseLeave: this.onChange,
+                    onMouseMove: this.onMouseMove,
+                    onMouseUp: this.onChange },
+                this.renderTrack()
+            );
+        }
+    }, {
+        key: 'renderTrack',
+        value: function renderTrack() {
+            var trackClassName = (0, _utils.getClassName)('react-ui-slider-track', this.props.trackClassName);
+            var fillClassName = (0, _utils.getClassName)('react-ui-slider-fill', this.props.fillClassName);
+            var handleClassName = (0, _utils.getClassName)('react-ui-slider-handle', this.props.handleClassName);
+            var handleStyle = {
+                left: '' + this.state.handleLeft
+            };
+            var fillStyle = {
+                width: '' + this.state.fillWidth
+            };
+
+            return _react2['default'].createElement(
+                'div',
+                {
+                    className: trackClassName,
+                    onDragStart: this.onDragStart,
+                    ref: 'track' },
+                _react2['default'].createElement('div', {
+                    className: fillClassName,
+                    onDragStart: this.onDragStart,
+                    style: fillStyle }),
+                _react2['default'].createElement('div', {
+                    className: handleClassName,
+                    onDragStart: this.onDragStart,
+                    onMouseDown: this.onMouseDown,
+                    onMouseUp: this.onChange,
+                    ref: 'handle',
+                    style: handleStyle })
+            );
+        }
+    }, {
+        key: 'onChange',
+        value: function onChange(evt) {
+            evt.stopPropagation();
+
+            if (this.state.sliding) {
+                this.props.onChange(evt, this.state.value);
+                this.setState({ sliding: false });
+            }
+        }
+    }, {
+        key: 'onDragStart',
+        value: function onDragStart(evt) {
+            evt.preventDefault();
+        }
+    }, {
+        key: 'onMouseDown',
+        value: function onMouseDown(evt) {
+            evt.preventDefault();
+            this.setState({ sliding: true });
+        }
+    }, {
+        key: 'onMouseMove',
+        value: function onMouseMove(evt) {
+            if (this.state.sliding) {
+                var track = _react2['default'].findDOMNode(this.refs.track);
+                var handle = _react2['default'].findDOMNode(this.refs.handle);
+                var mouseOffset = evt.clientX - track.getBoundingClientRect().left;
+                var trackOffset = this.getBoundedValue(track.offsetWidth, 1);
+                var handleOffset = this.getBoundedValue(handle.offsetWidth, 1);
+                var state = {};
+
+                state.handleLeft = this.getBoundedValue(mouseOffset - handleOffset, 0, trackOffset - handleOffset);
+                state.fillWidth = this.getBoundedValue(state.handleLeft + handleOffset, 0, trackOffset);
+                state.value = this.getBoundedValue(state.handleLeft / trackOffset * 100 / (100 - handleOffset / trackOffset * 100) * 100, 0, 100);
+
+                this.setState(state);
+            }
+        }
+    }, {
+        key: 'getBoundedValue',
+        value: function getBoundedValue(value) {
+            var min = arguments[1] === undefined ? -Math.Infinity : arguments[1];
+            var max = arguments[2] === undefined ? Math.Infinity : arguments[2];
+
+            if (value < min) {
+                return min;
+            }
+
+            if (value > max) {
+                return max;
+            }
+
+            return value;
+        }
+    }]);
+
+    return Slider;
+})(_react2['default'].Component);
+
+Slider.propTypes = {
+    defaultValue: _react2['default'].PropTypes.number,
+    className: _react2['default'].PropTypes.string,
+    fillClassName: _react2['default'].PropTypes.string,
+    handleClassName: _react2['default'].PropTypes.string,
+    onChange: _react2['default'].PropTypes.func,
+    trackClassName: _react2['default'].PropTypes.string
+};
+
+Slider.defaultProps = {
+    defaultValue: 0,
+    onChange: _utils.noop
+};
+
+exports['default'] = Slider;
+module.exports = exports['default'];
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"../../utils":22}],20:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _componentsSlider = require('./components/Slider');
+
+var _componentsSlider2 = _interopRequireDefault(_componentsSlider);
+
+exports['default'] = _componentsSlider2['default'];
+module.exports = exports['default'];
+
+},{"./components/Slider":19}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {
@@ -1996,6 +2189,10 @@ var _SelectBox = require('./SelectBox');
 
 var _SelectBox2 = _interopRequireDefault(_SelectBox);
 
+var _Slider = require('./Slider');
+
+var _Slider2 = _interopRequireDefault(_Slider);
+
 exports['default'] = {
     AjaxForm: _AjaxForm2['default'],
     DatePicker: _DatePicker2['default'],
@@ -2003,11 +2200,12 @@ exports['default'] = {
     Grid: _Grid2['default'],
     SearchBox: _SearchBox2['default'],
     SelectBox: _SelectBox2['default'],
+    Slider: _Slider2['default'],
     version: _packageJson.version
 };
 module.exports = exports['default'];
 
-},{"../package.json":2,"./AjaxForm":4,"./DatePicker":7,"./FileInput":9,"./Grid":14,"./SearchBox":16,"./SelectBox":18}],20:[function(require,module,exports){
+},{"../package.json":2,"./AjaxForm":4,"./DatePicker":7,"./FileInput":9,"./Grid":14,"./SearchBox":16,"./SelectBox":18,"./Slider":20}],22:[function(require,module,exports){
 (function (global){
 'use strict';
 
