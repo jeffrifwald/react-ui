@@ -6,6 +6,7 @@ import FileInput from './FileInput';
 import Grid from './Grid';
 import SearchBox from './SearchBox';
 import SelectBox from './SelectBox';
+import Slider from './Slider';
 
 
 export default {
@@ -15,5 +16,6 @@ export default {
     Grid,
     SearchBox,
     SelectBox,
+    Slider,
     version
 };
