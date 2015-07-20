@@ -148,6 +148,10 @@ body {
   margin-right: 10px;
   padding: 8px 16px;
 }
+.content .react-ui-slider-track {
+  margin-left: 10px;
+  width: 95%;
+}
 .header {
   border-bottom: 1px solid #272822;
   padding: 20px;

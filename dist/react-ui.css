@@ -331,6 +331,42 @@
 .react-ui-select-box-option-selected.react-ui-select-box-option-highlighted {
   background-color: #cdcdcd;
 }
+.react-ui-slider {
+  height: 30px;
+  position: relative;
+  width: 100%;
+}
+.react-ui-slider-track {
+  background-color: #ebebeb;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  height: 10px;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+}
+.react-ui-slider-fill {
+  background-color: #6ac;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  height: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+}
+.react-ui-slider-handle {
+  background-color: #a4a4a4;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  top: -6px;
+  width: 20px;
+}
 .react-ui-date-picker {
   position: relative;
   width: 100%;
@@ -663,4 +699,40 @@
 }
 .react-ui-select-box-option-selected.react-ui-select-box-option-highlighted {
   background-color: #cdcdcd;
+}
+.react-ui-slider {
+  height: 30px;
+  position: relative;
+  width: 100%;
+}
+.react-ui-slider-track {
+  background-color: #ebebeb;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  height: 10px;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+}
+.react-ui-slider-fill {
+  background-color: #6ac;
+  -webkit-border-radius: 20px;
+  border-radius: 20px;
+  height: 10px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+}
+.react-ui-slider-handle {
+  background-color: #a4a4a4;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  top: -6px;
+  width: 20px;
 }
