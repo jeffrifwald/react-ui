@@ -8,7 +8,7 @@ class Slider extends React.Component {
         super(...args);
 
         const value = Math.round(this.getBoundedValue(
-           this.props.defaultValue || 0,
+           this.props.defaultValue,
             0,
             100
         ));
@@ -150,6 +150,7 @@ class Slider extends React.Component {
 }
 
 Slider.propTypes = {
+    defaultValue: React.PropTypes.number,
     className: React.PropTypes.string,
     fillClassName: React.PropTypes.string,
     handleClassName: React.PropTypes.string,
@@ -158,6 +159,7 @@ Slider.propTypes = {
 };
 
 Slider.defaultProps = {
+    defaultValue: 0,
     onChange: noop
 };
 

@@ -1995,7 +1995,7 @@ var Slider = (function (_React$Component) {
 
         _get(Object.getPrototypeOf(Slider.prototype), 'constructor', this).apply(this, args);
 
-        var value = Math.round(this.getBoundedValue(this.props.defaultValue || 0, 0, 100));
+        var value = Math.round(this.getBoundedValue(this.props.defaultValue, 0, 100));
 
         this.state = {
             clientX: 0,
@@ -2121,6 +2121,7 @@ var Slider = (function (_React$Component) {
 })(_react2['default'].Component);
 
 Slider.propTypes = {
+    defaultValue: _react2['default'].PropTypes.number,
     className: _react2['default'].PropTypes.string,
     fillClassName: _react2['default'].PropTypes.string,
     handleClassName: _react2['default'].PropTypes.string,
@@ -2129,6 +2130,7 @@ Slider.propTypes = {
 };
 
 Slider.defaultProps = {
+    defaultValue: 0,
     onChange: _utils.noop
 };
 
