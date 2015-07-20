@@ -1,5 +1,6 @@
 import Slider from '../../../src/Slider';
 
+
 function onChange(evt, value) {
     alert(`You picked ${value}!`);
 }
