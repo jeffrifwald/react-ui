@@ -151,6 +151,7 @@ class Slider extends React.Component {
 
 Slider.propTypes = {
     className: React.PropTypes.string,
+    fillClassName: React.PropTypes.string,
     handleClassName: React.PropTypes.string,
     onChange: React.PropTypes.func,
     trackClassName: React.PropTypes.string

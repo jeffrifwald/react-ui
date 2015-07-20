@@ -2122,6 +2122,7 @@ var Slider = (function (_React$Component) {
 
 Slider.propTypes = {
     className: _react2['default'].PropTypes.string,
+    fillClassName: _react2['default'].PropTypes.string,
     handleClassName: _react2['default'].PropTypes.string,
     onChange: _react2['default'].PropTypes.func,
     trackClassName: _react2['default'].PropTypes.string
