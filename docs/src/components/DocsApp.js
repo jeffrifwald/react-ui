@@ -5,6 +5,7 @@ import Grid from './Grid';
 import ReactUI from '../../../src';
 import SearchBox from './SearchBox';
 import SelectBox from './SelectBox';
+import Slider from './Slider';
 
 
 const components = [
@@ -13,7 +14,8 @@ const components = [
     FileInput,
     Grid,
     SearchBox,
-    SelectBox
+    SelectBox,
+    Slider
 ];
 
 class DocsApp extends React.Component {
