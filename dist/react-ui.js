@@ -2034,11 +2034,19 @@ var Slider = (function (_React$Component) {
             var trackClassName = (0, _utils.getClassName)('react-ui-slider-track', this.props.trackClassName);
             var fillClassName = (0, _utils.getClassName)('react-ui-slider-fill', this.props.fillClassName);
             var handleClassName = (0, _utils.getClassName)('react-ui-slider-handle', this.props.handleClassName);
+            var trackStyle = {
+                backgroundColor: this.props.trackColor,
+                position: 'relative'
+            };
             var handleStyle = {
-                left: '' + this.state.handleLeft
+                backgroundColor: this.props.handleColor,
+                left: this.state.handleLeft,
+                position: 'absolute'
             };
             var fillStyle = {
-                width: '' + this.state.fillWidth
+                backgroundColor: this.props.fillColor,
+                position: 'absolute',
+                width: this.state.fillWidth
             };
 
             return _react2['default'].createElement(
@@ -2046,7 +2054,8 @@ var Slider = (function (_React$Component) {
                 {
                     className: trackClassName,
                     onDragStart: this.onDragStart,
-                    ref: 'track' },
+                    ref: 'track',
+                    style: trackStyle },
                 _react2['default'].createElement('div', {
                     className: fillClassName,
                     onDragStart: this.onDragStart,
@@ -2124,14 +2133,20 @@ Slider.propTypes = {
     defaultValue: _react2['default'].PropTypes.number,
     className: _react2['default'].PropTypes.string,
     fillClassName: _react2['default'].PropTypes.string,
+    fillColor: _react2['default'].PropTypes.string,
     handleClassName: _react2['default'].PropTypes.string,
+    handleColor: _react2['default'].PropTypes.string,
     onChange: _react2['default'].PropTypes.func,
-    trackClassName: _react2['default'].PropTypes.string
+    trackClassName: _react2['default'].PropTypes.string,
+    trackColor: _react2['default'].PropTypes.string
 };
 
 Slider.defaultProps = {
     defaultValue: 0,
-    onChange: _utils.noop
+    fillColor: undefined,
+    handleColor: undefined,
+    onChange: _utils.noop,
+    trackColor: undefined
 };
 
 exports['default'] = Slider;

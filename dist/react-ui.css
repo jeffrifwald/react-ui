@@ -333,7 +333,6 @@
 }
 .react-ui-slider {
   height: 30px;
-  position: relative;
   width: 100%;
 }
 .react-ui-slider-track {
@@ -342,7 +341,6 @@
   -webkit-border-radius: 20px;
   border-radius: 20px;
   height: 10px;
-  position: absolute;
   top: 10px;
   width: 100%;
 }
@@ -351,7 +349,6 @@
   -webkit-border-radius: 20px;
   border-radius: 20px;
   height: 10px;
-  position: absolute;
   top: 0;
   left: 0;
   width: 0;
@@ -363,7 +360,6 @@
   border-radius: 50%;
   height: 20px;
   left: 0;
-  position: absolute;
   top: -6px;
   width: 20px;
 }
@@ -702,7 +698,6 @@
 }
 .react-ui-slider {
   height: 30px;
-  position: relative;
   width: 100%;
 }
 .react-ui-slider-track {
@@ -711,7 +706,6 @@
   -webkit-border-radius: 20px;
   border-radius: 20px;
   height: 10px;
-  position: absolute;
   top: 10px;
   width: 100%;
 }
@@ -720,7 +714,6 @@
   -webkit-border-radius: 20px;
   border-radius: 20px;
   height: 10px;
-  position: absolute;
   top: 0;
   left: 0;
   width: 0;
@@ -732,7 +725,6 @@
   border-radius: 50%;
   height: 20px;
   left: 0;
-  position: absolute;
   top: -6px;
   width: 20px;
 }
