@@ -57,18 +57,27 @@ class Slider extends React.Component {
             'react-ui-slider-handle',
             this.props.handleClassName
         );
+        const trackStyle = {
+            backgroundColor: this.props.trackColor,
+            position: 'relative'
+        };
         const handleStyle = {
-            left: `${this.state.handleLeft}`
+            backgroundColor: this.props.handleColor,
+            left: this.state.handleLeft,
+            position: 'absolute'
         };
         const fillStyle = {
-            width: `${this.state.fillWidth}`
+            backgroundColor: this.props.fillColor,
+            position: 'absolute',
+            width: this.state.fillWidth
         };
 
         return (
             <div
             className={trackClassName}
             onDragStart={this.onDragStart}
-            ref="track">
+            ref="track"
+            style={trackStyle}>
                 <div
                 className={fillClassName}
                 onDragStart={this.onDragStart}
@@ -153,14 +162,20 @@ Slider.propTypes = {
     defaultValue: React.PropTypes.number,
     className: React.PropTypes.string,
     fillClassName: React.PropTypes.string,
+    fillColor: React.PropTypes.string,
     handleClassName: React.PropTypes.string,
+    handleColor: React.PropTypes.string,
     onChange: React.PropTypes.func,
-    trackClassName: React.PropTypes.string
+    trackClassName: React.PropTypes.string,
+    trackColor: React.PropTypes.string
 };
 
 Slider.defaultProps = {
     defaultValue: 0,
-    onChange: noop
+    fillColor: undefined,
+    handleColor: undefined,
+    onChange: noop,
+    trackColor: undefined
 };
 
 export default Slider;
