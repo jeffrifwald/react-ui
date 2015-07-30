@@ -20,7 +20,7 @@ class Calendar extends React.Component {
 
         return (
             <table
-            onClick={this.props.onCalendarClick}
+            onMouseDown={this.props.onCalendarMouseDown}
             className={className}>
                 {this.renderHeader()}
 

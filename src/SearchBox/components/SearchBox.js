@@ -20,7 +20,7 @@ class SearchBox extends React.Component {
             results: []
         };
         this.onResponse = this.onResponse.bind(this);
-        this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.delayBlur = debounce(
             this.onBlur.bind(this),
@@ -83,7 +83,7 @@ class SearchBox extends React.Component {
                 <div
                 className={resultClassName}
                 key={i}
-                onClick={this.onChange.bind(this, result)}>
+                onMouseDown={this.onChange.bind(this, result)}>
                     {this.props.renderResult(result)}
                 </div>
             );
@@ -92,7 +92,7 @@ class SearchBox extends React.Component {
         return (
             <div
             className={dropDownClassName}
-            onClick={this.onDropDownClick}>
+            onMouseDown={this.onDropDownMouseDown}>
                 {results}
             </div>
         );
@@ -123,7 +123,7 @@ class SearchBox extends React.Component {
         this.hideDropDown();
     }
 
-    onDropDownClick() {
+    onDropDownMouseDown() {
         this.delayBlur.cancel();
     }
 

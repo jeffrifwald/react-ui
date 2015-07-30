@@ -244,7 +244,7 @@ var Calendar = (function (_React$Component) {
             return _react2['default'].createElement(
                 'table',
                 {
-                    onClick: this.props.onCalendarClick,
+                    onMouseDown: this.props.onCalendarMouseDown,
                     className: className },
                 this.renderHeader(),
                 _react2['default'].createElement(
@@ -438,7 +438,7 @@ var DatePicker = (function (_React$Component) {
             value: this.props.defaultValue ? this.cleanDate(this.props.defaultValue) : undefined
         };
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
-        this.onCalendarClick = this.onCalendarClick.bind(this);
+        this.onCalendarMouseDown = this.onCalendarMouseDown.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
         this.onDateClick = this.onDateClick.bind(this);
@@ -524,7 +524,7 @@ var DatePicker = (function (_React$Component) {
         key: 'renderCalendar',
         value: function renderCalendar() {
             return this.state.showCalendar ? _react2['default'].createElement(_Calendar2['default'], _extends({}, this.props, this.state, {
-                onCalendarClick: this.onCalendarClick,
+                onCalendarMouseDown: this.onCalendarMouseDown,
                 onDateClick: this.onDateClick,
                 onNextClick: this.onNextClick,
                 onPreviousClick: this.onPreviousClick })) : null;
@@ -553,8 +553,8 @@ var DatePicker = (function (_React$Component) {
             }
         }
     }, {
-        key: 'onCalendarClick',
-        value: function onCalendarClick(evt) {
+        key: 'onCalendarMouseDown',
+        value: function onCalendarMouseDown(evt) {
             evt.stopPropagation();
             this.delayBlur.cancel();
         }
@@ -1377,7 +1377,7 @@ var SearchBox = (function (_React$Component) {
             results: []
         };
         this.onResponse = this.onResponse.bind(this);
-        this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
@@ -1428,7 +1428,7 @@ var SearchBox = (function (_React$Component) {
                     {
                         className: resultClassName,
                         key: i,
-                        onClick: _this.onChange.bind(_this, result) },
+                        onMouseDown: _this.onChange.bind(_this, result) },
                     _this.props.renderResult(result)
                 );
             });
@@ -1437,7 +1437,7 @@ var SearchBox = (function (_React$Component) {
                 'div',
                 {
                     className: dropDownClassName,
-                    onClick: this.onDropDownClick },
+                    onMouseDown: this.onDropDownMouseDown },
                 results
             );
         }
@@ -1467,8 +1467,8 @@ var SearchBox = (function (_React$Component) {
             this.hideDropDown();
         }
     }, {
-        key: 'onDropDownClick',
-        value: function onDropDownClick() {
+        key: 'onDropDownMouseDown',
+        value: function onDropDownMouseDown() {
             this.delayBlur.cancel();
         }
     }, {
@@ -1625,7 +1625,7 @@ var SelectBox = (function (_React$Component) {
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
         this.onClick = this.onClick.bind(this);
-        this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
         this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
     }
@@ -1692,7 +1692,7 @@ var SelectBox = (function (_React$Component) {
                 'div',
                 {
                     className: className,
-                    onDropDownClick: this.onDropDownClick },
+                    onMouseDown: this.onDropDownMouseDown },
                 this.renderSearch(),
                 _react2['default'].createElement(
                     'div',
@@ -1751,7 +1751,7 @@ var SelectBox = (function (_React$Component) {
                     {
                         className: className,
                         key: i,
-                        onClick: _this.onChange.bind(_this, option) },
+                        onMouseDown: _this.onChange.bind(_this, option) },
                     _this.renderOption(option)
                 );
             });
@@ -1796,8 +1796,8 @@ var SelectBox = (function (_React$Component) {
             }
         }
     }, {
-        key: 'onDropDownClick',
-        value: function onDropDownClick() {
+        key: 'onDropDownMouseDown',
+        value: function onDropDownMouseDown() {
             this.delayBlur.cancel();
         }
     }, {
