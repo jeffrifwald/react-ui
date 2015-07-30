@@ -124,12 +124,12 @@ describe('SearchBox/SearchBox', () => {
         component.hideDropDown.restore();
     });
 
-    it('should handle onDropDownClick', () => {
+    it('should handle onDropDownMouseDown', () => {
         const component = TestUtils.createComponent(<SearchBox />);
 
         component.delayBlur = {cancel: stub()};
 
-        component.onDropDownClick();
+        component.onDropDownMouseDown();
         assert.equal(component.delayBlur.cancel.callCount, 1);
     });
 

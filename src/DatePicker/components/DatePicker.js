@@ -31,7 +31,7 @@ class DatePicker extends React.Component {
             this.onBlur.bind(this),
             BLUR_DELAY_MS
         );
-        this.onCalendarClick = this.onCalendarClick.bind(this);
+        this.onCalendarMouseDown = this.onCalendarMouseDown.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
         this.onDateClick = this.onDateClick.bind(this);
@@ -142,7 +142,7 @@ class DatePicker extends React.Component {
             <Calendar
             {...this.props}
             {...this.state}
-            onCalendarClick={this.onCalendarClick}
+            onCalendarMouseDown={this.onCalendarMouseDown}
             onDateClick={this.onDateClick}
             onNextClick={this.onNextClick}
             onPreviousClick={this.onPreviousClick} />
@@ -169,7 +169,7 @@ class DatePicker extends React.Component {
         }
     }
 
-    onCalendarClick(evt) {
+    onCalendarMouseDown(evt) {
         evt.stopPropagation();
         this.delayBlur.cancel();
     }
