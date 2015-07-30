@@ -106,7 +106,7 @@ describe('DatePicker/DatePicker', () => {
         component.showCalendar.restore();
     });
 
-    it('should handle onCalendarClick', () => {
+    it('should handle onCalendarMouseDown', () => {
         const mockEvt = {stopPropagation: stub()};
         const component = TestUtils.createComponent(
             <DatePicker />
@@ -114,7 +114,7 @@ describe('DatePicker/DatePicker', () => {
 
         component.delayBlur = {cancel: stub()};
 
-        component.onCalendarClick(mockEvt);
+        component.onCalendarMouseDown(mockEvt);
         assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(component.delayBlur.cancel.callCount, 1);
     });

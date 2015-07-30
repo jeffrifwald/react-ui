@@ -27,7 +27,7 @@ class SelectBox extends React.Component {
             this.props.delay
         );
         this.onClick = this.onClick.bind(this);
-        this.onDropDownClick = this.onDropDownClick.bind(this);
+        this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
         this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
     }
@@ -108,7 +108,7 @@ class SelectBox extends React.Component {
         return this.state.showDropDown ? (
             <div
             className={className}
-            onDropDownClick={this.onDropDownClick}>
+            onMouseDown={this.onDropDownMouseDown}>
                 {this.renderSearch()}
 
                 <div className={optionsClassName}>
@@ -189,7 +189,7 @@ class SelectBox extends React.Component {
                 <div
                 className={className}
                 key={i}
-                onClick={this.onChange.bind(this, option)}>
+                onMouseDown={this.onChange.bind(this, option)}>
                     {this.renderOption(option)}
                 </div>
             );
@@ -234,7 +234,7 @@ class SelectBox extends React.Component {
         }
     }
 
-    onDropDownClick() {
+    onDropDownMouseDown() {
         this.delayBlur.cancel();
     }
 
