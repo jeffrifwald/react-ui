@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.22",
+  "version": "0.4.23",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1460,7 +1460,6 @@ var SearchBox = (function (_React$Component) {
     }, {
         key: 'onChange',
         value: function onChange(result, evt) {
-            evt.stopPropagation();
             this.delayBlur.cancel();
             this.props.onChange(evt, result);
             this.select(result);
@@ -1764,7 +1763,6 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'onChange',
         value: function onChange(option, evt) {
-            evt.stopPropagation();
             this.delayBlur.cancel();
             this.props.onChange(evt, option);
 

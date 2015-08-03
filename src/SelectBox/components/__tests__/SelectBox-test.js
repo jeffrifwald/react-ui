@@ -196,7 +196,6 @@ describe('SelectBox/SelectBox', () => {
         stub(component, 'setState');
 
         component.onChange('mock value', mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(component.delayBlur.cancel.callCount, 1);
         assert.equal(onChange.callCount, 1);
         assert.equal(component.setState.callCount, 1);
