@@ -288,14 +288,14 @@ describe('SelectBox/SelectBox', () => {
         component.showDropDown.restore();
     });
 
-    it('should handle onDropDownMouseDown', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
+    it('should handle onDropDownMouseDown and onDropDownMouseUp', () => {
+        const component = TestUtils.createComponent(<SelectBox />);
 
-        component.delayBlur = {cancel: stub()};
+        assert.isTrue(component.canHideDropDown);
         component.onDropDownMouseDown();
-        assert.equal(component.delayBlur.cancel.callCount, 1);
+        assert.isFalse(component.canHideDropDown);
+        component.onDropDownMouseUp();
+        assert.isTrue(component.canHideDropDown);
     });
 
     it('should handle onBlur', () => {
@@ -306,6 +306,11 @@ describe('SelectBox/SelectBox', () => {
         stub(component, 'hideDropDown');
         stub(component, 'clearQuery');
 
+        component.onBlur();
+        assert.equal(component.hideDropDown.callCount, 1);
+        assert.equal(component.clearQuery.callCount, 1);
+
+        component.canHideDropDown = false;
         component.onBlur();
         assert.equal(component.hideDropDown.callCount, 1);
         assert.equal(component.clearQuery.callCount, 1);

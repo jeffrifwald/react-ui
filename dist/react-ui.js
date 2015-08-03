@@ -1381,6 +1381,7 @@ var SearchBox = (function (_React$Component) {
         this.onKeyDown = this.onKeyDown.bind(this);
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
+        this.canHideDropDown = true;
     }
 
     _inherits(SearchBox, _React$Component);
@@ -1398,10 +1399,12 @@ var SearchBox = (function (_React$Component) {
 
             return _react2['default'].createElement(
                 'div',
-                { className: className },
+                {
+                    className: className,
+                    onBlur: this.delayBlur,
+                    tabIndex: 9999 },
                 _react2['default'].createElement('input', {
                     disabled: this.props.disabled,
-                    onBlur: this.delayBlur,
                     onChange: this.delaySearch,
                     onKeyDown: this.onKeyDown,
                     placeholder: this.props.placeholder,
@@ -1428,7 +1431,7 @@ var SearchBox = (function (_React$Component) {
                     {
                         className: resultClassName,
                         key: i,
-                        onMouseDown: _this.onChange.bind(_this, result) },
+                        onClick: _this.onChange.bind(_this, result) },
                     _this.props.renderResult(result)
                 );
             });
@@ -1437,14 +1440,17 @@ var SearchBox = (function (_React$Component) {
                 'div',
                 {
                     className: dropDownClassName,
-                    onMouseDown: this.onDropDownMouseDown },
+                    onMouseDown: this.onDropDownMouseDown,
+                    onMouseUp: this.onDropDownMouseUp },
                 results
             );
         }
     }, {
         key: 'onBlur',
         value: function onBlur() {
-            this.hideDropDown();
+            if (this.canHideDropDown) {
+                this.hideDropDown();
+            }
         }
     }, {
         key: 'onKeyDown',
@@ -1468,7 +1474,12 @@ var SearchBox = (function (_React$Component) {
     }, {
         key: 'onDropDownMouseDown',
         value: function onDropDownMouseDown() {
-            this.delayBlur.cancel();
+            this.canHideDropDown = false;
+        }
+    }, {
+        key: 'onDropDownMouseUp',
+        value: function onDropDownMouseUp() {
+            this.canHideDropDown = true;
         }
     }, {
         key: 'onResponse',
@@ -1625,8 +1636,10 @@ var SelectBox = (function (_React$Component) {
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
         this.onClick = this.onClick.bind(this);
         this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
+        this.onDropDownMouseUp = this.onDropDownMouseUp.bind(this);
         this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
+        this.canHideDropDown = true;
     }
 
     _inherits(SelectBox, _React$Component);
@@ -1691,7 +1704,8 @@ var SelectBox = (function (_React$Component) {
                 'div',
                 {
                     className: className,
-                    onMouseDown: this.onDropDownMouseDown },
+                    onMouseDown: this.onDropDownMouseDown,
+                    onMouseUp: this.onDropDownMouseUp },
                 this.renderSearch(),
                 _react2['default'].createElement(
                     'div',
@@ -1750,7 +1764,7 @@ var SelectBox = (function (_React$Component) {
                     {
                         className: className,
                         key: i,
-                        onMouseDown: _this.onChange.bind(_this, option) },
+                        onClick: _this.onChange.bind(_this, option) },
                     _this.renderOption(option)
                 );
             });
@@ -1796,13 +1810,20 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'onDropDownMouseDown',
         value: function onDropDownMouseDown() {
-            this.delayBlur.cancel();
+            this.canHideDropDown = false;
+        }
+    }, {
+        key: 'onDropDownMouseUp',
+        value: function onDropDownMouseUp() {
+            this.canHideDropDown = true;
         }
     }, {
         key: 'onBlur',
         value: function onBlur() {
-            this.hideDropDown();
-            this.clearQuery();
+            if (this.canHideDropDown) {
+                this.hideDropDown();
+                this.clearQuery();
+            }
         }
     }, {
         key: 'onSearch',
