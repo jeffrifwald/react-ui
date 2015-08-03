@@ -112,7 +112,6 @@ describe('SearchBox/SearchBox', () => {
         stub(component, 'hideDropDown');
 
         component.onChange('mock result', mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(component.delayBlur.cancel.callCount, 1);
         assert.equal(onChange.callCount, 1);
         assert.equal(component.select.callCount, 1);

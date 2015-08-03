@@ -116,7 +116,6 @@ class SearchBox extends React.Component {
     }
 
     onChange(result, evt) {
-        evt.stopPropagation();
         this.delayBlur.cancel();
         this.props.onChange(evt, result);
         this.select(result);
