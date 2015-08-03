@@ -61,6 +61,10 @@ describe('SearchBox/SearchBox', () => {
         component.onBlur();
         assert.equal(component.hideDropDown.callCount, 1);
 
+        component.canHideDropDown = false;
+        component.onBlur();
+        assert.equal(component.hideDropDown.callCount, 1);
+
         component.hideDropDown.restore();
     });
 
@@ -123,13 +127,14 @@ describe('SearchBox/SearchBox', () => {
         component.hideDropDown.restore();
     });
 
-    it('should handle onDropDownMouseDown', () => {
+    it('should handle onDropDownMouseDown and onDropDownMouseUp', () => {
         const component = TestUtils.createComponent(<SearchBox />);
 
-        component.delayBlur = {cancel: stub()};
-
+        assert.isTrue(component.canHideDropDown);
         component.onDropDownMouseDown();
-        assert.equal(component.delayBlur.cancel.callCount, 1);
+        assert.isFalse(component.canHideDropDown);
+        component.onDropDownMouseUp();
+        assert.isTrue(component.canHideDropDown);
     });
 
     it('should handle onResponse', () => {

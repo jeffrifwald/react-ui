@@ -30,6 +30,7 @@ class SearchBox extends React.Component {
             this.onSearch.bind(this),
             this.props.delay
         );
+        this.canHideDropDown = true;
     }
 
     componentWillUnmount() {
@@ -44,10 +45,12 @@ class SearchBox extends React.Component {
         );
 
         return (
-            <div className={className}>
+            <div
+            className={className}
+            onBlur={this.delayBlur}
+            tabIndex={9999}>
                 <input
                 disabled={this.props.disabled}
-                onBlur={this.delayBlur}
                 onChange={this.delaySearch}
                 onKeyDown={this.onKeyDown}
                 placeholder={this.props.placeholder}
@@ -83,7 +86,7 @@ class SearchBox extends React.Component {
                 <div
                 className={resultClassName}
                 key={i}
-                onMouseDown={this.onChange.bind(this, result)}>
+                onClick={this.onChange.bind(this, result)}>
                     {this.props.renderResult(result)}
                 </div>
             );
@@ -92,14 +95,17 @@ class SearchBox extends React.Component {
         return (
             <div
             className={dropDownClassName}
-            onMouseDown={this.onDropDownMouseDown}>
+            onMouseDown={this.onDropDownMouseDown}
+            onMouseUp={this.onDropDownMouseUp}>
                 {results}
             </div>
         );
     }
 
     onBlur() {
-        this.hideDropDown();
+        if (this.canHideDropDown) {
+            this.hideDropDown();
+        }
     }
 
     onKeyDown(evt) {
@@ -123,7 +129,11 @@ class SearchBox extends React.Component {
     }
 
     onDropDownMouseDown() {
-        this.delayBlur.cancel();
+        this.canHideDropDown = false;
+    }
+
+    onDropDownMouseUp() {
+        this.canHideDropDown = true;
     }
 
     onResponse(err, req) {
