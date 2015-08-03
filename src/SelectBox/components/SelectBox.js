@@ -28,8 +28,10 @@ class SelectBox extends React.Component {
         );
         this.onClick = this.onClick.bind(this);
         this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
+        this.onDropDownMouseUp = this.onDropDownMouseUp.bind(this);
         this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
+        this.canHideDropDown = true;
     }
 
     componentWillUnmount() {
@@ -108,7 +110,8 @@ class SelectBox extends React.Component {
         return this.state.showDropDown ? (
             <div
             className={className}
-            onMouseDown={this.onDropDownMouseDown}>
+            onMouseDown={this.onDropDownMouseDown}
+            onMouseUp={this.onDropDownMouseUp}>
                 {this.renderSearch()}
 
                 <div className={optionsClassName}>
@@ -189,7 +192,7 @@ class SelectBox extends React.Component {
                 <div
                 className={className}
                 key={i}
-                onMouseDown={this.onChange.bind(this, option)}>
+                onClick={this.onChange.bind(this, option)}>
                     {this.renderOption(option)}
                 </div>
             );
@@ -234,12 +237,18 @@ class SelectBox extends React.Component {
     }
 
     onDropDownMouseDown() {
-        this.delayBlur.cancel();
+        this.canHideDropDown = false;
+    }
+
+    onDropDownMouseUp() {
+        this.canHideDropDown = true;
     }
 
     onBlur() {
-        this.hideDropDown();
-        this.clearQuery();
+        if (this.canHideDropDown) {
+            this.hideDropDown();
+            this.clearQuery();
+        }
     }
 
     onSearch() {
