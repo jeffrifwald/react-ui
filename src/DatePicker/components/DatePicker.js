@@ -159,13 +159,15 @@ class DatePicker extends React.Component {
         this.clear();
     }
 
-    onClick() {
-        this.props.onClick(this.state.showCalendar);
+    onClick(evt) {
+        if (!this.props.disabled) {
+            this.props.onClick(evt, this.state.showCalendar);
 
-        if (this.state.showCalendar) {
-            this.hideCalendar();
-        } else {
-            this.showCalendar();
+            if (this.state.showCalendar) {
+                this.hideCalendar();
+            } else {
+                this.showCalendar();
+            }
         }
     }
 
@@ -177,9 +179,9 @@ class DatePicker extends React.Component {
     onDateClick(date, disabled, evt) {
         evt.stopPropagation();
         this.delayBlur.cancel();
-        this.props.onDateClick(evt, date, disabled);
 
         if (!disabled) {
+            this.props.onDateClick(evt, date);
             this.setState({
                 selectedMonth: this.getSelectedMonth(date),
                 showCalendar: false,

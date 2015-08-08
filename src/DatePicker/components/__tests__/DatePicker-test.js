@@ -93,14 +93,32 @@ describe('DatePicker/DatePicker', () => {
         assert.equal(onClick.callCount, 1);
         assert.equal(component.hideCalendar.callCount, 0);
         assert.equal(component.showCalendar.callCount, 1);
-        assert.isTrue(onClick.calledWith(false));
+        assert.isTrue(onClick.calledWith('mock evt', false));
 
         component.state.showCalendar = true;
         component.onClick('mock evt');
         assert.equal(onClick.callCount, 2);
         assert.equal(component.showCalendar.callCount, 1);
         assert.equal(component.hideCalendar.callCount, 1);
-        assert.isTrue(onClick.calledWith(true));
+        assert.isTrue(onClick.calledWith('mock evt', true));
+
+        component.hideCalendar.restore();
+        component.showCalendar.restore();
+    });
+
+    it('should handle onClick disabled', () => {
+        const onClick = stub();
+        const component = TestUtils.createComponent(
+            <DatePicker disabled={true} onClick={onClick} />
+        );
+
+        stub(component, 'hideCalendar');
+        stub(component, 'showCalendar');
+
+        component.onClick('mock evt');
+        assert.equal(onClick.callCount, 0);
+        assert.equal(component.hideCalendar.callCount, 0);
+        assert.equal(component.showCalendar.callCount, 0);
 
         component.hideCalendar.restore();
         component.showCalendar.restore();
@@ -133,16 +151,15 @@ describe('DatePicker/DatePicker', () => {
         component.onDateClick(date, true, mockEvt);
         assert.equal(mockEvt.stopPropagation.callCount, 1);
         assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(onDateClick.callCount, 1);
+        assert.equal(onDateClick.callCount, 0);
         assert.equal(component.setState.callCount, 0);
-        assert.isTrue(onDateClick.calledWith(mockEvt, date, true));
 
         component.onDateClick(date, false, mockEvt);
         assert.equal(mockEvt.stopPropagation.callCount, 2);
         assert.equal(component.delayBlur.cancel.callCount, 2);
-        assert.equal(onDateClick.callCount, 2);
+        assert.equal(onDateClick.callCount, 1);
         assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onDateClick.calledWith(mockEvt, date, false));
+        assert.isTrue(onDateClick.calledWith(mockEvt, date));
         assert.isTrue(component.setState.calledWith({
             selectedMonth: new Date(2015, 1, 1),
             showCalendar: false,

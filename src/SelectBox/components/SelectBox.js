@@ -225,9 +225,9 @@ class SelectBox extends React.Component {
     }
 
     onClick(evt) {
-        this.props.onClick(evt, this.state.showDropDown, this.props.disabled);
-
         if (!this.props.disabled) {
+            this.props.onClick(evt, this.state.showDropDown);
+
             if (this.state.showDropDown) {
                 this.hideDropDown();
             } else {
