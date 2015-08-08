@@ -242,14 +242,14 @@ describe('SelectBox/SelectBox', () => {
         assert.equal(onClick.callCount, 1);
         assert.equal(component.showDropDown.callCount, 1);
         assert.equal(component.hideDropDown.callCount, 0);
-        assert.isTrue(onClick.calledWith('mock evt', false, false));
+        assert.isTrue(onClick.calledWith('mock evt', false));
 
         component.state.showDropDown = true;
         component.onClick('mock evt');
         assert.equal(onClick.callCount, 2);
         assert.equal(component.showDropDown.callCount, 1);
         assert.equal(component.hideDropDown.callCount, 1);
-        assert.isTrue(onClick.calledWith('mock evt', true, false));
+        assert.isTrue(onClick.calledWith('mock evt', true));
 
         component.hideDropDown.restore();
         component.showDropDown.restore();
@@ -272,17 +272,15 @@ describe('SelectBox/SelectBox', () => {
         );
 
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 1);
+        assert.equal(onClick.callCount, 0);
         assert.equal(component.showDropDown.callCount, 0);
         assert.equal(component.hideDropDown.callCount, 0);
-        assert.isTrue(onClick.calledWith('mock evt', false, true));
 
         component.state.showDropDown = true;
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 2);
+        assert.equal(onClick.callCount, 0);
         assert.equal(component.showDropDown.callCount, 0);
         assert.equal(component.hideDropDown.callCount, 0);
-        assert.isTrue(onClick.calledWith('mock evt', true, true));
 
         component.hideDropDown.restore();
         component.showDropDown.restore();

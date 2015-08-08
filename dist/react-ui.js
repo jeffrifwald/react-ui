@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.24",
+  "version": "0.4.25",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -543,13 +543,15 @@ var DatePicker = (function (_React$Component) {
         }
     }, {
         key: 'onClick',
-        value: function onClick() {
-            this.props.onClick(this.state.showCalendar);
+        value: function onClick(evt) {
+            if (!this.props.disabled) {
+                this.props.onClick(evt, this.state.showCalendar);
 
-            if (this.state.showCalendar) {
-                this.hideCalendar();
-            } else {
-                this.showCalendar();
+                if (this.state.showCalendar) {
+                    this.hideCalendar();
+                } else {
+                    this.showCalendar();
+                }
             }
         }
     }, {
@@ -563,9 +565,9 @@ var DatePicker = (function (_React$Component) {
         value: function onDateClick(date, disabled, evt) {
             evt.stopPropagation();
             this.delayBlur.cancel();
-            this.props.onDateClick(evt, date, disabled);
 
             if (!disabled) {
+                this.props.onDateClick(evt, date);
                 this.setState({
                     selectedMonth: this.getSelectedMonth(date),
                     showCalendar: false,
@@ -1797,9 +1799,9 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'onClick',
         value: function onClick(evt) {
-            this.props.onClick(evt, this.state.showDropDown, this.props.disabled);
-
             if (!this.props.disabled) {
+                this.props.onClick(evt, this.state.showDropDown);
+
                 if (this.state.showDropDown) {
                     this.hideDropDown();
                 } else {
