@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.26",
+  "version": "0.4.27",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1952,7 +1952,7 @@ var SelectBox = (function (_React$Component) {
             options = options || this.getOptions();
 
             return this.state.query ? options.filter(function (option) {
-                return option[_this3.props.displayProp].toLowerCase().includes(_this3.state.query);
+                return option[_this3.props.displayProp].toLowerCase().indexOf(_this3.state.query) >= 0;
             }) : options;
         }
     }, {
