@@ -36,9 +36,6 @@ class Calendar extends React.Component {
     }
 
     renderHeader() {
-        const date = this.props.selectedMonth;
-        const month = this.props.monthNames[date.getMonth()];
-        const title = `${month} ${date.getFullYear()}`;
         const headerClassName = getClassName(
             'react-ui-date-picker-calendar-header',
             this.props.calendarHeaderClassName
@@ -58,12 +55,56 @@ class Calendar extends React.Component {
                     <span className={previousClassName}></span>
                 </td>
 
-                <td colSpan={5}>{title}</td>
+                <td onClick={this.props.onCalendarMouseDown} colSpan={5}>
+                    {this.renderMonthSelector()}
+                    {this.renderYearSelector()}
+                </td>
 
                 <td onClick={this.props.onNextClick}>
                     <span className={nextClassName}></span>
                 </td>
             </tr>
+        );
+    }
+
+    renderMonthSelector() {
+        const date = this.props.selectedMonth;
+        const className = 'react-ui-date-picker-calendar-month-selector';
+        const monthName = this.props.monthNames[date.getMonth()];
+        const monthOptions = this.props.monthNames.map((name, i) => {
+            const selected = name === monthName;
+
+            return (
+                <option selected={selected} value={i}>
+                    {name}
+                </option>
+            );
+        });
+
+        return (
+            <select className={className} onChange={this.props.onChangeMonth}>
+                {monthOptions}
+            </select>
+        );
+    }
+
+    renderYearSelector() {
+        const date = this.props.selectedMonth;
+        const className = 'react-ui-date-picker-calendar-year-selector';
+        const yearOptions = this.getYears().map((year) => {
+            const selected = year === date.getFullYear();
+
+            return (
+                <option selected={selected} value={year}>
+                    {year}
+                </option>
+            );
+        });
+
+        return (
+            <select className={className} onChange={this.props.onChangeYear}>
+                {yearOptions}
+            </select>
         );
     }
 
@@ -169,6 +210,17 @@ class Calendar extends React.Component {
         }
 
         return date;
+    }
+
+    getYears() {
+        const years = [this.props.minValue.getFullYear()];
+        const maxYear = this.props.maxValue.getFullYear();
+
+        while (years[years.length - 1] < maxYear) {
+            years.push(years[years.length - 1] + 1);
+        }
+
+        return years;
     }
 
     isDateDisabled(date) {
