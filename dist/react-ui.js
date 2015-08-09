@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.25",
+  "version": "0.4.26",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -635,20 +635,20 @@ var DatePicker = (function (_React$Component) {
     }, {
         key: 'onChangeMonth',
         value: function onChangeMonth(evt) {
-            var selectedMonth = new Date(this.state.selectedMonth.getFullYear(), evt.target.options[evt.target.selectedIndex].value, 1);
             evt.stopPropagation();
             this.delayBlur.cancel();
-
-            this.setState({ selectedMonth: selectedMonth });
+            this.setState({
+                selectedMonth: new Date(this.state.selectedMonth.getFullYear(), evt.target.options[evt.target.selectedIndex].value, 1)
+            });
         }
     }, {
         key: 'onChangeYear',
         value: function onChangeYear(evt) {
-            var selectedMonth = new Date(evt.target.options[evt.target.selectedIndex].value, this.state.selectedMonth.getMonth(), 1);
             evt.stopPropagation();
             this.delayBlur.cancel();
-
-            this.setState({ selectedMonth: selectedMonth });
+            this.setState({
+                selectedMonth: new Date(evt.target.options[evt.target.selectedIndex].value, this.state.selectedMonth.getMonth(), 1)
+            });
         }
     }, {
         key: 'onNextClick',
