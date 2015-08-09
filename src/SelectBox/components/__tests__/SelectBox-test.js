@@ -203,6 +203,7 @@ describe('SelectBox/SelectBox', () => {
         assert.isTrue(component.setState.calledWith({
             highlightIndex: -1,
             showDropDown: false,
+            query: '',
             value: 'mock value'
         }));
 

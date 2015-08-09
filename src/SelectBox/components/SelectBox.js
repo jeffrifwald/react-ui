@@ -213,6 +213,7 @@ class SelectBox extends React.Component {
         this.setState({
             highlightIndex: -1,
             showDropDown: false,
+            query: '',
             value: option
         });
     }
