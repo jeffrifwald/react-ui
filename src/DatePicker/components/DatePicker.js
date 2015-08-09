@@ -32,6 +32,8 @@ class DatePicker extends React.Component {
             BLUR_DELAY_MS
         );
         this.onCalendarMouseDown = this.onCalendarMouseDown.bind(this);
+        this.onChangeMonth = this.onChangeMonth.bind(this);
+        this.onChangeYear = this.onChangeYear.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
         this.onDateClick = this.onDateClick.bind(this);
@@ -143,6 +145,8 @@ class DatePicker extends React.Component {
             {...this.props}
             {...this.state}
             onCalendarMouseDown={this.onCalendarMouseDown}
+            onChangeMonth={this.onChangeMonth}
+            onChangeYear={this.onChangeYear}
             onDateClick={this.onDateClick}
             onNextClick={this.onNextClick}
             onPreviousClick={this.onPreviousClick} />
@@ -188,6 +192,30 @@ class DatePicker extends React.Component {
                 value: date
             });
         }
+    }
+
+    onChangeMonth(evt) {
+        evt.stopPropagation();
+        this.delayBlur.cancel();
+        this.setState({
+            selectedMonth: new Date(
+                this.state.selectedMonth.getFullYear(),
+                evt.target.options[evt.target.selectedIndex].value,
+                1
+            )
+        });
+    }
+
+    onChangeYear(evt) {
+        evt.stopPropagation();
+        this.delayBlur.cancel();
+        this.setState({
+            selectedMonth: new Date(
+                evt.target.options[evt.target.selectedIndex].value,
+                this.state.selectedMonth.getMonth(),
+                1
+            )
+        });
     }
 
     onNextClick(evt) {
@@ -284,6 +312,8 @@ DatePicker.defaultProps = {
         'Thursday', 'Friday', 'Saturday'
     ],
     isDateDisabled: () => false,
+    maxValue: new Date(2100, 1, 1),
+    minValue: new Date(1900, 1, 1),
     monthNames: [
         'January', 'February', 'March', 'April',
         'May', 'June', 'July', 'August',

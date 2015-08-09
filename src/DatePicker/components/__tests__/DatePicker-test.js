@@ -169,6 +169,60 @@ describe('DatePicker/DatePicker', () => {
         component.setState.restore();
     });
 
+    it('should handle onChangeMonth', () => {
+        const mockEvt = {
+            stopPropagation: stub(),
+            target: {
+                options: [{value: 4}],
+                selectedIndex: 0
+            }
+        };
+        const date = new Date(2015, 1, 1);
+        const component = TestUtils.createComponent(
+            <DatePicker defaultValue={date} />
+        );
+
+        component.delayBlur = {cancel: stub()};
+        stub(component, 'setState');
+
+        component.onChangeMonth(mockEvt);
+        assert.equal(mockEvt.stopPropagation.callCount, 1);
+        assert.equal(component.delayBlur.cancel.callCount, 1);
+        assert.equal(component.setState.callCount, 1);
+        assert.isTrue(component.setState.calledWith({
+            selectedMonth: new Date(2015, 4, 1)
+        }));
+
+        component.setState.restore();
+    });
+
+    it('should handle onChangeYear', () => {
+        const mockEvt = {
+            stopPropagation: stub(),
+            target: {
+                options: [{value: 1987}],
+                selectedIndex: 0
+            }
+        };
+        const date = new Date(2015, 1, 1);
+        const component = TestUtils.createComponent(
+            <DatePicker defaultValue={date} />
+        );
+
+        component.delayBlur = {cancel: stub()};
+        stub(component, 'setState');
+
+        component.onChangeYear(mockEvt);
+        assert.equal(mockEvt.stopPropagation.callCount, 1);
+        assert.equal(component.delayBlur.cancel.callCount, 1);
+        assert.equal(component.setState.callCount, 1);
+        assert.isTrue(component.setState.calledWith({
+            selectedMonth: new Date(1987, 1, 1)
+        }));
+
+        component.setState.restore();
+    });
+
     it('should handle onNextClick', () => {
         const mockEvt = {stopPropagation: stub()};
         const date = new Date(2015, 0, 8);

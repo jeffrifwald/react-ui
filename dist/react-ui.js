@@ -262,9 +262,6 @@ var Calendar = (function (_React$Component) {
     }, {
         key: 'renderHeader',
         value: function renderHeader() {
-            var date = this.props.selectedMonth;
-            var month = this.props.monthNames[date.getMonth()];
-            var title = month + ' ' + date.getFullYear();
             var headerClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-header', this.props.calendarHeaderClassName);
             var previousClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-header-previous', this.props.calendarHeaderPreviousClassName);
             var nextClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-header-next', this.props.calendarHeaderNextClassName);
@@ -279,14 +276,58 @@ var Calendar = (function (_React$Component) {
                 ),
                 _react2['default'].createElement(
                     'td',
-                    { colSpan: 5 },
-                    title
+                    { onClick: this.props.onCalendarMouseDown, colSpan: 5 },
+                    this.renderMonthSelector(),
+                    this.renderYearSelector()
                 ),
                 _react2['default'].createElement(
                     'td',
                     { onClick: this.props.onNextClick },
                     _react2['default'].createElement('span', { className: nextClassName })
                 )
+            );
+        }
+    }, {
+        key: 'renderMonthSelector',
+        value: function renderMonthSelector() {
+            var date = this.props.selectedMonth;
+            var className = 'react-ui-date-picker-calendar-month-selector';
+            var monthName = this.props.monthNames[date.getMonth()];
+            var monthOptions = this.props.monthNames.map(function (name, i) {
+                var selected = name === monthName;
+
+                return _react2['default'].createElement(
+                    'option',
+                    { selected: selected, value: i },
+                    name
+                );
+            });
+
+            return _react2['default'].createElement(
+                'select',
+                { className: className, onChange: this.props.onChangeMonth },
+                monthOptions
+            );
+        }
+    }, {
+        key: 'renderYearSelector',
+        value: function renderYearSelector() {
+            var date = this.props.selectedMonth;
+            var className = 'react-ui-date-picker-calendar-year-selector';
+            var yearOptions = this.getYears().map(function (year) {
+                var selected = year === date.getFullYear();
+
+                return _react2['default'].createElement(
+                    'option',
+                    { selected: selected, value: year },
+                    year
+                );
+            });
+
+            return _react2['default'].createElement(
+                'select',
+                { className: className, onChange: this.props.onChangeYear },
+                yearOptions
             );
         }
     }, {
@@ -376,6 +417,18 @@ var Calendar = (function (_React$Component) {
             return date;
         }
     }, {
+        key: 'getYears',
+        value: function getYears() {
+            var years = [this.props.minValue.getFullYear()];
+            var maxYear = this.props.maxValue.getFullYear();
+
+            while (years[years.length - 1] < maxYear) {
+                years.push(years[years.length - 1] + 1);
+            }
+
+            return years;
+        }
+    }, {
         key: 'isDateDisabled',
         value: function isDateDisabled(date) {
             return this.props.isDateDisabled(date) || this.props.maxValue && date > this.props.maxValue || this.props.minValue && date < this.props.minValue;
@@ -439,6 +492,8 @@ var DatePicker = (function (_React$Component) {
         };
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
         this.onCalendarMouseDown = this.onCalendarMouseDown.bind(this);
+        this.onChangeMonth = this.onChangeMonth.bind(this);
+        this.onChangeYear = this.onChangeYear.bind(this);
         this.onClick = this.onClick.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
         this.onDateClick = this.onDateClick.bind(this);
@@ -525,6 +580,8 @@ var DatePicker = (function (_React$Component) {
         value: function renderCalendar() {
             return this.state.showCalendar ? _react2['default'].createElement(_Calendar2['default'], _extends({}, this.props, this.state, {
                 onCalendarMouseDown: this.onCalendarMouseDown,
+                onChangeMonth: this.onChangeMonth,
+                onChangeYear: this.onChangeYear,
                 onDateClick: this.onDateClick,
                 onNextClick: this.onNextClick,
                 onPreviousClick: this.onPreviousClick })) : null;
@@ -574,6 +631,24 @@ var DatePicker = (function (_React$Component) {
                     value: date
                 });
             }
+        }
+    }, {
+        key: 'onChangeMonth',
+        value: function onChangeMonth(evt) {
+            var selectedMonth = new Date(this.state.selectedMonth.getFullYear(), evt.target.options[evt.target.selectedIndex].value, 1);
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+
+            this.setState({ selectedMonth: selectedMonth });
+        }
+    }, {
+        key: 'onChangeYear',
+        value: function onChangeYear(evt) {
+            var selectedMonth = new Date(evt.target.options[evt.target.selectedIndex].value, this.state.selectedMonth.getMonth(), 1);
+            evt.stopPropagation();
+            this.delayBlur.cancel();
+
+            this.setState({ selectedMonth: selectedMonth });
         }
     }, {
         key: 'onNextClick',
@@ -669,6 +744,8 @@ DatePicker.defaultProps = {
     isDateDisabled: function isDateDisabled() {
         return false;
     },
+    maxValue: new Date(2100, 1, 1),
+    minValue: new Date(1900, 1, 1),
     monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     onClearClick: _utils.noop,
     onClick: _utils.noop,
