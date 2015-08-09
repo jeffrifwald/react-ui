@@ -296,9 +296,9 @@ class SelectBox extends React.Component {
         options = options || this.getOptions();
 
         return this.state.query ? options.filter(
-            option => option[this.props.displayProp].toLowerCase().includes(
+            option => option[this.props.displayProp].toLowerCase().indexOf(
                 this.state.query
-            )
+            ) >= 0
         ) : options;
     }
 
