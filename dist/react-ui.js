@@ -1862,6 +1862,7 @@ var SelectBox = (function (_React$Component) {
             this.setState({
                 highlightIndex: -1,
                 showDropDown: false,
+                query: '',
                 value: option
             });
         }
