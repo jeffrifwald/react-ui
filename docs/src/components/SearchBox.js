@@ -15,7 +15,7 @@ function parseResults(req) {
 
     return (
         results.filter(
-            (x) => x.toLowerCase().includes(query)
+            (x) => x.toLowerCase().indexOf(query) >= 0
         )
     );
 }
