@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.27",
+  "version": "0.4.28",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1862,6 +1862,7 @@ var SelectBox = (function (_React$Component) {
             this.setState({
                 highlightIndex: -1,
                 showDropDown: false,
+                query: '',
                 value: option
             });
         }
