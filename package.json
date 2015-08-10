@@ -34,7 +34,7 @@
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
-    "mingus": "0.0.8",
+    "mingus": "0.0.9",
     "mocha": "^2.2.5",
     "nib": "^1.1.0",
     "sinon": "^1.15.3",
