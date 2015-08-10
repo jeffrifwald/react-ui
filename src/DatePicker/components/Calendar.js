@@ -75,7 +75,7 @@ class Calendar extends React.Component {
             const selected = name === monthName;
 
             return (
-                <option selected={selected} value={i}>
+                <option key={i} selected={selected} value={i}>
                     {name}
                 </option>
             );
@@ -95,7 +95,7 @@ class Calendar extends React.Component {
             const selected = year === date.getFullYear();
 
             return (
-                <option selected={selected} value={year}>
+                <option key={year} selected={selected} value={year}>
                     {year}
                 </option>
             );
