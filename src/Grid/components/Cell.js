@@ -24,8 +24,11 @@ class Cell extends React.Component {
     renderData() {
         return (
             typeof this.props.column.render === 'function' ?
-            this.props.column.render(this.props.record) :
-            this.props.record[this.props.column.dataProp]
+            this.props.column.render(
+                this.props.record,
+                this.props.columIndex,
+                this.props.rowIndex
+            ) : this.props.record[this.props.column.dataProp]
         );
     }
 
