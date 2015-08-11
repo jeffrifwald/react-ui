@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.28",
+  "version": "0.4.29",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -30,8 +30,8 @@ module.exports={
     "build": "npm run build_dist && npm run build_docs",
     "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js && stylus src/style --out dist --use nib && cleancss dist/react-ui.css -o dist/react-ui.min.css",
     "build_docs": "browserify docs/src/index.js | uglifyjs -o static/js/index.min.js && stylus docs/style/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
-    "check_coverage": "babel-istanbul check-coverage .coverage/coverage.json",
-    "cover": "babel-node node_modules/.bin/babel-istanbul cover _mocha -- --recursive src",
+    "check_coverage": "mingus check-coverage .coverage/coverage.json",
+    "cover": "mingus cover -- --recursive src",
     "lint": "eslint src",
     "prepublish": "babel-node make.js",
     "test": "npm run lint && npm run cover && npm run check_coverage",
@@ -48,6 +48,7 @@ module.exports={
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
+    "mingus": "0.0.9",
     "mocha": "^2.2.5",
     "nib": "^1.1.0",
     "sinon": "^1.15.3",
@@ -85,9 +86,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -101,6 +102,8 @@ var _utils = require('../../utils');
  */
 
 var AjaxForm = (function (_React$Component) {
+    _inherits(AjaxForm, _React$Component);
+
     function AjaxForm() {
         _classCallCheck(this, AjaxForm);
 
@@ -113,8 +116,6 @@ var AjaxForm = (function (_React$Component) {
         this.onResponse = this.onResponse.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
-
-    _inherits(AjaxForm, _React$Component);
 
     _createClass(AjaxForm, [{
         key: 'render',
@@ -217,22 +218,22 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('../../utils');
 
 var Calendar = (function (_React$Component) {
+    _inherits(Calendar, _React$Component);
+
     function Calendar() {
         _classCallCheck(this, Calendar);
 
         _get(Object.getPrototypeOf(Calendar.prototype), 'constructor', this).apply(this, arguments);
     }
-
-    _inherits(Calendar, _React$Component);
 
     _createClass(Calendar, [{
         key: 'render',
@@ -298,7 +299,7 @@ var Calendar = (function (_React$Component) {
 
                 return _react2['default'].createElement(
                     'option',
-                    { selected: selected, value: i },
+                    { key: i, selected: selected, value: i },
                     name
                 );
             });
@@ -319,7 +320,7 @@ var Calendar = (function (_React$Component) {
 
                 return _react2['default'].createElement(
                     'option',
-                    { selected: selected, value: year },
+                    { key: year, selected: selected, value: year },
                     year
                 );
             });
@@ -460,9 +461,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -473,6 +474,8 @@ var _Calendar = require('./Calendar');
 var _Calendar2 = _interopRequireDefault(_Calendar);
 
 var DatePicker = (function (_React$Component) {
+    _inherits(DatePicker, _React$Component);
+
     function DatePicker() {
         _classCallCheck(this, DatePicker);
 
@@ -500,8 +503,6 @@ var DatePicker = (function (_React$Component) {
         this.onNextClick = this.onNextClick.bind(this);
         this.onPreviousClick = this.onPreviousClick.bind(this);
     }
-
-    _inherits(DatePicker, _React$Component);
 
     _createClass(DatePicker, [{
         key: 'componentWillUnmount',
@@ -790,9 +791,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -805,6 +806,8 @@ var _utils = require('../../utils');
  */
 
 var FileInput = (function (_React$Component) {
+    _inherits(FileInput, _React$Component);
+
     function FileInput() {
         _classCallCheck(this, FileInput);
 
@@ -819,8 +822,6 @@ var FileInput = (function (_React$Component) {
         this.onChooseClick = this.onChooseClick.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
     }
-
-    _inherits(FileInput, _React$Component);
 
     _createClass(FileInput, [{
         key: 'render',
@@ -990,15 +991,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('../../utils');
 
 var Cell = (function (_React$Component) {
+    _inherits(Cell, _React$Component);
+
     function Cell() {
         _classCallCheck(this, Cell);
 
@@ -1011,8 +1014,6 @@ var Cell = (function (_React$Component) {
         this.state = { numClicks: 0 };
         this.onClick = this.onClick.bind(this);
     }
-
-    _inherits(Cell, _React$Component);
 
     _createClass(Cell, [{
         key: 'render',
@@ -1028,7 +1029,7 @@ var Cell = (function (_React$Component) {
     }, {
         key: 'renderData',
         value: function renderData() {
-            return typeof this.props.column.render === 'function' ? this.props.column.render(this.props.record) : this.props.record[this.props.column.dataProp];
+            return typeof this.props.column.render === 'function' ? this.props.column.render(this.props.record, this.props.columIndex, this.props.rowIndex) : this.props.record[this.props.column.dataProp];
         }
     }, {
         key: 'onClick',
@@ -1074,9 +1075,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1091,6 +1092,8 @@ var _Row2 = _interopRequireDefault(_Row);
 var _utils = require('../../utils');
 
 var Grid = (function (_React$Component) {
+    _inherits(Grid, _React$Component);
+
     function Grid() {
         _classCallCheck(this, Grid);
 
@@ -1110,8 +1113,6 @@ var Grid = (function (_React$Component) {
         this.onHeaderClick = this.onHeaderClick.bind(this);
         this.onRowClick = this.onRowClick.bind(this);
     }
-
-    _inherits(Grid, _React$Component);
 
     _createClass(Grid, [{
         key: 'render',
@@ -1242,15 +1243,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('../../utils');
 
 var Header = (function (_React$Component) {
+    _inherits(Header, _React$Component);
+
     function Header() {
         _classCallCheck(this, Header);
 
@@ -1263,8 +1266,6 @@ var Header = (function (_React$Component) {
         this.state = { numClicks: 0 };
         this.onClick = this.onClick.bind(this);
     }
-
-    _inherits(Header, _React$Component);
 
     _createClass(Header, [{
         key: 'render',
@@ -1323,9 +1324,9 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
@@ -1336,6 +1337,8 @@ var _Cell2 = _interopRequireDefault(_Cell);
 var _utils = require('../../utils');
 
 var Row = (function (_React$Component) {
+    _inherits(Row, _React$Component);
+
     function Row() {
         _classCallCheck(this, Row);
 
@@ -1348,8 +1351,6 @@ var Row = (function (_React$Component) {
         this.state = { numClicks: 0 };
         this.onClick = this.onClick.bind(this);
     }
-
-    _inherits(Row, _React$Component);
 
     _createClass(Row, [{
         key: 'render',
@@ -1432,15 +1433,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('../../utils');
 
 var SearchBox = (function (_React$Component) {
+    _inherits(SearchBox, _React$Component);
+
     function SearchBox() {
         _classCallCheck(this, SearchBox);
 
@@ -1462,8 +1465,6 @@ var SearchBox = (function (_React$Component) {
         this.delaySearch = (0, _utils.debounce)(this.onSearch.bind(this), this.props.delay);
         this.canHideDropDown = true;
     }
-
-    _inherits(SearchBox, _React$Component);
 
     _createClass(SearchBox, [{
         key: 'componentWillUnmount',
@@ -1688,15 +1689,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('../../utils');
 
 var SelectBox = (function (_React$Component) {
+    _inherits(SelectBox, _React$Component);
+
     function SelectBox() {
         _classCallCheck(this, SelectBox);
 
@@ -1720,8 +1723,6 @@ var SelectBox = (function (_React$Component) {
         this.onClearClick = this.onClearClick.bind(this);
         this.canHideDropDown = true;
     }
-
-    _inherits(SelectBox, _React$Component);
 
     _createClass(SelectBox, [{
         key: 'componentWillUnmount',
@@ -2076,15 +2077,17 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'd
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var _react = (typeof window !== "undefined" ? window.React : typeof global !== "undefined" ? global.React : null);
+var _react = (typeof window !== "undefined" ? window['React'] : typeof global !== "undefined" ? global['React'] : null);
 
 var _react2 = _interopRequireDefault(_react);
 
 var _utils = require('../../utils');
 
 var Slider = (function (_React$Component) {
+    _inherits(Slider, _React$Component);
+
     function Slider() {
         _classCallCheck(this, Slider);
 
@@ -2108,8 +2111,6 @@ var Slider = (function (_React$Component) {
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
     }
-
-    _inherits(Slider, _React$Component);
 
     _createClass(Slider, [{
         key: 'render',
@@ -2210,8 +2211,8 @@ var Slider = (function (_React$Component) {
     }, {
         key: 'getBoundedValue',
         value: function getBoundedValue(value) {
-            var min = arguments[1] === undefined ? -Math.Infinity : arguments[1];
-            var max = arguments[2] === undefined ? Math.Infinity : arguments[2];
+            var min = arguments.length <= 1 || arguments[1] === undefined ? -Math.Infinity : arguments[1];
+            var max = arguments.length <= 2 || arguments[2] === undefined ? Math.Infinity : arguments[2];
 
             if (value < min) {
                 return min;
