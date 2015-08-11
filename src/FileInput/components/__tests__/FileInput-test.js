@@ -1,183 +1,162 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import FileInput from '../FileInput';
-import {TestUtils} from '../../../utils';
 
 
-describe('FileInput/FileInput', () => {
-    it('should render the correct top level elements', () => {
-        const rendered = TestUtils.createComponent(
+Mingus.createTestCase('FileInputTest', {
+    testRender() {
+        const rendered = this.renderComponent(
             <FileInput className="test-file-input" />
-        ).render();
-
-        assert.equal(rendered.type, 'div');
-        assert.equal(rendered.props.children.length, 4);
-        assert.equal(
-            rendered.props.className,
-            'react-ui-file-input test-file-input'
         );
-    });
 
-    it('should render a hidden file input', () => {
-        const component = TestUtils.createComponent(
+        this.assertIsType(rendered, 'div');
+        this.assertHasClass(rendered, 'react-ui-file-input test-file-input');
+        this.assertNumChildren(rendered, 4);
+    },
+
+    testRenderHiddenFileInput() {
+        const component = this.createComponent(
             <FileInput name="photo" />
         );
         const rendered = component.render();
-        const input = rendered.props.children[0];
+        const input = this.getChildren(rendered)[0];
 
-        assert.equal(input.type, 'input');
-        assert.equal(input.props.type, 'file');
-        assert.equal(input.props.name, 'photo');
-        assert.equal(input.props.style.display, 'none');
-        assert.equal(input.props.onChange, component.onChange);
-    });
+        this.assertIsType(input, 'input');
+        this.assertEqual(input.props.type, 'file');
+        this.assertEqual(input.props.name, 'photo');
+        this.assertEqual(input.props.style.display, 'none');
+        this.assertEqual(input.props.onChange, component.onChange);
+    },
 
-    it('should render a choose button', () => {
-        const component = TestUtils.createComponent(
+    testRenderChooseButton() {
+        const component = this.createComponent(
             <FileInput chooseClassName="cool-btn" />
         );
         const rendered = component.render();
-        const button = rendered.props.children[1];
+        const button = this.getChildren(rendered)[1];
 
-        assert.equal(button.type, 'button');
-        assert.equal(
-            button.props.className,
-            'react-ui-file-input-choose cool-btn'
-        );
-        assert.equal(button.props.onClick, component.onChooseClick);
-    });
+        this.assertIsType(button, 'button');
+        this.assertHasClass(button, 'react-ui-file-input-choose cool-btn');
+        this.assertEqual(button.props.onClick, component.onChooseClick);
+    },
 
-    it('should render a clear button', () => {
-        const component = TestUtils.createComponent(
+    testRenderClearButton() {
+        const component = this.createComponent(
             <FileInput clearClassName="neat-btn" />
         );
         const rendered = component.render();
-        const button = rendered.props.children[2];
+        const button = this.getChildren(rendered)[2];
 
-        assert.equal(button.type, 'button');
-        assert.equal(
-            button.props.className,
-            'react-ui-file-input-clear neat-btn'
-        );
-        assert.equal(button.props.onClick, component.onClearClick);
-    });
+        this.assertIsType(button, 'button');
+        this.assertHasClass(button, 'react-ui-file-input-clear neat-btn');
+        this.assertEqual(button.props.onClick, component.onClearClick);
+    },
 
-    it('should render a readonly text input', () => {
-        const component = TestUtils.createComponent(
-            <FileInput
-            clearClassName="neat-btn"
-            placeholder="neat.png" />
+    testRenderTextInput() {
+        const component = this.createComponent(
+            <FileInput placeholder="neat.png" />
         );
         const rendered = component.render();
-        const input = rendered.props.children[3];
+        const input = this.getChildren(rendered)[3];
 
-        assert.equal(input.type, 'input');
-        assert.equal(input.props.type, 'text');
-        assert.equal(input.props.placeholder, 'neat.png');
-        assert.equal(input.props.onClick, component.onChooseClick);
-        assert.isTrue(input.props.readOnly);
-    });
+        this.assertIsType(input, 'input');
+        this.assertEqual(input.props.type, 'text');
+        this.assertEqual(input.props.placeholder, 'neat.png');
+        this.assertEqual(input.props.onClick, component.onChooseClick);
+        this.assertTrue(input.props.readOnly);
+    },
 
-    it('should disable inputs', () => {
-        const rendered = TestUtils.createComponent(
-            <FileInput
-            disabled={true} />
-        ).render();
-        const inputs = rendered.props.children;
+    testDisabledInputs() {
+        const rendered = this.renderComponent(
+            <FileInput disabled={true} />
+        );
+        const children = this.getChildren(rendered);
 
-        inputs.forEach((input) => assert.isTrue(input.props.disabled));
-    });
+        children.forEach((child) => this.assertTrue(child.props.disabled));
+    },
 
-    it('should hide inputs', () => {
-        const rendered = TestUtils.createComponent(
+    testHiddenControls() {
+        const rendered = this.renderComponent(
             <FileInput
             showChooseButton={false}
             showClearButton={false}
             showInput={false} />
-        ).render();
+        );
+        const children = this.getChildren(rendered);
 
-        assert.equal(rendered.props.children[0].type, 'input');
-        assert.isNull(rendered.props.children[1]);
-        assert.isNull(rendered.props.children[2]);
-        assert.isNull(rendered.props.children[3]);
-    });
+        this.assertNull(children[1]);
+        this.assertNull(children[2]);
+        this.assertNull(children[3]);
+        this.assertNotNull(children[0], 'input');
+    },
 
-    it('should handle onChange', () => {
-        const onChange = stub();
-        const evt = {target: {value: 'path\\cool.jpg'}};
-        const component = TestUtils.createComponent(
+    testOnChange() {
+        const onChange = this.stub();
+        const mockEvt = {target: {value: 'path\\cool.jpg'}};
+        const component = this.createComponent(
             <FileInput onChange={onChange} />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
-        component.onChange(evt);
-        assert.equal(onChange.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onChange.calledWith(evt, 'cool.jpg'));
-        assert.isTrue(component.setState.calledWith({
+        component.onChange(mockEvt);
+        this.assertEqual(onChange.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(onChange.calledWith(mockEvt, 'cool.jpg'));
+        this.assertTrue(component.setState.calledWith({
             inputDisplay: 'cool.jpg'
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onChooseClick', () => {
-        const onChooseClick = stub();
-        const evt = {preventDefault: stub()};
-        const node = {click: stub()};
-        const component = TestUtils.createComponent(
+    testOnChooseClick() {
+        const onChooseClick = this.stub();
+        const mockEvt = {preventDefault: this.stub()};
+        const node = {click: this.stub()};
+        const component = this.createComponent(
             <FileInput onChooseClick={onChooseClick} />
         );
 
         component.refs = {fileInput: 'mock ref'};
-        stub(React, 'findDOMNode', () => node);
+        this.stub(React, 'findDOMNode', () => node);
 
-        component.onChooseClick(evt);
-        assert.equal(evt.preventDefault.callCount, 1);
-        assert.equal(onChooseClick.callCount, 1);
-        assert.equal(React.findDOMNode.callCount, 1);
-        assert.equal(node.click.callCount, 1);
-        assert.isTrue(onChooseClick.calledWith(evt));
-        assert.isTrue(React.findDOMNode.calledWith('mock ref'));
+        component.onChooseClick(mockEvt);
+        this.assertEqual(mockEvt.preventDefault.callCount, 1);
+        this.assertEqual(onChooseClick.callCount, 1);
+        this.assertEqual(React.findDOMNode.callCount, 1);
+        this.assertEqual(node.click.callCount, 1);
+        this.assertTrue(onChooseClick.calledWith(mockEvt));
+        this.assertTrue(React.findDOMNode.calledWith('mock ref'));
+    },
 
-        React.findDOMNode.restore();
-    });
-
-    it('should handle onClearClick', () => {
-        const onClearClick = stub();
-        const evt = {preventDefault: stub()};
-        const component = TestUtils.createComponent(
+    testOnClearClick() {
+        const onClearClick = this.stub();
+        const mockEvt = {preventDefault: this.stub()};
+        const component = this.createComponent(
             <FileInput onClearClick={onClearClick} />
         );
 
-        stub(component, 'clear');
+        this.stub(component, 'clear');
 
-        component.onClearClick(evt);
-        assert.equal(evt.preventDefault.callCount, 1);
-        assert.equal(onClearClick.callCount, 1);
-        assert.equal(component.clear.callCount, 1);
-        assert.isTrue(onClearClick.calledWith(evt));
+        component.onClearClick(mockEvt);
+        this.assertEqual(mockEvt.preventDefault.callCount, 1);
+        this.assertEqual(onClearClick.callCount, 1);
+        this.assertEqual(component.clear.callCount, 1);
+        this.assertTrue(onClearClick.calledWith(mockEvt));
+    },
 
-        component.clear.restore();
-    });
-
-    it('should clear', () => {
-        const component = TestUtils.createComponent(
+    testClear() {
+        const component = this.createComponent(
             <FileInput />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.clear();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             inputDisplay: '',
             inputKey: component.state.inputKey + 1
         }));
-
-        component.setState.restore();
-    });
+    }
 });
