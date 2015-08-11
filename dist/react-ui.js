@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.29",
+  "version": "0.4.30",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -1029,7 +1029,7 @@ var Cell = (function (_React$Component) {
     }, {
         key: 'renderData',
         value: function renderData() {
-            return typeof this.props.column.render === 'function' ? this.props.column.render(this.props.record, this.props.columIndex, this.props.rowIndex) : this.props.record[this.props.column.dataProp];
+            return typeof this.props.column.render === 'function' ? this.props.column.render(this.props.record, this.props.columnIndex, this.props.rowIndex) : this.props.record[this.props.column.dataProp];
         }
     }, {
         key: 'onClick',
@@ -1372,7 +1372,8 @@ var Row = (function (_React$Component) {
                 return _react2['default'].createElement(_Cell2['default'], _extends({}, _this.props, {
                     column: column,
                     columnIndex: i,
-                    key: i }));
+                    key: i,
+                    rowIndex: _this.props.rowIndex }));
             });
         }
     }, {

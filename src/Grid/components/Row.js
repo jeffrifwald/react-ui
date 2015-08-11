@@ -28,7 +28,8 @@ class Row extends React.Component {
             {...this.props}
             column={column}
             columnIndex={i}
-            key={i} />
+            key={i}
+            rowIndex={this.props.rowIndex} />
         ));
     }
 
