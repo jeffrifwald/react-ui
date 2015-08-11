@@ -32,7 +32,6 @@ describe('Grid/Cell', () => {
             rowIndex={4} />
         ).render();
 
-
         assert.equal(rendered.props.children.type, 'div');
         assert.equal(
             rendered.props.children.props.children,
