@@ -10,8 +10,12 @@ export default {
         dataProp: 'name',
         name: 'Name',
         nameTooltip: 'This is the user\'s name',
-        render(record) {
-            const message = `My name is ${record.name}.`;
+        render(record, column, row) {
+            const message = (
+                `My name is ${record.name} - ` +
+                `column: ${column} ` +
+                `row: ${row}`
+            );
 
             return (
                 <div>

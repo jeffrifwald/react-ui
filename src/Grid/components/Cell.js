@@ -26,7 +26,7 @@ class Cell extends React.Component {
             typeof this.props.column.render === 'function' ?
             this.props.column.render(
                 this.props.record,
-                this.props.columIndex,
+                this.props.columnIndex,
                 this.props.rowIndex
             ) : this.props.record[this.props.column.dataProp]
         );

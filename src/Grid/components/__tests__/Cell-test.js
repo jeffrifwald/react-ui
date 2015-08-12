@@ -27,14 +27,15 @@ describe('Grid/Cell', () => {
             activeCell={[0, 0]}
             columns={fixtures.columns}
             column={fixtures.columns[1]}
-            record={fixtures.data[0]} />
+            columnIndex={5}
+            record={fixtures.data[0]}
+            rowIndex={4} />
         ).render();
-
 
         assert.equal(rendered.props.children.type, 'div');
         assert.equal(
             rendered.props.children.props.children,
-            'My name is Cool McCool.'
+            'My name is Cool McCool - column: 5 row: 4'
         );
     });
 

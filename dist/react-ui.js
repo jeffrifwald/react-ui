@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.29",
+  "version": "0.4.31",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -293,20 +293,21 @@ var Calendar = (function (_React$Component) {
         value: function renderMonthSelector() {
             var date = this.props.selectedMonth;
             var className = 'react-ui-date-picker-calendar-month-selector';
-            var monthName = this.props.monthNames[date.getMonth()];
             var monthOptions = this.props.monthNames.map(function (name, i) {
-                var selected = name === monthName;
-
                 return _react2['default'].createElement(
                     'option',
-                    { key: i, selected: selected, value: i },
+                    { key: i, value: i },
                     name
                 );
             });
 
             return _react2['default'].createElement(
                 'select',
-                { className: className, onChange: this.props.onChangeMonth },
+                {
+                    className: className,
+                    onChange: this.props.onChangeMonth,
+                    onMouseDown: this.props.onCalendarMouseDown,
+                    value: date.getMonth() },
                 monthOptions
             );
         }
@@ -315,19 +316,21 @@ var Calendar = (function (_React$Component) {
         value: function renderYearSelector() {
             var date = this.props.selectedMonth;
             var className = 'react-ui-date-picker-calendar-year-selector';
-            var yearOptions = this.getYears().map(function (year) {
-                var selected = year === date.getFullYear();
-
+            var yearOptions = this.getYears().map(function (year, i) {
                 return _react2['default'].createElement(
                     'option',
-                    { key: year, selected: selected, value: year },
+                    { key: i, value: year },
                     year
                 );
             });
 
             return _react2['default'].createElement(
                 'select',
-                { className: className, onChange: this.props.onChangeYear },
+                {
+                    className: className,
+                    onChange: this.props.onChangeYear,
+                    onMouseDown: this.props.onCalendarMouseDown,
+                    value: date.getFullYear() },
                 yearOptions
             );
         }
@@ -1029,7 +1032,7 @@ var Cell = (function (_React$Component) {
     }, {
         key: 'renderData',
         value: function renderData() {
-            return typeof this.props.column.render === 'function' ? this.props.column.render(this.props.record, this.props.columIndex, this.props.rowIndex) : this.props.record[this.props.column.dataProp];
+            return typeof this.props.column.render === 'function' ? this.props.column.render(this.props.record, this.props.columnIndex, this.props.rowIndex) : this.props.record[this.props.column.dataProp];
         }
     }, {
         key: 'onClick',
@@ -1372,7 +1375,8 @@ var Row = (function (_React$Component) {
                 return _react2['default'].createElement(_Cell2['default'], _extends({}, _this.props, {
                     column: column,
                     columnIndex: i,
-                    key: i }));
+                    key: i,
+                    rowIndex: _this.props.rowIndex }));
             });
         }
     }, {
