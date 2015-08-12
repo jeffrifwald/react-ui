@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.30",
+  "version": "0.4.31",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
