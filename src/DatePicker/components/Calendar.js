@@ -70,19 +70,18 @@ class Calendar extends React.Component {
     renderMonthSelector() {
         const date = this.props.selectedMonth;
         const className = 'react-ui-date-picker-calendar-month-selector';
-        const monthName = this.props.monthNames[date.getMonth()];
-        const monthOptions = this.props.monthNames.map((name, i) => {
-            const selected = name === monthName;
-
-            return (
-                <option key={i} selected={selected} value={i}>
-                    {name}
-                </option>
-            );
-        });
+        const monthOptions = this.props.monthNames.map((name, i) => (
+            <option key={i} value={i}>
+                {name}
+            </option>
+        ));
 
         return (
-            <select className={className} onChange={this.props.onChangeMonth}>
+            <select
+            className={className}
+            onChange={this.props.onChangeMonth}
+            onMouseDown={this.props.onCalendarMouseDown}
+            value={date.getMonth()}>
                 {monthOptions}
             </select>
         );
@@ -91,18 +90,18 @@ class Calendar extends React.Component {
     renderYearSelector() {
         const date = this.props.selectedMonth;
         const className = 'react-ui-date-picker-calendar-year-selector';
-        const yearOptions = this.getYears().map((year) => {
-            const selected = year === date.getFullYear();
-
-            return (
-                <option key={year} selected={selected} value={year}>
-                    {year}
-                </option>
-            );
-        });
+        const yearOptions = this.getYears().map((year, i) => (
+            <option key={i} value={year}>
+                {year}
+            </option>
+        ));
 
         return (
-            <select className={className} onChange={this.props.onChangeYear}>
+            <select
+            className={className}
+            onChange={this.props.onChangeYear}
+            onMouseDown={this.props.onCalendarMouseDown}
+            value={date.getFullYear()}>
                 {yearOptions}
             </select>
         );
