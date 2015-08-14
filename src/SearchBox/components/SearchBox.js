@@ -137,7 +137,7 @@ class SearchBox extends React.Component {
     }
 
     onResponse(err, req) {
-        const results = this.props.parseResults(req) || [];
+        const results = this.parseResults(req) || [];
 
         this.props.onResponse(err, req, results);
         this.setState({
@@ -181,6 +181,10 @@ class SearchBox extends React.Component {
 
     showDropDown() {
         this.setState({showDropDown: true});
+    }
+
+    parseResults(req) {
+        return this.props.parseResults(req);
     }
 }
 
