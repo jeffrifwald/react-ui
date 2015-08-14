@@ -1,52 +1,51 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import SelectBox from '../SelectBox';
-import {KEY_CODES, TestUtils} from '../../../utils';
+import {KEY_CODES} from '../../../utils';
 
-describe('SelectBox/SelectBox', () => {
-    it('should render the correct top level elements', () => {
-        const rendered = TestUtils.createComponent(
+
+Mingus.createTestCase('SelectBoxTest', {
+    testRender() {
+        const rendered = this.renderComponent(
             <SelectBox>
                 <option>1</option>
             </SelectBox>
-        ).render();
+        );
 
-        assert.equal(rendered.type, 'div');
-        assert.equal(rendered.props.className, 'react-ui-select-box');
-        assert.equal(rendered.props.children.length, 2);
-    });
+        this.assertIsType(rendered, 'div');
+        this.assertHasClass(rendered, 'react-ui-select-box');
+        this.assertNumChildren(rendered, 2);
+    },
 
-    it('should cancel timeouts when unmounted', () => {
-        const component = TestUtils.createComponent(<SelectBox />);
+    testComponentWillUnMount() {
+        const component = this.createComponent(<SelectBox />);
 
-        component.delayBlur = {cancel: stub()};
-        component.delaySearch = {cancel: stub()};
+        component.delayBlur = {cancel: this.stub()};
+        component.delaySearch = {cancel: this.stub()};
 
         component.componentWillUnmount();
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(component.delaySearch.cancel.callCount, 1);
-    });
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(component.delaySearch.cancel.callCount, 1);
+    },
 
-    it('should render a value', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
+    testRenderValue() {
+        const component = this.createComponent(<SelectBox />);
 
         component.state.value = {display: 'Cool', value: 55};
 
         const renderedValue = component.renderValue();
+        const renderedChildren = this.getChildren(renderedValue);
 
-        assert.equal(renderedValue.type, 'span');
-        assert.equal(renderedValue.props.children[0].type, 'input');
-        assert.equal(renderedValue.props.children[0].props.value, 55);
-        assert.equal(renderedValue.props.children[1], 'Cool');
-    });
+        this.assertIsType(renderedValue, 'span');
+        this.assertIsType(renderedChildren[0], 'input');
+        this.assertEqual(renderedChildren[0].props.value, 55);
+        this.assertEqual(renderedChildren[1], 'Cool');
+    },
 
-    it('should not render a search box under the threshold', () => {
+    testRenderSearch() {
         const options = [{display: 1, value: 1}, {display: 2, value: 2}];
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <SelectBox searchThreshold={1}>
                 <option>1</option>
                 <option>2</option>
@@ -54,12 +53,25 @@ describe('SelectBox/SelectBox', () => {
         );
         const search = component.renderSearch(options);
 
-        assert.equal(search.type, 'div');
-        assert.equal(search.props.children.type, 'input');
-    });
+        this.assertIsType(search, 'div');
+        this.assertIsType(this.getChildren(search)[0], 'input');
+        this.assertNumChildren(search, 1);
+    },
 
-    it('should render with an open drop down', () => {
-        const component = TestUtils.createComponent(
+    testRenderSearchUnderThreshold() {
+        const options = [{display: 1, value: 1}, {display: 2, value: 2}];
+        const component = this.createComponent(
+            <SelectBox searchThreshold={5}>
+                <option>1</option>
+                <option>2</option>
+            </SelectBox>
+        );
+
+        this.assertNull(component.renderSearch(options));
+    },
+
+    testRenderOpen() {
+        const component = this.createComponent(
             <SelectBox>
                 <option>1</option>
             </SelectBox>
@@ -69,14 +81,14 @@ describe('SelectBox/SelectBox', () => {
 
         const rendered = component.render();
 
-        assert.equal(
-            rendered.props.className,
+        this.assertHasClass(
+            rendered,
             'react-ui-select-box react-ui-select-box-open'
         );
-    });
+    },
 
-    it('should render with an open drop down with one child', () => {
-        const component = TestUtils.createComponent(
+    testRenderDropDownOneChild() {
+        const component = this.createComponent(
             <SelectBox>
                 <option>1</option>
             </SelectBox>
@@ -85,14 +97,15 @@ describe('SelectBox/SelectBox', () => {
         component.state.showDropDown = true;
 
         const renderedDropDown = component.renderDropDown();
-        const renderedOptions = renderedDropDown.props.children[1];
+        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[1];
+        const renderedOptions = this.getChildren(renderedOptionsWrapper);
 
-        assert.equal(renderedOptions.props.children.length, 1);
-        assert.equal(renderedOptions.props.children[0].props.children, '1');
-    });
+        this.assertNumChildren(renderedOptionsWrapper, 1);
+        this.assertText(renderedOptions[0], '1');
+    },
 
-    it('should render with an open drop down with many children', () => {
-        const component = TestUtils.createComponent(
+    testRenderDropDownManyChildren() {
+        const component = this.createComponent(
             <SelectBox>
                 <option>1</option>
                 <option>2</option>
@@ -102,19 +115,20 @@ describe('SelectBox/SelectBox', () => {
         component.state.showDropDown = true;
 
         const renderedDropDown = component.renderDropDown();
-        const renderedOptions = renderedDropDown.props.children[1];
+        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[1];
+        const renderedOptions = this.getChildren(renderedOptionsWrapper);
 
-        assert.equal(renderedOptions.props.children.length, 2);
-        assert.equal(renderedOptions.props.children[0].props.children, '1');
-        assert.equal(renderedOptions.props.children[1].props.children, '2');
-    });
+        this.assertNumChildren(renderedOptionsWrapper, 2);
+        this.assertText(renderedOptions[0], '1');
+        this.assertText(renderedOptions[1], '2');
+    },
 
-    it('should render with an open drop down with an array of children', () => {
+    testRenderDropDownChildArray() {
         const options = [
             (<option key={0}>1</option>),
             (<option key={1}>2</option>)
         ];
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <SelectBox>
                 {options}
             </SelectBox>
@@ -123,15 +137,16 @@ describe('SelectBox/SelectBox', () => {
         component.state.showDropDown = true;
 
         const renderedDropDown = component.renderDropDown();
-        const renderedOptions = renderedDropDown.props.children[1];
+        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[1];
+        const renderedOptions = this.getChildren(renderedOptionsWrapper);
 
-        assert.equal(renderedOptions.props.children.length, 2);
-        assert.equal(renderedOptions.props.children[0].props.children, '1');
-        assert.equal(renderedOptions.props.children[1].props.children, '2');
-    });
+        this.assertNumChildren(renderedOptionsWrapper, 2);
+        this.assertText(renderedOptions[0], '1');
+        this.assertText(renderedOptions[1], '2');
+    },
 
-    it('should render with an open drop down with no children', () => {
-        const component = TestUtils.createComponent(
+    testRenderDropDownNoChildren() {
+        const component = this.createComponent(
             <SelectBox />
         );
 
@@ -139,30 +154,29 @@ describe('SelectBox/SelectBox', () => {
 
         const renderedDropDown = component.renderDropDown();
 
-        assert.isNull(renderedDropDown.props.children[0]);
-    });
+        this.assertNull(this.getChildren(renderedDropDown)[0]);
+    },
 
-    it('should render a clear button', () => {
-        const component = TestUtils.createComponent(
+    testRenderClearButton() {
+        const component = this.createComponent(
             <SelectBox />
         );
 
-        assert.isNull(component.renderClear());
-
+        this.assertNull(component.renderClear());
         component.state.value = 'mock value';
 
         const clear = component.renderClear();
 
-        assert.equal(clear.props.className, 'react-ui-select-box-clear');
-        assert.equal(clear.props.onClick, component.onClearClick);
-    });
+        this.assertHasClass(clear, 'react-ui-select-box-clear');
+        this.assertEqual(clear.props.onClick, component.onClearClick);
+    },
 
-    it('should render options', () => {
+    testRenderOptions() {
         const options = [
             {display: 'A', value: 'A'},
             {display: 'B', value: 'B'}
         ];
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <SelectBox>
                 <option>A</option>
                 <option>B</option>
@@ -174,230 +188,211 @@ describe('SelectBox/SelectBox', () => {
 
         const renderedOptions = component.renderOptions(options);
 
-        assert.equal(renderedOptions.length, 2);
-        assert.equal(
-            renderedOptions[0].props.className,
+        this.assertEqual(renderedOptions.length, 2);
+        this.assertHasClass(
+            renderedOptions[0],
             'react-ui-select-box-option react-ui-select-box-option-highlighted'
         );
-        assert.equal(
-            renderedOptions[1].props.className,
+        this.assertHasClass(
+            renderedOptions[1],
             'react-ui-select-box-option react-ui-select-box-option-selected'
         );
-    });
+    },
 
-    it('should handle onChange', () => {
-        const onChange = stub();
-        const component = TestUtils.createComponent(
+    testOnChange() {
+        const onChange = this.stub();
+        const component = this.createComponent(
             <SelectBox onChange={onChange} />
         );
-        const mockEvt = {stopPropagation: stub()};
+        const mockEvt = {stopPropagation: this.stub()};
 
-        component.delayBlur = {cancel: stub()};
-        stub(component, 'setState');
+        component.delayBlur = {cancel: this.stub()};
+        this.stub(component, 'setState');
 
         component.onChange('mock value', mockEvt);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(onChange.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onChange.calledWith(mockEvt, 'mock value'));
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(onChange.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(onChange.calledWith(mockEvt, 'mock value'));
+        this.assertTrue(component.setState.calledWith({
             highlightIndex: -1,
             showDropDown: false,
             query: '',
             value: 'mock value'
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onClearClick', () => {
-        const onClearClick = stub();
-        const component = TestUtils.createComponent(
+    testOnClearClick() {
+        const onClearClick = this.stub();
+        const component = this.createComponent(
             <SelectBox onClearClick={onClearClick} />
         );
-        const mockEvt = {stopPropagation: stub()};
+        const mockEvt = {stopPropagation: this.stub()};
 
-        stub(component, 'clear');
-        component.delayBlur = {cancel: stub()};
+        this.stub(component, 'clear');
+        component.delayBlur = {cancel: this.stub()};
 
         component.onClearClick(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(onClearClick.callCount, 1);
-        assert.equal(component.clear.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.isTrue(onClearClick.calledWith(mockEvt));
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(onClearClick.callCount, 1);
+        this.assertEqual(component.clear.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertTrue(onClearClick.calledWith(mockEvt));
+    },
 
-        component.clear.restore();
-    });
-
-    it('should handle onClick', () => {
-        const onClick = stub();
-        const component = TestUtils.createComponent(
+    testOnClick() {
+        const onClick = this.stub();
+        const component = this.createComponent(
             <SelectBox onClick={onClick} />
         );
 
-        stub(component, 'hideDropDown');
-        stub(component, 'showDropDown');
+        this.stub(component, 'hideDropDown');
+        this.stub(component, 'showDropDown');
 
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 1);
-        assert.equal(component.showDropDown.callCount, 1);
-        assert.equal(component.hideDropDown.callCount, 0);
-        assert.isTrue(onClick.calledWith('mock evt', false));
+        this.assertEqual(onClick.callCount, 1);
+        this.assertEqual(component.showDropDown.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 0);
+        this.assertTrue(onClick.calledWith('mock evt', false));
 
         component.state.showDropDown = true;
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 2);
-        assert.equal(component.showDropDown.callCount, 1);
-        assert.equal(component.hideDropDown.callCount, 1);
-        assert.isTrue(onClick.calledWith('mock evt', true));
+        this.assertEqual(onClick.callCount, 2);
+        this.assertEqual(component.showDropDown.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
+        this.assertTrue(onClick.calledWith('mock evt', true));
+    },
 
-        component.hideDropDown.restore();
-        component.showDropDown.restore();
-    });
-
-    it('should handle onClick disabled', () => {
-        const onClick = stub();
-        const component = TestUtils.createComponent(
+    testOnClickDisabled() {
+        const onClick = this.stub();
+        const component = this.createComponent(
             <SelectBox disabled={true} onClick={onClick} />
         );
 
-        stub(component, 'hideDropDown');
-        stub(component, 'showDropDown');
+        this.stub(component, 'hideDropDown');
+        this.stub(component, 'showDropDown');
 
         const rendered = component.render();
 
-        assert.equal(
-            rendered.props.className,
+        this.assertHasClass(
+            rendered,
             'react-ui-select-box react-ui-select-box-disabled'
         );
 
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 0);
-        assert.equal(component.showDropDown.callCount, 0);
-        assert.equal(component.hideDropDown.callCount, 0);
+        this.assertEqual(onClick.callCount, 0);
+        this.assertEqual(component.showDropDown.callCount, 0);
+        this.assertEqual(component.hideDropDown.callCount, 0);
 
         component.state.showDropDown = true;
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 0);
-        assert.equal(component.showDropDown.callCount, 0);
-        assert.equal(component.hideDropDown.callCount, 0);
+        this.assertEqual(onClick.callCount, 0);
+        this.assertEqual(component.showDropDown.callCount, 0);
+        this.assertEqual(component.hideDropDown.callCount, 0);
+    },
 
-        component.hideDropDown.restore();
-        component.showDropDown.restore();
-    });
+    testOnDropDownMouseDown() {
+        const component = this.createComponent(<SelectBox />);
 
-    it('should handle onDropDownMouseDown and onDropDownMouseUp', () => {
-        const component = TestUtils.createComponent(<SelectBox />);
-
-        assert.isTrue(component.canHideDropDown);
+        component.canHideDropDown = true;
         component.onDropDownMouseDown();
-        assert.isFalse(component.canHideDropDown);
+        this.assertFalse(component.canHideDropDown);
+    },
+
+    testOnDropDownMouseUp() {
+        const component = this.createComponent(<SelectBox />);
+
+        component.canHideDropDown = false;
         component.onDropDownMouseUp();
-        assert.isTrue(component.canHideDropDown);
-    });
+        this.assertTrue(component.canHideDropDown);
+    },
 
-    it('should handle onBlur', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
+    testOnBlur() {
+        const component = this.createComponent(<SelectBox />);
 
-        stub(component, 'hideDropDown');
-        stub(component, 'clearQuery');
+        this.stub(component, 'hideDropDown');
+        this.stub(component, 'clearQuery');
 
         component.onBlur();
-        assert.equal(component.hideDropDown.callCount, 1);
-        assert.equal(component.clearQuery.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
+        this.assertEqual(component.clearQuery.callCount, 1);
 
         component.canHideDropDown = false;
         component.onBlur();
-        assert.equal(component.hideDropDown.callCount, 1);
-        assert.equal(component.clearQuery.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
+        this.assertEqual(component.clearQuery.callCount, 1);
+    },
 
-        component.hideDropDown.restore();
-        component.clearQuery.restore();
-    });
-
-    it('should handle onSearch', () => {
-        const onSearch = stub();
-        const component = TestUtils.createComponent(
+    testOnSearch() {
+        const onSearch = this.stub();
+        const component = this.createComponent(
             <SelectBox onSearch={onSearch} />
         );
         const mockNode = {value: 'Mock Value'};
 
-        stub(React, 'findDOMNode');
-        stub(component, 'setState');
+        this.stub(React, 'findDOMNode', () => mockNode);
+        this.stub(component, 'setState');
         component.refs = {search: 'mock ref'};
-        React.findDOMNode.returns(mockNode);
 
         component.onSearch();
-        assert.equal(React.findDOMNode.callCount, 1);
-        assert.equal(onSearch.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(React.findDOMNode.calledWith('mock ref'));
-        assert.isTrue(onSearch.calledWith('mock value'));
-        assert.isTrue(component.setState.calledWith({query: 'mock value'}));
+        this.assertEqual(React.findDOMNode.callCount, 1);
+        this.assertEqual(onSearch.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(React.findDOMNode.calledWith('mock ref'));
+        this.assertTrue(onSearch.calledWith('mock value'));
+        this.assertTrue(component.setState.calledWith({query: 'mock value'}));
 
         onSearch.returns(true);
         component.onSearch();
-        assert.equal(React.findDOMNode.callCount, 2);
-        assert.equal(onSearch.callCount, 2);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(React.findDOMNode.calledWith('mock ref'));
-        assert.isTrue(onSearch.calledWith('mock value'));
+        this.assertEqual(React.findDOMNode.callCount, 2);
+        this.assertEqual(onSearch.callCount, 2);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(React.findDOMNode.calledWith('mock ref'));
+        this.assertTrue(onSearch.calledWith('mock value'));
+    },
 
-        React.findDOMNode.restore();
-        component.setState.restore();
-    });
+    testOnSearchFocus() {
+        const component = this.createComponent(<SelectBox />);
+        const mockEvt = {stopPropagation: this.stub()};
 
-    it('should handle onSearchFocus', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
-        const mockEvt = {stopPropagation: stub()};
-
-        component.delayBlur = {cancel: stub()};
+        component.delayBlur = {cancel: this.stub()};
         component.onSearchFocus(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-    });
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+    },
 
-    it('should handle onSearchKeyDown', () => {
+    testOnSearchKeyDown() {
         const mockEvt = {};
-        const component = TestUtils.createComponent(<SelectBox />);
+        const component = this.createComponent(<SelectBox />);
 
-        stub(component, 'onChange');
-        stub(component, 'highlightIndex');
+        this.stub(component, 'onChange');
+        this.stub(component, 'highlightIndex');
 
         component.onSearchKeyDown([], mockEvt);
-        assert.equal(component.onChange.callCount, 0);
-        assert.equal(component.highlightIndex.callCount, 0);
+        this.assertEqual(component.onChange.callCount, 0);
+        this.assertEqual(component.highlightIndex.callCount, 0);
 
         mockEvt.keyCode = KEY_CODES.ARROW_DOWN;
         component.onSearchKeyDown([], mockEvt);
-        assert.equal(component.onChange.callCount, 0);
-        assert.equal(component.highlightIndex.callCount, 1);
-        assert.isTrue(component.highlightIndex.calledWith(0));
+        this.assertEqual(component.onChange.callCount, 0);
+        this.assertEqual(component.highlightIndex.callCount, 1);
+        this.assertTrue(component.highlightIndex.calledWith(0));
 
         mockEvt.keyCode = KEY_CODES.ARROW_UP;
         component.onSearchKeyDown([], mockEvt);
-        assert.equal(component.onChange.callCount, 0);
-        assert.equal(component.highlightIndex.callCount, 2);
-        assert.isTrue(component.highlightIndex.calledWith(-2));
+        this.assertEqual(component.onChange.callCount, 0);
+        this.assertEqual(component.highlightIndex.callCount, 2);
+        this.assertTrue(component.highlightIndex.calledWith(-2));
 
         mockEvt.keyCode = KEY_CODES.ENTER;
         component.state.highlightIndex = 1;
         component.onSearchKeyDown(['a', 'b', 'c'], mockEvt);
-        assert.equal(component.onChange.callCount, 1);
-        assert.equal(component.highlightIndex.callCount, 2);
-        assert.isTrue(component.onChange.calledWith('b', mockEvt));
+        this.assertEqual(component.onChange.callCount, 1);
+        this.assertEqual(component.highlightIndex.callCount, 2);
+        this.assertTrue(component.onChange.calledWith('b', mockEvt));
+    },
 
-        component.onChange.restore();
-        component.highlightIndex.restore();
-    });
-
-    it('should get filtered options', () => {
-        const component = TestUtils.createComponent(
+    testGetFilteredOptions() {
+        const component = this.createComponent(
             <SelectBox>
                 <option>1</option>
                 <option value={2}>Two</option>
@@ -407,123 +402,109 @@ describe('SelectBox/SelectBox', () => {
         );
 
         component.state.query = 'o';
-        assert.deepEqual(component.filterOptions(), [{
+        this.assertDeepEqual(component.filterOptions(), [{
             display: 'Two',
             value: 2
         }, {
             display: 'Four',
             value: 'Four'
         }]);
-    });
+    },
 
-    it('should get filtered options with prop options', () => {
+    testGetFilteredOptionsNoProps() {
         const options = [{name: 'a'}, {name: 'b'}];
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <SelectBox displayProp="name" options={options} />
         );
 
         component.state.query = 'a';
-        assert.deepEqual(component.filterOptions(), [{name: 'a'}]);
-    });
+        this.assertDeepEqual(component.filterOptions(), [{name: 'a'}]);
+    },
 
-    it('should determine if an option is selected', () => {
-        const component = TestUtils.createComponent(
+    testIsOptionSelected() {
+        const component = this.createComponent(
             <SelectBox />
         );
 
-        assert.isFalse(component.isOptionSelected());
-        assert.isFalse(component.isOptionSelected({}));
+        this.assertFalse(component.isOptionSelected());
+        this.assertFalse(component.isOptionSelected({}));
         component.state.value = {display: 'A', value: 'A'};
-        assert.isTrue(component.isOptionSelected({display: 'A', value: 'A'}));
-        assert.isFalse(component.isOptionSelected({display: 'A', value: 'B'}));
-        assert.isFalse(component.isOptionSelected({display: 'B', value: 'A'}));
-    });
+        this.assertTrue(component.isOptionSelected(
+            {display: 'A', value: 'A'}
+        ));
+        this.assertFalse(component.isOptionSelected(
+            {display: 'A', value: 'B'}
+        ));
+        this.assertFalse(component.isOptionSelected(
+            {display: 'B', value: 'A'}
+        ));
+    },
 
-    it('should highlight an index', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
+    testHighlightIndex() {
+        const component = this.createComponent(<SelectBox />);
         const options = ['a', 'b', 'c'];
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.highlightIndex(1, options);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             highlightIndex: 1
         }));
 
         component.highlightIndex(-2, options);
-        assert.equal(component.setState.callCount, 2);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 2);
+        this.assertTrue(component.setState.calledWith({
             highlightIndex: 0
         }));
 
         component.highlightIndex(10, options);
-        assert.equal(component.setState.callCount, 3);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 3);
+        this.assertTrue(component.setState.calledWith({
             highlightIndex: 2
         }));
+    },
 
-        component.setState.restore();
-    });
+    testClear() {
+        const component = this.createComponent(<SelectBox />);
 
-    it('should clear the value', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.clear();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             highlightIndex: -1,
             value: undefined
         }));
+    },
 
-        component.setState.restore();
-    });
+    testClearQuery() {
+        const component = this.createComponent(<SelectBox />);
 
-    it('should clear the query', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.clearQuery();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({query: ''}));
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({query: ''}));
+    },
 
-        component.setState.restore();
-    });
+    testHideDropDown() {
+        const component = this.createComponent(<SelectBox />);
 
-    it('should hide the drop down', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.hideDropDown();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({showDropDown: false}));
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({showDropDown: false}));
+    },
 
-        component.setState.restore();
-    });
+    testShowDropDown() {
+        const component = this.createComponent(<SelectBox />);
 
-    it('should show the drop down', () => {
-        const component = TestUtils.createComponent(
-            <SelectBox />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.showDropDown();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({showDropDown: true}));
-
-        component.setState.restore();
-    });
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({showDropDown: true}));
+    }
 });
