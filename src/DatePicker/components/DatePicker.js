@@ -32,6 +32,7 @@ class DatePicker extends React.Component {
             BLUR_DELAY_MS
         );
         this.onCalendarMouseDown = this.onCalendarMouseDown.bind(this);
+        this.onCalendarMouseUp = this.onCalendarMouseUp.bind(this);
         this.onChangeMonth = this.onChangeMonth.bind(this);
         this.onChangeYear = this.onChangeYear.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -39,6 +40,8 @@ class DatePicker extends React.Component {
         this.onDateClick = this.onDateClick.bind(this);
         this.onNextClick = this.onNextClick.bind(this);
         this.onPreviousClick = this.onPreviousClick.bind(this);
+        this.onCancelBlur = this.onCancelBlur.bind(this);
+        this.canHideCalendar = true;
     }
 
     componentWillUnmount() {
@@ -145,16 +148,20 @@ class DatePicker extends React.Component {
             {...this.props}
             {...this.state}
             onCalendarMouseDown={this.onCalendarMouseDown}
+            onCalendarMouseUp={this.onCalendarMouseUp}
             onChangeMonth={this.onChangeMonth}
             onChangeYear={this.onChangeYear}
             onDateClick={this.onDateClick}
             onNextClick={this.onNextClick}
-            onPreviousClick={this.onPreviousClick} />
+            onPreviousClick={this.onPreviousClick}
+            onCancelBlur={this.onCancelBlur} />
         ) : null;
     }
 
     onBlur() {
-        this.hideCalendar();
+        if (this.canHideCalendar) {
+            this.hideCalendar();
+        }
     }
 
     onClearClick(evt) {
@@ -175,7 +182,15 @@ class DatePicker extends React.Component {
         }
     }
 
-    onCalendarMouseDown(evt) {
+    onCalendarMouseDown() {
+        this.canHideCalendar = false;
+    }
+
+    onCalendarMouseUp() {
+        this.canHideCalendar = true;
+    }
+
+    onCancelBlur(evt) {
         evt.stopPropagation();
         this.delayBlur.cancel();
     }

@@ -38,17 +38,17 @@ module.exports={
     "watch_style": "stylus --watch src/style --out dist --use nib"
   },
   "devDependencies": {
-    "babel": "^5.6.7",
-    "babel-core": "^5.6.7",
-    "babel-istanbul": "^0.2.10",
-    "babel-runtime": "^5.6.7",
+    "babel": "^5.8.20",
+    "babel-core": "^5.8.20",
+    "babel-istanbul": "^0.3.17",
+    "babel-runtime": "^5.8.20",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
     "chai": "^3.0.0",
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
-    "mingus": "0.0.9",
+    "mingus": "0.2.0",
     "mocha": "^2.2.5",
     "nib": "^1.1.0",
     "sinon": "^1.15.3",
@@ -245,17 +245,21 @@ var Calendar = (function (_React$Component) {
             return _react2['default'].createElement(
                 'table',
                 {
-                    onMouseDown: this.props.onCalendarMouseDown,
-                    className: className },
+                    className: className,
+                    onMouseDown: this.props.onCancelBlur },
                 this.renderHeader(),
                 _react2['default'].createElement(
                     'tr',
-                    { className: subHeaderClassName },
+                    {
+                        className: subHeaderClassName,
+                        onMouseDown: this.props.onCancelBlur },
                     this.renderSubHeader()
                 ),
                 _react2['default'].createElement(
                     'tr',
-                    { className: bodyClassName },
+                    {
+                        className: bodyClassName,
+                        onMouseDown: this.props.onCancelBlur },
                     this.renderBody()
                 )
             );
@@ -269,7 +273,9 @@ var Calendar = (function (_React$Component) {
 
             return _react2['default'].createElement(
                 'tr',
-                { className: headerClassName },
+                {
+                    className: headerClassName,
+                    onMouseDown: this.props.onCancelBlur },
                 _react2['default'].createElement(
                     'td',
                     { onClick: this.props.onPreviousClick },
@@ -277,7 +283,10 @@ var Calendar = (function (_React$Component) {
                 ),
                 _react2['default'].createElement(
                     'td',
-                    { onClick: this.props.onCalendarMouseDown, colSpan: 5 },
+                    {
+                        colSpan: 5,
+                        onClick: this.props.onCancelBlur,
+                        onMouseDown: this.props.onCancelBlur },
                     this.renderMonthSelector(),
                     this.renderYearSelector()
                 ),
@@ -306,7 +315,9 @@ var Calendar = (function (_React$Component) {
                 {
                     className: className,
                     onChange: this.props.onChangeMonth,
-                    onMouseDown: this.props.onCalendarMouseDown,
+                    onFocus: this.props.onCancelBlur,
+                    onMouseDown: this.props.onCancelBlur,
+                    onClick: this.props.onCancelBlur,
                     value: date.getMonth() },
                 monthOptions
             );
@@ -329,7 +340,9 @@ var Calendar = (function (_React$Component) {
                 {
                     className: className,
                     onChange: this.props.onChangeYear,
-                    onMouseDown: this.props.onCalendarMouseDown,
+                    onFocus: this.props.onCancelBlur,
+                    onMouseDown: this.props.onCancelBlur,
+                    onClick: this.props.onCancelBlur,
                     value: date.getFullYear() },
                 yearOptions
             );
@@ -337,12 +350,16 @@ var Calendar = (function (_React$Component) {
     }, {
         key: 'renderSubHeader',
         value: function renderSubHeader() {
+            var _this = this;
+
             return this.props.dayNames.map(function (name) {
                 return name[0];
             }).map(function (name, i) {
                 return _react2['default'].createElement(
                     'td',
-                    { key: i },
+                    { key: i,
+                        onClick: _this.props.onCancelBlur,
+                        onMouseDown: _this.props.onCancelBlur },
                     name
                 );
             });
@@ -350,17 +367,17 @@ var Calendar = (function (_React$Component) {
     }, {
         key: 'renderBody',
         value: function renderBody() {
-            var _this = this;
+            var _this2 = this;
 
             return (0, _utils.chunk)(this.getDates(), 7).map(function (week, i) {
                 var days = week.map(function (day, j) {
-                    var disabled = _this.isDateDisabled(day);
-                    var value = _this.props.value;
-                    var today = _this.props.today;
-                    var currentDayClass = _this.datesEqual(day, today) ? 'react-ui-date-picker-calendar-current-day' : null;
+                    var disabled = _this2.isDateDisabled(day);
+                    var value = _this2.props.value;
+                    var today = _this2.props.today;
+                    var currentDayClass = _this2.datesEqual(day, today) ? 'react-ui-date-picker-calendar-current-day' : null;
                     var disabledDayClass = disabled ? 'react-ui-date-picker-calendar-disabled-day' : null;
-                    var selectedDayClass = value && _this.datesEqual(day, value) ? 'react-ui-date-picker-calendar-selected-day' : null;
-                    var selectedMonthClass = _this.props.selectedMonth.getMonth() === day.getMonth() ? 'react-ui-date-picker-calendar-selected-month' : null;
+                    var selectedDayClass = value && _this2.datesEqual(day, value) ? 'react-ui-date-picker-calendar-selected-day' : null;
+                    var selectedMonthClass = _this2.props.selectedMonth.getMonth() === day.getMonth() ? 'react-ui-date-picker-calendar-selected-month' : null;
                     var dayClassName = (0, _utils.getClassName)('react-ui-date-picker-calendar-day', currentDayClass, selectedMonthClass, disabledDayClass, selectedDayClass);
 
                     return _react2['default'].createElement(
@@ -369,7 +386,7 @@ var Calendar = (function (_React$Component) {
                             className: dayClassName,
                             disabled: disabled,
                             key: j,
-                            onClick: _this.props.onDateClick.bind(null, day, disabled) },
+                            onClick: _this2.props.onDateClick.bind(null, day, disabled) },
                         day.getDate()
                     );
                 });
@@ -498,6 +515,7 @@ var DatePicker = (function (_React$Component) {
         };
         this.delayBlur = (0, _utils.debounce)(this.onBlur.bind(this), _utils.BLUR_DELAY_MS);
         this.onCalendarMouseDown = this.onCalendarMouseDown.bind(this);
+        this.onCalendarMouseUp = this.onCalendarMouseUp.bind(this);
         this.onChangeMonth = this.onChangeMonth.bind(this);
         this.onChangeYear = this.onChangeYear.bind(this);
         this.onClick = this.onClick.bind(this);
@@ -505,6 +523,8 @@ var DatePicker = (function (_React$Component) {
         this.onDateClick = this.onDateClick.bind(this);
         this.onNextClick = this.onNextClick.bind(this);
         this.onPreviousClick = this.onPreviousClick.bind(this);
+        this.onCancelBlur = this.onCancelBlur.bind(this);
+        this.canHideCalendar = true;
     }
 
     _createClass(DatePicker, [{
@@ -584,16 +604,20 @@ var DatePicker = (function (_React$Component) {
         value: function renderCalendar() {
             return this.state.showCalendar ? _react2['default'].createElement(_Calendar2['default'], _extends({}, this.props, this.state, {
                 onCalendarMouseDown: this.onCalendarMouseDown,
+                onCalendarMouseUp: this.onCalendarMouseUp,
                 onChangeMonth: this.onChangeMonth,
                 onChangeYear: this.onChangeYear,
                 onDateClick: this.onDateClick,
                 onNextClick: this.onNextClick,
-                onPreviousClick: this.onPreviousClick })) : null;
+                onPreviousClick: this.onPreviousClick,
+                onCancelBlur: this.onCancelBlur })) : null;
         }
     }, {
         key: 'onBlur',
         value: function onBlur() {
-            this.hideCalendar();
+            if (this.canHideCalendar) {
+                this.hideCalendar();
+            }
         }
     }, {
         key: 'onClearClick',
@@ -617,7 +641,17 @@ var DatePicker = (function (_React$Component) {
         }
     }, {
         key: 'onCalendarMouseDown',
-        value: function onCalendarMouseDown(evt) {
+        value: function onCalendarMouseDown() {
+            this.canHideCalendar = false;
+        }
+    }, {
+        key: 'onCalendarMouseUp',
+        value: function onCalendarMouseUp() {
+            this.canHideCalendar = true;
+        }
+    }, {
+        key: 'onCancelBlur',
+        value: function onCancelBlur(evt) {
             evt.stopPropagation();
             this.delayBlur.cancel();
         }
