@@ -1,5 +1,4 @@
-import {assert} from 'chai';
-import {spy, stub} from 'sinon';
+import Mingus from 'mingus';
 
 import {
     chunk,
@@ -11,182 +10,175 @@ import {
 } from '../utils';
 
 
-describe('utils/chunk', () => {
-    it('should chunk an iterable with items', () => {
+Mingus.createTestCase('ChunkTest', {
+    testChunkIterableWithItems() {
         const xs = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
         const result = chunk(xs, 3);
 
-        assert.deepEqual(result, [
+        this.assertDeepEqual(result, [
             [1, 2, 3],
             [4, 5, 6],
             [7, 8, 9],
             [10]
         ]);
-    });
+    },
 
-    it('should chunk with too large n', () => {
+    testChunkTooLarge() {
         const xs = [1, 2, 3, 4];
         const result = chunk(xs, 10);
 
-        assert.deepEqual(result, [[1, 2, 3, 4]]);
-    });
+        this.assertDeepEqual(result, [[1, 2, 3, 4]]);
+    }
 });
 
-describe('utils/classNames', () => {
-    it('should generate an empty class names with arguments', () => {
-        assert.equal(classNames(), '');
-    });
+Mingus.createTestCase('ClassNamesTest', {
+    testEmptyClassNamesArgs() {
+        this.assertEqual(classNames(), '');
+    },
 
-    it('should generate an empty class name with a config', () => {
-        assert.equal(classNames({}), '');
-    });
+    testEmptyClassNamesConfig() {
+        this.assertEqual(classNames({}), '');
+    },
 
-    it('should generate a class name with arguments', () => {
-        assert.equal(classNames('a', 'b', 'c'), 'a b c');
-    });
+    testClassNamesArgs() {
+        this.assertEqual(classNames('a', 'b', 'c'), 'a b c');
+    },
 
-    it('should generate a class name with a config', () => {
-        assert.equal(classNames({
+    testClassNamesConfig() {
+        this.assertEqual(classNames({
             'awesome-stuff': true,
             'bad-stuff': false,
             'cool-stuff': true
         }), 'awesome-stuff cool-stuff');
-    });
+    }
 });
 
-describe('utils/debounce', () => {
-    beforeEach(() => {
-        stub(global, 'setTimeout', (cb) => cb());
-        stub(global, 'clearTimeout');
-    });
-
-    afterEach(() => {
-        global.setTimeout.restore();
-        global.clearTimeout.restore();
-    });
-
-    it('should call a function', () => {
+Mingus.createTestCase('DebounceTest', {
+    testCallDebouncedFunction() {
         const mock = {callCount: 0};
         const fn = debounce(() => (mock.callCount += 1), 325);
 
+        this.stub(global, 'setTimeout', (cb) => cb());
+        this.stub(global, 'clearTimeout');
+
         fn('a', 'b', 'c');
-        assert.equal(global.setTimeout.callCount, 1);
-        assert.equal(mock.callCount, 1);
-        assert.typeOf(global.setTimeout.firstCall.args[0], 'function');
-        assert.equal(global.setTimeout.firstCall.args[1], 325);
-    });
-});
-
-describe('utils/getClassName', () => {
-    it('should generate a class name for a component', () => {
-        const result = getClassName('react-ui-ajax-form', 'custom-form');
-
-        assert.equal(result, 'react-ui-ajax-form custom-form');
-    });
-});
-
-describe('utils/noop', () => {
-    it('should do nothing', () => {
-        assert.isUndefined(noop());
-    });
-});
-
-describe('utils/request', () => {
-    const originalXMLHttpRequest = global.XMLHttpRequest;
-    const mocks = {};
-
-    class MockXMLHttpRequest {
-        constructor() {
-            mocks.request = this;
-        }
-
-        open() {
-
-        }
-
-        send() {
-            spy(this, 'onload');
-            spy(this, 'onerror');
-
-            this.status = 200;
-            this.onload();
-            this.status = 404;
-            this.onload();
-            this.onerror();
-        }
+        this.assertEqual(global.setTimeout.callCount, 1);
+        this.assertEqual(mock.callCount, 1);
+        this.assertTypeOf(global.setTimeout.firstCall.args[0], 'function');
+        this.assertEqual(global.setTimeout.firstCall.args[1], 325);
     }
+});
 
-    beforeEach(() => {
-        spy(MockXMLHttpRequest.prototype, 'open');
-        spy(MockXMLHttpRequest.prototype, 'send');
+Mingus.createTestCase('GetClassNameTest', {
+    testGetClassName() {
+        this.assertEqual(
+            getClassName('react-ui-ajax-form', 'custom-form'),
+            'react-ui-ajax-form custom-form'
+        );
+    }
+});
 
+Mingus.createTestCase('NoopTest', {
+    testNoop() {
+        this.assertUndefined(noop());
+    }
+});
+
+Mingus.createTestCase('RequestTest', {
+    before() {
+        const testCase = this;
+
+        class MockXMLHttpRequest {
+            constructor() {
+                testCase.request = this;
+            }
+
+            open() {
+
+            }
+
+            send() {
+                testCase.spy(this, 'onload');
+                testCase.spy(this, 'onerror');
+
+                this.status = 200;
+                this.onload();
+                this.status = 404;
+                this.onload();
+                this.onerror();
+            }
+        }
+
+        this.XMLHttpRequest = global.XMLHttpRequest;
         global.XMLHttpRequest = MockXMLHttpRequest;
-    });
+    },
 
-    afterEach(() => {
-        MockXMLHttpRequest.prototype.open.restore();
-        MockXMLHttpRequest.prototype.send.restore();
+    beforeEach() {
+        this.spy(global.XMLHttpRequest.prototype, 'open');
+        this.spy(global.XMLHttpRequest.prototype, 'send');
+    },
 
-        global.XMLHttpRequest = originalXMLHttpRequest;
-    });
+    after() {
+        global.XMLHttpRequest = this.XMLHttpRequest;
+    },
 
-    it('should make a POST request', () => {
-        const onResponse = stub();
+    testPostRequest() {
+        const onResponse = this.stub();
 
         request.post('/api/neato/', 'mock data', onResponse);
 
-        assert.equal(mocks.request.open.callCount, 1);
-        assert.equal(mocks.request.send.callCount, 1);
-        assert.equal(mocks.request.onload.callCount, 2);
-        assert.equal(mocks.request.onerror.callCount, 1);
-        assert.equal(onResponse.callCount, 3);
-        assert.isTrue(mocks.request.open.calledWith(
+        this.assertEqual(this.request.open.callCount, 1);
+        this.assertEqual(this.request.send.callCount, 1);
+        this.assertEqual(this.request.onload.callCount, 2);
+        this.assertEqual(this.request.onerror.callCount, 1);
+        this.assertEqual(onResponse.callCount, 3);
+        this.assertTrue(this.request.open.calledWith(
             'POST',
             '/api/neato/',
             true
         ));
-        assert.isTrue(mocks.request.send.calledWith('mock data'));
-        assert.isTrue(onResponse.calledWith(
+        this.assertTrue(this.request.send.calledWith('mock data'));
+        this.assertTrue(onResponse.calledWith(
             new Error('POST: Network Error'),
-            mocks.request
+            this.request
         ));
-        assert.isTrue(onResponse.calledWith(
+        this.assertTrue(onResponse.calledWith(
             new Error('POST: Status Error'),
-            mocks.request
+            this.request
         ));
-        assert.isTrue(onResponse.calledWith(
+        this.assertTrue(onResponse.calledWith(
             undefined,
-            mocks.request
+            this.request
         ));
-    });
+    },
 
-    it('should make a GET request', () => {
-        const onResponse = stub();
+    testGetRequest() {
+        const onResponse = this.stub();
 
         request.get('/api/neato/', onResponse);
 
-        assert.equal(mocks.request.open.callCount, 1);
-        assert.equal(mocks.request.send.callCount, 1);
-        assert.equal(mocks.request.onload.callCount, 2);
-        assert.equal(mocks.request.onerror.callCount, 1);
-        assert.equal(onResponse.callCount, 3);
-        assert.isTrue(mocks.request.open.calledWith(
+        this.assertEqual(this.request.open.callCount, 1);
+        this.assertEqual(this.request.send.callCount, 1);
+        this.assertEqual(this.request.onload.callCount, 2);
+        this.assertEqual(this.request.onerror.callCount, 1);
+        this.assertEqual(onResponse.callCount, 3);
+        this.assertTrue(this.request.open.calledWith(
             'GET',
             '/api/neato/',
             true
         ));
-        assert.isTrue(mocks.request.send.calledWith());
-        assert.isTrue(onResponse.calledWith(
+        this.assertTrue(this.request.send.calledWith());
+        this.assertTrue(onResponse.calledWith(
             new Error('GET: Network Error'),
-            mocks.request
+            this.request
         ));
-        assert.isTrue(onResponse.calledWith(
+        this.assertTrue(onResponse.calledWith(
             new Error('GET: Status Error'),
-            mocks.request
+            this.request
         ));
-        assert.isTrue(onResponse.calledWith(
+        this.assertTrue(onResponse.calledWith(
             undefined,
-            mocks.request
+            this.request
         ));
-    });
+    }
 });

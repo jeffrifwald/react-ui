@@ -1,83 +1,99 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import DatePicker from '../DatePicker';
 import Calendar from '../Calendar';
-import {TestUtils} from '../../../utils';
 
 
-describe('DatePicker/Calendar', () => {
-    const selectedMonth = new Date(2015, 7, 1);
-    const today = new Date(2015, 7, 5);
-    const value = new Date(2015, 7, 1);
-    const props = DatePicker.defaultProps;
+Mingus.createTestCase('CalendarTest', {
+    beforeEach() {
+        this.selectedMonth = new Date(2015, 7, 1);
+        this.today = new Date(2015, 7, 5);
+        this.value = new Date(2015, 7, 1);
+    },
 
-    it('should render the correct top level elements', () => {
-        const rendered = TestUtils.createComponent(
+    testRender() {
+        const rendered = this.renderComponent(
             <Calendar
-            {...props}
-            selectedMonth={selectedMonth}
-            today={today} />
-        ).render();
-
-        assert.equal(rendered.type, 'table');
-    });
-
-    it('should rendered disabled dates', () => {
-        const component = TestUtils.createComponent(
-            <Calendar
-            {...props}
-            selectedMonth={selectedMonth}
-            today={today} />
+            {...DatePicker.defaultProps}
+            selectedMonth={this.selectedMonth}
+            today={this.today} />
         );
 
-        stub(component, 'isDateDisabled');
-        component.isDateDisabled.returns(true);
+        this.assertIsType(rendered, 'table');
+        this.assertNumChildren(rendered, 3);
+    },
+
+    testRenderCurrentDate() {
+        const rendered = this.renderComponent(
+            <Calendar
+            {...DatePicker.defaultProps}
+            selectedMonth={this.selectedMonth}
+            today={this.value} />
+        );
+        const body = this.getChildren(rendered)[2];
+        const dateRow = this.getChildren(body)[0];
+        const date = this.getChildren(dateRow)[6];
+
+        this.assertHasClass(
+            date,
+            'react-ui-date-picker-calendar-current-day'
+        );
+    },
+
+    testRenderDisabledDates() {
+        const component = this.createComponent(
+            <Calendar
+            {...DatePicker.defaultProps}
+            selectedMonth={this.selectedMonth}
+            today={this.today} />
+        );
+
+        this.stub(component, 'isDateDisabled', () => true);
 
         const rendered = component.render();
-        const body = rendered.props.children[2];
+        const body = this.getChildren(rendered)[2];
+        const dateRow = this.getChildren(body)[0];
+        const date = this.getChildren(dateRow)[0];
 
-        assert.isTrue(
-            body.props.children[0].props.children[0].props.className.includes(
-                'react-ui-date-picker-calendar-disabled-day'
-            )
+        this.assertHasClass(
+            date,
+            'react-ui-date-picker-calendar-disabled-day'
         );
-    });
+    },
 
-    it('should rendered selected dates', () => {
-        const component = TestUtils.createComponent(
+    testRenderSelectedDates() {
+        const rendered = this.renderComponent(
             <Calendar
-            {...props}
-            selectedMonth={selectedMonth}
-            today={today}
-            value={value} />
+            {...DatePicker.defaultProps}
+            selectedMonth={this.selectedMonth}
+            today={this.today}
+            value={this.value} />
         );
+        const body = this.getChildren(rendered)[2];
+        const dateRow = this.getChildren(body)[0];
+        const date = this.getChildren(dateRow)[6];
 
-        const rendered = component.render();
-        const body = rendered.props.children[2];
-
-        assert.isTrue(
-            body.props.children[0].props.children[6].props.className.includes(
-                'react-ui-date-picker-calendar-selected-day'
-            )
+        this.assertHasClass(
+            date,
+            'react-ui-date-picker-calendar-selected-day'
         );
-    });
+    },
 
-    it('should get a disabled date', () => {
+    testGetDisabledDate() {
         const isDateDisabled = (date) => date.getDate() === 25;
         const maxValue = new Date(2015, 6, 1);
         const minValue = new Date(2015, 4, 1);
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <Calendar
             isDateDisabled={isDateDisabled}
             maxValue={maxValue}
             minValue={minValue} />
         );
 
-        assert.isFalse(component.isDateDisabled(new Date(2015, 5, 1)));
-        assert.isTrue(component.isDateDisabled(new Date(2015, 5, 25)));
-        assert.isTrue(component.isDateDisabled(new Date(2015, 3, 1)));
-        assert.isTrue(component.isDateDisabled(new Date(2015, 7, 1)));
-    });
+        this.assertFalse(component.isDateDisabled(new Date(2015, 5, 1)));
+        this.assertTrue(component.isDateDisabled(new Date(2015, 5, 25)));
+        this.assertTrue(component.isDateDisabled(new Date(2015, 3, 1)));
+        this.assertTrue(component.isDateDisabled(new Date(2015, 7, 1)));
+    }
 });

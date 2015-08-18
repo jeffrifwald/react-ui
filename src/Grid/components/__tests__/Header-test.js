@@ -1,47 +1,43 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import fixtures from './fixtures';
 import Header from '../Header';
-import {TestUtils} from '../../../utils';
 
 
-describe('Grid/Header', () => {
-    it('should render the correct top level elements', () => {
+Mingus.createTestCase('HeaderTest', {
+    testRender() {
         const columnIndex = 0;
         const column = fixtures.columns[columnIndex];
-        const rendered = TestUtils.createComponent(
+        const rendered = this.renderComponent(
             <Header
             column={column}
             columnIndex={columnIndex} />
-        ).render();
-
-        assert.equal(rendered.type, 'th');
-        assert.equal(rendered.props.children.type, 'span');
-        assert.equal(
-            rendered.props.children.props.title,
-            'This is the user id.'
         );
-    });
+        const title = this.getChildren(rendered)[0];
 
-    it('should handle onClick', () => {
-        const onHeaderClick = stub();
+        this.assertIsType(rendered, 'th');
+        this.assertIsType(title, 'span');
+        this.assertEqual(title.props.title, 'This is the user id.');
+    },
+
+    testOnClick() {
+        const onHeaderClick = this.stub();
         const columnIndex = 1;
         const column = fixtures.columns[columnIndex];
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <Header
             column={column}
             columnIndex={columnIndex}
             onHeaderClick={onHeaderClick} />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.onClick('mock evt');
-        assert.equal(onHeaderClick.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onHeaderClick.calledWith(
+        this.assertEqual(onHeaderClick.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(onHeaderClick.calledWith(
             'mock evt',
             column,
             columnIndex,
@@ -49,24 +45,22 @@ describe('Grid/Header', () => {
             undefined,
             1
         ));
-        assert.isTrue(component.setState.calledWith({numClicks: 1}));
+        this.assertTrue(component.setState.calledWith({numClicks: 1}));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should get special class names', () => {
+    testGetClassName() {
         const columnIndex = 0;
         const column = fixtures.columns[columnIndex];
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <Header
             activeHeader={0}
             column={column}
             columnIndex={columnIndex} />
         );
 
-        assert.equal(
+        this.assertEqual(
             component.getClassName(),
             'react-ui-grid-header react-ui-grid-header-active'
         );
-    });
+    }
 });
