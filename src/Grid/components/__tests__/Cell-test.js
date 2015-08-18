@@ -1,28 +1,26 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import fixtures from './fixtures';
 import Cell from '../Cell';
-import {TestUtils} from '../../../utils';
 
 
-describe('Grid/Cell', () => {
-    it('should render the correct top level element', () => {
-        const rendered = TestUtils.createComponent(
+Mingus.createTestCase('CellTest', {
+    testRender() {
+        const rendered = this.renderComponent(
             <Cell
             activeCell={[0, 0]}
             columns={fixtures.columns}
             column={fixtures.columns[0]}
             record={fixtures.data[0]} />
-        ).render();
+        );
 
-        assert.equal(rendered.type, 'td');
-        assert.equal(rendered.props.children, '1');
-    });
+        this.assertIsType(rendered, 'td');
+        this.assertNumChildren(rendered, 1);
+    },
 
-    it('should render the correct element with a column renderer', () => {
-        const rendered = TestUtils.createComponent(
+    testColumnRenderer() {
+        const rendered = this.renderComponent(
             <Cell
             activeCell={[0, 0]}
             columns={fixtures.columns}
@@ -30,18 +28,17 @@ describe('Grid/Cell', () => {
             columnIndex={5}
             record={fixtures.data[0]}
             rowIndex={4} />
-        ).render();
-
-        assert.equal(rendered.props.children.type, 'div');
-        assert.equal(
-            rendered.props.children.props.children,
-            'My name is Cool McCool - column: 5 row: 4'
         );
-    });
+        const content = this.getChildren(this.getChildren(rendered)[0]);
 
-    it('should handle onClick', () => {
-        const onCellClick = stub();
-        const component = TestUtils.createComponent(
+        this.assertSomeChildIsType(rendered, 'div');
+        this.assertNumChildren(rendered, 1);
+        this.assertEqual(content, 'My name is Cool McCool - column: 5 row: 4');
+    },
+
+    testOnClick() {
+        const onCellClick = this.stub();
+        const component = this.createComponent(
             <Cell
             activeCell={[0, 0]}
             column={fixtures.columns[0]}
@@ -51,12 +48,12 @@ describe('Grid/Cell', () => {
             rowIndex={0} />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.onClick('mock evt');
-        assert.equal(onCellClick.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onCellClick.calledWith(
+        this.assertEqual(onCellClick.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(onCellClick.calledWith(
             'mock evt',
             fixtures.columns[0],
             0,
@@ -64,15 +61,13 @@ describe('Grid/Cell', () => {
             fixtures.data[0],
             1
         ));
-        assert.isTrue(component.setState.calledWith({
+        this.assertTrue(component.setState.calledWith({
             numClicks: 1
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should get special class names', () => {
-        const component = TestUtils.createComponent(
+    testGetClassName() {
+        const component = this.createComponent(
             <Cell
             activeCell={[0, 0]}
             column={fixtures.columns[0]}
@@ -81,9 +76,9 @@ describe('Grid/Cell', () => {
             rowIndex={0} />
         );
 
-        assert.equal(
+        this.assertEqual(
             component.getClassName(),
             'react-ui-grid-cell react-ui-grid-cell-active'
         );
-    });
+    }
 });

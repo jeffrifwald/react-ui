@@ -20,15 +20,19 @@ class Calendar extends React.Component {
 
         return (
             <table
-            onMouseDown={this.props.onCalendarMouseDown}
-            className={className}>
+            className={className}
+            onMouseDown={this.props.onCancelBlur}>
                 {this.renderHeader()}
 
-                <tr className={subHeaderClassName}>
+                <tr
+                className={subHeaderClassName}
+                onMouseDown={this.props.onCancelBlur}>
                     {this.renderSubHeader()}
                 </tr>
 
-                <tr className={bodyClassName}>
+                <tr
+                className={bodyClassName}
+                onMouseDown={this.props.onCancelBlur}>
                     {this.renderBody()}
                 </tr>
             </table>
@@ -50,12 +54,17 @@ class Calendar extends React.Component {
         );
 
         return (
-            <tr className={headerClassName}>
+            <tr
+            className={headerClassName}
+            onMouseDown={this.props.onCancelBlur}>
                 <td onClick={this.props.onPreviousClick}>
                     <span className={previousClassName}></span>
                 </td>
 
-                <td onClick={this.props.onCalendarMouseDown} colSpan={5}>
+                <td
+                colSpan={5}
+                onClick={this.props.onCancelBlur}
+                onMouseDown={this.props.onCancelBlur}>
                     {this.renderMonthSelector()}
                     {this.renderYearSelector()}
                 </td>
@@ -80,7 +89,9 @@ class Calendar extends React.Component {
             <select
             className={className}
             onChange={this.props.onChangeMonth}
-            onMouseDown={this.props.onCalendarMouseDown}
+            onFocus={this.props.onCancelBlur}
+            onMouseDown={this.props.onCancelBlur}
+            onClick={this.props.onCancelBlur}
             value={date.getMonth()}>
                 {monthOptions}
             </select>
@@ -100,7 +111,9 @@ class Calendar extends React.Component {
             <select
             className={className}
             onChange={this.props.onChangeYear}
-            onMouseDown={this.props.onCalendarMouseDown}
+            onFocus={this.props.onCancelBlur}
+            onMouseDown={this.props.onCancelBlur}
+            onClick={this.props.onCancelBlur}
             value={date.getFullYear()}>
                 {yearOptions}
             </select>
@@ -109,7 +122,9 @@ class Calendar extends React.Component {
 
     renderSubHeader() {
         return this.props.dayNames.map((name) => name[0]).map((name, i) => (
-            <td key={i}>
+            <td key={i}
+            onClick={this.props.onCancelBlur}
+            onMouseDown={this.props.onCancelBlur}>
                 {name}
             </td>
         ));

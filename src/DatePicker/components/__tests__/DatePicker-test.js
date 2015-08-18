@@ -1,315 +1,293 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import DatePicker from '../DatePicker';
-import {TestUtils} from '../../../utils';
 
 
-describe('DatePicker/DatePicker', () => {
-    it('should render the correct top level elements', () => {
-        const rendered = TestUtils.createComponent(
-            <DatePicker />
-        ).render();
+Mingus.createTestCase('DatePickerTest', {
+    testRender() {
+        const rendered = this.renderComponent(<DatePicker />);
 
-        assert.equal(rendered.type, 'div');
-    });
+        this.assertIsType(rendered, 'div');
+        this.assertNumChildren(rendered, 3);
+    },
 
-    it('should cancel timeouts when unmounted', () => {
-        const component = TestUtils.createComponent(<DatePicker />);
+    testComponentWillUnmount() {
+        const component = this.createComponent(<DatePicker />);
 
-        component.delayBlur = {cancel: stub()};
-
+        component.delayBlur = {cancel: this.stub()};
         component.componentWillUnmount();
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-    });
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+    },
 
-    it('should handle a default value', () => {
+    testRenderDefaultValue() {
         const date = new Date(2015, 6, 1);
-        const rendered = TestUtils.createComponent(
+        const rendered = this.renderComponent(
             <DatePicker defaultValue={date} />
-        ).render();
-
-        assert.equal(
-            rendered.props.children[0].props.value,
-            '2015-7-1'
         );
-    });
+        const input = this.getChildren(rendered)[0];
 
-    it('should render with an open drop down', () => {
-        const component = TestUtils.createComponent(
-            <DatePicker />
-        );
+        this.assertEqual(input.props.value, '2015-7-1');
+    },
+
+    testRenderOpenDropDown() {
+        const component = this.createComponent(<DatePicker />);
 
         component.state.showCalendar = true;
-        assert.isTrue(
-            component.render().props.className.includes(
-                'react-ui-date-picker-open'
-            )
-        );
-    });
+        this.assertHasClass(component.render(), 'react-ui-date-picker-open');
+    },
 
-    it('should handle onBlur', () => {
-        const component = TestUtils.createComponent(
-            <DatePicker />
-        );
+    testOnBlur() {
+        const component = this.createComponent(<DatePicker />);
 
-        stub(component, 'hideCalendar');
+        this.stub(component, 'hideCalendar');
 
         component.onBlur();
-        assert.equal(component.hideCalendar.callCount, 1);
+        this.assertEqual(component.hideCalendar.callCount, 1);
+    },
 
-        component.hideCalendar.restore();
-    });
+    testOnBlurCanNotHide() {
+        const component = this.createComponent(<DatePicker />);
 
-    it('should handle onClearClick', () => {
-        const onClearClick = stub();
-        const component = TestUtils.createComponent(
+        this.stub(component, 'hideCalendar');
+
+        component.canHideCalendar = false;
+        component.onBlur();
+        this.assertEqual(component.hideCalendar.callCount, 0);
+    },
+
+    testOnClearClick() {
+        const onClearClick = this.stub();
+        const component = this.createComponent(
             <DatePicker onClearClick={onClearClick} />
         );
-        const mockEvt = {stopPropagation: stub()};
+        const mockEvt = {stopPropagation: this.stub()};
 
-        stub(component, 'clear');
+        this.stub(component, 'clear');
 
         component.onClearClick(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(onClearClick.callCount, 1);
-        assert.equal(component.clear.callCount, 1);
-        assert.isTrue(onClearClick.calledWith(mockEvt));
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(onClearClick.callCount, 1);
+        this.assertEqual(component.clear.callCount, 1);
+        this.assertTrue(onClearClick.calledWith(mockEvt));
+    },
 
-        component.clear.restore();
-    });
-
-    it('should handle onClick', () => {
-        const onClick = stub();
-        const component = TestUtils.createComponent(
+    testOnClick() {
+        const onClick = this.stub();
+        const component = this.createComponent(
             <DatePicker onClick={onClick} />
         );
 
-        stub(component, 'hideCalendar');
-        stub(component, 'showCalendar');
+        this.stub(component, 'hideCalendar');
+        this.stub(component, 'showCalendar');
 
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 1);
-        assert.equal(component.hideCalendar.callCount, 0);
-        assert.equal(component.showCalendar.callCount, 1);
-        assert.isTrue(onClick.calledWith('mock evt', false));
+        this.assertEqual(onClick.callCount, 1);
+        this.assertEqual(component.hideCalendar.callCount, 0);
+        this.assertEqual(component.showCalendar.callCount, 1);
+        this.assertTrue(onClick.calledWith('mock evt', false));
 
         component.state.showCalendar = true;
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 2);
-        assert.equal(component.showCalendar.callCount, 1);
-        assert.equal(component.hideCalendar.callCount, 1);
-        assert.isTrue(onClick.calledWith('mock evt', true));
+        this.assertEqual(onClick.callCount, 2);
+        this.assertEqual(component.showCalendar.callCount, 1);
+        this.assertEqual(component.hideCalendar.callCount, 1);
+        this.assertTrue(onClick.calledWith('mock evt', true));
+    },
 
-        component.hideCalendar.restore();
-        component.showCalendar.restore();
-    });
-
-    it('should handle onClick disabled', () => {
-        const onClick = stub();
-        const component = TestUtils.createComponent(
+    testOnClickDisabled() {
+        const onClick = this.stub();
+        const component = this.createComponent(
             <DatePicker disabled={true} onClick={onClick} />
         );
 
-        stub(component, 'hideCalendar');
-        stub(component, 'showCalendar');
+        this.stub(component, 'hideCalendar');
+        this.stub(component, 'showCalendar');
 
         component.onClick('mock evt');
-        assert.equal(onClick.callCount, 0);
-        assert.equal(component.hideCalendar.callCount, 0);
-        assert.equal(component.showCalendar.callCount, 0);
+        this.assertEqual(onClick.callCount, 0);
+        this.assertEqual(component.hideCalendar.callCount, 0);
+        this.assertEqual(component.showCalendar.callCount, 0);
+    },
 
-        component.hideCalendar.restore();
-        component.showCalendar.restore();
-    });
+    testOnCalendarMouseDown() {
+        const component = this.createComponent(<DatePicker />);
 
-    it('should handle onCalendarMouseDown', () => {
-        const mockEvt = {stopPropagation: stub()};
-        const component = TestUtils.createComponent(
-            <DatePicker />
-        );
+        this.assertTrue(component.canHideCalendar);
+        component.onCalendarMouseDown();
+        this.assertFalse(component.canHideCalendar);
+    },
 
-        component.delayBlur = {cancel: stub()};
+    testOnCalendarMouseUp() {
+        const component = this.createComponent(<DatePicker />);
 
-        component.onCalendarMouseDown(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-    });
+        component.canHideCalender = false;
+        component.onCalendarMouseUp();
+        this.assertTrue(component.canHideCalendar);
+    },
 
-    it('should handle onDateClick', () => {
-        const mockEvt = {stopPropagation: stub()};
-        const onDateClick = stub();
-        const component = TestUtils.createComponent(
+    testOnCancelBlur() {
+        const component = this.createComponent(<DatePicker />);
+        const mockEvt = {stopPropagation: this.stub()};
+
+        component.delayBlur = {cancel: this.stub()};
+
+        component.onCancelBlur(mockEvt);
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+    },
+
+    testOnDateClick() {
+        const mockEvt = {stopPropagation: this.stub()};
+        const onDateClick = this.stub();
+        const component = this.createComponent(
             <DatePicker onDateClick={onDateClick} />
         );
         const date = new Date(2015, 1, 3);
 
-        stub(component, 'setState');
-        component.delayBlur = {cancel: stub()};
+        this.stub(component, 'setState');
+        component.delayBlur = {cancel: this.stub()};
 
         component.onDateClick(date, true, mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(onDateClick.callCount, 0);
-        assert.equal(component.setState.callCount, 0);
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(onDateClick.callCount, 0);
+        this.assertEqual(component.setState.callCount, 0);
 
         component.onDateClick(date, false, mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 2);
-        assert.equal(component.delayBlur.cancel.callCount, 2);
-        assert.equal(onDateClick.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onDateClick.calledWith(mockEvt, date));
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(mockEvt.stopPropagation.callCount, 2);
+        this.assertEqual(component.delayBlur.cancel.callCount, 2);
+        this.assertEqual(onDateClick.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(onDateClick.calledWith(mockEvt, date));
+        this.assertTrue(component.setState.calledWith({
             selectedMonth: new Date(2015, 1, 1),
             showCalendar: false,
             value: date
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onChangeMonth', () => {
+    testOnChangeMonth() {
         const mockEvt = {
-            stopPropagation: stub(),
+            stopPropagation: this.stub(),
             target: {
                 options: [{value: 4}],
                 selectedIndex: 0
             }
         };
         const date = new Date(2015, 1, 1);
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <DatePicker defaultValue={date} />
         );
 
-        component.delayBlur = {cancel: stub()};
-        stub(component, 'setState');
+        component.delayBlur = {cancel: this.stub()};
+        this.stub(component, 'setState');
 
         component.onChangeMonth(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             selectedMonth: new Date(2015, 4, 1)
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onChangeYear', () => {
+    testOnChangeYear() {
         const mockEvt = {
-            stopPropagation: stub(),
+            stopPropagation: this.stub(),
             target: {
                 options: [{value: 1987}],
                 selectedIndex: 0
             }
         };
         const date = new Date(2015, 1, 1);
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <DatePicker defaultValue={date} />
         );
 
-        component.delayBlur = {cancel: stub()};
-        stub(component, 'setState');
+        component.delayBlur = {cancel: this.stub()};
+        this.stub(component, 'setState');
 
         component.onChangeYear(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             selectedMonth: new Date(1987, 1, 1)
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onNextClick', () => {
-        const mockEvt = {stopPropagation: stub()};
+    testOnNextClick() {
+        const mockEvt = {stopPropagation: this.stub()};
         const date = new Date(2015, 0, 8);
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <DatePicker defaultValue={date} />
         );
 
-        component.delayBlur = {cancel: stub()};
-        stub(component, 'setState');
+        component.delayBlur = {cancel: this.stub()};
+        this.stub(component, 'setState');
 
         component.onNextClick(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             selectedMonth: new Date(2015, 1, 1)
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onPreviousClick', () => {
-        const mockEvt = {stopPropagation: stub()};
+    testOnPreviousClick() {
+        const mockEvt = {stopPropagation: this.stub()};
         const date = new Date(2015, 0, 8);
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <DatePicker defaultValue={date} />
         );
 
-        component.delayBlur = {cancel: stub()};
-        stub(component, 'setState');
+        component.delayBlur = {cancel: this.stub()};
+        this.stub(component, 'setState');
 
         component.onPreviousClick(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             selectedMonth: new Date(2014, 11, 1)
         }));
+    },
 
-        component.setState.restore();
-    });
+    testClear() {
+        const component = this.createComponent(<DatePicker />);
 
-    it('should clear the value', () => {
-        const component = TestUtils.createComponent(
-            <DatePicker />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.clear();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             value: undefined
         }));
+    },
 
-        component.setState.restore();
-    });
+    testHideCalendar() {
+        const component = this.createComponent(<DatePicker />);
 
-    it('should hide the calendar', () => {
-        const component = TestUtils.createComponent(
-            <DatePicker />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.hideCalendar();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             showCalendar: false
         }));
+    },
 
-        component.setState.restore();
-    });
+    testShowCalendar() {
+        const component = this.createComponent(<DatePicker />);
 
-    it('should show the calendar', () => {
-        const component = TestUtils.createComponent(
-            <DatePicker />
-        );
-
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.showCalendar();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             showCalendar: true
         }));
-
-        component.setState.restore();
-    });
+    }
 });

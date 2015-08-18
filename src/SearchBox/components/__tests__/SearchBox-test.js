@@ -1,44 +1,41 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import SearchBox from '../SearchBox';
-import {KEY_CODES, request, TestUtils} from '../../../utils';
+import {KEY_CODES, request} from '../../../utils';
 
 
-describe('SearchBox/SearchBox', () => {
-    it('should render the correct top level elements', () => {
-        const rendered = TestUtils.createComponent(
-            <SearchBox />
-        ).render();
+Mingus.createTestCase('SearchBoxTest', {
+    testRender() {
+        const rendered = this.renderComponent(<SearchBox />);
 
-        assert.equal(rendered.type, 'div');
-    });
+        this.assertIsType(rendered, 'div');
+    },
 
-    it('should cancel timeouts when unmounted', () => {
-        const component = TestUtils.createComponent(<SearchBox />);
+    testComponentWillUnmount() {
+        const component = this.createComponent(<SearchBox />);
 
-        component.delayBlur = {cancel: stub()};
-        component.delaySearch = {cancel: stub()};
+        component.delayBlur = {cancel: this.stub()};
+        component.delaySearch = {cancel: this.stub()};
 
         component.componentWillUnmount();
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(component.delaySearch.cancel.callCount, 1);
-    });
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(component.delaySearch.cancel.callCount, 1);
+    },
 
-    it('should render a drop down with results', () => {
-        const component = TestUtils.createComponent(<SearchBox />);
+    testRenderDropDown() {
+        const component = this.createComponent(<SearchBox />);
 
         component.state.showDropDown = true;
         component.state.results = ['a', 'b', 'c'];
 
         const renderedDropDown = component.renderDropDown();
 
-        assert.equal(renderedDropDown.props.children.length, 3);
-    });
+        this.assertNumChildren(renderedDropDown, 3);
+    },
 
-    it('should render a drop down with a selected result', () => {
-        const component = TestUtils.createComponent(<SearchBox />);
+    testRenderDropDownSelectedResult() {
+        const component = this.createComponent(<SearchBox />);
 
         component.state.showDropDown = true;
         component.state.results = ['a', 'b', 'c'];
@@ -46,290 +43,292 @@ describe('SearchBox/SearchBox', () => {
 
         const renderedDropDown = component.renderDropDown();
 
-        assert.equal(renderedDropDown.props.children.length, 3);
-        assert.equal(
-            renderedDropDown.props.children[1].props.className,
+        this.assertNumChildren(renderedDropDown, 3);
+        this.assertHasClass(
+            this.getChildren(renderedDropDown)[1],
             'react-ui-search-box-result react-ui-search-box-result-selected'
         );
-    });
+    },
 
-    it('should handle onBlur', () => {
-        const component = TestUtils.createComponent(<SearchBox />);
+    testOnBlur() {
+        const component = this.createComponent(<SearchBox />);
 
-        stub(component, 'hideDropDown');
+        this.stub(component, 'hideDropDown');
 
         component.onBlur();
-        assert.equal(component.hideDropDown.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
 
         component.canHideDropDown = false;
         component.onBlur();
-        assert.equal(component.hideDropDown.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
+    },
 
-        component.hideDropDown.restore();
-    });
-
-    it('should handle onKeyDown', () => {
+    testOnKeyDown() {
         const mockEvt = {};
-        const component = TestUtils.createComponent(<SearchBox />);
+        const component = this.createComponent(<SearchBox />);
 
-        stub(component, 'onChange');
-        stub(component, 'selectIndex');
+        this.stub(component, 'onChange');
+        this.stub(component, 'selectIndex');
 
         component.onKeyDown(mockEvt);
-        assert.equal(component.onChange.callCount, 0);
-        assert.equal(component.selectIndex.callCount, 0);
+        this.assertEqual(component.onChange.callCount, 0);
+        this.assertEqual(component.selectIndex.callCount, 0);
 
         mockEvt.keyCode = KEY_CODES.ARROW_DOWN;
         component.onKeyDown(mockEvt);
-        assert.equal(component.onChange.callCount, 0);
-        assert.equal(component.selectIndex.callCount, 1);
-        assert.isTrue(component.selectIndex.calledWith(0));
+        this.assertEqual(component.onChange.callCount, 0);
+        this.assertEqual(component.selectIndex.callCount, 1);
+        this.assertTrue(component.selectIndex.calledWith(0));
 
         mockEvt.keyCode = KEY_CODES.ARROW_UP;
         component.onKeyDown(mockEvt);
-        assert.equal(component.onChange.callCount, 0);
-        assert.equal(component.selectIndex.callCount, 2);
-        assert.isTrue(component.selectIndex.calledWith(-2));
+        this.assertEqual(component.onChange.callCount, 0);
+        this.assertEqual(component.selectIndex.callCount, 2);
+        this.assertTrue(component.selectIndex.calledWith(-2));
 
         mockEvt.keyCode = KEY_CODES.ENTER;
         component.state.selectedIndex = 1;
         component.state.results = ['a', 'b', 'c'];
         component.onKeyDown(mockEvt);
-        assert.equal(component.onChange.callCount, 1);
-        assert.equal(component.selectIndex.callCount, 2);
-        assert.isTrue(component.onChange.calledWith('b', mockEvt));
+        this.assertEqual(component.onChange.callCount, 1);
+        this.assertEqual(component.selectIndex.callCount, 2);
+        this.assertTrue(component.onChange.calledWith('b', mockEvt));
+    },
 
-        component.onChange.restore();
-        component.selectIndex.restore();
-    });
-
-    it('should handle onChange', () => {
-        const onChange = stub();
-        const component = TestUtils.createComponent(
-            <SearchBox
-            onChange={onChange} />
+    testOnChange() {
+        const onChange = this.stub();
+        const component = this.createComponent(
+            <SearchBox onChange={onChange} />
         );
-        const mockEvt = {stopPropagation: stub()};
+        const mockEvt = {stopPropagation: this.stub()};
 
-        component.delayBlur = {cancel: stub()};
-        stub(component, 'select');
-        stub(component, 'hideDropDown');
+        component.delayBlur = {cancel: this.stub()};
+        this.stub(component, 'select');
+        this.stub(component, 'hideDropDown');
 
         component.onChange('mock result', mockEvt);
-        assert.equal(component.delayBlur.cancel.callCount, 1);
-        assert.equal(onChange.callCount, 1);
-        assert.equal(component.select.callCount, 1);
-        assert.equal(component.hideDropDown.callCount, 1);
-        assert.isTrue(onChange.calledWith(mockEvt, 'mock result'));
-        assert.isTrue(component.select.calledWith('mock result'));
+        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+        this.assertEqual(onChange.callCount, 1);
+        this.assertEqual(component.select.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
+        this.assertTrue(onChange.calledWith(mockEvt, 'mock result'));
+        this.assertTrue(component.select.calledWith('mock result'));
+    },
 
-        component.select.restore();
-        component.hideDropDown.restore();
-    });
+    testOnDropDownMouseDown() {
+        const component = this.createComponent(<SearchBox />);
 
-    it('should handle onDropDownMouseDown and onDropDownMouseUp', () => {
-        const component = TestUtils.createComponent(<SearchBox />);
-
-        assert.isTrue(component.canHideDropDown);
+        component.canHideDropDown = true;
         component.onDropDownMouseDown();
-        assert.isFalse(component.canHideDropDown);
-        component.onDropDownMouseUp();
-        assert.isTrue(component.canHideDropDown);
-    });
+        this.assertFalse(component.canHideDropDown);
+    },
 
-    it('should handle onResponse', () => {
-        const onResponse = stub();
-        const parseResults = stub();
-        const component = TestUtils.createComponent(
+    testOnDropDownMouseUp() {
+        const component = this.createComponent(<SearchBox />);
+
+        component.canHideDropDown = false;
+        component.onDropDownMouseUp();
+        this.assertTrue(component.canHideDropDown);
+    },
+
+    testOnResponse() {
+        const onResponse = this.stub();
+        const parseResults = this.stub();
+        const component = this.createComponent(
             <SearchBox
             onResponse={onResponse}
             parseResults={parseResults} />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
         parseResults.returns('mock results');
 
         component.onResponse('mock err', 'mock req');
-        assert.equal(parseResults.callCount, 1);
-        assert.equal(onResponse.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(parseResults.calledWith('mock req'));
-        assert.isTrue(
+        this.assertEqual(parseResults.callCount, 1);
+        this.assertEqual(onResponse.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(parseResults.calledWith('mock req'));
+        this.assertTrue(
             onResponse.calledWith('mock err', 'mock req', 'mock results')
         );
-        assert.isTrue(component.setState.calledWith({
+        this.assertTrue(component.setState.calledWith({
             results: 'mock results',
             selectedIndex: -1,
             showDropDown: true
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onResponse with no results', () => {
-        const onResponse = stub();
-        const parseResults = stub();
-        const component = TestUtils.createComponent(
+    testOnResponseNoResults() {
+        const onResponse = this.stub();
+        const parseResults = this.stub();
+        const component = this.createComponent(
             <SearchBox
             onResponse={onResponse}
             parseResults={parseResults} />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
         parseResults.returns(null);
 
         component.onResponse('mock err', 'mock req');
-        assert.equal(parseResults.callCount, 1);
-        assert.equal(onResponse.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(parseResults.calledWith('mock req'));
-        assert.isTrue(
+        this.assertEqual(parseResults.callCount, 1);
+        this.assertEqual(onResponse.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(parseResults.calledWith('mock req'));
+        this.assertTrue(
             onResponse.calledWith('mock err', 'mock req', [])
         );
-        assert.isTrue(component.setState.calledWith({
+        this.assertTrue(component.setState.calledWith({
             results: [],
             selectedIndex: -1,
             showDropDown: true
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onSearch', () => {
+    testOnSearch() {
         const mockNode = {value: 'mock value'};
-        const onSearch = stub();
+        const onSearch = this.stub();
         const getUrl = () => '/mock/url/';
-        const component = TestUtils.createComponent(
+        const component = this.createComponent(
             <SearchBox
             getUrl={getUrl}
             onSearch={onSearch} />
         );
 
-        stub(React, 'findDOMNode');
-        stub(request, 'get');
-        React.findDOMNode.returns(mockNode);
+        this.stub(React, 'findDOMNode', () => mockNode);
+        this.stub(request, 'get');
 
         component.refs = {search: 'mock search ref'};
         component.onSearch('mock evt');
-        assert.equal(React.findDOMNode.callCount, 1);
-        assert.equal(onSearch.callCount, 1);
-        assert.equal(request.get.callCount, 1);
-        assert.isTrue(React.findDOMNode.calledWith('mock search ref'));
-        assert.isTrue(request.get.calledWith(
+        this.assertEqual(React.findDOMNode.callCount, 1);
+        this.assertEqual(onSearch.callCount, 1);
+        this.assertEqual(request.get.callCount, 1);
+        this.assertTrue(React.findDOMNode.calledWith('mock search ref'));
+        this.assertTrue(request.get.calledWith(
             '/mock/url/',
             component.onResponse
         ));
+    },
 
-        React.findDOMNode.restore();
-        request.get.restore();
-    });
-
-    it('should handle onSearch without a value', () => {
+    testOnSearchEmpty() {
         const mockNode = {value: ''};
-        const onSearch = stub();
-        const component = TestUtils.createComponent(
+        const onSearch = this.stub();
+        const component = this.createComponent(
             <SearchBox onSearch={onSearch} />
         );
 
-        stub(React, 'findDOMNode');
-        stub(component, 'hideDropDown');
-        React.findDOMNode.returns(mockNode);
+        this.stub(React, 'findDOMNode', () => mockNode);
+        this.stub(component, 'hideDropDown');
 
         component.refs = {search: 'mock search ref'};
         component.onSearch('mock evt');
-        assert.equal(React.findDOMNode.callCount, 1);
-        assert.equal(component.hideDropDown.callCount, 1);
-        assert.isTrue(React.findDOMNode.calledWith('mock search ref'));
+        this.assertEqual(React.findDOMNode.callCount, 1);
+        this.assertEqual(component.hideDropDown.callCount, 1);
+        this.assertTrue(React.findDOMNode.calledWith('mock search ref'));
+    },
 
-        React.findDOMNode.restore();
-        component.hideDropDown.restore();
-    });
-
-    it('should select', () => {
-        const component = TestUtils.createComponent(
+    testSelect() {
+        const component = this.createComponent(
             <SearchBox queryParam="query" url="/mock/url/" />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.select('mock value');
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             value: 'mock value'
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should select an index', () => {
-        const component = TestUtils.createComponent(
+    testSelectIndex() {
+        const component = this.createComponent(
             <SearchBox queryParam="query" url="/mock/url/" />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
         component.state.results = ['a', 'b', 'c'];
 
         component.selectIndex(1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             selectedIndex: 1
         }));
 
         component.selectIndex(-2);
-        assert.equal(component.setState.callCount, 2);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 2);
+        this.assertTrue(component.setState.calledWith({
             selectedIndex: 0
         }));
 
         component.selectIndex(10);
-        assert.equal(component.setState.callCount, 3);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 3);
+        this.assertTrue(component.setState.calledWith({
             selectedIndex: 2
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should hide the drop down', () => {
-        const component = TestUtils.createComponent(
+    testHideDropDown() {
+        const component = this.createComponent(
             <SearchBox queryParam="query" url="/mock/url/" />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.hideDropDown();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             showDropDown: false
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should show the drop down', () => {
-        const component = TestUtils.createComponent(
+    testShowDropDown() {
+        const component = this.createComponent(
             <SearchBox queryParam="query" url="/mock/url/" />
         );
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.showDropDown();
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             showDropDown: true
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should parse results', () => {
-        const component = TestUtils.createComponent(
+    testParseResults() {
+        const component = this.createComponent(
             <SearchBox />
         );
 
-        assert.equal(
-            component.props.parseResults('mock results'),
+        this.assertEqual(
+            component.parseResults('mock results'),
             'mock results'
         );
-    });
+    },
+
+    testParseResultsCustom() {
+        const parseResults = (req) => {
+            const results = JSON.parse(req.responseText);
+
+            results.forEach((result, i) => result.id = i + 1);
+
+            return results;
+        };
+        const component = this.createComponent(
+            <SearchBox parseResults={parseResults} />
+        );
+        const req = {
+            responseText: JSON.stringify([{
+                age: 28,
+                name: 'Cool McCool'
+            }])
+        };
+
+        this.assertDeepEqual(component.parseResults(req), [{
+            age: 28,
+            id: 1,
+            name: 'Cool McCool'
+        }]);
+    }
 });

@@ -83,14 +83,3 @@ export const KEY_CODES = {
     ARROW_UP: 38,
     ENTER: 13
 };
-
-export const TestUtils = {
-    createComponent(cls) {
-        const Component = cls.type;
-
-        return new Component(
-            cls.props,
-            cls._context //eslint-disable-line
-        );
-    }
-};

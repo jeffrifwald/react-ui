@@ -1,154 +1,113 @@
-import {assert} from 'chai';
+import Mingus from 'mingus';
 import React from 'react';
-import {stub} from 'sinon';
 
 import Slider from '../Slider';
-import {TestUtils} from '../../../utils';
 
 
-describe('Slider/Slider', () => {
-    it('should render the correct top level elements', () => {
-        const rendered = TestUtils.createComponent(
-            <Slider />
-        ).render();
+Mingus.createTestCase('SliderTest', {
+    testRender() {
+        const rendered = this.renderComponent(<Slider />);
+        const track = this.getChildren(rendered)[0];
+        const controls = this.getChildren(track);
 
-        assert.equal(rendered.type, 'div');
-        assert.equal(rendered.props.className, 'react-ui-slider');
-        assert.equal(rendered.props.children.type, 'div');
-        assert.equal(
-            rendered.props.children.props.className,
-            'react-ui-slider-track'
-        );
-        assert.equal(
-            rendered.props.children.props.children.length,
-            2
-        );
-        assert.equal(
-            rendered.props.children.props.children[0].type,
-            'div'
-        );
-        assert.equal(
-            rendered.props.children.props.children[1].type,
-            'div'
-        );
-        assert.equal(
-            rendered.props.children.props.children[0].props.className,
-            'react-ui-slider-fill'
-        );
-        assert.equal(
-            rendered.props.children.props.children[1].props.className,
-            'react-ui-slider-handle'
-        );
-    });
+        this.assertIsType(rendered, 'div');
+        this.assertHasClass(rendered, 'react-ui-slider');
+        this.assertIsType(track, 'div');
+        this.assertHasClass(track, 'react-ui-slider-track');
+        this.assertNumChildren(track, 2);
+        this.assertEveryChildIsType(track, 'div');
+        this.assertHasClass(controls[0], 'react-ui-slider-fill');
+        this.assertHasClass(controls[1], 'react-ui-slider-handle');
+    },
 
-    it('should handle onChange', () => {
-        const onChange = stub();
-        const component = TestUtils.createComponent(
+    testOnChange() {
+        const onChange = this.stub();
+        const component = this.createComponent(
             <Slider onChange={onChange} />
         );
-        const mockEvt = {stopPropagation: stub()};
+        const mockEvt = {stopPropagation: this.stub()};
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.onChange(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 1);
-        assert.equal(onChange.callCount, 0);
-        assert.equal(component.setState.callCount, 0);
+        this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+        this.assertEqual(onChange.callCount, 0);
+        this.assertEqual(component.setState.callCount, 0);
 
         component.state.sliding = true;
         component.state.value = 44;
         component.onChange(mockEvt);
-        assert.equal(mockEvt.stopPropagation.callCount, 2);
-        assert.equal(onChange.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(onChange.calledWith(mockEvt, 44));
-        assert.isTrue(component.setState.calledWith({sliding: false}));
+        this.assertEqual(mockEvt.stopPropagation.callCount, 2);
+        this.assertEqual(onChange.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(onChange.calledWith(mockEvt, 44));
+        this.assertTrue(component.setState.calledWith({sliding: false}));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onDragStart', () => {
-        const component = TestUtils.createComponent(
-            <Slider />
-        );
-        const mockEvt = {preventDefault: stub()};
+    testOnDragStart() {
+        const component = this.createComponent(<Slider />);
+        const mockEvt = {preventDefault: this.stub()};
 
         component.onDragStart(mockEvt);
-        assert.equal(mockEvt.preventDefault.callCount, 1);
-    });
+        this.assertEqual(mockEvt.preventDefault.callCount, 1);
+    },
 
-    it('should handle onMouseDown', () => {
-        const component = TestUtils.createComponent(
-            <Slider />
-        );
-        const mockEvt = {preventDefault: stub()};
+    testOnMouseDown() {
+        const component = this.createComponent(<Slider />);
+        const mockEvt = {preventDefault: this.stub()};
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.onMouseDown(mockEvt);
-        assert.equal(mockEvt.preventDefault.callCount, 1);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({sliding: true}));
+        this.assertEqual(mockEvt.preventDefault.callCount, 1);
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({sliding: true}));
+    },
 
-        component.setState.restore();
-    });
+    testOnMouseMove() {
+        const component = this.createComponent(<Slider />);
+        const mockEvt = {clientX: 100};
 
-    it('should handle onMouseMove', () => {
-        const component = TestUtils.createComponent(
-            <Slider />
-        );
-        const mockEvt = {
-            clientX: 100
-        };
-
+        this.stub(component, 'setState');
+        this.stub(React, 'findDOMNode', (node) => node);
         component.refs = {
             handle: {
                 offsetWidth: 20
             },
             track: {
-                getBoundingClientRect: stub(),
+                getBoundingClientRect: this.stub(),
                 offsetWidth: 100
             }
         };
         component.refs.track.getBoundingClientRect.returns({left: 30});
-        stub(component, 'setState');
-        stub(React, 'findDOMNode', (node) => node);
-
         component.state.sliding = true;
+
         component.onMouseMove(mockEvt);
-        assert.equal(component.setState.callCount, 1);
-        assert.isTrue(component.setState.calledWith({
+        this.assertEqual(component.setState.callCount, 1);
+        this.assertTrue(component.setState.calledWith({
             fillWidth: 70,
             handleLeft: 50,
             value: (50 / 100 * 100) / (100 - (20 / 100 * 100)) * 100
         }));
+    },
 
-        component.setState.restore();
-    });
-
-    it('should handle onMouseMove when not sliding', () => {
-        const component = TestUtils.createComponent(
-            <Slider />
-        );
+    testOnMouseMoveWithoutSlide() {
+        const component = this.createComponent(<Slider />);
         const mockEvt = {};
 
-        stub(component, 'setState');
+        this.stub(component, 'setState');
 
         component.onMouseMove(mockEvt);
-        assert.equal(component.setState.callCount, 0);
+        this.assertEqual(component.setState.callCount, 0);
+    },
 
-        component.setState.restore();
-    });
+    testGetBoundedValues() {
+        const component = this.createComponent(<Slider />);
 
-    it('should get bounded values', () => {
-        const component = TestUtils.createComponent(
-            <Slider />
-        );
-
-        assert.equal(component.getBoundedValue(55), 55);
-        assert.equal(component.getBoundedValue(55, 0), 55);
-        assert.equal(component.getBoundedValue(55, 0, 100), 55);
-        assert.equal(component.getBoundedValue(-10, 0, 100), 0);
-        assert.equal(component.getBoundedValue(305, 0, 100), 100);
-    });
+        this.assertEqual(component.getBoundedValue(55), 55);
+        this.assertEqual(component.getBoundedValue(55, 0), 55);
+        this.assertEqual(component.getBoundedValue(55, 0, 100), 55);
+        this.assertEqual(component.getBoundedValue(-10, 0, 100), 0);
+        this.assertEqual(component.getBoundedValue(305, 0, 100), 100);
+    }
 });
