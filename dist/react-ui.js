@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.31",
+  "version": "0.4.32",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -31,7 +31,7 @@ module.exports={
     "build_dist": "browserify dist.js -o dist/react-ui.js --no-bundle-external && uglifyjs dist/react-ui.js -o dist/react-ui.min.js && stylus src/style --out dist --use nib && cleancss dist/react-ui.css -o dist/react-ui.min.css",
     "build_docs": "browserify docs/src/index.js | uglifyjs -o static/js/index.min.js && stylus docs/style/index.styl --out static/css --use nib && cp node_modules/react/dist/react.min.js static/js/react.min.js",
     "check_coverage": "mingus check-coverage .coverage/coverage.json",
-    "cover": "mingus cover -- --recursive src",
+    "cover": "mingus cover -- -- --recursive src",
     "lint": "eslint src",
     "prepublish": "babel-node make.js",
     "test": "npm run lint && npm run cover && npm run check_coverage",
@@ -39,19 +39,15 @@ module.exports={
   },
   "devDependencies": {
     "babel": "^5.8.20",
-    "babel-core": "^5.8.20",
     "babel-istanbul": "^0.3.17",
     "babel-runtime": "^5.8.20",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
-    "chai": "^3.0.0",
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
-    "mingus": "0.2.0",
-    "mocha": "^2.2.5",
+    "mingus": "0.3.0",
     "nib": "^1.1.0",
-    "sinon": "^1.15.3",
     "stylus": "^0.51.1",
     "uglify-js": "^2.4.23"
   },
@@ -1602,7 +1598,7 @@ var SearchBox = (function (_React$Component) {
     }, {
         key: 'onResponse',
         value: function onResponse(err, req) {
-            var results = this.props.parseResults(req) || [];
+            var results = this.parseResults(req) || [];
 
             this.props.onResponse(err, req, results);
             this.setState({
@@ -1651,6 +1647,11 @@ var SearchBox = (function (_React$Component) {
         key: 'showDropDown',
         value: function showDropDown() {
             this.setState({ showDropDown: true });
+        }
+    }, {
+        key: 'parseResults',
+        value: function parseResults(req) {
+            return this.props.parseResults(req);
         }
     }]);
 
@@ -2466,17 +2467,7 @@ var KEY_CODES = {
     ARROW_UP: 38,
     ENTER: 13
 };
-
 exports.KEY_CODES = KEY_CODES;
-var TestUtils = {
-    createComponent: function createComponent(cls) {
-        var Component = cls.type;
-
-        return new Component(cls.props, cls._context //eslint-disable-line
-        );
-    }
-};
-exports.TestUtils = TestUtils;
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}]},{},[1]);
