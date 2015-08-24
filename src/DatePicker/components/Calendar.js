@@ -88,6 +88,7 @@ class Calendar extends React.Component {
         return (
             <select
             className={className}
+            onBlur={this.props.onCancelBlur}
             onChange={this.props.onChangeMonth}
             onFocus={this.props.onCancelBlur}
             onMouseDown={this.props.onCancelBlur}
@@ -110,6 +111,7 @@ class Calendar extends React.Component {
         return (
             <select
             className={className}
+            onBlur={this.props.onCancelBlur}
             onChange={this.props.onChangeYear}
             onFocus={this.props.onCancelBlur}
             onMouseDown={this.props.onCancelBlur}
@@ -169,7 +171,8 @@ class Calendar extends React.Component {
                     className={dayClassName}
                     disabled={disabled}
                     key={j}
-                    onClick={this.props.onDateClick.bind(null, day, disabled)}>
+                    onClick={this.props.onDateClick.bind(null, day, disabled)}
+                    onMouseDown={this.props.onCancelBlur}>
                         {day.getDate()}
                     </td>
                 );
