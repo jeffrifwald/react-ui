@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.32",
+  "version": "0.4.33",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -310,6 +310,7 @@ var Calendar = (function (_React$Component) {
                 'select',
                 {
                     className: className,
+                    onBlur: this.props.onCancelBlur,
                     onChange: this.props.onChangeMonth,
                     onFocus: this.props.onCancelBlur,
                     onMouseDown: this.props.onCancelBlur,
@@ -335,6 +336,7 @@ var Calendar = (function (_React$Component) {
                 'select',
                 {
                     className: className,
+                    onBlur: this.props.onCancelBlur,
                     onChange: this.props.onChangeYear,
                     onFocus: this.props.onCancelBlur,
                     onMouseDown: this.props.onCancelBlur,
@@ -382,7 +384,8 @@ var Calendar = (function (_React$Component) {
                             className: dayClassName,
                             disabled: disabled,
                             key: j,
-                            onClick: _this2.props.onDateClick.bind(null, day, disabled) },
+                            onClick: _this2.props.onDateClick.bind(null, day, disabled),
+                            onMouseDown: _this2.props.onCancelBlur },
                         day.getDate()
                     );
                 });
