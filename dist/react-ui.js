@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.33",
+  "version": "0.4.34",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -46,7 +46,7 @@ module.exports={
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
-    "mingus": "0.3.0",
+    "mingus": "0.3.1",
     "nib": "^1.1.0",
     "stylus": "^0.51.1",
     "uglify-js": "^2.4.23"

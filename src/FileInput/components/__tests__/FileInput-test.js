@@ -11,7 +11,8 @@ Mingus.createTestCase('FileInputTest', {
         );
 
         this.assertIsType(rendered, 'div');
-        this.assertHasClass(rendered, 'react-ui-file-input test-file-input');
+        this.assertHasClass(rendered, 'react-ui-file-input');
+        this.assertHasClass(rendered, 'test-file-input');
         this.assertNumChildren(rendered, 4);
     },
 
@@ -37,7 +38,8 @@ Mingus.createTestCase('FileInputTest', {
         const button = this.getChildren(rendered)[1];
 
         this.assertIsType(button, 'button');
-        this.assertHasClass(button, 'react-ui-file-input-choose cool-btn');
+        this.assertHasClass(button, 'react-ui-file-input-choose');
+        this.assertHasClass(button, 'cool-btn');
         this.assertEqual(button.props.onClick, component.onChooseClick);
     },
 
@@ -49,7 +51,8 @@ Mingus.createTestCase('FileInputTest', {
         const button = this.getChildren(rendered)[2];
 
         this.assertIsType(button, 'button');
-        this.assertHasClass(button, 'react-ui-file-input-clear neat-btn');
+        this.assertHasClass(button, 'react-ui-file-input-clear');
+        this.assertHasClass(button, 'neat-btn');
         this.assertEqual(button.props.onClick, component.onClearClick);
     },
 

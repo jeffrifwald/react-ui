@@ -16,7 +16,8 @@ Mingus.createTestCase('AjaxFormTest', {
         const rendered = component.render();
 
         this.assertIsType(rendered, 'form');
-        this.assertHasClass(rendered, 'react-ui-ajax-form cool-form');
+        this.assertHasClass(rendered, 'react-ui-ajax-form');
+        this.assertHasClass(rendered, 'cool-form');
         this.assertEqual(rendered.props.action, '/login/');
         this.assertEqual(rendered.props.method, 'POST');
         this.assertEqual(rendered.props.onSubmit, component.onSubmit);
