@@ -46,7 +46,11 @@ Mingus.createTestCase('SearchBoxTest', {
         this.assertNumChildren(renderedDropDown, 3);
         this.assertHasClass(
             this.getChildren(renderedDropDown)[1],
-            'react-ui-search-box-result react-ui-search-box-result-selected'
+            'react-ui-search-box-result'
+        );
+        this.assertHasClass(
+            this.getChildren(renderedDropDown)[1],
+            'react-ui-search-box-result-selected'
         );
     },
 

@@ -83,7 +83,11 @@ Mingus.createTestCase('SelectBoxTest', {
 
         this.assertHasClass(
             rendered,
-            'react-ui-select-box react-ui-select-box-open'
+            'react-ui-select-box'
+        );
+        this.assertHasClass(
+            rendered,
+            'react-ui-select-box-open'
         );
     },
 
@@ -191,11 +195,19 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertEqual(renderedOptions.length, 2);
         this.assertHasClass(
             renderedOptions[0],
-            'react-ui-select-box-option react-ui-select-box-option-highlighted'
+            'react-ui-select-box-option'
+        );
+        this.assertHasClass(
+            renderedOptions[0],
+            'react-ui-select-box-option-highlighted'
         );
         this.assertHasClass(
             renderedOptions[1],
-            'react-ui-select-box-option react-ui-select-box-option-selected'
+            'react-ui-select-box-option'
+        );
+        this.assertHasClass(
+            renderedOptions[1],
+            'react-ui-select-box-option-selected'
         );
     },
 
@@ -276,7 +288,11 @@ Mingus.createTestCase('SelectBoxTest', {
 
         this.assertHasClass(
             rendered,
-            'react-ui-select-box react-ui-select-box-disabled'
+            'react-ui-select-box'
+        );
+        this.assertHasClass(
+            rendered,
+            'react-ui-select-box-disabled'
         );
 
         component.onClick('mock evt');
