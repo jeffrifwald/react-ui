@@ -45,7 +45,7 @@ module.exports={
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
-    "mingus": "0.7.1",
+    "mingus": "^0.7.1",
     "nib": "^1.1.0",
     "react-dom": "^0.14.0",
     "stylus": "^0.51.1",
