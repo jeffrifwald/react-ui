@@ -148,7 +148,7 @@ class SearchBox extends React.Component {
     }
 
     onSearch(evt) {
-        const value = React.findDOMNode(this.refs.search).value;
+        const value = this.refs.search.value;
         const url = this.props.getUrl(value);
 
         if (value) {

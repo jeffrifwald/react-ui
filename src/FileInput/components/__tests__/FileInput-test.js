@@ -115,21 +115,18 @@ Mingus.createTestCase('FileInputTest', {
     testOnChooseClick() {
         const onChooseClick = this.stub();
         const mockEvt = {preventDefault: this.stub()};
-        const node = {click: this.stub()};
+        const fileInput = {click: this.stub()};
         const component = this.createComponent(
             <FileInput onChooseClick={onChooseClick} />
         );
 
-        component.refs = {fileInput: 'mock ref'};
-        this.stub(React, 'findDOMNode', () => node);
+        component.refs = {fileInput: fileInput};
 
         component.onChooseClick(mockEvt);
         this.assertEqual(mockEvt.preventDefault.callCount, 1);
         this.assertEqual(onChooseClick.callCount, 1);
-        this.assertEqual(React.findDOMNode.callCount, 1);
-        this.assertEqual(node.click.callCount, 1);
+        this.assertEqual(fileInput.click.callCount, 1);
         this.assertTrue(onChooseClick.calledWith(mockEvt));
-        this.assertTrue(React.findDOMNode.calledWith('mock ref'));
     },
 
     testOnClearClick() {
