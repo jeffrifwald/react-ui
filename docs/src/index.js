@@ -1,6 +1,6 @@
-import React from 'react';
+import ReactDOM from 'react-dom';
 
 import DocsApp from './components/DocsApp';
 
 
-React.render(<DocsApp />, document.querySelector('.render'));
+ReactDOM.render(<DocsApp />, document.querySelector('.render'));

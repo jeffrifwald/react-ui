@@ -69,7 +69,6 @@ Mingus.createTestCase('SliderTest', {
         const mockEvt = {clientX: 100};
 
         this.stub(component, 'setState');
-        this.stub(React, 'findDOMNode', (node) => node);
         component.refs = {
             handle: {
                 offsetWidth: 20

@@ -14,7 +14,7 @@ global.ReactUI = _src2['default'];
 },{"./src":21}],2:[function(require,module,exports){
 module.exports={
   "name": "react-ui",
-  "version": "0.4.34",
+  "version": "0.5.0",
   "author": "Ambition Team",
   "license": "MIT",
   "description": "A collection of components for React.",
@@ -39,21 +39,21 @@ module.exports={
   },
   "devDependencies": {
     "babel": "^5.8.20",
-    "babel-istanbul": "^0.3.17",
     "babel-runtime": "^5.8.20",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
     "clean-css": "^3.3.4",
     "eslint": "^0.23.0",
     "eslint-plugin-react": "^2.5.2",
-    "mingus": "0.3.1",
+    "mingus": "0.7.1",
     "nib": "^1.1.0",
+    "react-dom": "^0.14.0",
     "stylus": "^0.51.1",
     "uglify-js": "^2.4.23"
   },
   "dependencies": {
     "browserify-shim": "^3.8.9",
-    "react": "^0.13.3"
+    "react": "^0.14.0"
   },
   "browserify": {
     "transform": [
@@ -62,7 +62,8 @@ module.exports={
     ]
   },
   "browserify-shim": {
-    "react": "global:React"
+    "react": "global:React",
+    "react-dom": "global:ReactDOM"
   }
 }
 
@@ -145,12 +146,10 @@ var AjaxForm = (function (_React$Component) {
     }, {
         key: 'submit',
         value: function submit() {
-            var form = _react2['default'].findDOMNode(this.refs.form);
-
             if (global.FormData) {
-                this.submitFormData(form);
+                this.submitFormData(this.refs.form);
             } else {
-                form.submit();
+                this.refs.form.submit();
             }
         }
     }, {
@@ -944,7 +943,7 @@ var FileInput = (function (_React$Component) {
         value: function onChooseClick(evt) {
             evt.preventDefault();
             this.props.onChooseClick(evt);
-            _react2['default'].findDOMNode(this.refs.fileInput).click();
+            this.refs.fileInput.click();
         }
     }, {
         key: 'onClearClick',
@@ -1613,7 +1612,7 @@ var SearchBox = (function (_React$Component) {
     }, {
         key: 'onSearch',
         value: function onSearch(evt) {
-            var value = _react2['default'].findDOMNode(this.refs.search).value;
+            var value = this.refs.search.value;
             var url = this.props.getUrl(value);
 
             if (value) {
@@ -1951,7 +1950,7 @@ var SelectBox = (function (_React$Component) {
     }, {
         key: 'onSearch',
         value: function onSearch() {
-            var query = _react2['default'].findDOMNode(this.refs.search).value.toLowerCase();
+            var query = this.refs.search.value.toLowerCase();
             var skipSetState = this.props.onSearch(query);
 
             if (!skipSetState) {
@@ -2236,8 +2235,8 @@ var Slider = (function (_React$Component) {
         key: 'onMouseMove',
         value: function onMouseMove(evt) {
             if (this.state.sliding) {
-                var track = _react2['default'].findDOMNode(this.refs.track);
-                var handle = _react2['default'].findDOMNode(this.refs.handle);
+                var track = this.refs.track;
+                var handle = this.refs.handle;
                 var mouseOffset = evt.clientX - track.getBoundingClientRect().left;
                 var trackOffset = this.getBoundedValue(track.offsetWidth, 1);
                 var handleOffset = this.getBoundedValue(handle.offsetWidth, 1);

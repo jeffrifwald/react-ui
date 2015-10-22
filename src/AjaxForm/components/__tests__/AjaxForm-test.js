@@ -71,31 +71,25 @@ Mingus.createTestCase('AjaxFormTest', {
 
         component.refs = {form: 'mock form'};
         global.FormData = true;
-        this.stub(React, 'findDOMNode', () => 'mock node');
         this.stub(component, 'submitFormData');
 
         component.submit();
-        this.assertEqual(React.findDOMNode.callCount, 1);
         this.assertEqual(component.submitFormData.callCount, 1);
-        this.assertTrue(React.findDOMNode.calledWith('mock form'));
-        this.assertTrue(component.submitFormData.calledWith('mock node'));
+        this.assertTrue(component.submitFormData.calledWith('mock form'));
 
         delete global.FormData;
     },
 
     testSubmitWithoutFormData() {
-        const node = {submit: this.stub()};
+        const form = {submit: this.stub()};
         const component = this.createComponent(
             <AjaxForm />
         );
 
-        component.refs = {form: 'mock form'};
-        this.stub(React, 'findDOMNode', () => node);
+        component.refs = {form: form};
 
         component.submit();
-        this.assertEqual(React.findDOMNode.callCount, 1);
-        this.assertEqual(node.submit.callCount, 1);
-        this.assertTrue(React.findDOMNode.calledWith('mock form'));
+        this.assertEqual(form.submit.callCount, 1);
     },
 
     testSubmitData() {

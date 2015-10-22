@@ -346,24 +346,19 @@ Mingus.createTestCase('SelectBoxTest', {
         );
         const mockNode = {value: 'Mock Value'};
 
-        this.stub(React, 'findDOMNode', () => mockNode);
         this.stub(component, 'setState');
-        component.refs = {search: 'mock ref'};
+        component.refs = {search: mockNode};
 
         component.onSearch();
-        this.assertEqual(React.findDOMNode.callCount, 1);
         this.assertEqual(onSearch.callCount, 1);
         this.assertEqual(component.setState.callCount, 1);
-        this.assertTrue(React.findDOMNode.calledWith('mock ref'));
         this.assertTrue(onSearch.calledWith('mock value'));
         this.assertTrue(component.setState.calledWith({query: 'mock value'}));
 
         onSearch.returns(true);
         component.onSearch();
-        this.assertEqual(React.findDOMNode.callCount, 2);
         this.assertEqual(onSearch.callCount, 2);
         this.assertEqual(component.setState.callCount, 1);
-        this.assertTrue(React.findDOMNode.calledWith('mock ref'));
         this.assertTrue(onSearch.calledWith('mock value'));
     },
 
