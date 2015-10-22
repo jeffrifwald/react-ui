@@ -199,15 +199,12 @@ Mingus.createTestCase('SearchBoxTest', {
             onSearch={onSearch} />
         );
 
-        this.stub(React, 'findDOMNode', () => mockNode);
         this.stub(request, 'get');
 
-        component.refs = {search: 'mock search ref'};
+        component.refs = {search: mockNode};
         component.onSearch('mock evt');
-        this.assertEqual(React.findDOMNode.callCount, 1);
         this.assertEqual(onSearch.callCount, 1);
         this.assertEqual(request.get.callCount, 1);
-        this.assertTrue(React.findDOMNode.calledWith('mock search ref'));
         this.assertTrue(request.get.calledWith(
             '/mock/url/',
             component.onResponse
@@ -221,14 +218,11 @@ Mingus.createTestCase('SearchBoxTest', {
             <SearchBox onSearch={onSearch} />
         );
 
-        this.stub(React, 'findDOMNode', () => mockNode);
         this.stub(component, 'hideDropDown');
 
-        component.refs = {search: 'mock search ref'};
+        component.refs = {search: mockNode};
         component.onSearch('mock evt');
-        this.assertEqual(React.findDOMNode.callCount, 1);
         this.assertEqual(component.hideDropDown.callCount, 1);
-        this.assertTrue(React.findDOMNode.calledWith('mock search ref'));
     },
 
     testSelect() {

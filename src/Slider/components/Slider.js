@@ -114,8 +114,8 @@ class Slider extends React.Component {
 
     onMouseMove(evt) {
         if (this.state.sliding) {
-            const track = React.findDOMNode(this.refs.track);
-            const handle = React.findDOMNode(this.refs.handle);
+            const track = this.refs.track;
+            const handle = this.refs.handle;
             const mouseOffset = (
                 evt.clientX -
                 track.getBoundingClientRect().left

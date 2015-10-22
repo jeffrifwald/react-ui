@@ -111,7 +111,7 @@ class FileInput extends React.Component {
     onChooseClick(evt) {
         evt.preventDefault();
         this.props.onChooseClick(evt);
-        React.findDOMNode(this.refs.fileInput).click();
+        this.refs.fileInput.click();
     }
 
     onClearClick(evt) {

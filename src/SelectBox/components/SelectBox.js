@@ -253,9 +253,7 @@ class SelectBox extends React.Component {
     }
 
     onSearch() {
-        const query = React.findDOMNode(
-            this.refs.search
-        ).value.toLowerCase();
+        const query = this.refs.search.value.toLowerCase();
         const skipSetState = this.props.onSearch(query);
 
         if (!skipSetState) {

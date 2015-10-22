@@ -47,12 +47,10 @@ class AjaxForm extends React.Component {
     }
 
     submit() {
-        const form = React.findDOMNode(this.refs.form);
-
         if (global.FormData) {
-            this.submitFormData(form);
+            this.submitFormData(this.refs.form);
         } else {
-            form.submit();
+            this.refs.form.submit();
         }
     }
 
