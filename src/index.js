@@ -1,5 +1,3 @@
-import {version} from '../package.json';
-
 import AjaxForm from './AjaxForm';
 import DatePicker from './DatePicker';
 import FileInput from './FileInput';
@@ -16,6 +14,5 @@ export default {
     Grid,
     SearchBox,
     SelectBox,
-    Slider,
-    version
+    Slider
 };
