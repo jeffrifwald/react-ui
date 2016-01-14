@@ -292,13 +292,13 @@ class SelectBox extends React.Component {
     }
 
     filterOptions(options) {
-        options = options || this.getOptions();
+        const filterOptions = options || this.getOptions();
 
-        return this.state.query ? options.filter(
+        return this.state.query ? filterOptions.filter(
             option => option[this.props.displayProp].toLowerCase().indexOf(
                 this.state.query
             ) >= 0
-        ) : options;
+        ) : filterOptions;
     }
 
     isOptionSelected(option) {
@@ -313,15 +313,17 @@ class SelectBox extends React.Component {
     }
 
     highlightIndex(index, options) {
-        if (index >= options.length) {
-            index = options.length - 1;
+        let highlightIndex = index;
+
+        if (highlightIndex >= options.length) {
+            highlightIndex = options.length - 1;
         }
 
-        if (index < 0) {
-            index = 0;
+        if (highlightIndex < 0) {
+            highlightIndex = 0;
         }
 
-        this.setState({highlightIndex: index});
+        this.setState({highlightIndex: highlightIndex});
     }
 
     clear() {

@@ -86,11 +86,11 @@ Mingus.createTestCase('NoopTest', {
 
 Mingus.createTestCase('RequestTest', {
     before() {
-        const testCase = this;
+        const me = this;
 
         class MockXMLHttpRequest {
             constructor() {
-                testCase.request = this;
+                me.request = this;
             }
 
             open() {
@@ -98,8 +98,8 @@ Mingus.createTestCase('RequestTest', {
             }
 
             send() {
-                testCase.spy(this, 'onload');
-                testCase.spy(this, 'onerror');
+                me.spy(this, 'onload');
+                me.spy(this, 'onerror');
 
                 this.status = 200;
                 this.onload();

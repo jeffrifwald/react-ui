@@ -75,17 +75,17 @@ class Grid extends React.Component {
     }
 
     onCellClick(...args) {
-        this.props.onCellClick(...args);
+        this.props.onCellClick(...args); /*istanbul ignore next*/
         this.setState({activeCell: [args[2], args[3]]});
     }
 
     onHeaderClick(...args) {
-        this.props.onHeaderClick(...args);
+        this.props.onHeaderClick(...args); /*istanbul ignore next*/
         this.setState({activeHeader: args[2]});
     }
 
     onRowClick(...args) {
-        this.props.onRowClick(...args);
+        this.props.onRowClick(...args); /*istanbul ignore next*/
         this.setState({activeRow: args[3]});
     }
 }

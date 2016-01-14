@@ -164,15 +164,17 @@ class SearchBox extends React.Component {
     }
 
     selectIndex(index) {
-        if (index >= this.state.results.length) {
-            index = this.state.results.length - 1;
+        let selectedIndex = index;
+
+        if (selectedIndex >= this.state.results.length) {
+            selectedIndex = this.state.results.length - 1;
         }
 
-        if (index < 0) {
-            index = 0;
+        if (selectedIndex < 0) {
+            selectedIndex = 0;
         }
 
-        this.setState({selectedIndex: index});
+        this.setState({selectedIndex: selectedIndex});
     }
 
     hideDropDown() {
