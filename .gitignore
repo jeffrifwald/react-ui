@@ -1,11 +1,13 @@
 .babelcache
-.DS_Store
 .coverage
+.DS_Store
+.idea
 .yo-rc.json
 node_modules
 npm-debug.log
-.idea
 lib
 /*.js
+!/index.js
+!/dist.js
 !/webpack.config.dist.js
 !/webpack.config.docs.js

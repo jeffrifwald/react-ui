@@ -35,7 +35,9 @@ module.exports = {
     plugins: [
         new UglifyJsPlugin({
             include: /\.min.js$/,
-            minimize: true
+            compress: {
+                warnings: false
+            }
         }),
         new ExtractTextPlugin('docs/static/[name]')
     ],

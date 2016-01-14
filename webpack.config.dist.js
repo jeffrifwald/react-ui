@@ -7,16 +7,18 @@ const shelljs = require('shelljs');
 const UglifyJsPlugin = require('webpack').optimize.UglifyJsPlugin;
 const webpack = require('webpack');
 
+
 shelljs.ls('src').filter((name) => {
     return name !== 'index.js' && name !== 'utils.js' && name !== '__tests__';
 }).forEach((name) => {
+    shelljs.rm('-rf', `${name}.js`);
     shelljs.cp(`src/${name}/index.js`, `${name}.js`);
 });
 
 module.exports = {
     entry: {
-        'react-ui.js': './src/index.js',
-        'react-ui.min.js': './src/index.js',
+        'react-ui.js': './dist.js',
+        'react-ui.min.js': './dist.js',
         'react-ui.css': './style/react-ui.styl'
     },
     externals: {
@@ -26,11 +28,11 @@ module.exports = {
     module: {
         loaders: [{
             loader: 'babel-loader',
-            include: /src/,
-            test: /\.js$/,
+            include: /(src|dist)/,
             query: {
                 cacheDirectory: '.babelcache'
-            }
+            },
+            test: /\.js$/,
         }, {
             loader: ExtractTextPlugin.extract('css-loader!stylus-loader'),
             include: /style/,

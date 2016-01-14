@@ -1,6 +1,8 @@
-.DS_Store
+.babelcache
 .coverage
+.DS_Store
+.idea
 .yo-rc.json
 node_modules
 npm-debug.log
-.idea
+docs
