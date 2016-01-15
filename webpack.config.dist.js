@@ -1,6 +1,5 @@
 'use strict';
 
-const CopyPlugin = require('copy-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nib = require('nib');
 const shelljs = require('shelljs');
