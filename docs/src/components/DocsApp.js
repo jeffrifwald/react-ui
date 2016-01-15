@@ -39,7 +39,7 @@ class DocsApp extends React.Component {
                     ReactUI
                 </span>
                 <span className="header-version">
-                     v0.6.0
+                     v0.6.1
                 </span>
 
                 <div className="header-subtitle">
