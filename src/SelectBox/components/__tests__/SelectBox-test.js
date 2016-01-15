@@ -188,7 +188,7 @@ Mingus.createTestCase('SelectBoxTest', {
         );
 
         component.state.value = {display: 'B', value: 'B'};
-        component.state.highlightIndex = 0;
+        component.state.highlightedIndex = 0;
 
         const renderedOptions = component.renderOptions(options);
 
@@ -227,7 +227,7 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertEqual(component.setState.callCount, 1);
         this.assertTrue(onChange.calledWith(mockEvt, 'mock value'));
         this.assertTrue(component.setState.calledWith({
-            highlightIndex: -1,
+            highlightedIndex: -1,
             showDropDown: false,
             query: '',
             value: 'mock value'
@@ -395,7 +395,7 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertTrue(component.highlightIndex.calledWith(-2));
 
         mockEvt.keyCode = KEY_CODES.ENTER;
-        component.state.highlightIndex = 1;
+        component.state.highlightedIndex = 1;
         component.onSearchKeyDown(['a', 'b', 'c'], mockEvt);
         this.assertEqual(component.onChange.callCount, 1);
         this.assertEqual(component.highlightIndex.callCount, 2);
@@ -460,19 +460,19 @@ Mingus.createTestCase('SelectBoxTest', {
         component.highlightIndex(1, options);
         this.assertEqual(component.setState.callCount, 1);
         this.assertTrue(component.setState.calledWith({
-            highlightIndex: 1
+            highlightedIndex: 1
         }));
 
         component.highlightIndex(-2, options);
         this.assertEqual(component.setState.callCount, 2);
         this.assertTrue(component.setState.calledWith({
-            highlightIndex: 0
+            highlightedIndex: 0
         }));
 
         component.highlightIndex(10, options);
         this.assertEqual(component.setState.callCount, 3);
         this.assertTrue(component.setState.calledWith({
-            highlightIndex: 2
+            highlightedIndex: 2
         }));
     },
 
@@ -484,7 +484,7 @@ Mingus.createTestCase('SelectBoxTest', {
         component.clear();
         this.assertEqual(component.setState.callCount, 1);
         this.assertTrue(component.setState.calledWith({
-            highlightIndex: -1,
+            highlightedIndex: -1,
             value: undefined
         }));
     },
