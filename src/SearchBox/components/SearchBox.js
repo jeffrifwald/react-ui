@@ -163,8 +163,8 @@ class SearchBox extends React.Component {
         this.setState({value});
     }
 
-    selectIndex(index) {
-        let selectedIndex = index;
+    selectIndex(i) {
+        let selectedIndex = i;
 
         if (selectedIndex >= this.state.results.length) {
             selectedIndex = this.state.results.length - 1;

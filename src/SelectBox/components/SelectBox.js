@@ -14,7 +14,7 @@ class SelectBox extends React.Component {
         super(...args);
 
         this.state = {
-            highlightIndex: -1,
+            highlightedIndex: -1,
             showDropDown: false,
             value: this.props.defaultValue
         };
@@ -182,7 +182,7 @@ class SelectBox extends React.Component {
                     ''
                 ),
                 (
-                    i === this.state.highlightIndex ?
+                    i === this.state.highlightedIndex ?
                     'react-ui-select-box-option-highlighted' :
                     ''
                 )
@@ -211,7 +211,7 @@ class SelectBox extends React.Component {
         this.props.onChange(evt, option);
 
         this.setState({
-            highlightIndex: -1,
+            highlightedIndex: -1,
             showDropDown: false,
             query: '',
             value: option
@@ -267,15 +267,15 @@ class SelectBox extends React.Component {
     }
 
     onSearchKeyDown(options, evt) {
-        if (evt.keyCode === KEY_CODES.ENTER && this.state.highlightIndex > -1) {
+        if (evt.keyCode === KEY_CODES.ENTER && this.state.highlightedIndex > -1) {
             this.onChange(
-                options[this.state.highlightIndex],
+                options[this.state.highlightedIndex],
                 evt
             );
         } else if (evt.keyCode === KEY_CODES.ARROW_DOWN) {
-            this.highlightIndex(this.state.highlightIndex + 1, options);
+            this.highlightIndex(this.state.highlightedIndex + 1, options);
         } else if (evt.keyCode === KEY_CODES.ARROW_UP) {
-            this.highlightIndex(this.state.highlightIndex - 1, options);
+            this.highlightIndex(this.state.highlightedIndex - 1, options);
         }
     }
 
@@ -292,13 +292,13 @@ class SelectBox extends React.Component {
     }
 
     filterOptions(options) {
-        const filterOptions = options || this.getOptions();
+        const filteredOptions = options || this.getOptions();
 
-        return this.state.query ? filterOptions.filter(
+        return this.state.query ? filteredOptions.filter(
             option => option[this.props.displayProp].toLowerCase().indexOf(
                 this.state.query
             ) >= 0
-        ) : filterOptions;
+        ) : filteredOptions;
     }
 
     isOptionSelected(option) {
@@ -313,22 +313,22 @@ class SelectBox extends React.Component {
     }
 
     highlightIndex(index, options) {
-        let highlightIndex = index;
+        let highlightedIndex = index;
 
-        if (highlightIndex >= options.length) {
-            highlightIndex = options.length - 1;
+        if (highlightedIndex >= options.length) {
+            highlightedIndex = options.length - 1;
         }
 
-        if (highlightIndex < 0) {
-            highlightIndex = 0;
+        if (highlightedIndex < 0) {
+            highlightedIndex = 0;
         }
 
-        this.setState({highlightIndex: highlightIndex});
+        this.setState({highlightedIndex: highlightedIndex});
     }
 
     clear() {
         this.setState({
-            highlightIndex: -1,
+            highlightedIndex: -1,
             value: undefined
         });
     }
