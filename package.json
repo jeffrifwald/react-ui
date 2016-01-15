@@ -16,6 +16,7 @@
     "build": "npm run build_dist && npm run build_docs",
     "build_dist": "webpack --config=webpack.config.dist.js",
     "build_docs": "webpack --config=webpack.config.docs.js",
+    "prepublish": "npm run build",
     "check_coverage": "mingus check-coverage .coverage/coverage.json",
     "cover": "mingus cover -- -- --recursive src",
     "lint": "eslint src",
