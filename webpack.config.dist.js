@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const nib = require('nib');
 const shelljs = require('shelljs');
@@ -10,8 +12,13 @@ const webpack = require('webpack');
 shelljs.ls('src').filter((name) => {
     return name !== 'index.js' && name !== 'utils.js' && name !== '__tests__';
 }).forEach((name) => {
-    shelljs.rm('-rf', `${name}.js`);
-    shelljs.cp(`src/${name}/index.js`, `${name}.js`);
+    shelljs.rm(`${name}.js`);
+
+    fs.writeFile(
+        `${name}.js`,
+        `import ${name} from './src/${name}';\n\n\n` +
+        `export default ${name};\n`
+    );
 });
 
 module.exports = {

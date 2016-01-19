@@ -1328,7 +1328,7 @@
 	        value: function onCellClick() {
 	            var _props;
 
-	            (_props = this.props).onCellClick.apply(_props, arguments);
+	            (_props = this.props).onCellClick.apply(_props, arguments); /*istanbul ignore next*/
 	            this.setState({ activeCell: [arguments.length <= 2 ? undefined : arguments[2], arguments.length <= 3 ? undefined : arguments[3]] });
 	        }
 	    }, {
@@ -1336,7 +1336,7 @@
 	        value: function onHeaderClick() {
 	            var _props2;
 
-	            (_props2 = this.props).onHeaderClick.apply(_props2, arguments);
+	            (_props2 = this.props).onHeaderClick.apply(_props2, arguments); /*istanbul ignore next*/
 	            this.setState({ activeHeader: arguments.length <= 2 ? undefined : arguments[2] });
 	        }
 	    }, {
@@ -1344,7 +1344,7 @@
 	        value: function onRowClick() {
 	            var _props3;
 
-	            (_props3 = this.props).onRowClick.apply(_props3, arguments);
+	            (_props3 = this.props).onRowClick.apply(_props3, arguments); /*istanbul ignore next*/
 	            this.setState({ activeRow: arguments.length <= 3 ? undefined : arguments[3] });
 	        }
 	    }]);
@@ -1843,16 +1843,18 @@
 	        }
 	    }, {
 	        key: 'selectIndex',
-	        value: function selectIndex(index) {
-	            if (index >= this.state.results.length) {
-	                index = this.state.results.length - 1;
+	        value: function selectIndex(i) {
+	            var selectedIndex = i;
+
+	            if (selectedIndex >= this.state.results.length) {
+	                selectedIndex = this.state.results.length - 1;
 	            }
 
-	            if (index < 0) {
-	                index = 0;
+	            if (selectedIndex < 0) {
+	                selectedIndex = 0;
 	            }
 
-	            this.setState({ selectedIndex: index });
+	            this.setState({ selectedIndex: selectedIndex });
 	        }
 	    }, {
 	        key: 'hideDropDown',
@@ -1969,7 +1971,7 @@
 	        var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(SelectBox)).call.apply(_Object$getPrototypeO, [this].concat(args)));
 
 	        _this.state = {
-	            highlightIndex: -1,
+	            highlightedIndex: -1,
 	            showDropDown: false,
 	            value: _this.props.defaultValue
 	        };
@@ -2097,7 +2099,7 @@
 	            var _this2 = this;
 
 	            return this.filterOptions().map(function (option, i) {
-	                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this2.props.optionClassName, _this2.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '', i === _this2.state.highlightIndex ? 'react-ui-select-box-option-highlighted' : '');
+	                var className = (0, _utils.getClassName)('react-ui-select-box-option', _this2.props.optionClassName, _this2.isOptionSelected(option) ? 'react-ui-select-box-option-selected' : '', i === _this2.state.highlightedIndex ? 'react-ui-select-box-option-highlighted' : '');
 
 	                return _react2.default.createElement(
 	                    'div',
@@ -2121,7 +2123,7 @@
 	            this.props.onChange(evt, option);
 
 	            this.setState({
-	                highlightIndex: -1,
+	                highlightedIndex: -1,
 	                showDropDown: false,
 	                query: '',
 	                value: option
@@ -2185,12 +2187,12 @@
 	    }, {
 	        key: 'onSearchKeyDown',
 	        value: function onSearchKeyDown(options, evt) {
-	            if (evt.keyCode === _utils.KEY_CODES.ENTER && this.state.highlightIndex > -1) {
-	                this.onChange(options[this.state.highlightIndex], evt);
+	            if (evt.keyCode === _utils.KEY_CODES.ENTER && this.state.highlightedIndex > -1) {
+	                this.onChange(options[this.state.highlightedIndex], evt);
 	            } else if (evt.keyCode === _utils.KEY_CODES.ARROW_DOWN) {
-	                this.highlightIndex(this.state.highlightIndex + 1, options);
+	                this.highlightIndex(this.state.highlightedIndex + 1, options);
 	            } else if (evt.keyCode === _utils.KEY_CODES.ARROW_UP) {
-	                this.highlightIndex(this.state.highlightIndex - 1, options);
+	                this.highlightIndex(this.state.highlightedIndex - 1, options);
 	            }
 	        }
 	    }, {
@@ -2211,11 +2213,11 @@
 	        value: function filterOptions(options) {
 	            var _this4 = this;
 
-	            options = options || this.getOptions();
+	            var filteredOptions = options || this.getOptions();
 
-	            return this.state.query ? options.filter(function (option) {
+	            return this.state.query ? filteredOptions.filter(function (option) {
 	                return option[_this4.props.displayProp].toLowerCase().indexOf(_this4.state.query) >= 0;
-	            }) : options;
+	            }) : filteredOptions;
 	        }
 	    }, {
 	        key: 'isOptionSelected',
@@ -2227,21 +2229,23 @@
 	    }, {
 	        key: 'highlightIndex',
 	        value: function highlightIndex(index, options) {
-	            if (index >= options.length) {
-	                index = options.length - 1;
+	            var highlightedIndex = index;
+
+	            if (highlightedIndex >= options.length) {
+	                highlightedIndex = options.length - 1;
 	            }
 
-	            if (index < 0) {
-	                index = 0;
+	            if (highlightedIndex < 0) {
+	                highlightedIndex = 0;
 	            }
 
-	            this.setState({ highlightIndex: index });
+	            this.setState({ highlightedIndex: highlightedIndex });
 	        }
 	    }, {
 	        key: 'clear',
 	        value: function clear() {
 	            this.setState({
-	                highlightIndex: -1,
+	                highlightedIndex: -1,
 	                value: undefined
 	            });
 	        }
