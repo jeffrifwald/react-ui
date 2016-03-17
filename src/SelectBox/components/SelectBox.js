@@ -1,7 +1,7 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import {
-    BLUR_DELAY_MS,
     debounce,
     getClassName,
     KEY_CODES,
@@ -18,37 +18,38 @@ class SelectBox extends React.Component {
         this.state = {
             highlightedIndex: -1,
             showDropDown: false,
-            value: this.props.defaultValue,
+            value: this.props.value || this.props.defaultValue,
             query: '',
             dropDownTop: null,
             dropDownPosition: 'bottom'
         };
 
-        // Debounce the blur method
-        this.delayBlur = debounce(
-            this.onBlur.bind(this),
-            BLUR_DELAY_MS
-        );
-
-        // Debounce the search delay method
-        this.onSearchDelay = debounce(
-            this.onSearchDelay.bind(this),
+        // Buffer the search delay method
+        this.delaySearch = debounce(
+            this.props.onSearch,
             this.props.delay
         );
 
         // Bind any listeners
+        this.onDocumentClick = this.onDocumentClick.bind(this);
         this.onClick = this.onClick.bind(this);
-        this.onDropDownMouseDown = this.onDropDownMouseDown.bind(this);
-        this.onDropDownMouseUp = this.onDropDownMouseUp.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.onSearchFocus = this.onSearchFocus.bind(this);
         this.onClearClick = this.onClearClick.bind(this);
-        this.canHideDropDown = true;
+
+        // Add any local properties
+        this.hasDocumentClickListener = false;
     }
 
+    /**
+     * Perform any cleanup when this component is being removed from the dom
+     */
     componentWillUnmount() {
-        this.delayBlur.cancel();
-        this.onSearchDelay.cancel();
+        // Always remove the document click listener
+        this.removeDocumentClickListener();
+
+        // Cancel the search delay buffer
+        this.delaySearch.cancel();
     }
 
     /**
@@ -57,17 +58,50 @@ class SelectBox extends React.Component {
      * @param nextProps
      */
     componentWillReceiveProps(nextProps) {
-        if (nextProps.hasOwnProperty('value') && nextProps.value !== this.state.value) {
-            console.log('set value from props');
-            //this.setValue(nextProps.value);
+        // Determine if we have values
+        const hasCurrentValue = this.hasValue(this.state.value);
+        const hasNewValue = this.hasValue(nextProps.value);
+
+        // Determine if we should update
+        const shouldUpdate = (
+            (
+                hasCurrentValue &&
+                hasNewValue &&
+                nextProps.value[this.props.valueProp] !== this.state.value[this.props.valueProp]
+            ) ||
+            (
+                hasNewValue &&
+                !hasCurrentValue
+            )
+        );
+
+        // Update the value if necessary
+        if (shouldUpdate) {
+            this.setValue(nextProps.value);
         }
     }
 
+    /**
+     * When the selector is updated, check to see if we need to perform any additional operations
+     * @param prevProps
+     * @param prevState
+     */
     componentDidUpdate(prevProps, prevState) {
-        // Determine if we should reposition
-        let allowPositionChange = (this.state.showDropDown && this.state.showDropDown !== prevState.showDropDown);
+        // Determine if we should reposition the drop down
+        const allowPositionChange = (
+            this.state.showDropDown &&
+            this.state.showDropDown !== prevState.showDropDown
+        );
+
         if (this.state.showDropDown) {
             this.positionDropDown(allowPositionChange);
+        }
+
+        // Check if we need to add or remove a document listener
+        if (this.state.showDropDown) {
+            this.addDocumentClickListener();
+        } else {
+            this.removeDocumentClickListener();
         }
     }
 
@@ -83,7 +117,6 @@ class SelectBox extends React.Component {
             <div
             ref="el"
             className={className}
-            onBlur={this.delayBlur}
             onClick={this.onClick}
             tabIndex={9999}>
                 <div className="react-ui-select-box-inner">
@@ -132,15 +165,45 @@ class SelectBox extends React.Component {
      * Render the display element. This could be the text value, or the search bar
      */
     renderDisplay() {
-        let display = (
+        const display = (
             this.hasValue() ?
             this.state.value[this.props.displayProp] :
             this.props.placeholder
         );
 
         // Get the search component
-        let search = this.renderSearch();
+        const search = this.renderSearch();
+
+        // Return the search display
         return search && this.state.showDropDown ? search : display;
+    }
+
+    /**
+     * Render the search box
+     * @returns {*}
+     */
+    renderSearch() {
+        const className = getClassName(
+            'react-ui-select-box-search',
+            this.props.searchClassName
+        );
+        const options = this.getOptions();
+        const filteredOptions = this.filterOptions(options);
+
+        return options.length >= this.props.searchThreshold ? (
+            <div className={className}>
+                <input
+                autoFocus={true}
+                onClick={this.onSearchFocus}
+                onFocus={this.onSearchFocus}
+                onChange={this.onSearch}
+                onKeyDown={this.onSearchKeyDown.bind(this, filteredOptions)}
+                value={this.state.query}
+                placeholder={this.props.placeholder}
+                ref="search"
+                type="text" />
+            </div>
+        ) : null;
     }
 
     /**
@@ -164,6 +227,7 @@ class SelectBox extends React.Component {
 
         // Compute any styles
         let dropDownStyle = {};
+
         if (!this.state.showDropDown) {
             Object.assign(dropDownStyle, {
                 visibility: 'hidden',
@@ -177,17 +241,20 @@ class SelectBox extends React.Component {
             dropDownStyle.top = this.state.dropDownTop;
         }
 
+        // Get the rendered options
+        const renderedOptions = this.renderOptions();
+
         // Return the rendered drop down
         return (
             <div
             ref="dropDown"
             style={dropDownStyle}
-            className={className}
-            onMouseDown={this.onDropDownMouseDown}
-            onMouseUp={this.onDropDownMouseUp}>
-                <div className={optionsClassName}>
-                    {this.renderOptions()}
-                </div>
+            className={className}>
+                {renderedOptions.length ? (
+                    <div className={optionsClassName}>
+                        {renderedOptions}
+                    </div>
+                ) : null}
             </div>
         );
     }
@@ -229,33 +296,6 @@ class SelectBox extends React.Component {
         ) : null;
     }
 
-    /**
-     * Render the search box
-     * @returns {*}
-     */
-    renderSearch() {
-        const className = getClassName(
-            'react-ui-select-box-search',
-            this.props.searchClassName
-        );
-        const options = this.getOptions();
-        const filteredOptions = this.filterOptions(options);
-
-        return options.length >= this.props.searchThreshold ? (
-            <div className={className}>
-                <input
-                autoFocus={true}
-                onClick={this.onSearchFocus}
-                onFocus={this.onSearchFocus}
-                onChange={this.onSearch}
-                onKeyDown={this.onSearchKeyDown.bind(this, filteredOptions)}
-                value={this.state.query}
-                ref="search"
-                type="text" />
-            </div>
-        ) : null;
-    }
-
     renderOptions() {
         return this.filterOptions().map((option, i) => {
             const className = getClassName(
@@ -291,43 +331,57 @@ class SelectBox extends React.Component {
         );
     }
 
-    onChange(option, evt) {
-        this.delayBlur.cancel();
-        this.props.onChange(evt, option);
-        this.setValue(option);
-        console.log('on change');
-        console.log(option);
+    /**
+     * Handle when the document is clicked.
+     * We use this to determine when a click occurs outside of this element
+     * and the drop down menu is shown. This will let us successfully close the menu
+     * @param event
+     */
+    onDocumentClick(event) {
+        // Check if the click was inside this element
+        if (ReactDOM.findDOMNode(this).contains(event.target)) {
+            return;
+        }
+
+        // Hide the drop down
+        this.hideDropDown();
     }
 
+    /**
+     * Handle the event when a new option is selected from the drop down list
+     * @param option
+     * @param evt
+     */
+    onChange(option, evt) {
+        this.props.onChange(evt, option);
+        this.setValue(option);
+    }
+
+    /**
+     * Handle the event when the clear button is clicked
+     * @param evt
+     */
     onClearClick(evt) {
         evt.stopPropagation();
         this.props.onClearClick(evt);
         this.clear();
     }
 
+    /**
+     * Handle the event when the main component is clicked.
+     * This will essentially toggle the drop down menu
+     * @param evt
+     */
     onClick(evt) {
-        if (!this.props.disabled) {
-            this.props.onClick(evt, this.state.showDropDown);
+        let showDropDown = this.state.showDropDown;
 
+        if (!this.props.disabled) {
             if (this.state.showDropDown) {
                 this.hideDropDown();
             } else {
                 this.showDropDown();
             }
-        }
-    }
-
-    onDropDownMouseDown() {
-        this.canHideDropDown = false;
-    }
-
-    onDropDownMouseUp() {
-        this.canHideDropDown = true;
-    }
-
-    onBlur() {
-        if (this.canHideDropDown) {
-            this.hideDropDown();
+            this.props.onClick(evt, showDropDown);
         }
     }
 
@@ -338,21 +392,12 @@ class SelectBox extends React.Component {
         this.setQuery(this.refs.search.value.toLowerCase());
     }
 
-    /**
-     * A delayed method that will call the props onSearch in a buffered manner
-     */
-    onSearchDelay() {
-        this.props.onSearch(this.state.query);
-    }
-
     onSearchFocus(event) {
+        // This will set the cursor to the end
         event.target.value = this.state.query;
 
         // Stop the propagation
         event.stopPropagation();
-
-        // Cancel the delayed blur
-        this.delayBlur.cancel();
     }
 
     onSearchKeyDown(options, evt) {
@@ -369,15 +414,46 @@ class SelectBox extends React.Component {
     }
 
     /**
+     * Handles adding the document click listener that is used
+     * to detect a click outside of this element when
+     * the drop menu is shown
+     * @returns {boolean}
+     */
+    addDocumentClickListener() {
+        if (this.hasDocumentClickListener) {
+            return false;
+        }
+        document.addEventListener('click', this.onDocumentClick, false);
+        this.hasDocumentClickListener = true;
+    }
+
+    /**
+     * Handles the cleanup and removal of the document click listener
+     * @returns {boolean}
+     */
+    removeDocumentClickListener() {
+        if (!this.hasDocumentClickListener) {
+            return false;
+        }
+        document.removeEventListener('click', this.onDocumentClick, false);
+        this.hasDocumentClickListener = false;
+    }
+
+    /**
      * Determine if we have a value other than null and undefined
      */
     hasValue() {
+        let value = this.state.value;
+
+        if (arguments.length) {
+            value = arguments[0];
+        }
         return (
-            this.state.value !== null &&
-            this.state.value !== undefined &&
-            this.state.value !== '' &&
-            this.state.value[this.props.valueProp] !== null &&
-            this.state.value[this.props.valueProp] !== undefined
+            value !== null &&
+            value !== undefined &&
+            value !== '' &&
+            value[this.props.valueProp] !== null &&
+            value[this.props.valueProp] !== undefined
         );
     }
 
@@ -402,8 +478,8 @@ class SelectBox extends React.Component {
         // Sets the query value
         this.setState({
             query: query
-        },() => {
-            this.onSearchDelay();
+        }, () => {
+            this.delaySearch(query);
         });
     }
 
@@ -476,9 +552,6 @@ class SelectBox extends React.Component {
      * Clear the selection
      */
     clear() {
-        // Cancel the blur
-        this.delayBlur.cancel();
-
         // Update the value
         this.setValue(undefined);
 
@@ -513,18 +586,29 @@ class SelectBox extends React.Component {
         });
     }
 
+    /**
+     * This will return the dimensions of the viewport
+     * @returns {{width: (Number|number), height: (Number|number)}}
+     */
     getViewportDimensions() {
-        let w = window,
-        d = document,
-        documentElement = d.documentElement,
-        body = d.getElementsByTagName('body')[0];
+        let w = window;
+        let d = document;
+        let documentElement = d.documentElement;
+        let body = d.getElementsByTagName('body')[0];
 
+        /* istanbul ignore next */
         return {
             width: w.innerWidth || documentElement.clientWidth || body.clientWidth,
-            height: w.innerHeight || documentElement.clientHeight|| body.clientHeight
-        }
+            height: w.innerHeight || documentElement.clientHeight || body.clientHeight
+        };
     }
 
+    /**
+     * This method will reposition the drop down menu to its optimal position.
+     * If the drop down does not have enough space below the picker it
+     * will attempt to reposition itself above.
+     * @param allowPositionChange
+     */
     positionDropDown(allowPositionChange=false) {
         // Get the dimensions of the main element
         let elDimensions = this.refs.el.getBoundingClientRect();
@@ -561,6 +645,7 @@ class SelectBox extends React.Component {
         // If we are not allowing a position change and the position is top, reposition
         if (!allowPositionChange && this.state.dropDownPosition === 'top') {
             let top = -(dropDownDimensions.height);
+
             if (top !== this.state.dropDownTop) {
                 this.setState({
                     dropDownTop: -(dropDownDimensions.height)
