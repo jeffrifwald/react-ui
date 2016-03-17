@@ -27,7 +27,6 @@ Mingus.createTestCase('SelectBoxTest', {
         // Test with value
         component = this.createComponent(<SelectBox value={{value: 'test'}} />);
         this.assertDeepEqual(component.state.value, {value: 'test'});
-
     },
 
     testComponentWillUnMount() {
@@ -63,7 +62,8 @@ Mingus.createTestCase('SelectBoxTest', {
     },
 
     /**
-     * Test when the component will receive new props and the value is new and there is no current value
+     * Test when the component will receive new props and the value
+     * is new and there is no current value
      */
     testComponentWillReceivePropsWithValueChangeButNoCurrentValue() {
         // Create the component
@@ -91,7 +91,8 @@ Mingus.createTestCase('SelectBoxTest', {
     },
 
     /**
-     * Test when the component will receive new props and the value is different than one that exists
+     * Test when the component will receive new props and the value
+     * is different than one that exists
      */
     testComponentWillReceivePropsWithValueChangeWithCurrentValue() {
         // Create the component
@@ -319,6 +320,7 @@ Mingus.createTestCase('SelectBoxTest', {
                 <option>1</option>
             </SelectBox>
         );
+
         component.state.showDropDown = false;
 
         // Render the component
@@ -340,6 +342,7 @@ Mingus.createTestCase('SelectBoxTest', {
                 <option>1</option>
             </SelectBox>
         );
+
         component.state.dropDownTop = -100;
 
         // Render the component
@@ -368,6 +371,7 @@ Mingus.createTestCase('SelectBoxTest', {
         const renderedDropDown = component.renderDropDown();
         const renderedOptionsWrapper = this.getChildren(renderedDropDown)[0];
         const renderedOptions = this.getChildren(renderedOptionsWrapper);
+
         this.assertNumChildren(renderedOptionsWrapper, 1);
         this.assertText(renderedOptions[0], '1');
     },
@@ -455,6 +459,7 @@ Mingus.createTestCase('SelectBoxTest', {
         const component = this.createComponent(
             <SelectBox />
         );
+
         this.stub(component, 'shouldShowTrigger');
 
         // Test when should show trigger is false
@@ -471,6 +476,7 @@ Mingus.createTestCase('SelectBoxTest', {
             {display: 'A', value: 'A'},
             {display: 'B', value: 'B'}
         ];
+
         const component = this.createComponent(
             <SelectBox>
                 <option>A</option>
@@ -601,6 +607,7 @@ Mingus.createTestCase('SelectBoxTest', {
 
     testOnClick() {
         const onClick = this.stub();
+
         const component = this.createComponent(
             <SelectBox onClick={onClick} />
         );
@@ -624,6 +631,7 @@ Mingus.createTestCase('SelectBoxTest', {
 
     testOnClickDisabled() {
         const onClick = this.stub();
+
         const component = this.createComponent(
             <SelectBox disabled={true} onClick={onClick} />
         );
@@ -750,6 +758,7 @@ Mingus.createTestCase('SelectBoxTest', {
 
         // Create the component
         const component = this.createComponent(<SelectBox />);
+
         component.hasDocumentClickListener = true;
 
         // Call the method
@@ -769,13 +778,16 @@ Mingus.createTestCase('SelectBoxTest', {
 
         // Create the component
         const component = this.createComponent(<SelectBox />);
+
         component.hasDocumentClickListener = false;
 
         // Call the method
         component.addDocumentClickListener();
 
         // Assert that we called the add event listener
-        this.assertTrue(global.document.addEventListener.calledWith('click', component.onDocumentClick, false));
+        this.assertTrue(
+            global.document.addEventListener.calledWith('click', component.onDocumentClick, false)
+        );
     },
 
     /**
@@ -788,6 +800,7 @@ Mingus.createTestCase('SelectBoxTest', {
 
         // Create the component
         const component = this.createComponent(<SelectBox />);
+
         component.hasDocumentClickListener = false;
 
         // Call the method
@@ -807,13 +820,20 @@ Mingus.createTestCase('SelectBoxTest', {
 
         // Create the component
         const component = this.createComponent(<SelectBox />);
+
         component.hasDocumentClickListener = true;
 
         // Call the method
         component.removeDocumentClickListener();
 
         // Assert that we called the add event listener
-        this.assertTrue(global.document.removeEventListener.calledWith('click', component.onDocumentClick, false));
+        this.assertTrue(
+            global.document.removeEventListener.calledWith(
+                'click',
+                component.onDocumentClick,
+                false
+            )
+        );
     },
 
     testHasValue() {
@@ -885,6 +905,7 @@ Mingus.createTestCase('SelectBoxTest', {
     testShouldShowClear() {
         // Test when showClear is false
         let component = this.createComponent(<SelectBox showClear={false} />);
+
         this.assertFalse(component.shouldShowClear());
 
         // Test when showClear is true, has no value
@@ -1050,7 +1071,7 @@ Mingus.createTestCase('SelectBoxTest', {
                         bottom: 600,
                         width: 100,
                         height: 50
-                    }
+                    };
                 }
             },
             dropDown: {
@@ -1060,7 +1081,7 @@ Mingus.createTestCase('SelectBoxTest', {
                         bottom: 700,
                         width: 100,
                         height: 100
-                    }
+                    };
                 }
             }
         };
@@ -1076,7 +1097,9 @@ Mingus.createTestCase('SelectBoxTest', {
         component.positionDropDown(true);
 
         // Assert we called set state properly
-        this.assertTrue(component.setState.calledWith({ dropDownTop: -100, dropDownPosition: 'top' }));
+        this.assertTrue(
+            component.setState.calledWith({ dropDownTop: -100, dropDownPosition: 'top' })
+        );
 
         // Change the dimensions and re call
         component.refs.dropDown.getBoundingClientRect = function() {
@@ -1085,7 +1108,7 @@ Mingus.createTestCase('SelectBoxTest', {
                 bottom: 800,
                 width: 100,
                 height: 200
-            }
+            };
         };
         component.state.dropDownTop = -100;
         component.state.dropDownPosition = 'top';
@@ -1105,6 +1128,5 @@ Mingus.createTestCase('SelectBoxTest', {
 
         // Assert that we did not call set state
         this.assertEqual(component.setState.callCount, 2);
-
     }
 });
