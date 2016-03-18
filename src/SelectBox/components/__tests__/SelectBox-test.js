@@ -1,11 +1,228 @@
 import Mingus from 'mingus';
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 import SelectBox from '../SelectBox';
 import {KEY_CODES} from '../../../utils';
 
 
 Mingus.createTestCase('SelectBoxTest', {
+    testConstructor() {
+        // Create the component
+        let component = this.createComponent(<SelectBox />);
+
+        // Assert that we have a good initial state
+        this.assertDeepEqual(component.state, {
+            highlightedIndex: -1,
+            showDropDown: false,
+            value: undefined,
+            query: '',
+            dropDownTop: null,
+            dropDownPosition: 'bottom'
+        });
+
+        // Assert that we set the default document listener value
+        this.assertEqual(false, component.hasDocumentClickListener);
+
+        // Test with value
+        component = this.createComponent(<SelectBox value={{value: 'test'}} />);
+        this.assertDeepEqual(component.state.value, {value: 'test'});
+    },
+
+    testComponentWillUnMount() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Stub out any items we want to test for
+        this.stub(component, 'removeDocumentClickListener');
+        component.delaySearch = {cancel: this.stub()};
+
+        // Call the unmount method
+        component.componentWillUnmount();
+
+        // Assert that we called remove on the document click listener
+        this.assertEqual(component.removeDocumentClickListener.callCount, 1);
+
+        // Assert that we called cancel on the search delay
+        this.assertEqual(component.delaySearch.cancel.callCount, 1);
+    },
+
+    /**
+     * Test when the component will receive new props but the value did not change
+     */
+    testComponentWillReceivePropsNoValueChange() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Stub out any methods we want to test
+        this.stub(component, 'setValue');
+
+        // Call the method without any changes
+        component.componentWillReceiveProps(component.props);
+    },
+
+    /**
+     * Test when the component will receive new props and the value
+     * is new and there is no current value
+     */
+    testComponentWillReceivePropsWithValueChangeButNoCurrentValue() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Stub out any methods we want to test
+        this.stub(component, 'setValue');
+
+        // Update the props to have a new value
+        let props = Object.assign({}, component.props, {
+            value: {
+                display: 'new',
+                value: 'new'
+            }
+        });
+
+        // Call the method without any changes
+        component.componentWillReceiveProps(props);
+
+        // Assert that set value was called
+        this.assertTrue(component.setValue.calledWith({
+            display: 'new',
+            value: 'new'
+        }));
+    },
+
+    /**
+     * Test when the component will receive new props and the value
+     * is different than one that exists
+     */
+    testComponentWillReceivePropsWithValueChangeWithCurrentValue() {
+        // Create the component
+        const component = this.createComponent(<SelectBox value={{value: 'test'}} />);
+
+        // Stub out any methods we want to test
+        this.stub(component, 'setValue');
+
+        // Update the props to have a new value
+        let props = Object.assign({}, component.props, {
+            value: {
+                display: 'new',
+                value: 'new'
+            }
+        });
+
+        // Call the method without any changes
+        component.componentWillReceiveProps(props);
+
+        // Assert that set value was called
+        this.assertTrue(component.setValue.calledWith({
+            display: 'new',
+            value: 'new'
+        }));
+    },
+
+    /**
+     * Test when the component will receive new props and the
+     * new value is null and we have a current value
+     */
+    testComponentWillReceivePropsWithNullValueChangeWithCurrentValue() {
+        // Create the component
+        const component = this.createComponent(<SelectBox value={{value: 'test'}} />);
+
+        // Stub out any methods we want to test
+        this.stub(component, 'setValue');
+
+        // Update the props to have a new value
+        let props = Object.assign({}, component.props, {
+            value: null
+        });
+
+        // Call the method without any changes
+        component.componentWillReceiveProps(props);
+
+        // Assert that set value was called
+        this.assertTrue(component.setValue.calledWith(null));
+    },
+
+    /**
+     * Test when the component updates and we just switched to showing the drop down
+     */
+    testComponentDidUpdateWithShowDropDown() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Manually set the state of the component for testing
+        component.state.showDropDown = true;
+
+        // Stub out any methods we want to test
+        this.stub(component, 'positionDropDown');
+        this.stub(component, 'addDocumentClickListener');
+        this.stub(component, 'removeDocumentClickListener');
+
+        // Call the component did update method
+        component.componentDidUpdate({}, {
+            showDropDown: false
+        });
+
+        // Assert that we called the position drop down method correctly
+        this.assertTrue(component.positionDropDown.calledWith(true));
+
+        // Assert that we called the add document click listener
+        this.assertTrue(component.addDocumentClickListener.calledWith());
+    },
+
+    /**
+     * Test when the component updates and we were already showing the drop down
+     */
+    testComponentDidUpdateWithShowDropDownAlreadyShowing() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Manually set the state of the component for testing
+        component.state.showDropDown = true;
+
+        // Stub out any methods we want to test
+        this.stub(component, 'positionDropDown');
+        this.stub(component, 'addDocumentClickListener');
+        this.stub(component, 'removeDocumentClickListener');
+
+        // Call the component did update method
+        component.componentDidUpdate({}, {
+            showDropDown: true
+        });
+
+        // Assert that we called the position drop down method correctly
+        this.assertTrue(component.positionDropDown.calledWith(false));
+
+        // Assert that we called the add document click listener
+        this.assertTrue(component.addDocumentClickListener.calledWith());
+    },
+
+    /**
+     * Test when the component updates and the drop down is hidden
+     */
+    testComponentDidUpdateWithShowDropDownNotShowing() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Manually set the state of the component for testing
+        component.state.showDropDown = false;
+
+        // Stub out any methods we want to test
+        this.stub(component, 'positionDropDown');
+        this.stub(component, 'addDocumentClickListener');
+        this.stub(component, 'removeDocumentClickListener');
+
+        // Call the component did update method
+        component.componentDidUpdate({}, {
+            showDropDown: false
+        });
+
+        // Assert that we did not call the position drop down method correctly
+        this.assertEqual(component.positionDropDown.callCount, 0);
+
+        // Assert that we called the remove document click listener
+        this.assertTrue(component.removeDocumentClickListener.calledWith());
+    },
+
     testRender() {
         const rendered = this.renderComponent(
             <SelectBox>
@@ -16,17 +233,6 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertIsType(rendered, 'div');
         this.assertHasClass(rendered, 'react-ui-select-box');
         this.assertNumChildren(rendered, 2);
-    },
-
-    testComponentWillUnMount() {
-        const component = this.createComponent(<SelectBox />);
-
-        component.delayBlur = {cancel: this.stub()};
-        component.delaySearch = {cancel: this.stub()};
-
-        component.componentWillUnmount();
-        this.assertEqual(component.delayBlur.cancel.callCount, 1);
-        this.assertEqual(component.delaySearch.cancel.callCount, 1);
     },
 
     testRenderValue() {
@@ -41,6 +247,46 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertIsType(renderedChildren[0], 'input');
         this.assertEqual(renderedChildren[0].props.value, 55);
         this.assertEqual(renderedChildren[1], 'Cool');
+    },
+
+    /**
+     * Test the rendering of the display when search is null
+     */
+    testRenderDisplayNoSearch() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Update some state
+        component.state.value = {display: 'Cool', value: 55};
+
+        // Stub out components we want to test
+        this.stub(component, 'renderSearch').returns(null);
+
+        // Call the method
+        const rendered = component.renderDisplay();
+
+        // Assert we rendered just the display value
+        this.assertEqual(rendered, 'Cool');
+    },
+
+    /**
+     * Test the rendering of the display when the drop down is shown and search exists
+     */
+    testRenderDisplayWithSearch() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Update some state
+        component.state.showDropDown = true;
+
+        // Stub out components we want to test
+        this.stub(component, 'renderSearch').returns(<div className="search"></div>);
+
+        // Call the method
+        const rendered = component.renderDisplay();
+
+        // Assert we rendered the search
+        this.assertHasClass(rendered, 'search');
     },
 
     testRenderSearch() {
@@ -91,6 +337,51 @@ Mingus.createTestCase('SelectBoxTest', {
         );
     },
 
+    testRenderDropDownDoNotShow() {
+        const component = this.createComponent(
+            <SelectBox>
+                <option>1</option>
+            </SelectBox>
+        );
+
+        component.state.showDropDown = false;
+
+        // Render the component
+        const renderedDropDown = component.renderDropDown();
+
+        // Check the style
+        this.assertDeepEqual(renderedDropDown.props.style, {
+            visibility: 'hidden',
+            opacity: 0,
+            width: 0,
+            height: 0,
+            overflow: 'hidden'
+        });
+    },
+
+    testRenderDropDownWithTop() {
+        const component = this.createComponent(
+            <SelectBox>
+                <option>1</option>
+            </SelectBox>
+        );
+
+        component.state.dropDownTop = -100;
+
+        // Render the component
+        const renderedDropDown = component.renderDropDown();
+
+        // Check the style
+        this.assertDeepEqual(renderedDropDown.props.style, {
+            visibility: 'hidden',
+            opacity: 0,
+            width: 0,
+            height: 0,
+            overflow: 'hidden',
+            top: -100
+        });
+    },
+
     testRenderDropDownOneChild() {
         const component = this.createComponent(
             <SelectBox>
@@ -101,7 +392,7 @@ Mingus.createTestCase('SelectBoxTest', {
         component.state.showDropDown = true;
 
         const renderedDropDown = component.renderDropDown();
-        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[1];
+        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[0];
         const renderedOptions = this.getChildren(renderedOptionsWrapper);
 
         this.assertNumChildren(renderedOptionsWrapper, 1);
@@ -119,7 +410,7 @@ Mingus.createTestCase('SelectBoxTest', {
         component.state.showDropDown = true;
 
         const renderedDropDown = component.renderDropDown();
-        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[1];
+        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[0];
         const renderedOptions = this.getChildren(renderedOptionsWrapper);
 
         this.assertNumChildren(renderedOptionsWrapper, 2);
@@ -141,7 +432,7 @@ Mingus.createTestCase('SelectBoxTest', {
         component.state.showDropDown = true;
 
         const renderedDropDown = component.renderDropDown();
-        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[1];
+        const renderedOptionsWrapper = this.getChildren(renderedDropDown)[0];
         const renderedOptions = this.getChildren(renderedOptionsWrapper);
 
         this.assertNumChildren(renderedOptionsWrapper, 2);
@@ -150,15 +441,19 @@ Mingus.createTestCase('SelectBoxTest', {
     },
 
     testRenderDropDownNoChildren() {
+        // Create the component
         const component = this.createComponent(
             <SelectBox />
         );
 
+        // Set the drop down to be showing
         component.state.showDropDown = true;
 
+        // Render the drop down
         const renderedDropDown = component.renderDropDown();
 
-        this.assertNull(this.getChildren(renderedDropDown)[0]);
+        // Assert that the drop down has no children
+        this.assertNull(renderedDropDown.props.children);
     },
 
     testRenderClearButton() {
@@ -166,13 +461,37 @@ Mingus.createTestCase('SelectBoxTest', {
             <SelectBox />
         );
 
-        this.assertNull(component.renderClear());
-        component.state.value = 'mock value';
+        // Stub the shouldShowClear method
+        this.stub(component, 'shouldShowClear').returns(false);
 
+        // Call the method
+        this.assertNull(component.renderClear());
+
+        // Set the should show to return true
+        component.shouldShowClear.returns(true);
+
+        // Render the clear button again
         const clear = component.renderClear();
 
+        // Assert that it rendered correctly
         this.assertHasClass(clear, 'react-ui-select-box-clear');
         this.assertEqual(clear.props.onClick, component.onClearClick);
+    },
+
+    testRenderTrigger() {
+        const component = this.createComponent(
+            <SelectBox />
+        );
+
+        this.stub(component, 'shouldShowTrigger');
+
+        // Test when should show trigger is false
+        component.shouldShowTrigger.returns(false);
+        this.assertEqual(component.renderTrigger(), null);
+
+        // Test when should show trigger is true
+        component.shouldShowTrigger.returns(true);
+        this.assertTrue(component.renderTrigger() !== null);
     },
 
     testRenderOptions() {
@@ -180,6 +499,7 @@ Mingus.createTestCase('SelectBoxTest', {
             {display: 'A', value: 'A'},
             {display: 'B', value: 'B'}
         ];
+
         const component = this.createComponent(
             <SelectBox>
                 <option>A</option>
@@ -211,49 +531,106 @@ Mingus.createTestCase('SelectBoxTest', {
         );
     },
 
+    testOnDocumentClickInside() {
+        // Create the component
+        const component = this.createComponent(
+            <SelectBox />
+        );
+
+        // Stubs
+        this.stub(ReactDOM, 'findDOMNode').returns({
+            contains: function() {
+                return true;
+            }
+        });
+
+        // Call the method
+        component.onDocumentClick({});
+    },
+
+    testOnDocumentClickOutside() {
+        // Create the component
+        const component = this.createComponent(
+            <SelectBox />
+        );
+
+        // Stubs
+        this.stub(ReactDOM, 'findDOMNode').returns({
+            contains: function() {
+                return false;
+            }
+        });
+        this.stub(component, 'hideDropDown');
+
+        // Call the method
+        component.onDocumentClick({});
+
+        // Assert that we hide the drop down
+        this.assertTrue(component.hideDropDown.called);
+    },
+
     testOnChange() {
+        // Create a stub on change event listener
         const onChange = this.stub();
+
+        // Create the component
         const component = this.createComponent(
             <SelectBox onChange={onChange} />
         );
+
+        // Create a mock event
         const mockEvt = {stopPropagation: this.stub()};
 
-        component.delayBlur = {cancel: this.stub()};
-        this.stub(component, 'setState');
+        // Stub out the set value method
+        this.stub(component, 'setValue');
 
+        // Call the on change event
         component.onChange('mock value', mockEvt);
-        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+
+        // Assert that the on change prop was called
         this.assertEqual(onChange.callCount, 1);
-        this.assertEqual(component.setState.callCount, 1);
+
+        // Assert that we set the value
+        this.assertEqual(component.setValue.callCount, 1);
+
+        // Assert that the prop was called with the correct values
         this.assertTrue(onChange.calledWith(mockEvt, 'mock value'));
-        this.assertTrue(component.setState.calledWith({
-            highlightedIndex: -1,
-            showDropDown: false,
-            query: '',
-            value: 'mock value'
-        }));
     },
 
     testOnClearClick() {
+        // Create a mock clear click listener
         const onClearClick = this.stub();
+
+        // Create the component
         const component = this.createComponent(
             <SelectBox onClearClick={onClearClick} />
         );
+
+        // Create a mock event
         const mockEvt = {stopPropagation: this.stub()};
 
+        // Stub out the clear method
         this.stub(component, 'clear');
-        component.delayBlur = {cancel: this.stub()};
 
+        // Call the method
         component.onClearClick(mockEvt);
+
+        // Assert that we stop event propagation
         this.assertEqual(mockEvt.stopPropagation.callCount, 1);
+
+        // Assert that we call the prop
         this.assertEqual(onClearClick.callCount, 1);
+
+        // Assert that we call clear
         this.assertEqual(component.clear.callCount, 1);
-        this.assertEqual(component.delayBlur.cancel.callCount, 1);
+
+        // Assert that we call the prop with the correct arguments
         this.assertTrue(onClearClick.calledWith(mockEvt));
     },
 
     testOnClick() {
         const onClick = this.stub();
+
         const component = this.createComponent(
             <SelectBox onClick={onClick} />
         );
@@ -277,6 +654,7 @@ Mingus.createTestCase('SelectBoxTest', {
 
     testOnClickDisabled() {
         const onClick = this.stub();
+
         const component = this.createComponent(
             <SelectBox disabled={true} onClick={onClick} />
         );
@@ -307,66 +685,37 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertEqual(component.hideDropDown.callCount, 0);
     },
 
-    testOnDropDownMouseDown() {
-        const component = this.createComponent(<SelectBox />);
-
-        component.canHideDropDown = true;
-        component.onDropDownMouseDown();
-        this.assertFalse(component.canHideDropDown);
-    },
-
-    testOnDropDownMouseUp() {
-        const component = this.createComponent(<SelectBox />);
-
-        component.canHideDropDown = false;
-        component.onDropDownMouseUp();
-        this.assertTrue(component.canHideDropDown);
-    },
-
-    testOnBlur() {
-        const component = this.createComponent(<SelectBox />);
-
-        this.stub(component, 'hideDropDown');
-        this.stub(component, 'clearQuery');
-
-        component.onBlur();
-        this.assertEqual(component.hideDropDown.callCount, 1);
-        this.assertEqual(component.clearQuery.callCount, 1);
-
-        component.canHideDropDown = false;
-        component.onBlur();
-        this.assertEqual(component.hideDropDown.callCount, 1);
-        this.assertEqual(component.clearQuery.callCount, 1);
-    },
-
     testOnSearch() {
-        const onSearch = this.stub();
+        // Create the component
         const component = this.createComponent(
-            <SelectBox onSearch={onSearch} />
+            <SelectBox />
         );
+
+        // Create a mock event node
         const mockNode = {value: 'Mock Value'};
 
-        this.stub(component, 'setState');
+        // Mock out the setQuery method
+        this.stub(component, 'setQuery');
+
+        // Populate the refs with the fake node
         component.refs = {search: mockNode};
 
+        // Call the method
         component.onSearch();
-        this.assertEqual(onSearch.callCount, 1);
-        this.assertEqual(component.setState.callCount, 1);
-        this.assertTrue(onSearch.calledWith('mock value'));
-        this.assertTrue(component.setState.calledWith({query: 'mock value'}));
 
-        onSearch.returns(true);
-        component.onSearch();
-        this.assertEqual(onSearch.callCount, 2);
-        this.assertEqual(component.setState.callCount, 1);
-        this.assertTrue(onSearch.calledWith('mock value'));
+        // Assert that we called setQuery
+        this.assertEqual(component.setQuery.callCount, 1);
+
+        // Assert that we called set query with the proper args
+        this.assertTrue(component.setQuery.calledWith('mock value'));
     },
 
     testOnSearchFocus() {
         const component = this.createComponent(<SelectBox />);
-        const mockEvt = {stopPropagation: this.stub()};
+        const mockEvt = {stopPropagation: this.stub(), target: {
+            value: 'test'
+        }};
 
-        component.delayBlur = {cancel: this.stub()};
         component.onSearchFocus(mockEvt);
         this.assertEqual(mockEvt.stopPropagation.callCount, 1);
     },
@@ -420,6 +769,196 @@ Mingus.createTestCase('SelectBoxTest', {
             display: 'Four',
             value: 'Four'
         }]);
+    },
+
+    /**
+     * Test the add document click listener method when the listener has already been added
+     */
+    testAddDocumentClickListenerAlreadyHasListener() {
+        global.document = {
+            addEventListener: this.stub()
+        };
+
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        component.hasDocumentClickListener = true;
+
+        // Call the method
+        component.addDocumentClickListener();
+
+        // Assert that we called the add event listener
+        this.assertEqual(global.document.addEventListener.callCount, 0);
+    },
+
+    /**
+     * Test the add document click listener method when it has not already been added
+     */
+    testAddDocumentClickListenerDoesNotExist() {
+        global.document = {
+            addEventListener: this.stub()
+        };
+
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        component.hasDocumentClickListener = false;
+
+        // Call the method
+        component.addDocumentClickListener();
+
+        // Assert that we called the add event listener
+        this.assertTrue(
+            global.document.addEventListener.calledWith('click', component.onDocumentClick, false)
+        );
+    },
+
+    /**
+     * Test the remove document click listener method when the listener has already been removed
+     */
+    testRemoveDocumentClickListenerAlreadyHasListener() {
+        global.document = {
+            removeEventListener: this.stub()
+        };
+
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        component.hasDocumentClickListener = false;
+
+        // Call the method
+        component.removeDocumentClickListener();
+
+        // Assert that we called the add event listener
+        this.assertEqual(global.document.removeEventListener.callCount, 0);
+    },
+
+    /**
+     * Test the remove document click listener method when it has not already been removed
+     */
+    testRemoveDocumentClickListenerDoesNotExist() {
+        global.document = {
+            removeEventListener: this.stub()
+        };
+
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        component.hasDocumentClickListener = true;
+
+        // Call the method
+        component.removeDocumentClickListener();
+
+        // Assert that we called the add event listener
+        this.assertTrue(
+            global.document.removeEventListener.calledWith(
+                'click',
+                component.onDocumentClick,
+                false
+            )
+        );
+    },
+
+    testHasValue() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Test when value is undefined
+        component.state.value = undefined;
+        this.assertFalse(component.hasValue());
+
+        // Test when value is null
+        component.state.value = null;
+        this.assertFalse(component.hasValue());
+
+        // Test when value is defined, but valueProp is undefined
+        component.state.value = {
+            value: undefined
+        };
+        this.assertFalse(component.hasValue());
+
+        // Test when value is defined but value prop is null
+        component.state.value = {
+            value: null
+        };
+        this.assertFalse(component.hasValue());
+
+        // Test when value is defined
+        component.state.value = {
+            value: true
+        };
+        this.assertTrue(component.hasValue());
+    },
+
+    testSetValue() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Stub out set state
+        this.stub(component, 'setState');
+
+        // Call the method
+        component.setValue({value: 'value'});
+
+        // Assert that set state was called correctly
+        this.assertTrue(component.setState.calledWith({
+            highlightedIndex: -1,
+            showDropDown: false,
+            value: {value: 'value'}
+        }));
+    },
+
+    testSetQuery() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Stub the delaySearch method
+        component.setState = function(state, callback) {
+            callback();
+        };
+        this.stub(component, 'delaySearch');
+
+        // Call the method
+        component.setQuery('test');
+
+        // Assert that delay search was called
+        this.assertTrue(component.delaySearch.calledWith('test'));
+    },
+
+    testShouldShowClear() {
+        // Test when showClear is false
+        let component = this.createComponent(<SelectBox showClear={false} />);
+
+        this.assertFalse(component.shouldShowClear());
+
+        // Test when showClear is true, has no value
+        component = this.createComponent(<SelectBox showClear={true} />);
+        this.assertFalse(component.shouldShowClear());
+
+        // Test when showClear is true, has value, disabled
+        component = this.createComponent(<SelectBox showClear={true} disabled={true} />);
+        component.state.value = {value: 'test'};
+        this.assertFalse(component.shouldShowClear());
+
+        // Test when showClear is true, has value, not disabled
+        component = this.createComponent(<SelectBox showClear={true} />);
+        component.state.value = {value: 'test'};
+        this.assertTrue(component.shouldShowClear());
+    },
+
+    testShouldShowTrigger() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Stub the show clear method
+        this.stub(component, 'shouldShowClear').returns(true);
+
+        // Test when true
+        this.assertFalse(component.shouldShowTrigger());
+
+        // Test when false
+        component.shouldShowClear.returns(false);
+        this.assertTrue(component.shouldShowTrigger());
     },
 
     testGetFilteredOptionsNoProps() {
@@ -479,14 +1018,13 @@ Mingus.createTestCase('SelectBoxTest', {
     testClear() {
         const component = this.createComponent(<SelectBox />);
 
-        this.stub(component, 'setState');
+        this.stub(component, 'setValue');
+        this.stub(component, 'clearQuery');
 
         component.clear();
-        this.assertEqual(component.setState.callCount, 1);
-        this.assertTrue(component.setState.calledWith({
-            highlightedIndex: -1,
-            value: undefined
-        }));
+        this.assertEqual(component.setValue.callCount, 1);
+        this.assertEqual(component.clearQuery.callCount, 1);
+        this.assertTrue(component.setValue.calledWith(undefined));
     },
 
     testClearQuery() {
@@ -509,6 +1047,45 @@ Mingus.createTestCase('SelectBoxTest', {
         this.assertTrue(component.setState.calledWith({showDropDown: false}));
     },
 
+    testHideDropDownSetStateCallbackNoOptionsRef() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Replace set state so we can test the call back
+        component.setState = function(state, callback) {
+            callback();
+        };
+
+        // Set the refs
+        component.refs = {};
+
+        // Call the method
+        component.hideDropDown();
+    },
+
+    testHideDropDownSetStateCallbackWithOptionsRef() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Replace set state so we can test the call back
+        component.setState = function(state, callback) {
+            callback();
+        };
+
+        // Set the refs
+        component.refs = {
+            options: {
+                scrollTop: 100
+            }
+        };
+
+        // Call the method
+        component.hideDropDown();
+
+        // Assert that we reset the scroll top
+        this.assertEqual(0, component.refs.options.scrollTop);
+    },
+
     testShowDropDown() {
         const component = this.createComponent(<SelectBox />);
 
@@ -516,6 +1093,102 @@ Mingus.createTestCase('SelectBoxTest', {
 
         component.showDropDown();
         this.assertEqual(component.setState.callCount, 1);
-        this.assertTrue(component.setState.calledWith({showDropDown: true}));
+        this.assertTrue(component.setState.calledWith({
+            showDropDown: true,
+            dropDownTop: null,
+            dropDownPosition: 'bottom'
+        }));
+    },
+
+    testGetViewportDimensions() {
+        // Setup the window and document
+        global.window = {
+            innerWidth: 100,
+            innerHeight: 100
+        };
+        global.document = {
+            documentElement: {},
+            getElementsByTagName: function() {
+                return [{}, {}];
+            }
+        };
+
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Call the method
+        this.assertDeepEqual({width: 100, height: 100}, component.getViewportDimensions());
+    },
+
+    testPositionDropDown() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Create the refs
+        component.refs = {
+            el: {
+                getBoundingClientRect: function() {
+                    return {
+                        top: 550,
+                        bottom: 600,
+                        width: 100,
+                        height: 50
+                    };
+                }
+            },
+            dropDown: {
+                getBoundingClientRect: function() {
+                    return {
+                        top: 600,
+                        bottom: 700,
+                        width: 100,
+                        height: 100
+                    };
+                }
+            }
+        };
+
+        // Stub any methods
+        this.stub(component, 'getViewportDimensions').returns({
+            width: 1000,
+            height: 650
+        });
+        this.stub(component, 'setState');
+
+        // Call the method
+        component.positionDropDown(true);
+
+        // Assert we called set state properly
+        this.assertTrue(
+            component.setState.calledWith({ dropDownTop: -100, dropDownPosition: 'top' })
+        );
+
+        // Change the dimensions and re call
+        component.refs.dropDown.getBoundingClientRect = function() {
+            return {
+                top: 600,
+                bottom: 800,
+                width: 100,
+                height: 200
+            };
+        };
+        component.state.dropDownTop = -100;
+        component.state.dropDownPosition = 'top';
+
+        // Call the method
+        component.positionDropDown();
+
+        // Assert we called set state properly
+        this.assertTrue(component.setState.calledWith({ dropDownTop: -200}));
+
+        // Test the case when their are no changes
+        component.state.dropDownTop = -200;
+        component.state.dropDownPosition = 'top';
+
+        // Call the method
+        component.positionDropDown();
+
+        // Assert that we did not call set state
+        this.assertEqual(component.setState.callCount, 2);
     }
 });
