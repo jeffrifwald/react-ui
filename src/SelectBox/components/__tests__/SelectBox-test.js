@@ -120,6 +120,29 @@ Mingus.createTestCase('SelectBoxTest', {
     },
 
     /**
+     * Test when the component will receive new props and the
+     * new value is null and we have a current value
+     */
+    testComponentWillReceivePropsWithNullValueChangeWithCurrentValue() {
+        // Create the component
+        const component = this.createComponent(<SelectBox value={{value: 'test'}} />);
+
+        // Stub out any methods we want to test
+        this.stub(component, 'setValue');
+
+        // Update the props to have a new value
+        let props = Object.assign({}, component.props, {
+            value: null
+        });
+
+        // Call the method without any changes
+        component.componentWillReceiveProps(props);
+
+        // Assert that set value was called
+        this.assertTrue(component.setValue.calledWith(null));
+    },
+
+    /**
      * Test when the component updates and we just switched to showing the drop down
      */
     testComponentDidUpdateWithShowDropDown() {
@@ -1022,6 +1045,45 @@ Mingus.createTestCase('SelectBoxTest', {
         component.hideDropDown();
         this.assertEqual(component.setState.callCount, 1);
         this.assertTrue(component.setState.calledWith({showDropDown: false}));
+    },
+
+    testHideDropDownSetStateCallbackNoOptionsRef() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Replace set state so we can test the call back
+        component.setState = function(state, callback) {
+            callback();
+        };
+
+        // Set the refs
+        component.refs = {};
+
+        // Call the method
+        component.hideDropDown();
+    },
+
+    testHideDropDownSetStateCallbackWithOptionsRef() {
+        // Create the component
+        const component = this.createComponent(<SelectBox />);
+
+        // Replace set state so we can test the call back
+        component.setState = function(state, callback) {
+            callback();
+        };
+
+        // Set the refs
+        component.refs = {
+            options: {
+                scrollTop: 100
+            }
+        };
+
+        // Call the method
+        component.hideDropDown();
+
+        // Assert that we reset the scroll top
+        this.assertEqual(0, component.refs.options.scrollTop);
     },
 
     testShowDropDown() {

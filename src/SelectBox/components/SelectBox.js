@@ -72,6 +72,8 @@ class SelectBox extends React.Component {
             (
                 hasNewValue &&
                 !hasCurrentValue
+            ) || (
+                !hasNewValue && hasCurrentValue
             )
         );
 
@@ -251,7 +253,7 @@ class SelectBox extends React.Component {
             style={dropDownStyle}
             className={className}>
                 {renderedOptions.length ? (
-                    <div className={optionsClassName}>
+                    <div className={optionsClassName} ref="options">
                         {renderedOptions}
                     </div>
                 ) : null}
@@ -572,6 +574,11 @@ class SelectBox extends React.Component {
     hideDropDown() {
         this.setState({
             showDropDown: false
+        }, () => {
+            // If the options element exists, scroll back up to the top
+            if (this.refs.options) {
+                this.refs.options.scrollTop = 0;
+            }
         });
     }
 
