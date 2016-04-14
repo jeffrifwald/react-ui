@@ -1,0 +1,28 @@
+{
+  "name": "react-ui-component-grid",
+  "version": "1.0.0",
+  "description": "A grid component for React UI.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmcriffey/react-ui.git"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "grid",
+    "ui"
+  ],
+  "author": "Jeff McRiffey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmcriffey/react-ui/issues"
+  },
+  "homepage": "https://jmcriffey.github.com/react-ui",
+  "dependencies": {
+    "react-ui-helper-class-names": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0"
+  }
+}

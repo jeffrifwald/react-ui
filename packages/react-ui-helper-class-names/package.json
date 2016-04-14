@@ -1,0 +1,22 @@
+{
+  "name": "react-ui-helper-class-names",
+  "version": "1.0.2",
+  "description": "A class name helper for React UI.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmcriffey/react-ui.git"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "grid",
+    "ui"
+  ],
+  "author": "Jeff McRiffey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmcriffey/react-ui/issues"
+  },
+  "homepage": "https://jmcriffey.github.com/react-ui"
+}

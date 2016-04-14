@@ -1,0 +1,5 @@
+.coverage
+.DS_Store
+lib
+node_modules
+npm-debug.log
