@@ -1,7 +1,7 @@
 {
   "name": "react-ui-component-grid",
-  "version": "1.0.0",
-  "description": "A grid component for React UI.",
+  "version": "1.0.6",
+  "description": "A grid component for ReactUI.",
   "main": "index.js",
   "repository": {
     "type": "git",

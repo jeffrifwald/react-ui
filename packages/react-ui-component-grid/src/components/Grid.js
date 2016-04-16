@@ -20,7 +20,7 @@ class Grid extends React.Component {
         this.sortGridData();
 
         return (
-            <table className="grid">
+            <table className="react-ui-grid">
                 <GridHeader
                 {...this.props}
                 {...this.state}
@@ -64,15 +64,13 @@ class Grid extends React.Component {
     getSortGetter() {
         const column = this.props.columns[this.state.sortedColumn];
 
-        if (column.sortProp) {
-            return (record) => record && record[column.sortProp];
+        if (typeof column.getSortValue === 'function') {
+            return column.getSortValue;
         }
 
-        if (column.dataProp) {
-            return (record) => record && record[column.dataProp];
-        }
+        const propName = column.sortProp ? 'sortProp' : 'dataProp';
 
-        return column.getSortValue;
+        return (record) => record && record[column[propName]];
     }
 
     shouldSort() {

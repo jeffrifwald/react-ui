@@ -1,4 +1,4 @@
- import {shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 import React from 'react';
 import {spy, stub} from 'sinon';
 import test from 'tape';
@@ -31,6 +31,7 @@ test('grid/components/Grid', (t) => {
     const header = wrapper.find('GridHeader');
     const body = wrapper.find('GridBody');
 
+    t.equal(wrapper.find('.react-ui-grid').length, 1);
     t.equal(header.length, 1);
     t.equal(body.length, 1);
 

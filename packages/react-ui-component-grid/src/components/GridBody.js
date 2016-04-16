@@ -16,9 +16,6 @@ export const renderRecordValue = (record, column, rowIndex, columnIndex) => {
 
 const GridBody = (props) => {
     const rows = props.data.map((record, rowIndex) => {
-        const rowClassName = classNames({
-            'react-ui-grid-row': true
-        });
         const cells = props.columns.map((column, columnIndex) => {
             const onClickCell = (evt) => props.onClickCell(
                 evt,

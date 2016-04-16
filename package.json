@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "build": "gulp build",
+    "check_coverage": "babel-istanbul check-coverage .coverage/coverage.json",
     "cover": "babel-node node_modules/.bin/babel-istanbul cover node_modules/.bin/tape -- './packages/**/test/*.js' './packages/**/test/**/*.js'",
     "lint": "eslint packages/**/src packages/**/test",
     "unit": "babel-node node_modules/.bin/tape './packages/**/test/*.js' './packages/**/test/**/*.js'",
-    "test": "npm run lint"
+    "test": "npm run lint && npm run cover && npm run check_coverage"
   },
   "repository": {
     "type": "git",
@@ -76,13 +77,14 @@
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",
     "sinon": "^1.17.3",
-    "tape": "^4.5.1"
+    "tape": "^4.5.1",
+    "vinyl-named": "^1.1.0",
+    "webpack-stream": "^3.1.0"
   },
   "peerDependencies": {
     "react": "0.14.x || 15.x.x"
   },
   "dependencies": {
-    "react-ui-component-grid": "^1.0.0",
-    "react-ui-helper-class-names": "^1.0.0"
+    "react-ui-component-grid": "^1.0.0"
   }
 }

@@ -16,7 +16,7 @@ npm install git://github.com/jmcriffey/react-ui.git
 
 ## Documentation
 
-[ReactUI](https://jmcriffey.github.com/react-ui/)
+[React UI](https://jmcriffey.github.com/react-ui/)
 
 ## License
 

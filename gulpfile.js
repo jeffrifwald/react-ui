@@ -6,9 +6,11 @@ const gulp = require('gulp');
 const babel = require('gulp-babel');
 const rename = require('gulp-rename');
 const tap = require('gulp-tap');
+const named = require('vinyl-named');
+const webpack = require('webpack-stream');
 
 
-gulp.task('build:src', () => {
+gulp.task('compile_src:packages', () => {
     return (
         gulp
         .src([
@@ -23,7 +25,19 @@ gulp.task('build:src', () => {
     );
 });
 
-gulp.task('create:indexes', ['build:src'], () => {
+gulp.task('compile_src:docs', () => {
+    return (
+        gulp
+        .src([
+            'docs/src/*.js',
+            'docs/src/**/*.js'
+        ])
+        .pipe(babel())
+        .pipe(gulp.dest('docs/lib'))
+    );
+});
+
+gulp.task('create_indexes:packages', ['compile_src:packages'], () => {
     gulp
     .src('packages/**/lib/index.js')
     .pipe(tap((file) => {
@@ -35,4 +49,25 @@ gulp.task('create:indexes', ['build:src'], () => {
     .pipe(gulp.dest('packages'));
 });
 
-gulp.task('build', ['create:indexes']);
+gulp.task('webpack_src:docs', ['compile_src:docs'], () => {
+    return (
+        gulp
+        .src('docs/lib/index.js')
+        .pipe(named())
+        .pipe(webpack({
+            externals: {
+                react: 'React',
+                'react-dom': 'ReactDOM'
+            },
+            output: {
+                filename: '[name].js'
+            },
+            quiet: true
+        }))
+        .pipe(gulp.dest('docs/static/scripts'))
+    );
+});
+
+gulp.task('build:packages', ['create_indexes:packages']);
+gulp.task('build:docs', ['webpack_src:docs']);
+gulp.task('build', ['build:packages', 'build:docs']);
