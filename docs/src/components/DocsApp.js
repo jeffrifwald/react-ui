@@ -1,10 +1,14 @@
 import React from 'react';
 
+import ExampleDatePicker from './examples/DatePicker';
+import ExampleFileInput from './examples/FileInput';
 import ExampleGrid from './examples/Grid';
 
 
 const examples = [
-    ExampleGrid
+    ExampleDatePicker,
+    ExampleGrid,
+    ExampleFileInput
 ];
 
 class DocsApp extends React.Component {

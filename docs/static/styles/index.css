@@ -89,10 +89,38 @@ td {
 a img {
   border: none;
 }
+
 body {
   background: #f4f4f4;
   color: #020202;
   font-family: 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
+}
+
+button {
+  background-color: #fff;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 13px;
+  margin-right: 10px;
+  padding: 8px 16px;
+}
+
+input[type='text'] {
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  font-size: 13px;
+  margin-right: 10px;
+  outline: none;
+  padding: 8px 16px;
+  position: relative;
 }
 
 .docs {
@@ -130,38 +158,6 @@ body {
   width: 50%;
 }
 
-.content .react-ui-ajax-form input[type='text'] {
-  border: 1px solid #cdcdcd;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 13px;
-  margin-right: 10px;
-  outline: none;
-  padding: 8px 16px;
-  position: relative;
-}
-
-.content .react-ui-ajax-form button[type='submit'] {
-  background-color: #fff;
-  border: 1px solid #cdcdcd;
-  -webkit-border-radius: 4px;
-  border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  font-size: 13px;
-  margin-right: 10px;
-  padding: 8px 16px;
-}
-
-.content .react-ui-slider-track {
-  margin-left: 10px;
-  width: 95%;
-}
-
 .header {
   border-bottom: 1px solid #272822;
   padding: 20px;
@@ -196,20 +192,20 @@ body {
 }
 
 .react-ui-grid {
-  -webkit-border-radius: 4px;
   border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
   border-radius: 4px;
   width: 100%;
 }
 
-.react-ui-grid-header {
+.react-ui-grid-header-cell {
   border-left: 1px solid #cdcdcd;
   cursor: pointer;
   height: 40px;
   padding: 0 10px;
 }
 
-.react-ui-grid-header:first-child {
+.react-ui-grid-header-cell:first-child {
   border-left-width: 0;
 }
 
@@ -226,4 +222,131 @@ body {
 
 .react-ui-grid-row:nth-child(odd) > .react-ui-grid-cell {
   background-color: #efefef;
+}
+
+.react-ui-date-picker {
+  background: url('../images/calendar.png') no-repeat 98% 50%;
+  border: 1px solid #cdcdcd;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  cursor: arrow;
+  font-size: 13px;
+  height: 34px;
+  line-height: 34px;
+  padding: 0 16px;
+  position: relative;
+  width: 75%;
+}
+
+.react-ui-date-picker-placeholder {
+  color: #ababab;
+}
+
+.react-ui-date-picker-controls {
+  float: right;
+  height: 32px;
+}
+
+.react-ui-date-picker-calendar {
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.12), 0 1px 4px rgba(0,0,0,0.12);
+  margin-top: 4px;
+  width: 100%;
+}
+
+.react-ui-date-picker-calendar-head {
+  font-size: 18px;
+  text-align: center;
+  color: #fff;
+}
+
+.react-ui-date-picker-calendar-body {
+  font-size: 12px;
+}
+
+.react-ui-date-picker-calendar-controls {
+  font-size: 18px;
+  text-align: center;
+}
+
+.react-ui-date-picker-calendar-previous {
+  background: #00bcd4;
+  border-radius: 4px 0 0 0;
+}
+
+.react-ui-date-picker-calendar-next {
+  background: #00bcd4;
+  border-radius: 0 4px 0 0;
+}
+
+.react-ui-date-picker-calendar-title {
+  background: #00bcd4;
+  color: #fff;
+  text-align: center;
+}
+
+.react-ui-date-picker-calendar-header-day {
+  background: #00bcd4;
+  font-size: 12px;
+  text-align: center;
+}
+
+.react-ui-date-picker-calendar-day {
+  cursor: pointer;
+  text-align: center;
+  color: #cdcdcd;
+}
+
+.react-ui-date-picker-calendar-next-icon {
+  background: url('../images/icon-next.png') no-repeat center;
+  cursor: pointer;
+  display: block;
+  height: 24px;
+  margin: 0 auto;
+  width: 24px;
+}
+
+.react-ui-date-picker-calendar-previous-icon {
+  background: url('../images/icon-previous.png') no-repeat center;
+  cursor: pointer;
+  display: block;
+  height: 24px;
+  margin: 0 auto;
+  width: 24px;
+}
+
+.react-ui-date-picker-calendar-selected-month {
+  color: #000;
+}
+
+.react-ui-date-picker-calendar-day-container {
+  background: transparent;
+  border-radius: 50%;
+  display: inline-block;
+  height: 28px;
+  line-height: 28px;
+  width: 28px;
+}
+
+.react-ui-date-picker-calendar-current-day > .react-ui-date-picker-calendar-day-container {
+  background: #cdcdcd;
+  color: #fff;
+}
+
+.react-ui-date-picker-calendar-day:hover > .react-ui-date-picker-calendar-day-container {
+  background-color: #00bcd4;
+  color: #fff;
+}
+
+.react-ui-date-picker-calendar-selected-day > .react-ui-date-picker-calendar-day-container {
+  background: #00bcd4;
+  color: #fff;
+}
+
+.react-ui-date-picker-calendar-disabled-day {
+  color: #cdcdcd;
 }

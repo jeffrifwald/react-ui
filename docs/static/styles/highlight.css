@@ -10,75 +10,98 @@ Orginal Style from ethanschoonover.com/solarized (c) Jeremy Hull <sourdrums@gmai
   padding: 0.5em;
   background: #002b36;
   color: #839496;
+  -webkit-text-size-adjust: none;
 }
 
 .hljs-comment,
-.hljs-quote {
+.diff .hljs-header,
+.hljs-doctype,
+.hljs-pi,
+.lisp .hljs-string {
   color: #586e75;
 }
 
 /* Solarized Green */
 .hljs-keyword,
-.hljs-selector-tag,
-.hljs-addition {
+.hljs-winutils,
+.method,
+.hljs-addition,
+.css .hljs-tag,
+.hljs-request,
+.hljs-status,
+.nginx .hljs-title {
   color: #859900;
 }
 
 /* Solarized Cyan */
 .hljs-number,
+.hljs-command,
 .hljs-string,
-.hljs-meta .hljs-meta-string,
-.hljs-literal,
+.hljs-tag .hljs-value,
+.hljs-rule .hljs-value,
 .hljs-doctag,
-.hljs-regexp {
+.tex .hljs-formula,
+.hljs-regexp,
+.hljs-hexcolor,
+.hljs-link_url {
   color: #2aa198;
 }
 
 /* Solarized Blue */
 .hljs-title,
-.hljs-section,
-.hljs-name,
-.hljs-selector-id,
-.hljs-selector-class {
+.hljs-localvars,
+.hljs-chunk,
+.hljs-decorator,
+.hljs-built_in,
+.hljs-identifier,
+.vhdl .hljs-literal,
+.hljs-id,
+.css .hljs-function,
+.hljs-name {
   color: #268bd2;
 }
 
 /* Solarized Yellow */
 .hljs-attribute,
-.hljs-attr,
 .hljs-variable,
-.hljs-template-variable,
+.lisp .hljs-body,
+.smalltalk .hljs-number,
+.hljs-constant,
 .hljs-class .hljs-title,
-.hljs-type {
+.hljs-parent,
+.hljs-type,
+.hljs-link_reference {
   color: #b58900;
 }
 
 /* Solarized Orange */
+.hljs-preprocessor,
+.hljs-preprocessor .hljs-keyword,
+.hljs-pragma,
+.hljs-shebang,
 .hljs-symbol,
-.hljs-bullet,
+.hljs-symbol .hljs-string,
+.diff .hljs-change,
+.hljs-special,
+.hljs-attr_selector,
 .hljs-subst,
-.hljs-meta,
-.hljs-meta .hljs-keyword,
-.hljs-selector-attr,
-.hljs-selector-pseudo,
-.hljs-link {
+.hljs-cdata,
+.css .hljs-pseudo,
+.hljs-header {
   color: #cb4b16;
 }
 
 /* Solarized Red */
-.hljs-built_in,
-.hljs-deletion {
+.hljs-deletion,
+.hljs-important {
   color: #dc322f;
 }
 
-.hljs-formula {
+/* Solarized Violet */
+.hljs-link_label {
+  color: #6c71c4;
+}
+
+.tex .hljs-formula {
   background: #073642;
-}
-
-.hljs-emphasis {
-  font-style: italic;
-}
-
-.hljs-strong {
-  font-weight: bold;
 }

@@ -85,7 +85,15 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _Grid = __webpack_require__(5);
+	var _DatePicker = __webpack_require__(5);
+
+	var _DatePicker2 = _interopRequireDefault(_DatePicker);
+
+	var _FileInput = __webpack_require__(11);
+
+	var _FileInput2 = _interopRequireDefault(_FileInput);
+
+	var _Grid = __webpack_require__(15);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
@@ -99,7 +107,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
 
-	var examples = [_Grid2.default];
+	var examples = [_DatePicker2.default, _Grid2.default, _FileInput2.default];
 
 	var DocsApp = function (_React$Component) {
 	    _inherits(DocsApp, _React$Component);
@@ -267,7 +275,786 @@
 	    value: true
 	});
 
-	var _reactUiComponentGrid = __webpack_require__(6);
+	var _reactUiComponentDatePicker = __webpack_require__(6);
+
+	var _reactUiComponentDatePicker2 = _interopRequireDefault(_reactUiComponentDatePicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    code: ['<DatePicker', 'name="date"', 'placeholder="Pick a date..." />'].join('\n'),
+	    name: 'FileInput',
+	    rendered: React.createElement(_reactUiComponentDatePicker2.default, {
+	        name: 'date',
+	        placeholder: 'Pick a date...' })
+	};
+
+/***/ },
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(7);
+
+
+/***/ },
+/* 7 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _DatePicker = __webpack_require__(8);
+
+	var _DatePicker2 = _interopRequireDefault(_DatePicker);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _DatePicker2.default;
+
+/***/ },
+/* 8 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactUiHelperClassNames = __webpack_require__(9);
+
+	var _reactUiHelperClassNames2 = _interopRequireDefault(_reactUiHelperClassNames);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var DatePicker = function (_React$Component) {
+	    _inherits(DatePicker, _React$Component);
+
+	    function DatePicker() {
+	        _classCallCheck(this, DatePicker);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        var _this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args)));
+
+	        _initialiseProps.call(_this);
+
+	        var selectedDate = _this.props.defaultValue || new Date();
+	        var value = _this.props.defaultValue ? new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate()) : undefined;
+	        var selectedMonth = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1);
+	        var now = new Date();
+	        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+	        _this.state = {
+	            selectedMonth: selectedMonth,
+	            showCalendar: _this.props.defaultShowCalendar,
+	            today: today,
+	            value: value
+	        };
+	        return _this;
+	    }
+
+	    DatePicker.prototype.componentDidMount = function componentDidMount() {
+	        document.body.addEventListener('click', this.onClickDocument);
+	    };
+
+	    DatePicker.prototype.componentWillUnmount = function componentWillUnmount() {
+	        document.body.removeEventListener('click', this.onClickDocument);
+	    };
+
+	    DatePicker.prototype.render = function render() {
+	        var className = (0, _reactUiHelperClassNames2.default)(_defineProperty({
+	            'react-ui-date-picker': true
+	        }, this.props.className, this.props.className));
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: className, ref: 'datePicker' },
+	            this.renderInput(),
+	            this.renderCalendar()
+	        );
+	    };
+
+	    DatePicker.prototype.renderInput = function renderInput() {
+	        var value = this.state.value ? this.props.getValue(this.state.value) : this.state.value;
+	        var display = this.state.value ? this.props.renderDisplay(this.state.value) : this.props.placeholder;
+	        var valueClassName = this.state.value ? 'react-ui-date-picker-value' : 'react-ui-date-picker-placeholder';
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: 'react-ui-date-picker-wrapper' },
+	            _react2.default.createElement('input', {
+	                disabled: this.props.disabled,
+	                name: this.props.name,
+	                type: 'hidden',
+	                value: value }),
+	            _react2.default.createElement(
+	                'span',
+	                { className: valueClassName },
+	                display
+	            ),
+	            _react2.default.createElement(
+	                'div',
+	                { className: 'react-ui-date-picker-controls' },
+	                this.renderClear()
+	            )
+	        );
+	    };
+
+	    DatePicker.prototype.renderClear = function renderClear() {
+	        return this.props.showClear && this.state.value && !this.props.disabled ? _react2.default.createElement('span', {
+	            className: 'react-ui-date-picker-clear',
+	            onClick: this.onClickClear }) : null;
+	    };
+
+	    DatePicker.prototype.renderCalendar = function renderCalendar() {
+	        return this.state.showCalendar ? _react2.default.createElement(
+	            'table',
+	            { className: 'react-ui-date-picker-calendar' },
+	            _react2.default.createElement(
+	                'thead',
+	                { className: 'react-ui-date-picker-calendar-head' },
+	                this.renderCalendarControls(),
+	                this.renderCalendarHeader()
+	            ),
+	            _react2.default.createElement(
+	                'tbody',
+	                { className: 'react-ui-date-picker-calendar-body' },
+	                this.renderCalendarBody()
+	            )
+	        ) : null;
+	    };
+
+	    DatePicker.prototype.renderCalendarControls = function renderCalendarControls() {
+	        return _react2.default.createElement(
+	            'tr',
+	            { className: 'react-ui-date-picker-calendar-controls' },
+	            _react2.default.createElement(
+	                'td',
+	                {
+	                    className: 'react-ui-date-picker-calendar-previous',
+	                    onClick: this.onClickPrevious },
+	                _react2.default.createElement('span', { className: 'react-ui-date-picker-calendar-previous-icon' })
+	            ),
+	            _react2.default.createElement(
+	                'td',
+	                {
+	                    className: 'react-ui-date-picker-calendar-title',
+	                    colSpan: 5 },
+	                this.renderCalendarMonthSelector(),
+	                _react2.default.createElement(
+	                    'span',
+	                    null,
+	                    ' '
+	                ),
+	                this.renderCalendarYearSelector()
+	            ),
+	            _react2.default.createElement(
+	                'td',
+	                {
+	                    className: 'react-ui-date-picker-calendar-next',
+	                    onClick: this.onClickNext },
+	                _react2.default.createElement('span', { className: 'react-ui-date-picker-calendar-next-icon' })
+	            )
+	        );
+	    };
+
+	    DatePicker.prototype.renderCalendarMonthSelector = function renderCalendarMonthSelector() {
+	        var date = this.state.selectedMonth;
+	        var monthOptions = this.props.monthNames.map(function (name, i) {
+	            return _react2.default.createElement(
+	                'option',
+	                { key: i, value: i },
+	                name
+	            );
+	        });
+	        var monthDisplay = this.props.monthNames[date.getMonth()];
+
+	        return this.props.showMonthSelector ? _react2.default.createElement(
+	            'select',
+	            {
+	                className: 'react-ui-date-picker-calendar-month-selector',
+	                onChange: this.onChangeMonth,
+	                value: date.getMonth() },
+	            monthOptions
+	        ) : _react2.default.createElement(
+	            'span',
+	            { className: 'react-ui-date-picker-calendar-month-value' },
+	            monthDisplay
+	        );
+	    };
+
+	    DatePicker.prototype.renderCalendarYearSelector = function renderCalendarYearSelector() {
+	        var date = this.state.selectedMonth;
+
+	        return this.props.showYearSelector ? _react2.default.createElement(
+	            'select',
+	            {
+	                className: 'react-ui-date-picker-calendar-year-selector',
+	                onChange: this.onChangeYear,
+	                value: date.getFullYear() },
+	            this.renderYearOptions()
+	        ) : _react2.default.createElement(
+	            'span',
+	            { className: 'react-ui-date-picker-calendar-year-value' },
+	            date.getFullYear()
+	        );
+	    };
+
+	    DatePicker.prototype.renderYearOptions = function renderYearOptions() {
+	        var years = [this.props.minValue.getFullYear()];
+	        var maxYear = this.props.maxValue.getFullYear();
+
+	        while (years[years.length - 1] < maxYear) {
+	            years.push(years[years.length - 1] + 1);
+	        }
+
+	        return years.map(function (year, i) {
+	            return _react2.default.createElement(
+	                'option',
+	                { key: i, value: year },
+	                year
+	            );
+	        });
+	    };
+
+	    DatePicker.prototype.renderCalendarHeader = function renderCalendarHeader() {
+	        var headers = this.props.dayNames.map(function (name) {
+	            return name[0];
+	        }).map(function (name, i) {
+	            return _react2.default.createElement(
+	                'th',
+	                { className: 'react-ui-date-picker-calendar-header-day', key: i },
+	                name
+	            );
+	        });
+
+	        return _react2.default.createElement(
+	            'tr',
+	            { className: 'react-ui-date-picker-calendar-header' },
+	            headers
+	        );
+	    };
+
+	    DatePicker.prototype.renderCalendarBody = function renderCalendarBody() {
+	        var _this2 = this;
+
+	        return this.getCalendarDates().map(function (week, i) {
+	            var days = week.map(function (day, j) {
+	                var disabled = _this2.isDateDisabled(day);
+	                var value = _this2.state.value;
+	                var today = _this2.state.today;
+	                var currentDayClass = _this2.datesEqual(day, today) ? 'react-ui-date-picker-calendar-current-day' : null;
+	                var disabledDayClass = disabled ? 'react-ui-date-picker-calendar-disabled-day' : null;
+	                var selectedDayClass = value && _this2.datesEqual(day, value) ? 'react-ui-date-picker-calendar-selected-day' : null;
+	                var selectedMonthClass = _this2.state.selectedMonth.getMonth() === day.getMonth() ? 'react-ui-date-picker-calendar-selected-month' : null;
+	                var dayClassName = (0, _reactUiHelperClassNames2.default)('react-ui-date-picker-calendar-day', currentDayClass, selectedMonthClass, disabledDayClass, selectedDayClass);
+	                var onClick = function onClick(evt) {
+	                    return _this2.onClickDate(evt, day, disabled);
+	                };
+
+	                return _react2.default.createElement(
+	                    'td',
+	                    {
+	                        className: dayClassName,
+	                        disabled: disabled,
+	                        key: j,
+	                        onClick: onClick },
+	                    _react2.default.createElement(
+	                        'span',
+	                        { className: 'react-ui-date-picker-calendar-day-container' },
+	                        day.getDate()
+	                    )
+	                );
+	            });
+
+	            return _react2.default.createElement(
+	                'tr',
+	                {
+	                    className: 'react-ui-date-picker-calendar-week',
+	                    key: i },
+	                days
+	            );
+	        });
+	    };
+
+	    DatePicker.prototype.getCalendarDates = function getCalendarDates() {
+	        var startDate = this.getFirstCalendarDate(this.state.selectedMonth);
+	        var dates = [startDate];
+	        var weeks = [];
+
+	        while (dates.length < 42) {
+	            dates.push(this.getNextCalendarDate(dates[dates.length - 1]));
+	        }
+
+	        for (var i = 0; i < 42; i += 7) {
+	            weeks.push(dates.slice(i, i + 7));
+	        }
+
+	        return weeks;
+	    };
+
+	    DatePicker.prototype.getFirstCalendarDate = function getFirstCalendarDate(d) {
+	        var date = new Date(d.getFullYear(), d.getMonth(), 1);
+
+	        while (date.getDay() !== 0) {
+	            date.setDate(date.getDate() - 1);
+	        }
+
+	        return date;
+	    };
+
+	    DatePicker.prototype.getNextCalendarDate = function getNextCalendarDate(d) {
+	        var date = new Date(d);
+
+	        date.setDate(date.getDate() + 1);
+
+	        return date;
+	    };
+
+	    DatePicker.prototype.datesEqual = function datesEqual(a, b) {
+	        return a.getDate() === b.getDate() && a.getMonth() === b.getMonth() && a.getFullYear() === b.getFullYear();
+	    };
+
+	    DatePicker.prototype.isDateDisabled = function isDateDisabled(date) {
+	        return this.props.isDateDisabled(date) || date > this.props.maxValue || date < this.props.minValue;
+	    };
+
+	    DatePicker.prototype.clear = function clear() {
+	        this.setState({ value: undefined });
+	    };
+
+	    DatePicker.prototype.showCalendar = function showCalendar() {
+	        if (!this.state.showCalendar) {
+	            this.setState({ showCalendar: true });
+	        }
+	    };
+
+	    DatePicker.prototype.hideCalendar = function hideCalendar() {
+	        if (this.state.showCalendar) {
+	            this.setState({ showCalendar: false });
+	        }
+	    };
+
+	    DatePicker.prototype.toggleCalendar = function toggleCalendar() {
+	        this.setState({ showCalendar: !this.state.showCalendar });
+	    };
+
+	    return DatePicker;
+	}(_react2.default.Component);
+
+	var _initialiseProps = function _initialiseProps() {
+	    var _this3 = this;
+
+	    this.onChangeMonth = function (evt) {
+	        var selectedMonth = new Date(_this3.state.selectedMonth.getFullYear(), evt.target.options[evt.target.selectedIndex].value, 1);
+
+	        evt.stopPropagation();
+	        _this3.setState({ selectedMonth: selectedMonth });
+	    };
+
+	    this.onChangeYear = function (evt) {
+	        var selectedMonth = new Date(evt.target.options[evt.target.selectedIndex].value, _this3.state.selectedMonth.getMonth(), 1);
+
+	        evt.stopPropagation();
+	        _this3.setState({ selectedMonth: selectedMonth });
+	    };
+
+	    this.onClick = function () {
+	        if (_this3.props.disabled) {
+	            return;
+	        }
+
+	        _this3.toggleCalendar();
+	    };
+
+	    this.onClickClear = function (evt) {
+	        evt.stopPropagation();
+	        _this3.clear();
+	    };
+
+	    this.onClickDate = function (evt, date, disabled) {
+	        evt.stopPropagation();
+
+	        if (!disabled) {
+	            _this3.setState({
+	                selectedMonth: new Date(date.getFullYear(), date.getMonth(), 1),
+	                showCalendar: false,
+	                value: date
+	            }, function () {
+	                _this3.props.onChange(evt, date, disabled);
+	            });
+	        }
+	    };
+
+	    this.onClickDocument = function (evt) {
+	        if (_this3.refs.datePicker.contains(evt.target)) {
+	            _this3.showCalendar();
+	        } else {
+	            _this3.hideCalendar();
+	        }
+	    };
+
+	    this.onClickNext = function (evt) {
+	        var selectedMonth = new Date(_this3.state.selectedMonth);
+
+	        selectedMonth.setMonth(selectedMonth.getMonth() + 1);
+
+	        evt.stopPropagation();
+	        _this3.setState({ selectedMonth: selectedMonth });
+	    };
+
+	    this.onClickPrevious = function (evt) {
+	        var selectedMonth = new Date(_this3.state.selectedMonth);
+
+	        selectedMonth.setMonth(selectedMonth.getMonth() - 1);
+
+	        evt.stopPropagation();
+	        _this3.setState({ selectedMonth: selectedMonth });
+	    };
+	};
+
+	DatePicker.propTypes = {
+	    className: _react2.default.PropTypes.string,
+	    dayNames: _react2.default.PropTypes.array,
+	    defaultShowCalendar: _react2.default.PropTypes.bool,
+	    defaultValue: _react2.default.PropTypes.object,
+	    disabled: _react2.default.PropTypes.bool,
+	    getValue: _react2.default.PropTypes.func,
+	    isDateDisabled: _react2.default.PropTypes.func,
+	    maxValue: _react2.default.PropTypes.object,
+	    minValue: _react2.default.PropTypes.object,
+	    monthNames: _react2.default.PropTypes.array,
+	    name: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    placeholder: _react2.default.PropTypes.string,
+	    renderDisplay: _react2.default.PropTypes.func,
+	    showClear: _react2.default.PropTypes.bool,
+	    showMonthSelector: _react2.default.PropTypes.bool,
+	    showYearSelector: _react2.default.PropTypes.bool
+	};
+
+	DatePicker.defaultProps = {
+	    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+	    defaultShowCalendar: false,
+	    disabled: false,
+	    getValue: function getValue(d) {
+	        return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+	    },
+	    isDateDisabled: function isDateDisabled() {
+	        return false;
+	    },
+	    maxValue: new Date(2050, 1, 1),
+	    minValue: new Date(1950, 1, 1),
+	    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+	    onChange: function onChange() {},
+	    renderDisplay: function renderDisplay(d) {
+	        return d.getMonth() + 1 + '/' + d.getDate() + '/' + d.getFullYear();
+	    },
+	    showClear: true,
+	    showMonthSelector: false,
+	    showYearSelector: false
+	};
+
+	exports.default = DatePicker;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(10);
+
+
+/***/ },
+/* 10 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function classNames() {
+	    var classes = [];
+
+	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	    }
+
+	    args.forEach(function (arg) {
+	        if (!arg && arg !== 0) {
+	            return;
+	        }
+
+	        var argType = typeof arg;
+
+	        if (argType === 'string' || argType === 'number') {
+	            classes.push(arg);
+	        } else if (Array.isArray(arg)) {
+	            classes.push(classNames.apply(undefined, _toConsumableArray(arg)));
+	        } else if (argType === 'object') {
+	            for (var prop in arg) {
+	                if (arg.hasOwnProperty(prop) && arg[prop]) {
+	                    classes.push(prop);
+	                }
+	            }
+	        }
+	    });
+
+	    return classes.join(' ');
+	}
+
+	module.exports = classNames;
+
+/***/ },
+/* 11 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _reactUiComponentFileInput = __webpack_require__(12);
+
+	var _reactUiComponentFileInput2 = _interopRequireDefault(_reactUiComponentFileInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = {
+	    code: ['<FileInput', 'chooseText="Choose"', 'clearText="Remove"', 'placeholder="Upload a file..."', 'name="photo" />'].join('\n'),
+	    name: 'FileInput',
+	    rendered: React.createElement(_reactUiComponentFileInput2.default, {
+	        chooseText: 'Choose',
+	        clearText: 'Remove',
+	        placeholder: 'Upload a file...',
+	        name: 'photo' })
+	};
+
+/***/ },
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(13);
+
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _FileInput = __webpack_require__(14);
+
+	var _FileInput2 = _interopRequireDefault(_FileInput);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	exports.default = _FileInput2.default;
+
+/***/ },
+/* 14 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _react = __webpack_require__(4);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactUiHelperClassNames = __webpack_require__(9);
+
+	var _reactUiHelperClassNames2 = _interopRequireDefault(_reactUiHelperClassNames);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
+
+	var FileInput = function (_React$Component) {
+	    _inherits(FileInput, _React$Component);
+
+	    function FileInput() {
+	        _classCallCheck(this, FileInput);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	            args[_key] = arguments[_key];
+	        }
+
+	        var _this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args)));
+
+	        _this.onChange = function (evt) {
+	            var inputDisplay = evt.target.value.split('\\').pop();
+
+	            _this.setState({
+	                inputDisplay: inputDisplay
+	            }, function () {
+	                _this.props.onChange(evt);
+	            });
+	        };
+
+	        _this.onChooseClick = function (evt) {
+	            evt.preventDefault();
+	            _this.refs.fileInput.click();
+	        };
+
+	        _this.onClearClick = function (evt) {
+	            evt.preventDefault();
+	            _this.clear();
+	        };
+
+	        _this.state = {
+	            inputDisplay: '',
+	            inputKey: 0
+	        };
+	        return _this;
+	    }
+
+	    FileInput.prototype.render = function render() {
+	        var className = (0, _reactUiHelperClassNames2.default)(_defineProperty({
+	            'react-ui-file-input': true
+	        }, this.props.className, this.props.className));
+
+	        return _react2.default.createElement(
+	            'div',
+	            { className: className },
+	            this.renderHiddenFileInput(),
+	            this.renderChooseButton(),
+	            this.renderClearButton(),
+	            this.renderInput()
+	        );
+	    };
+
+	    FileInput.prototype.renderHiddenFileInput = function renderHiddenFileInput() {
+	        var style = {
+	            display: 'none'
+	        };
+
+	        return _react2.default.createElement('input', {
+	            disabled: this.props.disabled,
+	            key: this.state.inputKey,
+	            name: this.props.name,
+	            onChange: this.onChange,
+	            ref: 'fileInput',
+	            style: style,
+	            type: 'file' });
+	    };
+
+	    FileInput.prototype.renderChooseButton = function renderChooseButton() {
+	        return this.props.showChooseButton ? _react2.default.createElement(
+	            'button',
+	            {
+	                className: 'react-ui-file-input-choose-button',
+	                disabled: this.props.disabled,
+	                onClick: this.onChooseClick,
+	                type: 'button' },
+	            this.props.chooseText
+	        ) : null;
+	    };
+
+	    FileInput.prototype.renderClearButton = function renderClearButton() {
+	        return this.props.showClearButton ? _react2.default.createElement(
+	            'button',
+	            {
+	                className: 'react-ui-file-input-clear-button',
+	                disabled: this.props.disabled,
+	                onClick: this.onClearClick,
+	                type: 'button' },
+	            this.props.clearText
+	        ) : null;
+	    };
+
+	    FileInput.prototype.renderInput = function renderInput() {
+	        return this.props.showInput ? _react2.default.createElement('input', {
+	            className: 'react-ui-file-input-input',
+	            disabled: this.props.disabled,
+	            onClick: this.onChooseClick,
+	            placeholder: this.props.placeholder,
+	            readOnly: true,
+	            type: 'text',
+	            value: this.state.inputDisplay }) : null;
+	    };
+
+	    FileInput.prototype.clear = function clear() {
+	        this.setState({
+	            inputDisplay: '',
+	            inputKey: this.state.inputKey + 1
+	        });
+	    };
+
+	    return FileInput;
+	}(_react2.default.Component);
+
+	FileInput.propTypes = {
+	    chooseText: _react2.default.PropTypes.string,
+	    className: _react2.default.PropTypes.string,
+	    clearText: _react2.default.PropTypes.string,
+	    disabled: _react2.default.PropTypes.bool,
+	    name: _react2.default.PropTypes.string,
+	    onChange: _react2.default.PropTypes.func,
+	    placeholder: _react2.default.PropTypes.string,
+	    showChooseButton: _react2.default.PropTypes.bool,
+	    showClearButton: _react2.default.PropTypes.bool,
+	    showInput: _react2.default.PropTypes.bool
+	};
+
+	FileInput.defaultProps = {
+	    chooseText: 'Choose File',
+	    clearText: 'Clear File',
+	    disabled: false,
+	    onChange: function onChange() {},
+	    showChooseButton: true,
+	    showClearButton: true,
+	    showInput: true
+	};
+
+	exports.default = FileInput;
+
+/***/ },
+/* 15 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+
+	var _reactUiComponentGrid = __webpack_require__(16);
 
 	var _reactUiComponentGrid2 = _interopRequireDefault(_reactUiComponentGrid);
 
@@ -353,14 +1140,14 @@
 	};
 
 /***/ },
-/* 6 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(7);
+	module.exports = __webpack_require__(17);
 
 
 /***/ },
-/* 7 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -369,7 +1156,7 @@
 	  value: true
 	});
 
-	var _Grid = __webpack_require__(8);
+	var _Grid = __webpack_require__(18);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
@@ -378,7 +1165,7 @@
 	exports.default = _Grid2.default;
 
 /***/ },
-/* 8 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -387,23 +1174,19 @@
 	    value: true
 	});
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 	var _react = __webpack_require__(4);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _GridBody = __webpack_require__(9);
+	var _reactUiHelperClassNames = __webpack_require__(9);
 
-	var _GridBody2 = _interopRequireDefault(_GridBody);
-
-	var _GridHeader = __webpack_require__(12);
-
-	var _GridHeader2 = _interopRequireDefault(_GridHeader);
+	var _reactUiHelperClassNames2 = _interopRequireDefault(_reactUiHelperClassNames);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -451,17 +1234,116 @@
 	    }
 
 	    Grid.prototype.render = function render() {
+	        var className = (0, _reactUiHelperClassNames2.default)(_defineProperty({
+	            'react-ui-grid': true
+	        }, this.props.className, this.props.className));
+
 	        this.sortGridData();
 
 	        return _react2.default.createElement(
 	            'table',
-	            { className: 'react-ui-grid' },
-	            _react2.default.createElement(_GridHeader2.default, _extends({}, this.props, this.state, {
-	                onClick: this.onClickHeader })),
-	            _react2.default.createElement(_GridBody2.default, _extends({}, this.props, this.state, {
-	                onClickCell: this.onClickCell,
-	                onClickRow: this.onClickRow }))
+	            { className: className },
+	            this.renderHeader(),
+	            this.renderBody()
 	        );
+	    };
+
+	    Grid.prototype.renderHeader = function renderHeader() {
+	        var _this2 = this;
+
+	        var headers = this.props.columns.map(function (column, i) {
+	            var sorted = _this2.state.sortedColumn === i;
+	            var reverse = _this2.state.sortReverse;
+	            var nextReverse = sorted ? !reverse : false;
+	            var sortedAsc = sorted && !reverse;
+	            var sortedDsc = sorted && reverse;
+	            var className = (0, _reactUiHelperClassNames2.default)({
+	                'react-ui-grid-header-cell': true,
+	                'react-ui-grid-header-sorted-asc': sortedAsc,
+	                'react-ui-grid-header-sorted-dsc': sortedDsc
+	            });
+	            var onClick = function onClick(evt) {
+	                return _this2.onClickHeader(evt, column, i, nextReverse);
+	            };
+
+	            return _react2.default.createElement(
+	                'th',
+	                {
+	                    className: className,
+	                    key: i,
+	                    onClick: onClick },
+	                _this2.renderColumnHeader(column)
+	            );
+	        });
+
+	        return _react2.default.createElement(
+	            'thead',
+	            { className: 'react-ui-grid-header' },
+	            _react2.default.createElement(
+	                'tr',
+	                { className: 'react-ui-grid-row' },
+	                headers
+	            )
+	        );
+	    };
+
+	    Grid.prototype.renderBody = function renderBody() {
+	        var _this3 = this;
+
+	        var rows = this.props.data.map(function (record, rowIndex) {
+	            var cells = _this3.props.columns.map(function (column, columnIndex) {
+	                var onClickCell = function onClickCell(evt) {
+	                    return _this3.onClickCell(evt, record, column, rowIndex, columnIndex);
+	                };
+	                var cellClassName = (0, _reactUiHelperClassNames2.default)({
+	                    'react-ui-grid-cell': true,
+	                    'react-ui-grid-cell-selected': _this3.state.selectedCell[0] === rowIndex && _this3.state.selectedCell[1] === columnIndex
+	                });
+
+	                return _react2.default.createElement(
+	                    'td',
+	                    {
+	                        className: cellClassName,
+	                        key: columnIndex,
+	                        onClick: onClickCell },
+	                    _this3.renderRecordValue(record, column, rowIndex, columnIndex)
+	                );
+	            });
+
+	            return _react2.default.createElement(
+	                'tr',
+	                {
+	                    className: 'react-ui-grid-row',
+	                    key: rowIndex },
+	                cells
+	            );
+	        });
+
+	        return _react2.default.createElement(
+	            'tbody',
+	            { className: 'react-ui-grid-body' },
+	            rows
+	        );
+	    };
+
+	    Grid.prototype.renderColumnHeader = function renderColumnHeader(column) {
+	        if (typeof column.renderHeader === 'function') {
+	            return column.renderHeader();
+	        }
+
+	        return column.header;
+	    };
+
+	    Grid.prototype.renderRecordValue = function renderRecordValue(record, column, rowIndex, columnIndex) {
+	        if (!record) {
+	            return null;
+	        }
+
+	        if (typeof column.render === 'function') {
+	            return column.render(record, column, rowIndex, columnIndex);
+	        }
+
+	        return record[column.dataProp];
 	    };
 
 	    Grid.prototype.sortGridData = function sortGridData() {
@@ -512,6 +1394,7 @@
 	}(_react2.default.Component);
 
 	Grid.propTypes = {
+	    className: _react2.default.PropTypes.string,
 	    columns: _react2.default.PropTypes.array.isRequired,
 	    data: _react2.default.PropTypes.array.isRequired,
 	    defaultSelectedCell: _react2.default.PropTypes.array,
@@ -532,221 +1415,6 @@
 	};
 
 	exports.default = Grid;
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.renderRecordValue = undefined;
-
-	var _react = __webpack_require__(4);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactUiHelperClassNames = __webpack_require__(10);
-
-	var _reactUiHelperClassNames2 = _interopRequireDefault(_reactUiHelperClassNames);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var renderRecordValue = exports.renderRecordValue = function renderRecordValue(record, column, rowIndex, columnIndex) {
-	    if (!record) {
-	        return null;
-	    }
-
-	    if (typeof column.render === 'function') {
-	        return column.render(record, column, rowIndex, columnIndex);
-	    }
-
-	    return record[column.dataProp];
-	};
-
-	var GridBody = function GridBody(props) {
-	    var rows = props.data.map(function (record, rowIndex) {
-	        var cells = props.columns.map(function (column, columnIndex) {
-	            var onClickCell = function onClickCell(evt) {
-	                return props.onClickCell(evt, record, column, rowIndex, columnIndex);
-	            };
-	            var cellClassName = (0, _reactUiHelperClassNames2.default)({
-	                'react-ui-grid-cell': true,
-	                'react-ui-grid-cell-selected': props.selectedCell[0] === rowIndex && props.selectedCell[1] === columnIndex
-	            });
-
-	            return _react2.default.createElement(
-	                'td',
-	                {
-	                    className: cellClassName,
-	                    key: columnIndex,
-	                    onClick: onClickCell },
-	                renderRecordValue(record, column, rowIndex, columnIndex)
-	            );
-	        });
-
-	        return _react2.default.createElement(
-	            'tr',
-	            {
-	                className: 'react-ui-grid-row',
-	                key: rowIndex },
-	            cells
-	        );
-	    });
-
-	    return _react2.default.createElement(
-	        'tbody',
-	        null,
-	        rows
-	    );
-	};
-
-	GridBody.propTypes = {
-	    data: _react2.default.PropTypes.array,
-	    columns: _react2.default.PropTypes.array,
-	    onClickCell: _react2.default.PropTypes.func,
-	    selectedCell: _react2.default.PropTypes.array
-	};
-
-	GridBody.defaultProps = {
-	    data: [],
-	    columns: [],
-	    onClickCell: function onClickCell() {},
-	    selectedCell: [-1, -1]
-	};
-
-	exports.default = GridBody;
-
-/***/ },
-/* 10 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(11);
-
-
-/***/ },
-/* 11 */
-/***/ function(module, exports) {
-
-	'use strict';
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function classNames() {
-	    var classes = [];
-
-	    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	        args[_key] = arguments[_key];
-	    }
-
-	    args.forEach(function (arg) {
-	        if (!arg && arg !== 0) {
-	            return;
-	        }
-
-	        var argType = typeof arg;
-
-	        if (argType === 'string' || argType === 'number') {
-	            classes.push(arg);
-	        } else if (Array.isArray(arg)) {
-	            classes.push(classNames.apply(undefined, _toConsumableArray(arg)));
-	        } else if (argType === 'object') {
-	            for (var prop in arg) {
-	                if (arg.hasOwnProperty(prop) && arg[prop]) {
-	                    classes.push(prop);
-	                }
-	            }
-	        }
-	    });
-
-	    return classes.join(' ');
-	}
-
-	module.exports = classNames;
-
-/***/ },
-/* 12 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	exports.renderColumnHeader = undefined;
-
-	var _react = __webpack_require__(4);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactUiHelperClassNames = __webpack_require__(10);
-
-	var _reactUiHelperClassNames2 = _interopRequireDefault(_reactUiHelperClassNames);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var renderColumnHeader = exports.renderColumnHeader = function renderColumnHeader(column) {
-	    if (typeof column.renderHeader === 'function') {
-	        return column.renderHeader();
-	    }
-
-	    return column.header;
-	};
-
-	var GridHeader = function GridHeader(props) {
-	    var headers = props.columns.map(function (column, i) {
-	        var sorted = props.sortedColumn === i;
-	        var reverse = props.sortReverse;
-	        var nextReverse = sorted ? !reverse : false;
-	        var sortedAsc = sorted && !reverse;
-	        var sortedDsc = sorted && reverse;
-	        var className = (0, _reactUiHelperClassNames2.default)({
-	            'react-ui-grid-header': true,
-	            'react-ui-grid-header-sorted-asc': sortedAsc,
-	            'react-ui-grid-header-sorted-dsc': sortedDsc
-	        });
-	        var onClick = function onClick(evt) {
-	            return props.onClick(evt, column, i, nextReverse);
-	        };
-
-	        return _react2.default.createElement(
-	            'th',
-	            {
-	                className: className,
-	                key: i,
-	                onClick: onClick },
-	            renderColumnHeader(column)
-	        );
-	    });
-
-	    return _react2.default.createElement(
-	        'thead',
-	        null,
-	        _react2.default.createElement(
-	            'tr',
-	            { className: 'react-ui-grid-row' },
-	            headers
-	        )
-	    );
-	};
-
-	GridHeader.propTypes = {
-	    columns: _react2.default.PropTypes.array,
-	    onClick: _react2.default.PropTypes.func,
-	    sortedColumn: _react2.default.PropTypes.number,
-	    sortReverse: _react2.default.PropTypes.bool
-	};
-
-	GridHeader.defaultProps = {
-	    columns: [],
-	    onClick: function onClick() {},
-	    sortedColumn: -1,
-	    sortReverse: false
-	};
-
-	exports.default = GridHeader;
 
 /***/ }
 /******/ ]);

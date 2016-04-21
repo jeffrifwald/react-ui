@@ -1,0 +1,28 @@
+{
+  "name": "react-ui-component-file-input",
+  "version": "1.0.0",
+  "description": "A file input component for ReactUI.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmcriffey/react-ui.git"
+  },
+  "keywords": [
+    "react",
+    "component",
+    "file",
+    "ui"
+  ],
+  "author": "Jeff McRiffey",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jmcriffey/react-ui/issues"
+  },
+  "homepage": "https://jmcriffey.github.com/react-ui",
+  "dependencies": {
+    "react-ui-helper-class-names": "^1.0.0"
+  },
+  "peerDependencies": {
+    "react": "0.14.x || 15.x.x"
+  }
+}
