@@ -1,6 +1,6 @@
 {
   "name": "react-ui-helper-class-names",
-  "version": "1.0.6",
+  "version": "1.0.10",
   "description": "A class name helper for ReactUI.",
   "main": "index.js",
   "repository": {
