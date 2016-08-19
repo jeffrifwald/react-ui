@@ -374,11 +374,11 @@
 	    }
 
 	    DatePicker.prototype.componentDidMount = function componentDidMount() {
-	        document.body.addEventListener('click', this.onClickDocument);
+	        document.addEventListener('click', this.onClickDocument);
 	    };
 
 	    DatePicker.prototype.componentWillUnmount = function componentWillUnmount() {
-	        document.body.removeEventListener('click', this.onClickDocument);
+	        document.removeEventListener('click', this.onClickDocument);
 	    };
 
 	    DatePicker.prototype.render = function render() {
