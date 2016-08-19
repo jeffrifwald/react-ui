@@ -11,7 +11,7 @@ class DatePicker extends React.Component {
             selectedDate.getFullYear(),
             selectedDate.getMonth(),
             selectedDate.getDate()
-        ) : undefined;
+        ) : '';
         const selectedMonth = new Date(
             selectedDate.getFullYear(),
             selectedDate.getMonth(),
