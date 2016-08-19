@@ -1,6 +1,6 @@
 {
   "name": "react-ui-component-date-picker",
-  "version": "1.0.16",
+  "version": "1.0.17",
   "description": "A date picker component for ReactUI.",
   "main": "index.js",
   "repository": {
