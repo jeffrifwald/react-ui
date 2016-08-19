@@ -99,14 +99,12 @@ test('grid/components/DatePicker.componentDidMount', (t) => {
     const globalDocument = global.document;
 
     global.document = {
-        body: {
-            addEventListener: stub()
-        }
+        addEventListener: stub()
     };
 
     instance.componentDidMount();
-    t.equal(global.document.body.addEventListener.callCount, 1);
-    t.equal(global.document.body.addEventListener.calledWith(
+    t.equal(global.document.addEventListener.callCount, 1);
+    t.equal(global.document.addEventListener.calledWith(
         'click',
         instance.onClickDocument
     ), true);
@@ -122,14 +120,12 @@ test('grid/components/DatePicker.componentWillUnmount', (t) => {
     const globalDocument = global.document;
 
     global.document = {
-        body: {
-            removeEventListener: stub()
-        }
+        removeEventListener: stub()
     };
 
     instance.componentWillUnmount();
-    t.equal(global.document.body.removeEventListener.callCount, 1);
-    t.equal(global.document.body.removeEventListener.calledWith(
+    t.equal(global.document.removeEventListener.callCount, 1);
+    t.equal(global.document.removeEventListener.calledWith(
         'click',
         instance.onClickDocument
     ), true);

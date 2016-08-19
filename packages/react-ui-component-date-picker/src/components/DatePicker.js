@@ -33,11 +33,11 @@ class DatePicker extends React.Component {
     }
 
     componentDidMount() {
-        document.body.addEventListener('click', this.onClickDocument);
+        document.addEventListener('click', this.onClickDocument);
     }
 
     componentWillUnmount() {
-        document.body.removeEventListener('click', this.onClickDocument);
+        document.removeEventListener('click', this.onClickDocument);
     }
 
     render() {
