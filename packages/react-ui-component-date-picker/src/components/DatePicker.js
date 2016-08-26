@@ -307,8 +307,8 @@ class DatePicker extends React.Component {
     getLastCalendarDate(d) {
         const date = new Date(
             d.getFullYear(),
-            d.getMonth(),
-            28
+            d.getMonth() + 1,
+            -1
         );
 
         while (date.getDay() !== 6) {
