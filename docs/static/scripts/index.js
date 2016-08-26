@@ -93,7 +93,7 @@
 
 	var _FileInput2 = _interopRequireDefault(_FileInput);
 
-	var _Grid = __webpack_require__(15);
+	var _Grid = __webpack_require__(13);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
@@ -627,7 +627,7 @@
 	    };
 
 	    DatePicker.prototype.getLastCalendarDate = function getLastCalendarDate(d) {
-	        var date = new Date(d.getFullYear(), d.getMonth(), 28);
+	        var date = new Date(d.getFullYear(), d.getMonth() + 1, -1);
 
 	        while (date.getDay() !== 6) {
 	            date.setDate(date.getDate() + 1);
@@ -863,10 +863,9 @@
 
 /***/ },
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	module.exports = __webpack_require__(13);
-
+	
 
 /***/ },
 /* 13 */
@@ -875,197 +874,10 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _FileInput = __webpack_require__(14);
-
-	var _FileInput2 = _interopRequireDefault(_FileInput);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	exports.default = _FileInput2.default;
-
-/***/ },
-/* 14 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
 
-	var _react = __webpack_require__(4);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactUiHelperClassNames = __webpack_require__(9);
-
-	var _reactUiHelperClassNames2 = _interopRequireDefault(_reactUiHelperClassNames);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _defaults(obj, defaults) { var keys = Object.getOwnPropertyNames(defaults); for (var i = 0; i < keys.length; i++) { var key = keys[i]; var value = Object.getOwnPropertyDescriptor(defaults, key); if (value && value.configurable && obj[key] === undefined) { Object.defineProperty(obj, key, value); } } return obj; }
-
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : _defaults(subClass, superClass); }
-
-	var FileInput = function (_React$Component) {
-	    _inherits(FileInput, _React$Component);
-
-	    function FileInput() {
-	        _classCallCheck(this, FileInput);
-
-	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	            args[_key] = arguments[_key];
-	        }
-
-	        var _this = _possibleConstructorReturn(this, _React$Component.call.apply(_React$Component, [this].concat(args)));
-
-	        _this.onChange = function (evt) {
-	            var inputDisplay = evt.target.value.split('\\').pop();
-
-	            _this.setState({
-	                inputDisplay: inputDisplay
-	            }, function () {
-	                _this.props.onChange(evt);
-	            });
-	        };
-
-	        _this.onChooseClick = function (evt) {
-	            evt.preventDefault();
-	            _this.refs.fileInput.click();
-	        };
-
-	        _this.onClearClick = function (evt) {
-	            evt.preventDefault();
-	            _this.clear();
-	        };
-
-	        _this.state = {
-	            inputDisplay: '',
-	            inputKey: 0
-	        };
-	        return _this;
-	    }
-
-	    FileInput.prototype.render = function render() {
-	        var className = (0, _reactUiHelperClassNames2.default)(_defineProperty({
-	            'react-ui-file-input': true
-	        }, this.props.className, this.props.className));
-
-	        return _react2.default.createElement(
-	            'div',
-	            { className: className },
-	            this.renderHiddenFileInput(),
-	            this.renderChooseButton(),
-	            this.renderClearButton(),
-	            this.renderInput()
-	        );
-	    };
-
-	    FileInput.prototype.renderHiddenFileInput = function renderHiddenFileInput() {
-	        var style = {
-	            display: 'none'
-	        };
-
-	        return _react2.default.createElement('input', {
-	            disabled: this.props.disabled,
-	            key: this.state.inputKey,
-	            name: this.props.name,
-	            onChange: this.onChange,
-	            ref: 'fileInput',
-	            style: style,
-	            type: 'file' });
-	    };
-
-	    FileInput.prototype.renderChooseButton = function renderChooseButton() {
-	        return this.props.showChooseButton ? _react2.default.createElement(
-	            'button',
-	            {
-	                className: 'react-ui-file-input-choose-button',
-	                disabled: this.props.disabled,
-	                onClick: this.onChooseClick,
-	                type: 'button' },
-	            this.props.chooseText
-	        ) : null;
-	    };
-
-	    FileInput.prototype.renderClearButton = function renderClearButton() {
-	        return this.props.showClearButton ? _react2.default.createElement(
-	            'button',
-	            {
-	                className: 'react-ui-file-input-clear-button',
-	                disabled: this.props.disabled,
-	                onClick: this.onClearClick,
-	                type: 'button' },
-	            this.props.clearText
-	        ) : null;
-	    };
-
-	    FileInput.prototype.renderInput = function renderInput() {
-	        return this.props.showInput ? _react2.default.createElement('input', {
-	            className: 'react-ui-file-input-input',
-	            disabled: this.props.disabled,
-	            onClick: this.onChooseClick,
-	            placeholder: this.props.placeholder,
-	            readOnly: true,
-	            type: 'text',
-	            value: this.state.inputDisplay }) : null;
-	    };
-
-	    FileInput.prototype.clear = function clear() {
-	        this.setState({
-	            inputDisplay: '',
-	            inputKey: this.state.inputKey + 1
-	        });
-	    };
-
-	    return FileInput;
-	}(_react2.default.Component);
-
-	FileInput.propTypes = {
-	    chooseText: _react2.default.PropTypes.string,
-	    className: _react2.default.PropTypes.string,
-	    clearText: _react2.default.PropTypes.string,
-	    disabled: _react2.default.PropTypes.bool,
-	    name: _react2.default.PropTypes.string,
-	    onChange: _react2.default.PropTypes.func,
-	    placeholder: _react2.default.PropTypes.string,
-	    showChooseButton: _react2.default.PropTypes.bool,
-	    showClearButton: _react2.default.PropTypes.bool,
-	    showInput: _react2.default.PropTypes.bool
-	};
-
-	FileInput.defaultProps = {
-	    chooseText: 'Choose File',
-	    clearText: 'Clear File',
-	    disabled: false,
-	    onChange: function onChange() {},
-	    showChooseButton: true,
-	    showClearButton: true,
-	    showInput: true
-	};
-
-	exports.default = FileInput;
-
-/***/ },
-/* 15 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-
-	var _reactUiComponentGrid = __webpack_require__(16);
+	var _reactUiComponentGrid = __webpack_require__(14);
 
 	var _reactUiComponentGrid2 = _interopRequireDefault(_reactUiComponentGrid);
 
@@ -1151,14 +963,14 @@
 	};
 
 /***/ },
-/* 16 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(17);
+	module.exports = __webpack_require__(15);
 
 
 /***/ },
-/* 17 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1167,7 +979,7 @@
 	  value: true
 	});
 
-	var _Grid = __webpack_require__(18);
+	var _Grid = __webpack_require__(16);
 
 	var _Grid2 = _interopRequireDefault(_Grid);
 
@@ -1176,7 +988,7 @@
 	exports.default = _Grid2.default;
 
 /***/ },
-/* 18 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
