@@ -568,7 +568,7 @@
 	                var currentDayClass = _this2.datesEqual(day, today) ? 'react-ui-date-picker-calendar-current-day' : null;
 	                var disabledDayClass = disabled ? 'react-ui-date-picker-calendar-disabled-day' : null;
 	                var selectedDayClass = value && _this2.datesEqual(day, value) ? 'react-ui-date-picker-calendar-selected-day' : null;
-	                var selectedMonthClass = _this2.state.selectedMonth.getMonth() === day.getMonth() ? 'react-ui-date-picker-calendar-selected-month' : null;
+	                var selectedMonthClass = _this2.state.selectedMonth.getMonth() === day.getMonth() ? 'react-ui-date-picker-calendar-selected-month' : 'react-ui-date-picker-calendar-other-month';
 	                var dayClassName = (0, _reactUiHelperClassNames2.default)('react-ui-date-picker-calendar-day', currentDayClass, selectedMonthClass, disabledDayClass, selectedDayClass);
 	                var onClick = function onClick(evt) {
 	                    return _this2.onClickDate(evt, day, disabled);
@@ -601,14 +601,15 @@
 
 	    DatePicker.prototype.getCalendarDates = function getCalendarDates() {
 	        var startDate = this.getFirstCalendarDate(this.state.selectedMonth);
+	        var lastDate = this.getLastCalendarDate(this.state.selectedMonth);
 	        var dates = [startDate];
 	        var weeks = [];
 
-	        while (dates.length < 42) {
+	        while (dates[dates.length - 1] < lastDate) {
 	            dates.push(this.getNextCalendarDate(dates[dates.length - 1]));
 	        }
 
-	        for (var i = 0; i < 42; i += 7) {
+	        for (var i = 0; i < dates.length; i += 7) {
 	            weeks.push(dates.slice(i, i + 7));
 	        }
 
@@ -620,6 +621,16 @@
 
 	        while (date.getDay() !== 0) {
 	            date.setDate(date.getDate() - 1);
+	        }
+
+	        return date;
+	    };
+
+	    DatePicker.prototype.getLastCalendarDate = function getLastCalendarDate(d) {
+	        var date = new Date(d.getFullYear(), d.getMonth(), 28);
+
+	        while (date.getDay() !== 6) {
+	            date.setDate(date.getDate() + 1);
 	        }
 
 	        return date;

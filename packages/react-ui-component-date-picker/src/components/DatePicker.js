@@ -239,7 +239,7 @@ class DatePicker extends React.Component {
                 const selectedMonthClass = (
                     this.state.selectedMonth.getMonth() === day.getMonth() ?
                     'react-ui-date-picker-calendar-selected-month' :
-                    null
+                    'react-ui-date-picker-calendar-other-month'
                 );
                 const dayClassName = classNames(
                     'react-ui-date-picker-calendar-day',
@@ -275,14 +275,15 @@ class DatePicker extends React.Component {
 
     getCalendarDates() {
         const startDate = this.getFirstCalendarDate(this.state.selectedMonth);
+        const lastDate = this.getLastCalendarDate(this.state.selectedMonth);
         const dates = [startDate];
         const weeks = [];
 
-        while (dates.length < 42) {
+        while (dates[dates.length - 1] < lastDate) {
             dates.push(this.getNextCalendarDate(dates[dates.length - 1]));
         }
 
-        for (let i = 0; i < 42; i += 7) {
+        for (let i = 0; i < dates.length; i += 7) {
             weeks.push(dates.slice(i, i + 7));
         }
 
@@ -298,6 +299,20 @@ class DatePicker extends React.Component {
 
         while (date.getDay() !== 0) {
             date.setDate(date.getDate() - 1);
+        }
+
+        return date;
+    }
+
+    getLastCalendarDate(d) {
+        const date = new Date(
+            d.getFullYear(),
+            d.getMonth(),
+            28
+        );
+
+        while (date.getDay() !== 6) {
+            date.setDate(date.getDate() + 1);
         }
 
         return date;
